@@ -1,25 +1,32 @@
+
 .root {
-    -fx-background-color: #141318;
+    /*-fx-background-color: #141318;*/
     -fx-background-radius: 10;
+    -fx-background-image: url("../assets/background13.png");
+
+    -fx-background-size: cover;
+    -fx-border-radius: 10;
+
+
 }
 #loginPopup{
-    -fx-background-color: #222428;
+    -fx-background-color: #1b1b21;
     -fx-border-color: #5e5e63;
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
-    -fx-effect: dropshadow(gaussian, rgba(94, 94, 99, 0.47), 10, 0.5, 0.0, 0.0);
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(gaussian, rgba(94, 94, 99, 0.47), 15, 0.4, 0.0, 0.0);
 }
 #welcomebacklable{
-    -fx-text-fill: #5e5e63;
+    -fx-text-fill: #6e6e72;
 }
 .primaryText{
     -fx-text-fill: white;
-    -fx-font-size: 13;
+    -fx-font-size: 12;
 }
 .secondaryText{
     -fx-text-fill: rgba(255, 255, 255, 0.7);
     -fx-fill: rgba(255, 255, 255, 0.7);
-    -fx-font-size: 10;
+    -fx-font-size: 9;
 }
 .headerText{
     -fx-text-fill: white;
@@ -28,12 +35,12 @@
 .informationTextFields{
     -fx-background-color: transparent;
     -fx-border-color: #a7a4a4;
-    -fx-border-width: 2;
+    -fx-border-width: 1;
     -fx-border-radius: 7;
     -fx-text-fill: white;
 }
 #loginButton {
-    -fx-background-color: #3f8bfe;
+    -fx-background-color: #1453af;
     -fx-text-fill: white;
     -fx-font-size: 13;
 }

@@ -19,7 +19,7 @@ public class testingMain extends Application {
         testingController controller = fxmlLoader.getController();
         controller.move(stage);
         stage.initStyle(StageStyle.TRANSPARENT);
-        stage.setTitle("Hasbya allah fek");
+        stage.setTitle("meow meow");
         stage.setScene(scene);
         stage.show();
     }
