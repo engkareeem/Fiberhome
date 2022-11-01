@@ -1,0 +1,39 @@
+.root {
+    -fx-background-color: #141318;
+    -fx-background-radius: 10;
+}
+#loginPopup{
+    -fx-background-color: #222428;
+    -fx-border-color: #5e5e63;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(94, 94, 99, 0.47), 10, 0.5, 0.0, 0.0);
+}
+#welcomebacklable{
+    -fx-text-fill: #5e5e63;
+}
+.primaryText{
+    -fx-text-fill: white;
+    -fx-font-size: 13;
+}
+.secondaryText{
+    -fx-text-fill: rgba(255, 255, 255, 0.7);
+    -fx-fill: rgba(255, 255, 255, 0.7);
+    -fx-font-size: 10;
+}
+.headerText{
+    -fx-text-fill: white;
+    -fx-font-size: 18;
+}
+.informationTextFields{
+    -fx-background-color: transparent;
+    -fx-border-color: #a7a4a4;
+    -fx-border-width: 2;
+    -fx-border-radius: 7;
+    -fx-text-fill: white;
+}
+#loginButton {
+    -fx-background-color: #3f8bfe;
+    -fx-text-fill: white;
+    -fx-font-size: 13;
+}
