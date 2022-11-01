@@ -1,13 +1,10 @@
 
 .root {
-    /*-fx-background-color: #141318;*/
-    -fx-background-radius: 10;
-    -fx-background-image: url("../assets/background13.png");
-
-    -fx-background-size: cover;
-    -fx-border-radius: 10;
-
-
+    -fx-background-color: #141318;
+    -fx-background-radius: 15;
+}
+#imageView{
+    -fx-background-color: transparent;
 }
 #loginPopup{
     -fx-background-color: #1b1b21;
@@ -43,4 +40,28 @@
     -fx-background-color: #1453af;
     -fx-text-fill: white;
     -fx-font-size: 13;
+}
+#maximizeLabel{
+    -fx-background-image: url("../assets/maximizehold.png");
+    -fx-background-size: contain;
+}
+#maximizeLabel:hover{
+    -fx-background-image: url("../assets/maximizehover.png");
+    -fx-background-size: contain;
+}
+#minimizeLabel{
+    -fx-background-image: url("../assets/minimizehold.png");
+    -fx-background-size: contain;
+}
+#minimizeLabel:hover{
+    -fx-background-image: url("../assets/minimizehover.png");
+    -fx-background-size: contain;
+}
+#closeLabel{
+    -fx-background-image: url("../assets/closehold.png");
+    -fx-background-size: contain;
+}
+#closeLabel:hover{
+    -fx-background-image: url("../assets/closehover.png");
+    -fx-background-size: contain;
 }
