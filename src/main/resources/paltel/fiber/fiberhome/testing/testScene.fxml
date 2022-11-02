@@ -37,9 +37,9 @@
       </Pane>
       <Pane fx:id="titleBar" prefHeight="38.0" prefWidth="900.0">
          <children>
-            <Label fx:id="closeLabel" layoutX="16.0" layoutY="14.0" prefHeight="17.0" prefWidth="17.0" />
-            <Label fx:id="minimizeLabel" layoutX="39.0" layoutY="14.0" prefHeight="17.0" prefWidth="17.0" />
-            <Label fx:id="maximizeLabel" layoutX="62.0" layoutY="14.0" prefHeight="17.0" prefWidth="17.0" />
+            <Label fx:id="closeLabel" layoutX="869.0" layoutY="11.0" prefHeight="17.0" prefWidth="17.0" />
+            <Label fx:id="minimizeLabel" layoutX="839.0" layoutY="11.0" prefHeight="17.0" prefWidth="17.0" />
+            <Label fx:id="maximizeLabel" layoutX="809.0" layoutY="10.0" prefHeight="17.0" prefWidth="17.0" />
          </children>
       </Pane>
    </children>
