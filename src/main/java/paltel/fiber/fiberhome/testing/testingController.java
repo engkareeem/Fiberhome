@@ -1,5 +1,11 @@
 package paltel.fiber.fiberhome.testing;
 
+import animatefx.animation.Bounce;
+import animatefx.animation.BounceIn;
+import animatefx.animation.ZoomIn;
+import animatefx.animation.ZoomOut;
+import javafx.animation.Animation;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.SnapshotParameters;
@@ -10,6 +16,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -22,10 +29,17 @@ public class testingController implements Initializable {
     double xOffset,yOffset;
     @FXML
     Pane titleBar;
+
+    @FXML
+    Pane loginPopup;
     @FXML
     ImageView imageView;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        ZoomIn stageZoom = new ZoomIn(ap);
+        titleBar.setOpacity(0);
+        stageZoom.setOnFinished((actionEvent) -> new ZoomIn(titleBar).play());
+        stageZoom.play();
         Rectangle clip = new Rectangle(
                 imageView.getFitWidth(), imageView.getFitHeight()
         );
@@ -37,7 +51,17 @@ public class testingController implements Initializable {
         WritableImage image = imageView.snapshot(parameters, null);
         imageView.setClip(null);
         imageView.setImage(image);
+
+
+
+
+
+
+
+
     }
+
+
 
     public void move(Stage stage) {
 
@@ -52,3 +76,5 @@ public class testingController implements Initializable {
     }
 
 }
+
+
