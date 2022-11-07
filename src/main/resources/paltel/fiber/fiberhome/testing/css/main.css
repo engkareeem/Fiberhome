@@ -41,6 +41,16 @@
     -fx-text-fill: white;
     -fx-font-size: 13;
 }
+#loginButton:hover {
+    -fx-background-color: #1a61c5;
+    -fx-text-fill: white;
+    -fx-font-size: 13;
+}
+#loginButton:pressed {
+    -fx-background-color: #1d68d1;
+    -fx-text-fill: white;
+    -fx-font-size: 13;
+}
 #maximizeLabel{
     -fx-background-image: url("../assets/maximizehold.png");
     -fx-background-size: contain;

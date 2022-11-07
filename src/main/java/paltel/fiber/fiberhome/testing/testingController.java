@@ -69,8 +69,8 @@ public class testingController implements Initializable {
                 new ZoomIn(titleBar).play();
             new FadeInDown(welcomebacklable).play();
             new FadeInDown(loginTitle).play();
-            Animator.chainAnimator(new FadeInDown(emailUserNameLabel), new FadeInDown(emailInput));
-            Animator.chainAnimator( new FadeInDown(passwordLabel) ,new FadeInDown(passwordInput) );
+            Animator.chainAnimator( new FadeInDown(passwordInput) ,new FadeInDown(passwordLabel));
+            Animator.chainAnimator(new FadeInDown(emailInput), new FadeInDown(emailUserNameLabel));
             new FadeInDown(forgetPasswordLabel).play();
             new FadeInDown(loginButton).play();
             Animator.chainAnimator(new FadeInDown(notRegisterLabel), new FadeInDown(registerLabel));
@@ -89,14 +89,6 @@ public class testingController implements Initializable {
         WritableImage image = imageView.snapshot(parameters, null);
         imageView.setClip(null);
         imageView.setImage(image);
-
-
-
-
-
-
-
-
     }
 
 
