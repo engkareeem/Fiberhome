@@ -16,6 +16,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.rationalityfrontline.workaround</groupId>
+            <artifactId>jfoenix</artifactId>
+            <version>17.0.5</version>
+        </dependency>
+        <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>20-ea+4</version>

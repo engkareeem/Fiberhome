@@ -147,5 +147,10 @@ public class Navigator {
         return arguments.values().toArray();
     }
 
+    public static Stage getStage(){
+        if(currentStage == null) getCurrentStage();
+        return currentStage;
+    }
+
 
 }

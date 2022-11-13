@@ -1,22 +1,22 @@
 package paltel.fiber.fiberhome.testing;
 
 import animatefx.animation.*;
-import javafx.animation.Animation;
-import javafx.event.ActionEvent;
+
+import javafx.application.Platform;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -24,6 +24,7 @@ import java.util.ResourceBundle;
 
 public class testingController implements Initializable {
 
+    Stage stage;
     @FXML
     AnchorPane ap;
     double xOffset,yOffset;
@@ -61,6 +62,14 @@ public class testingController implements Initializable {
 
     @FXML
     Label registerLabel;
+
+    private boolean usedMinimize = false;
+
+    public testingController(Stage stage) {
+        this.stage = stage;
+        // this.move(stage);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ZoomIn stageZoom = new ZoomIn(ap);
@@ -89,9 +98,72 @@ public class testingController implements Initializable {
         WritableImage image = imageView.snapshot(parameters, null);
         imageView.setClip(null);
         imageView.setImage(image);
+
+
+
+        stage.iconifiedProperty().addListener((observableValue, aBoolean, iconified) -> {
+            if(iconified && !usedMinimize) {
+
+                new ZoomOutDown(ap).setSpeed(2).play();
+                usedMinimize = false;
+
+            }else{
+                new ZoomInUp(ap).setSpeed(2).play();
+
+            }
+
+
+        });
     }
 
 
+    @FXML
+    public void close(MouseEvent e){
+        AnimationFX closeAnimation = new ZoomOutUp(ap);
+        closeAnimation.setOnFinished((event) -> {
+            Platform.exit();
+            System.exit(0);
+        });
+        closeAnimation.play();
+
+
+    }
+
+    @FXML
+    public void minimize(MouseEvent e){
+        usedMinimize = true;
+        AnimationFX minimizeAnimation = new ZoomOutDown(ap);
+        minimizeAnimation.setOnFinished((event) -> {
+            stage.setIconified(true);
+        });
+
+        minimizeAnimation.setSpeed(2).play();
+
+    }
+
+    public void maximize(MouseEvent e){
+        if(stage.isMaximized()){
+            AnimationFX maximizeOffAnimation = new ZoomOut(ap);
+
+            maximizeOffAnimation.setOnFinished(event -> {
+                stage.setMaximized(false);
+            });
+            maximizeOffAnimation.play();
+        }else{
+            ap.setVisible(false);
+            stage.setFullScreen(true);
+            stage.setMaximized(true);
+            AnimationFX maximizeOnAnimation = new ZoomIn(ap);
+
+            maximizeOnAnimation.setOnFinished(event -> {
+                 stage.setMaximized(true);
+            });
+            stage.toFront();
+            ap.setVisible(true);
+            maximizeOnAnimation.play();
+        }
+
+    }
 
     public void move(Stage stage) {
 
