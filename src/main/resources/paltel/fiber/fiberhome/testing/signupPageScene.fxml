@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="ap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="paltel.fiber.fiberhome.testing.signupPageController">
+   <children>
+      <ImageView fx:id="backgroundImageView" fitHeight="600.0" fitWidth="900.0" pickOnBounds="true">
+         <image>
+            <Image url="@assets/background13.png" />
+         </image>
+      </ImageView>
+      <Pane fx:id="loginPopup" layoutX="276.0" layoutY="100.0" prefHeight="399.0" prefWidth="348.0" stylesheets="@css/loginPopup.css">
+         <children>
+            <Label fx:id="welcomebacklable" layoutX="111.0" layoutY="14.0" styleClass="secondaryHeaderText" text="LET'S GET STARTED!">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <TextField fx:id="emailInput" layoutX="18.0" layoutY="184.0" prefHeight="38.0" prefWidth="313.0" styleClass="informationTextFields" />
+            <PasswordField fx:id="passwordInput" layoutX="17.0" layoutY="262.0" prefHeight="38.0" prefWidth="313.0" styleClass="informationTextFields" />
+            <Button fx:id="signupButton" layoutX="17.0" layoutY="326.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="313.0" stylesheets="@css/signup.css" text="Create Account" />
+            <Label fx:id="emailUserNameLabel" layoutX="21.0" layoutY="160.0" styleClass="primaryText" text="Employee number" />
+            <Label fx:id="passwordLabel" layoutX="20.0" layoutY="238.0" styleClass="primaryText" text="Password" />
+            <Label fx:id="loginTitle" layoutX="91.0" layoutY="42.0" styleClass="headerText" text="Create new account" />
+            <TextField fx:id="emailInput1" layoutX="17.0" layoutY="106.0" prefHeight="38.0" prefWidth="313.0" styleClass="informationTextFields" />
+            <Label fx:id="emailUserNameLabel1" layoutX="20.0" layoutY="82.0" styleClass="primaryText" text="Nickname" />
+         </children>
+      </Pane>
+      <Pane fx:id="titleBar" prefHeight="38.0" prefWidth="900.0">
+         <children>
+            <Label fx:id="closeLabel" layoutX="864.0" layoutY="11.0" onMouseClicked="#close" prefHeight="17.0" prefWidth="17.0" />
+            <Label fx:id="minimizeLabel" layoutX="834.0" layoutY="11.0" onMouseClicked="#minimize" prefHeight="17.0" prefWidth="17.0" />
+            <Label layoutX="14.0" layoutY="11.0" onMouseClicked="#comeBack" styleClass="secondaryHyperText" text="&lt;- COME BACK" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

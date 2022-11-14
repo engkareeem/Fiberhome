@@ -1,6 +1,5 @@
 package paltel.fiber.fiberhome.testing;
 
-import animatefx.animation.Bounce;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,15 +11,14 @@ import java.io.IOException;
 
 
 public class testingMain extends Application {
+    static Stage primaryStage;
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(testingMain.class.getResource("testScene.fxml"));
-        fxmlLoader.setController(new testingController(stage));
+        primaryStage = stage;
+        FXMLLoader fxmlLoader = new FXMLLoader(testingMain.class.getResource("loginPageScene.fxml"));
+        fxmlLoader.setController(new loginPageController(stage));
         Scene scene = new Scene(fxmlLoader.load());
         scene.setFill(Color.TRANSPARENT);
-
-
-
 
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.setTitle("meow meow");

@@ -1,56 +1,75 @@
+* {
+    -fx-application-background-color: #141318;
+    -fx-application-popup-background-color:#1b1b21;
+    -fx-application-popup-background-border-color:#5e5e63;
 
+    -fx-secondary-text-color:  rgba(255, 255, 255, 0.7);
+    -fx-secondary-text-hover-color: rgba(255, 255, 255, 0.87);
+
+    -fx-primary-text-color: white;
+
+    -fx-header-text-color: white;
+    -fx-secondary-header-text-color: rgba(255, 255, 255, 0.38);
+
+    -fx-primary-button-color: #1453af;
+    -fx-primary-button-text-color: white;
+    -fx-primary-button-hover-color: #1a61c5;
+    -fx-primary-button-hover-text-color: white;
+    -fx-primary-button-pressed-color: #1d68d1;
+    -fx-primary-button-pressed-text-color: white;
+
+    -fx-information-field-border-color: #a7a4a4;
+    -fx-information-field-text-color:rgba(255, 255, 255, 0.78);
+
+
+}
 .root {
-    -fx-background-color: #141318;
+    -fx-background-color: -fx-application-background-color;
     -fx-background-radius: 15;
 }
-#imageView{
+#backgroundImageView{
     -fx-background-color: transparent;
 }
-#loginPopup{
-    -fx-background-color: #1b1b21;
-    -fx-border-color: #5e5e63;
-    -fx-border-radius: 15;
-    -fx-background-radius: 15;
-    -fx-effect: dropshadow(gaussian, rgba(94, 94, 99, 0.47), 15, 0.4, 0.0, 0.0);
-}
-#welcomebacklable{
-    -fx-text-fill: #6e6e72;
-}
+
+
 .primaryText{
-    -fx-text-fill: white;
+    -fx-text-fill: -fx-primary-text-color;
     -fx-font-size: 12;
 }
 .secondaryText{
-    -fx-text-fill: rgba(255, 255, 255, 0.7);
-    -fx-fill: rgba(255, 255, 255, 0.7);
+    -fx-text-fill: -fx-secondary-text-color;
     -fx-font-size: 9;
 }
+.secondaryHyperText{
+    -fx-text-fill: -fx-secondary-text-color;
+    -fx-font-size: 9;
+    -fx-font-weight: BOLD;
+}
+.secondaryHyperText:hover{
+    -fx-text-fill: -fx-secondary-text-hover-color;
+    -fx-underline: true;
+    -fx-font-size: 9;
+    -fx-font-weight: BOLD;
+}
 .headerText{
-    -fx-text-fill: white;
+    -fx-text-fill: -fx-header-text-color;
+    -fx-font-weight: BOLD;
     -fx-font-size: 18;
 }
+.secondaryHeaderText{
+    -fx-text-fill: -fx-secondary-header-text-color;
+    -fx-font-weight: BOLD;
+}
+
 .informationTextFields{
     -fx-background-color: transparent;
-    -fx-border-color: #a7a4a4;
+    -fx-border-color: -fx-information-field-border-color;
     -fx-border-width: 1;
     -fx-border-radius: 7;
-    -fx-text-fill: white;
+    -fx-text-fill: -fx-information-field-text-color;
 }
-#loginButton {
-    -fx-background-color: #1453af;
-    -fx-text-fill: white;
-    -fx-font-size: 13;
-}
-#loginButton:hover {
-    -fx-background-color: #1a61c5;
-    -fx-text-fill: white;
-    -fx-font-size: 13;
-}
-#loginButton:pressed {
-    -fx-background-color: #1d68d1;
-    -fx-text-fill: white;
-    -fx-font-size: 13;
-}
+
+/*    <-  Title bar stuff ->   */
 #maximizeLabel{
     -fx-background-image: url("../assets/maximizehold.png");
     -fx-background-size: contain;

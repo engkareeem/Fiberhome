@@ -2,6 +2,7 @@ package paltel.fiber.fiberhome.testing;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -48,6 +49,7 @@ public class Navigator {
             if (loader == null) return;
             getCurrentStage();
             Scene newScene = new Scene(loader.load());
+            newScene.setFill(Color.TRANSPARENT);
             screens.push(currentStage.getScene()); // saving current scene
             screens.push(newScene); // saving the new scene
             newScene.getStylesheets().addAll(currentStage.getScene().getStylesheets()); // sending all styles sheets for new scene
@@ -61,7 +63,7 @@ public class Navigator {
 
     public static void pushNamedReplacement(String sceneName){
         try {
-            FXMLLoader loader = getFXMLFile(sceneName);
+            FXMLLoader loader = getFXMLFile(sceneName );
             if (loader == null) return;
             getCurrentStage();
             Scene newScene = new Scene(loader.load());
