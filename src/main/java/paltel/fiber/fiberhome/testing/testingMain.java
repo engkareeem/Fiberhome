@@ -16,7 +16,6 @@ public class testingMain extends Application {
     public void start(Stage stage) throws IOException {
         primaryStage = stage;
         FXMLLoader fxmlLoader = new FXMLLoader(testingMain.class.getResource("loginPageScene.fxml"));
-        fxmlLoader.setController(new loginPageController(stage));
         Scene scene = new Scene(fxmlLoader.load());
         scene.setFill(Color.TRANSPARENT);
 
@@ -24,9 +23,6 @@ public class testingMain extends Application {
         stage.setTitle("meow meow");
         stage.setScene(scene);
         stage.show();
-
-
-
     }
 
     public static void main(String[] args) {

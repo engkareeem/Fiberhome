@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="ap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="ap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="paltel.fiber.fiberhome.testing.loginPageController">
    <children>
       <ImageView fx:id="backgroundImageView" fitHeight="600.0" fitWidth="900.0" pickOnBounds="true">
          <image>
@@ -19,15 +19,15 @@
       </ImageView>
       <Pane fx:id="loginPopup" layoutX="276.0" layoutY="114.0" prefHeight="371.0" prefWidth="348.0" stylesheets="@css/loginPopup.css">
          <children>
-            <Label fx:id="welcomebacklable" layoutX="126.0" layoutY="14.0" styleClass="secondaryHeaderText" text="WELCOME BACK">
+            <Label fx:id="welcomeBackLabel" layoutX="126.0" layoutY="14.0" styleClass="secondaryHeaderText" text="WELCOME BACK">
                <font>
                   <Font size="13.0" />
                </font>
             </Label>
-            <TextField fx:id="emailInput" layoutX="18.0" layoutY="126.0" prefHeight="38.0" prefWidth="313.0" styleClass="informationTextFields" />
+            <TextField fx:id="employeeNumberInput" layoutX="18.0" layoutY="122.0" prefHeight="38.0" prefWidth="313.0" styleClass="informationTextFields" />
             <PasswordField fx:id="passwordInput" layoutX="17.0" layoutY="204.0" prefHeight="38.0" prefWidth="313.0" styleClass="informationTextFields" />
-            <Button fx:id="loginButton" layoutX="17.0" layoutY="268.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="313.0" text="Login Now" />
-            <Label fx:id="emailUserNameLabel" layoutX="21.0" layoutY="102.0" styleClass="primaryText" text="Employee number" />
+            <Button fx:id="loginButton" disable="true" layoutX="17.0" layoutY="268.0" mnemonicParsing="false" onAction="#loginButtonClicked" prefHeight="38.0" prefWidth="313.0" text="Login Now" />
+            <Label fx:id="employeeNumberLabel" layoutX="21.0" layoutY="98.0" styleClass="primaryText" text="Employee number" />
             <Label fx:id="passwordLabel" layoutX="20.0" layoutY="180.0" styleClass="primaryText" text="Password" />
             <Label fx:id="forgetPasswordLabel" layoutX="248.0" layoutY="243.0" styleClass="secondaryHyperText" text="Forgot password?" />
             <Label fx:id="loginTitle" layoutX="79.0" layoutY="42.0" styleClass="headerText" text="Login into your account" />
@@ -36,6 +36,11 @@
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
+            <Label fx:id="employeeNumberInputValidatorLabel" layoutX="20.0" layoutY="160.0" textFill="RED">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
       <Pane fx:id="titleBar" prefHeight="38.0" prefWidth="900.0">

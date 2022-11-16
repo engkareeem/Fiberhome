@@ -12,12 +12,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class signupPageController implements Initializable {
     private boolean usedMinimize = false;
@@ -26,9 +28,12 @@ public class signupPageController implements Initializable {
     AnchorPane ap;
     @FXML
     ImageView backgroundImageView;
+    @FXML
+    Pane titleBar;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         stage = testingMain.primaryStage;
+        move(stage);
         Rectangle clip = new Rectangle(
                 backgroundImageView.getFitWidth(), backgroundImageView.getFitHeight()
         );
@@ -52,9 +57,7 @@ public class signupPageController implements Initializable {
 
             }
 
-
         });
-
     }
     @FXML
     public void close(MouseEvent e){
@@ -64,7 +67,6 @@ public class signupPageController implements Initializable {
             System.exit(0);
         });
         closeAnimation.play();
-
     }
 
     @FXML
@@ -76,8 +78,22 @@ public class signupPageController implements Initializable {
         });
 
         minimizeAnimation.setSpeed(2).play();
-
     }
+
+    public void move(Stage stage) {
+        AtomicReference<Double> xOffset = new AtomicReference<>((double) 0);
+        AtomicReference<Double> yOffset = new AtomicReference<>((double) 0);
+        titleBar.setOnMousePressed(event -> {
+            xOffset.set(stage.getX() - event.getScreenX());
+            yOffset.set(stage.getY() - event.getScreenY());
+        });
+        titleBar.setOnMouseDragged(event -> {
+            stage.setX(event.getScreenX() + xOffset.get());
+            stage.setY(event.getScreenY() + yOffset.get());
+        });
+    }
+
+    /*                         Just testing here :3                                   */
     @FXML
     public void comeBack() {
         Navigator.pop();

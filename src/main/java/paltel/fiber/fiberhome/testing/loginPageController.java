@@ -1,9 +1,11 @@
 package paltel.fiber.fiberhome.testing;
 
 import animatefx.animation.*;
+import  java.sql.*;
 
 import javafx.application.Platform;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -13,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -22,13 +25,14 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class loginPageController implements Initializable {
 
     Stage stage;
     @FXML
     AnchorPane ap;
-    double xOffset,yOffset;
+
 
     @FXML
     Button loginButton;
@@ -43,20 +47,21 @@ public class loginPageController implements Initializable {
     @FXML
     Label loginTitle;
     @FXML
-    Label welcomebacklable;
+    Label welcomeBackLabel;
 
     @FXML
-    TextField emailInput;
+    TextField employeeNumberInput;
+    @FXML
+    Label employeeNumberLabel;
+    @FXML
+    Label employeeNumberInputValidatorLabel;
 
     @FXML
     Label passwordLabel;
     @FXML
     TextField passwordInput;
-
     @FXML
     Label forgetPasswordLabel;
-    @FXML
-    Label emailUserNameLabel;
 
     @FXML
     Label notRegisterLabel;
@@ -66,27 +71,33 @@ public class loginPageController implements Initializable {
 
     private boolean usedMinimize = false;
 
-    public loginPageController(Stage stage) {
-//        this.stage = stage;
-        // this.move(stage);
+    private void employeeNumberInputValidatorListener() {
+        employeeNumberInput.textProperty().addListener((obs, oldText, newText) -> {
+            if(newText.length() != 4) employeeNumberInputValidatorLabel.setText("Employee number must be 4 characters");
+            else employeeNumberInputValidatorLabel.setText("");
+        });
     }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        employeeNumberInputValidatorListener();
         stage = testingMain.primaryStage;
         move(stage);
-//        stage = (Stage)ap.getScene().getWindow();
+
         ZoomIn stageZoom = new ZoomIn(ap);
         titleBar.setOpacity(0);
         for(Node node: loginPopup.getChildren()) {
             node.setOpacity(0);
         }
+
+        employeeNumberInputValidatorLabel.setOpacity(1);
+
+
         stageZoom.setOnFinished((actionEvent) -> {
-                new ZoomIn(titleBar).play();
-            new FadeInDown(welcomebacklable).play();
+            new ZoomIn(titleBar).play();
+            new FadeInDown(welcomeBackLabel).play();
             new FadeInDown(loginTitle).play();
             Animator.chainAnimator( new FadeInDown(passwordInput) ,new FadeInDown(passwordLabel));
-            Animator.chainAnimator(new FadeInDown(emailInput), new FadeInDown(emailUserNameLabel));
+            Animator.chainAnimator(new FadeInDown(employeeNumberInput), new FadeInDown(employeeNumberLabel));
             new FadeInDown(forgetPasswordLabel).play();
             new FadeInDown(loginButton).play();
             Animator.chainAnimator(new FadeInDown(notRegisterLabel), new FadeInDown(registerLabel));
@@ -116,16 +127,11 @@ public class loginPageController implements Initializable {
                 new ZoomInUp(ap).setSpeed(2).play();
 
             }
-
-
         });
     }
 
 
-    @FXML
-    public void register() {
-        Navigator.pushNamed("signupPageScene");
-    }
+
     @FXML
     public void close(MouseEvent e){
         AnimationFX closeAnimation = new ZoomOutUp(ap);
@@ -149,6 +155,46 @@ public class loginPageController implements Initializable {
 
     }
 
+    public void move(Stage stage) {
+        AtomicReference<Double> xOffset = new AtomicReference<>((double) 0);
+        AtomicReference<Double> yOffset = new AtomicReference<>((double) 0);
+        titleBar.setOnMousePressed(event -> {
+            xOffset.set(stage.getX() - event.getScreenX());
+            yOffset.set(stage.getY() - event.getScreenY());
+        });
+        titleBar.setOnMouseDragged(event -> {
+            stage.setX(event.getScreenX() + xOffset.get());
+            stage.setY(event.getScreenY() + yOffset.get());
+        });
+    }
+
+/*                                   Testing Area :3                                */
+
+    void login(){
+        try {
+            DriverManager.registerDriver(new
+                    oracle.jdbc.driver.OracleDriver());
+            Connection connection = DriverManager.getConnection("jdbc:oracle:thin:@//nasrallahOracle:1521/orcl", "fiber_test", "oracle");
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select * from employee_account where eid =" + employeeNumberInput.getText() + " and password = " + passwordInput.getText() );
+
+            if(res.next()){
+                System.out.println("SUCCESSFULL!!!");
+            } else {
+                System.out.println("YOU GAY");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @FXML
+    public void loginButtonClicked(ActionEvent e) {
+        login();
+    }
+    @FXML
+    public void register() {
+        Navigator.pushNamed("signupPageScene");
+    }
     public void maximize(MouseEvent e){
 
         int standardW = 900;
@@ -181,19 +227,6 @@ public class loginPageController implements Initializable {
 //        }
 
     }
-
-    public void move(Stage stage) {
-
-        titleBar.setOnMousePressed(event -> {
-            xOffset = stage.getX() - event.getScreenX();
-            yOffset = stage.getY() - event.getScreenY();
-        });
-        titleBar.setOnMouseDragged(event -> {
-            stage.setX(event.getScreenX() + xOffset);
-            stage.setY(event.getScreenY() + yOffset);
-        });
-    }
-
 }
 
 
