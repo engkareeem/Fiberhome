@@ -6,20 +6,14 @@ import animatefx.animation.ZoomOutDown;
 import animatefx.animation.ZoomOutUp;
 import io.github.palexdev.materialfx.controls.MFXProgressSpinner;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -87,7 +81,7 @@ public class signupPageController implements Initializable {
         });
     }
     @FXML
-    public void close(MouseEvent e){
+    public void close(){
         AnimationFX closeAnimation = new ZoomOutUp(ap);
         closeAnimation.setOnFinished((event) -> {
             Platform.exit();
@@ -97,12 +91,10 @@ public class signupPageController implements Initializable {
     }
 
     @FXML
-    public void minimize(MouseEvent e){
+    public void minimize(){
         usedMinimize = true;
         AnimationFX minimizeAnimation = new ZoomOutDown(ap);
-        minimizeAnimation.setOnFinished((event) -> {
-            stage.setIconified(true);
-        });
+        minimizeAnimation.setOnFinished((event) -> stage.setIconified(true));
 
         minimizeAnimation.setSpeed(2).play();
     }
@@ -126,7 +118,7 @@ public class signupPageController implements Initializable {
         Navigator.pop();
     }
     @FXML
-    public void signupButtonClicked(ActionEvent e) {
+    public void signupButtonClicked() {
         if(validateNickname(nicknameInput,nicknameInputValidatorLabel) && validateEmployeeNumber(employeeNumberInput,employeeNumberInputValidatorLabel)
         && validatePassword(passwordInput,passwordInputValidatorLabel)) { // make sure all fields are validated to signup // the validator just make sure for the input form..
             loadingSpinner.setVisible(true);

@@ -6,7 +6,6 @@ import  java.sql.*;
 import io.github.palexdev.materialfx.controls.MFXProgressSpinner;
 import javafx.application.Platform;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -16,8 +15,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -139,7 +136,7 @@ public class loginPageController implements Initializable {
 
 
     @FXML
-    public void close(MouseEvent e){
+    public void close(){
         AnimationFX closeAnimation = new ZoomOutUp(ap);
         closeAnimation.setOnFinished((event) -> {
             Platform.exit();
@@ -149,12 +146,10 @@ public class loginPageController implements Initializable {
     }
 
     @FXML
-    public void minimize(MouseEvent e){
+    public void minimize(){
         usedMinimize = true;
         AnimationFX minimizeAnimation = new ZoomOutDown(ap);
-        minimizeAnimation.setOnFinished((event) -> {
-            stage.setIconified(true);
-        });
+        minimizeAnimation.setOnFinished((event) -> stage.setIconified(true));
 
         minimizeAnimation.setSpeed(2).play();
 
@@ -193,7 +188,7 @@ public class loginPageController implements Initializable {
         }
     }
     @FXML
-    public void loginButtonClicked(ActionEvent e) {
+    public void loginButtonClicked() {
         if(validateEmployeeNumber(employeeNumberInput,employeeNumberInputValidatorLabel) && validatePassword(passwordInput,passwordInputValidatorLabel)) {
             loadingSpinner.setVisible(true);
             loginButton.setText("");
@@ -203,38 +198,38 @@ public class loginPageController implements Initializable {
     public void register() {
         Navigator.pushNamed("signupPageScene");
     }
-    public void maximize(MouseEvent e){
-
-        int standardW = 900;
-        int standardH = 600;
+//    public void maximize(){
 //
-//        if(stage.isMaximized()){
-//            AnimationFX maximizeOffAnimation = new ZoomOut(ap);
+//        int standardW = 900;
+//        int standardH = 600;
+////
+////        if(stage.isMaximized()){
+////            AnimationFX maximizeOffAnimation = new ZoomOut(ap);
+////
+////            maximizeOffAnimation.setOnFinished(event -> {
+////                stage.setMaximized(false);
+////            });
+////            maximizeOffAnimation.play();
+////        }else{
+////
+////            Screen screen = Screen.getPrimary();
+////            Rectangle2D bounds = screen.getVisualBounds();
+////
+////            stage.setX(bounds.getMinX());
+////            stage.setY(bounds.getMinY());
+////            stage.setWidth(bounds.getWidth());
+////            stage.setHeight(bounds.getHeight());
+////            for(Node node: ap.getChildren()) {
+////                Bounds boundsInScene = node.localToScene(node.getBoundsInLocal());
+////                System.out.println(boundsInScene.getMinX());
+////                node.setLayoutX(bounds.getWidth()/standardW * boundsInScene.getMinX());
+////                node.setLayoutY((boundsInScene.getMinY() / (double)standardH)*bounds.getMaxY());
+////                boundsInScene = node.localToScene(node.getBoundsInLocal());
+////                System.out.println(boundsInScene.getMinX());
+////            }
+////        }
 //
-//            maximizeOffAnimation.setOnFinished(event -> {
-//                stage.setMaximized(false);
-//            });
-//            maximizeOffAnimation.play();
-//        }else{
-//
-//            Screen screen = Screen.getPrimary();
-//            Rectangle2D bounds = screen.getVisualBounds();
-//
-//            stage.setX(bounds.getMinX());
-//            stage.setY(bounds.getMinY());
-//            stage.setWidth(bounds.getWidth());
-//            stage.setHeight(bounds.getHeight());
-//            for(Node node: ap.getChildren()) {
-//                Bounds boundsInScene = node.localToScene(node.getBoundsInLocal());
-//                System.out.println(boundsInScene.getMinX());
-//                node.setLayoutX(bounds.getWidth()/standardW * boundsInScene.getMinX());
-//                node.setLayoutY((boundsInScene.getMinY() / (double)standardH)*bounds.getMaxY());
-//                boundsInScene = node.localToScene(node.getBoundsInLocal());
-//                System.out.println(boundsInScene.getMinX());
-//            }
-//        }
-
-    }
+//    }
 
 }
 
