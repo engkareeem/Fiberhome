@@ -3,6 +3,7 @@ package paltel.fiber.fiberhome.testing;
 import animatefx.animation.*;
 import  java.sql.*;
 
+import io.github.palexdev.materialfx.controls.MFXProgressSpinner;
 import javafx.application.Platform;
 
 import javafx.event.ActionEvent;
@@ -72,6 +73,8 @@ public class loginPageController implements Initializable {
 
     @FXML
     Label registerLabel;
+    @FXML
+    MFXProgressSpinner loadingSpinner;
 
     private boolean usedMinimize = false;
 
@@ -92,6 +95,7 @@ public class loginPageController implements Initializable {
 
         employeeNumberInputValidatorLabel.setOpacity(1);
         passwordInputValidatorLabel.setOpacity(1);
+        loadingSpinner.setOpacity(1);
 
         stageZoom.setOnFinished((actionEvent) -> {
             new ZoomIn(titleBar).play();
@@ -191,7 +195,8 @@ public class loginPageController implements Initializable {
     @FXML
     public void loginButtonClicked(ActionEvent e) {
         if(validateEmployeeNumber(employeeNumberInput,employeeNumberInputValidatorLabel) && validatePassword(passwordInput,passwordInputValidatorLabel)) {
-            login();
+            loadingSpinner.setVisible(true);
+            loginButton.setText("");
         }
     }
     @FXML

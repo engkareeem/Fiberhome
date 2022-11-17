@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane fx:id="ap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1100.0" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="paltel.fiber.fiberhome.testing.homePageController">
+   <children>
+      <ImageView fx:id="backgroundImageView" fitHeight="700.0" fitWidth="1100.0" pickOnBounds="true">
+         <image>
+            <Image url="@assets/background13.png" />
+         </image>
+      </ImageView>
+      <Pane fx:id="titleBar" prefHeight="38.0" prefWidth="1100.0">
+         <children>
+            <Label fx:id="closeLabel" layoutX="1067.0" layoutY="11.0" onMouseClicked="#close" prefHeight="17.0" prefWidth="17.0" />
+            <Label fx:id="minimizeLabel" layoutX="1037.0" layoutY="11.0" onMouseClicked="#minimize" prefHeight="17.0" prefWidth="17.0" />
+            <Label fx:id="maximizeLabel" layoutX="1007.0" layoutY="11.0" prefHeight="17.0" prefWidth="17.0" />
+         </children>
+      </Pane>
+      <Label layoutX="282.0" layoutY="95.0" text="This is a home page :3" textFill="WHITE">
+         <font>
+            <Font size="55.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

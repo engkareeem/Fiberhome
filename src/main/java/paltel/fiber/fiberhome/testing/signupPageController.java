@@ -4,11 +4,13 @@ import animatefx.animation.AnimationFX;
 import animatefx.animation.ZoomInUp;
 import animatefx.animation.ZoomOutDown;
 import animatefx.animation.ZoomOutUp;
+import io.github.palexdev.materialfx.controls.MFXProgressSpinner;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.SnapshotParameters;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -54,6 +56,11 @@ public class signupPageController implements Initializable {
     @FXML
     Label nicknameInputValidatorLabel;
 
+    @FXML
+    Button signupButton;
+    @FXML
+    MFXProgressSpinner loadingSpinner;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -64,17 +71,7 @@ public class signupPageController implements Initializable {
 
         stage = testingMain.primaryStage;
         move(stage);
-        Rectangle clip = new Rectangle(
-                backgroundImageView.getFitWidth(), backgroundImageView.getFitHeight()
-        );
-        clip.setArcWidth(29);
-        clip.setArcHeight(29);
-        backgroundImageView.setClip(clip);
-        SnapshotParameters parameters = new SnapshotParameters();
-        parameters.setFill(Color.TRANSPARENT);
-        WritableImage image = backgroundImageView.snapshot(parameters, null);
-        backgroundImageView.setClip(null);
-        backgroundImageView.setImage(image);
+        optimizeImageView(backgroundImageView);
 
         stage.iconifiedProperty().addListener((observableValue, aBoolean, iconified) -> {
             if(iconified && !usedMinimize) {
@@ -132,8 +129,8 @@ public class signupPageController implements Initializable {
     public void signupButtonClicked(ActionEvent e) {
         if(validateNickname(nicknameInput,nicknameInputValidatorLabel) && validateEmployeeNumber(employeeNumberInput,employeeNumberInputValidatorLabel)
         && validatePassword(passwordInput,passwordInputValidatorLabel)) { // make sure all fields are validated to signup // the validator just make sure for the input form..
-
-            // CODE HERE
+            loadingSpinner.setVisible(true);
+            signupButton.setText("");
         }
     }
 

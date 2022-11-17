@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.palexdev.materialfx.controls.MFXProgressSpinner?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -8,6 +9,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="ap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="paltel.fiber.fiberhome.testing.signupPageController">
@@ -17,7 +19,7 @@
             <Image url="@assets/background13.png" />
          </image>
       </ImageView>
-      <Pane fx:id="loginPopup" layoutX="276.0" layoutY="100.0" prefHeight="399.0" prefWidth="348.0" stylesheets="@css/loginPopup.css">
+      <Pane fx:id="signupPopup" layoutX="276.0" layoutY="100.0" prefHeight="399.0" prefWidth="348.0" stylesheets="@css/signupPopup.css">
          <children>
             <Label fx:id="welcomebacklable" layoutX="111.0" layoutY="14.0" styleClass="secondaryHeaderText" text="LET'S GET STARTED!">
                <font>
@@ -25,18 +27,18 @@
                </font>
             </Label>
             <TextField fx:id="nicknameInput" layoutX="17.0" layoutY="106.0" prefHeight="38.0" prefWidth="313.0" styleClass="informationTextFields" />
+            <TextField fx:id="employeeNumberInput" layoutX="18.0" layoutY="184.0" prefHeight="38.0" prefWidth="313.0" styleClass="informationTextFields" />
+            <PasswordField fx:id="passwordInput" layoutX="17.0" layoutY="262.0" prefHeight="38.0" prefWidth="313.0" styleClass="informationTextFields" />
+            <Button fx:id="signupButton" layoutX="18.0" layoutY="326.0" mnemonicParsing="false" onAction="#signupButtonClicked" prefHeight="38.0" prefWidth="313.0" text="Create account" />
+            <Label fx:id="emailUserNameLabel" layoutX="21.0" layoutY="160.0" styleClass="primaryText" text="Employee number" />
+            <Label fx:id="passwordLabel" layoutX="20.0" layoutY="238.0" styleClass="primaryText" text="Password" />
+            <Label fx:id="loginTitle" layoutX="84.0" layoutY="44.0" styleClass="headerText" text="Create a new account" />
+            <Label fx:id="emailUserNameLabel1" layoutX="20.0" layoutY="82.0" styleClass="primaryText" text="Nickname" />
             <Label fx:id="nicknameInputValidatorLabel" layoutX="20.0" layoutY="145.0" textFill="RED">
                <font>
                   <Font size="10.0" />
                </font>
             </Label>
-            <TextField fx:id="employeeNumberInput" layoutX="18.0" layoutY="184.0" prefHeight="38.0" prefWidth="313.0" styleClass="informationTextFields" />
-            <PasswordField fx:id="passwordInput" layoutX="17.0" layoutY="262.0" prefHeight="38.0" prefWidth="313.0" styleClass="informationTextFields" />
-            <Button fx:id="signupButton" layoutX="17.0" layoutY="326.0" mnemonicParsing="false" onAction="#signupButtonClicked" prefHeight="38.0" prefWidth="313.0" stylesheets="@css/signup.css" text="Create Account" />
-            <Label fx:id="emailUserNameLabel" layoutX="21.0" layoutY="160.0" styleClass="primaryText" text="Employee number" />
-            <Label fx:id="passwordLabel" layoutX="20.0" layoutY="238.0" styleClass="primaryText" text="Password" />
-            <Label fx:id="loginTitle" layoutX="91.0" layoutY="42.0" styleClass="headerText" text="Create new account" />
-            <Label fx:id="emailUserNameLabel1" layoutX="20.0" layoutY="82.0" styleClass="primaryText" text="Nickname" />
             <Label fx:id="passwordInputValidatorLabel" layoutX="20.0" layoutY="301.0" textFill="RED">
                <font>
                   <Font size="10.0" />
@@ -47,6 +49,17 @@
                   <Font size="10.0" />
                </font>
             </Label>
+            <MFXProgressSpinner fx:id="loadingSpinner" layoutX="152.0" layoutY="331.0" prefHeight="28.0" prefWidth="42.0" visible="false">
+               <color1>
+                  <Color red="1.0" green="1.0" blue="1.0" />
+               </color1>
+               <color2>
+                  <Color red="0.05882352963089943" green="0.615686297416687" blue="0.3450980484485626" />
+               </color2>
+               <color3>
+                  <Color red="1.0" green="1.0" blue="1.0" />
+               </color3>
+            </MFXProgressSpinner>
          </children>
       </Pane>
       <Pane fx:id="titleBar" prefHeight="38.0" prefWidth="900.0">
