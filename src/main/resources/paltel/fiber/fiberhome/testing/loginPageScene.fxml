@@ -26,7 +26,7 @@
             </Label>
             <TextField fx:id="employeeNumberInput" layoutX="18.0" layoutY="122.0" prefHeight="38.0" prefWidth="313.0" styleClass="informationTextFields" />
             <PasswordField fx:id="passwordInput" layoutX="17.0" layoutY="204.0" prefHeight="38.0" prefWidth="313.0" styleClass="informationTextFields" />
-            <Button fx:id="loginButton" disable="true" layoutX="17.0" layoutY="268.0" mnemonicParsing="false" onAction="#loginButtonClicked" prefHeight="38.0" prefWidth="313.0" text="Login Now" />
+            <Button fx:id="loginButton" layoutX="17.0" layoutY="268.0" mnemonicParsing="false" onAction="#loginButtonClicked" prefHeight="38.0" prefWidth="313.0" text="Login Now" />
             <Label fx:id="employeeNumberLabel" layoutX="21.0" layoutY="98.0" styleClass="primaryText" text="Employee number" />
             <Label fx:id="passwordLabel" layoutX="20.0" layoutY="180.0" styleClass="primaryText" text="Password" />
             <Label fx:id="forgetPasswordLabel" layoutX="248.0" layoutY="243.0" styleClass="secondaryHyperText" text="Forgot password?" />
@@ -36,7 +36,12 @@
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
-            <Label fx:id="employeeNumberInputValidatorLabel" layoutX="20.0" layoutY="160.0" textFill="RED">
+            <Label fx:id="employeeNumberInputValidatorLabel" layoutX="20.0" layoutY="161.0" textFill="RED">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+            <Label fx:id="passwordInputValidatorLabel" layoutX="20.0" layoutY="243.0" textFill="RED">
                <font>
                   <Font size="10.0" />
                </font>
@@ -47,7 +52,7 @@
          <children>
             <Label fx:id="closeLabel" layoutX="864.0" layoutY="11.0" onMouseClicked="#close" prefHeight="17.0" prefWidth="17.0" />
             <Label fx:id="minimizeLabel" layoutX="834.0" layoutY="11.0" onMouseClicked="#minimize" prefHeight="17.0" prefWidth="17.0" />
-            <Label fx:id="maximizeLabel" layoutX="809.0" layoutY="10.0" onMouseClicked="#maximize" prefHeight="17.0" prefWidth="17.0" visible="false" />
+            <Label fx:id="maximizeLabel" layoutX="804.0" layoutY="11.0" prefHeight="17.0" prefWidth="17.0" />
          </children>
       </Pane>
    </children>

@@ -27,6 +27,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicReference;
 
+import static paltel.fiber.fiberhome.testing.Functions.*;
+
 public class loginPageController implements Initializable {
 
     Stage stage;
@@ -55,6 +57,8 @@ public class loginPageController implements Initializable {
     Label employeeNumberLabel;
     @FXML
     Label employeeNumberInputValidatorLabel;
+    @FXML
+    Label passwordInputValidatorLabel;
 
     @FXML
     Label passwordLabel;
@@ -71,15 +75,12 @@ public class loginPageController implements Initializable {
 
     private boolean usedMinimize = false;
 
-    private void employeeNumberInputValidatorListener() {
-        employeeNumberInput.textProperty().addListener((obs, oldText, newText) -> {
-            if(newText.length() != 4) employeeNumberInputValidatorLabel.setText("Employee number must be 4 characters");
-            else employeeNumberInputValidatorLabel.setText("");
-        });
-    }
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        employeeNumberInputValidatorListener();
+        employeeNumberValidatorListener(employeeNumberInput,employeeNumberInputValidatorLabel);
+        passwordValidatorListener(passwordInput,passwordInputValidatorLabel);
         stage = testingMain.primaryStage;
         move(stage);
 
@@ -90,7 +91,7 @@ public class loginPageController implements Initializable {
         }
 
         employeeNumberInputValidatorLabel.setOpacity(1);
-
+        passwordInputValidatorLabel.setOpacity(1);
 
         stageZoom.setOnFinished((actionEvent) -> {
             new ZoomIn(titleBar).play();
@@ -99,7 +100,8 @@ public class loginPageController implements Initializable {
             Animator.chainAnimator( new FadeInDown(passwordInput) ,new FadeInDown(passwordLabel));
             Animator.chainAnimator(new FadeInDown(employeeNumberInput), new FadeInDown(employeeNumberLabel));
             new FadeInDown(forgetPasswordLabel).play();
-            new FadeInDown(loginButton).play();
+            AnimationFX loginButtonAnimation = new FadeInDown(loginButton);
+            loginButtonAnimation.play();
             Animator.chainAnimator(new FadeInDown(notRegisterLabel), new FadeInDown(registerLabel));
         });
 
@@ -140,7 +142,6 @@ public class loginPageController implements Initializable {
             System.exit(0);
         });
         closeAnimation.play();
-
     }
 
     @FXML
@@ -189,7 +190,9 @@ public class loginPageController implements Initializable {
     }
     @FXML
     public void loginButtonClicked(ActionEvent e) {
-        login();
+        if(validateEmployeeNumber(employeeNumberInput,employeeNumberInputValidatorLabel) && validatePassword(passwordInput,passwordInputValidatorLabel)) {
+            login();
+        }
     }
     @FXML
     public void register() {
@@ -227,6 +230,7 @@ public class loginPageController implements Initializable {
 //        }
 
     }
+
 }
 
 

@@ -19,6 +19,7 @@
     -fx-primary-button-pressed-text-color: white;
 
     -fx-information-field-border-color: #a7a4a4;
+    -fx-information-field-error-border-color: rgba(255, 43, 43, 0.87);
     -fx-information-field-text-color:rgba(255, 255, 255, 0.78);
 
 
@@ -67,6 +68,16 @@
     -fx-border-width: 1;
     -fx-border-radius: 7;
     -fx-text-fill: -fx-information-field-text-color;
+}
+.informationTextFieldsError{
+    -fx-background-color: transparent;
+    -fx-border-color: -fx-information-field-error-border-color;
+    -fx-border-width: 1;
+    -fx-border-radius: 7;
+    -fx-text-fill: -fx-information-field-text-color;
+}
+.disabledNode{
+    /*-fx-background-color: ;*/
 }
 
 /*    <-  Title bar stuff ->   */
