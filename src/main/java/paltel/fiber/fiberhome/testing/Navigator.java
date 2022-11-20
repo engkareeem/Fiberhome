@@ -12,7 +12,7 @@ import java.util.*;
 
 public class Navigator {
 
-    private static Map< Object,  Object > arguments = new HashMap<>();
+    private static volatile  Map< Object,  Object > arguments = new HashMap<>();
     private static Stack<Scene> screens = new Stack<>(); // reacted with or thumb
     private static Stage currentStage = null;
 

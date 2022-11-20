@@ -63,6 +63,11 @@
             <artifactId>CustomStage</artifactId>
             <version>1.3.2</version>
         </dependency>
+        <dependency>
+            <groupId>eu.iamgio</groupId>
+            <artifactId>animated</artifactId>
+            <version>0.6.1</version>
+        </dependency>
 
     </dependencies>
 

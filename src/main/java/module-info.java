@@ -6,6 +6,7 @@ module paltel.fiber.fiberhome.testing {
     requires java.sql;
     requires ojdbc8;
     requires MaterialFX;
+    requires eu.iamgio.animated;
 
 
     opens paltel.fiber.fiberhome.testing to javafx.fxml;

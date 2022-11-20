@@ -1,13 +1,11 @@
 package paltel.fiber.fiberhome.testing;
 
-import animatefx.animation.AnimationFX;
-import animatefx.animation.ZoomInUp;
-import animatefx.animation.ZoomOutDown;
-import animatefx.animation.ZoomOutUp;
+import animatefx.animation.*;
 import io.github.palexdev.materialfx.controls.MFXProgressSpinner;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -17,6 +15,9 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -55,6 +56,9 @@ public class signupPageController implements Initializable {
     @FXML
     MFXProgressSpinner loadingSpinner;
 
+    @FXML
+    Pane signupPopup;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -64,6 +68,7 @@ public class signupPageController implements Initializable {
 
 
         stage = testingMain.primaryStage;
+        playOpeningAnimation();
         move(stage);
         optimizeImageView(backgroundImageView);
 
@@ -79,6 +84,17 @@ public class signupPageController implements Initializable {
             }
 
         });
+    }
+
+    private void playOpeningAnimation(){
+        //FadeIn openingAnimation = new FadeIn(ap);
+        for(Node node: signupPopup.getChildren()){
+            node.setOpacity(0);
+        }
+        for(Node node: signupPopup.getChildren()){
+            new FadeIn(node).play();
+        }
+        //openingAnimation.play();
     }
     @FXML
     public void close(){
@@ -113,6 +129,28 @@ public class signupPageController implements Initializable {
     }
 
     /*                         TESTING AREA! :3                                   */
+    private void signUp(){
+        try {
+            Statement statement = testingMain.dbConnection.createStatement();
+            ResultSet res = statement.executeQuery("select EMPLOYEE_ID from EMPLOYEE where EMPLOYEE_ID = " + employeeNumberInput.getText());
+            if(res.next()){ // checks if user exist in employee table
+                ResultSet resultSet = statement.executeQuery("select  EID from EMPLOYEE_ACCOUNT where EID = " + employeeNumberInput.getText());
+                if(resultSet.next()){ // checks if account is already exist
+                    // todo: show popup that this employee already has an account
+                    new Shake(employeeNumberInput).play();
+                }else{
+                    //statement.executeUpdate("INSERT INTO EMPLOYEE_ACCOUNT VALUES(" + employeeNumberInput.getText() + "," +  + "," + ",");
+                }
+            }else{
+                // todo: show popup that there is no employee with this eid and show red info that this eid doesn't exist
+                new Shake(employeeNumberInput).play();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+    }
     @FXML
     public void comeBack() {
         Navigator.pop();

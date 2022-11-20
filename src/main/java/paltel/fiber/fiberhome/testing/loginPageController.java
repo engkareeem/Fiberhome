@@ -3,6 +3,9 @@ package paltel.fiber.fiberhome.testing;
 import animatefx.animation.*;
 import  java.sql.*;
 
+import eu.iamgio.animated.AnimatedSwitcher;
+
+import eu.iamgio.animated.Animation;
 import io.github.palexdev.materialfx.controls.MFXProgressSpinner;
 import javafx.application.Platform;
 
@@ -84,30 +87,11 @@ public class loginPageController implements Initializable {
         stage = testingMain.primaryStage;
         move(stage);
 
-        ZoomIn stageZoom = new ZoomIn(ap);
-        titleBar.setOpacity(0);
-        for(Node node: loginPopup.getChildren()) {
-            node.setOpacity(0);
-        }
-
-        employeeNumberInputValidatorLabel.setOpacity(1);
-        passwordInputValidatorLabel.setOpacity(1);
-        loadingSpinner.setOpacity(1);
-
-        stageZoom.setOnFinished((actionEvent) -> {
-            new ZoomIn(titleBar).play();
-            new FadeInDown(welcomeBackLabel).play();
-            new FadeInDown(loginTitle).play();
-            Animator.chainAnimator( new FadeInDown(passwordInput) ,new FadeInDown(passwordLabel));
-            Animator.chainAnimator(new FadeInDown(employeeNumberInput), new FadeInDown(employeeNumberLabel));
-            new FadeInDown(forgetPasswordLabel).play();
-            AnimationFX loginButtonAnimation = new FadeInDown(loginButton);
-            loginButtonAnimation.play();
-            Animator.chainAnimator(new FadeInDown(notRegisterLabel), new FadeInDown(registerLabel));
-        });
 
 
-        stageZoom.play();
+        playOpenAnimation();
+
+
         Rectangle clip = new Rectangle(
                 backgroundImageView.getFitWidth(), backgroundImageView.getFitHeight()
         );
@@ -131,8 +115,31 @@ public class loginPageController implements Initializable {
 
             }
         });
+
     }
 
+    private void playOpenAnimation(){
+        ZoomIn openingAnimation = new ZoomIn(ap);
+        titleBar.setOpacity(0);
+        for(Node node: loginPopup.getChildren()) {
+            node.setOpacity(0);
+        }
+
+        employeeNumberInputValidatorLabel.setOpacity(1);
+        passwordInputValidatorLabel.setOpacity(1);
+        loadingSpinner.setOpacity(1);
+
+        openingAnimation.setOnFinished((actionEvent) -> {
+            new ZoomIn(titleBar).play();
+            new FadeInDown(welcomeBackLabel).play();
+            new FadeInDown(loginTitle).play();
+            Animator.chainAnimator( new FadeInDown(passwordInput) ,new FadeInDown(passwordLabel));
+            Animator.chainAnimator(new FadeInDown(employeeNumberInput), new FadeInDown(employeeNumberLabel));
+            Animator.chainAnimator(new FadeInDown(loginButton), new FadeInDown(forgetPasswordLabel));
+            Animator.chainAnimator(new FadeInDown(notRegisterLabel), new FadeInDown(registerLabel));
+        });
+        openingAnimation.play();
+    }
 
 
     @FXML
@@ -172,16 +179,31 @@ public class loginPageController implements Initializable {
 
     void login(){
         try {
-            DriverManager.registerDriver(new
-                    oracle.jdbc.driver.OracleDriver());
-            Connection connection = DriverManager.getConnection("jdbc:oracle:thin:@//nasrallahOracle:1521/orcl", "fiber_test", "oracle");
-            Statement statement = connection.createStatement();
-            ResultSet res = statement.executeQuery("select * from employee_account where eid =" + employeeNumberInput.getText() + " and password = " + passwordInput.getText() );
+            String loginText = loginButton.getText();
+            loadingSpinner.setVisible(true);
+            loginButton.setText("");
+            Statement statement = testingMain.dbConnection.createStatement();
+            ResultSet res = statement.executeQuery("select * from employee_account where eid = " + employeeNumberInput.getText());
 
             if(res.next()){
-                System.out.println("SUCCESSFULL!!!");
+               if(res.getString("password").equals(passwordInput.getText())){
+                   ZoomOut switchAnimation = new ZoomOut(ap);
+                   switchAnimation.setOnFinished(event -> {
+                       Navigator.pushNamedReplacementWithArgs("homePageScene", "eid", employeeNumberInput.getText());
+                   });
+                   switchAnimation.play();
+                   System.out.println("logged in as " + res.getString("role"));
+                   loadingSpinner.setVisible(false);
+                   loginButton.setText(loginText);
+               }else{
+                   System.out.println("Wrong Password Entered"); // todo: show wrong password dialog
+                   loadingSpinner.setVisible(false);
+                   loginButton.setText(loginText);
+               }
             } else {
-                System.out.println("YOU GAY");
+                System.out.println("User was not Found"); // todo: show user was not found dialog
+                loadingSpinner.setVisible(false);
+                loginButton.setText(loginText);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -189,10 +211,15 @@ public class loginPageController implements Initializable {
     }
     @FXML
     public void loginButtonClicked() {
-        if(validateEmployeeNumber(employeeNumberInput,employeeNumberInputValidatorLabel) && validatePassword(passwordInput,passwordInputValidatorLabel)) {
-            loadingSpinner.setVisible(true);
-            loginButton.setText("");
+        boolean isValid = true;
+        if(!validateEmployeeNumber(employeeNumberInput, employeeNumberInputValidatorLabel)){ isValid = false; new Shake(employeeNumberInput).play();}
+        if(!validatePassword(passwordInput,passwordInputValidatorLabel)) {isValid = false; new Shake(passwordInput).play();}
+        if(isValid){ // log In
+            loginButton.setDisable(true);
+            login();
+            loginButton.setDisable(false);
         }
+
     }
     @FXML
     public void register() {

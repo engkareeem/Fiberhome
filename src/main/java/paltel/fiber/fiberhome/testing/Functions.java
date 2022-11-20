@@ -1,5 +1,7 @@
 package paltel.fiber.fiberhome.testing;
 
+import animatefx.animation.FadeIn;
+import animatefx.animation.Shake;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -79,15 +81,17 @@ public class Functions {
 
     public static boolean validatePassword(TextField inputField,Label validatorLabel) {
         String text = inputField.getText();
-        if(text.length() > 8) {
+
+        if(text.length() <= 10 && text.length() >= 6) {
             validatorLabel.setText("");
             inputField.getStyleClass().removeAll("informationTextFieldsError");
             inputField.getStyleClass().add("informationTextFields");
             return true;
         } else {
-            validatorLabel.setText("Password should be 8 or more characters");
+            validatorLabel.setText("Password must be between 6 and 10 Characters");
             inputField.getStyleClass().removeAll("informationTextFields");
             inputField.getStyleClass().add("informationTextFieldsError");
+
             return false;
         }
     }
