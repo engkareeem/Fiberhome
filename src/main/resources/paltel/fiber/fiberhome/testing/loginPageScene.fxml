@@ -19,7 +19,7 @@
             <Image url="@assets/background13.png" />
          </image>
       </ImageView>
-      <Pane fx:id="loginPopup" layoutX="276.0" layoutY="114.0" prefHeight="371.0" prefWidth="348.0" stylesheets="@css/loginPopup.css">
+      <Pane fx:id="loginPopup" layoutX="276.0" layoutY="122.0" prefHeight="355.0" prefWidth="348.0" stylesheets="@css/loginPopup.css">
          <children>
             <Label fx:id="welcomeBackLabel" layoutX="126.0" layoutY="14.0" styleClass="secondaryHeaderText" text="WELCOME BACK">
                <font>
@@ -28,13 +28,13 @@
             </Label>
             <TextField fx:id="employeeNumberInput" layoutX="18.0" layoutY="122.0" prefHeight="38.0" prefWidth="313.0" styleClass="informationTextFields" />
             <PasswordField fx:id="passwordInput" layoutX="17.0" layoutY="204.0" prefHeight="38.0" prefWidth="313.0" styleClass="informationTextFields" />
-            <Button fx:id="loginButton" layoutX="17.0" layoutY="268.0" mnemonicParsing="false" onAction="#loginButtonClicked" prefHeight="38.0" prefWidth="313.0" text="Login now" />
+            <Button fx:id="loginButton" layoutX="17.0" layoutY="268.0" mnemonicParsing="false" onAction="#loginButtonClicked" prefHeight="38.0" prefWidth="313.0" styleClass="primaryButton" text="Login now" />
             <Label fx:id="employeeNumberLabel" layoutX="21.0" layoutY="98.0" styleClass="primaryText" text="Employee number" />
             <Label fx:id="passwordLabel" layoutX="20.0" layoutY="180.0" styleClass="primaryText" text="Password" />
             <Label fx:id="forgetPasswordLabel" layoutX="248.0" layoutY="243.0" styleClass="secondaryHyperText" text="Forgot password?" />
             <Label fx:id="loginTitle" layoutX="79.0" layoutY="42.0" styleClass="headerText" text="Login into your account" />
-            <Label fx:id="notRegisterLabel" layoutX="21.0" layoutY="323.0" styleClass="secondaryText" text="Not registered yet?" />
-            <Label fx:id="registerLabel" layoutX="101.0" layoutY="323.0" onMouseClicked="#register" styleClass="secondaryHyperText" text="Register now">
+            <Label fx:id="notRegisterLabel" layoutX="21.0" layoutY="327.0" styleClass="secondaryText" text="Not registered yet?" />
+            <Label fx:id="registerLabel" layoutX="101.0" layoutY="327.0" onMouseClicked="#register" styleClass="secondaryHyperText" text="Register now">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
@@ -68,5 +68,12 @@
             <Label fx:id="maximizeLabel" layoutX="804.0" layoutY="11.0" prefHeight="17.0" prefWidth="17.0" />
          </children>
       </Pane>
+      <Pane fx:id="disablePane" prefHeight="600.0" prefWidth="900.0" styleClass="disablePane" visible="false" />
+      <Label layoutX="22.0" layoutY="583.0" styleClass="secondaryText" text="Connecting to server" />
+      <ImageView fitHeight="12.0" fitWidth="12.0" layoutX="6.0" layoutY="584.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@assets/minimizehold.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

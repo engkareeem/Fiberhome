@@ -29,7 +29,7 @@
             <TextField fx:id="nicknameInput" layoutX="17.0" layoutY="106.0" prefHeight="38.0" prefWidth="313.0" styleClass="informationTextFields" />
             <TextField fx:id="employeeNumberInput" layoutX="18.0" layoutY="184.0" prefHeight="38.0" prefWidth="313.0" styleClass="informationTextFields" />
             <PasswordField fx:id="passwordInput" layoutX="17.0" layoutY="262.0" prefHeight="38.0" prefWidth="313.0" styleClass="informationTextFields" />
-            <Button fx:id="signupButton" layoutX="18.0" layoutY="326.0" mnemonicParsing="false" onAction="#signupButtonClicked" prefHeight="38.0" prefWidth="313.0" text="Create account" />
+            <Button fx:id="signupButton" layoutX="18.0" layoutY="326.0" mnemonicParsing="false" onAction="#signupButtonClicked" prefHeight="38.0" prefWidth="313.0" styleClass="primaryButton" text="Create account" />
             <Label fx:id="emailUserNameLabel" layoutX="21.0" layoutY="160.0" styleClass="primaryText" text="Employee number" />
             <Label fx:id="passwordLabel" layoutX="20.0" layoutY="238.0" styleClass="primaryText" text="Password" />
             <Label fx:id="loginTitle" layoutX="84.0" layoutY="44.0" styleClass="headerText" text="Create a new account" />
@@ -70,5 +70,6 @@
             <Label fx:id="maximizeLabel" layoutX="810.0" layoutY="11.0" prefHeight="17.0" prefWidth="17.0" />
          </children>
       </Pane>
+      <Pane fx:id="disablePane" prefHeight="600.0" prefWidth="900.0" styleClass="disablePane" visible="false" />
    </children>
 </AnchorPane>

@@ -7,18 +7,3 @@
     -fx-effect: dropshadow(gaussian, rgba(94, 94, 99, 0.47), 15, 0.4, 0.0, 0.0);
 }
 
-#signupButton {
-    -fx-background-color: -fx-primary-button-color;
-    -fx-text-fill: -fx-primary-button-text-color;
-    -fx-font-size: 13;
-}
-#signupButton:hover {
-    -fx-background-color: -fx-primary-button-hover-color;
-    -fx-text-fill: -fx-primary-button-hover-text-color;
-    -fx-font-size: 13;
-}
-#signupButton:pressed {
-    -fx-background-color: -fx-primary-button-pressed-color;
-    -fx-text-fill: -fx-primary-button-pressed-text-color;
-    -fx-font-size: 13;
-}

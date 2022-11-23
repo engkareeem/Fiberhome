@@ -67,9 +67,11 @@ public class signupPageController implements Initializable {
         nickNameValidatorListener(nicknameInput,nicknameInputValidatorLabel);
 
 
-        stage = testingMain.primaryStage;
+        stage = Navigator.primaryStage;
+        Functions.move(stage,titleBar);
+        stage = Navigator.primaryStage;
         playOpeningAnimation();
-        move(stage);
+        Functions.move(stage,ap);
         optimizeImageView(backgroundImageView);
 
         stage.iconifiedProperty().addListener((observableValue, aBoolean, iconified) -> {
@@ -115,19 +117,6 @@ public class signupPageController implements Initializable {
         minimizeAnimation.setSpeed(2).play();
     }
 
-    public void move(Stage stage) {
-        AtomicReference<Double> xOffset = new AtomicReference<>((double) 0);
-        AtomicReference<Double> yOffset = new AtomicReference<>((double) 0);
-        titleBar.setOnMousePressed(event -> {
-            xOffset.set(stage.getX() - event.getScreenX());
-            yOffset.set(stage.getY() - event.getScreenY());
-        });
-        titleBar.setOnMouseDragged(event -> {
-            stage.setX(event.getScreenX() + xOffset.get());
-            stage.setY(event.getScreenY() + yOffset.get());
-        });
-    }
-
     /*                         TESTING AREA! :3                                   */
     private void signUp(){
         try {
@@ -136,13 +125,13 @@ public class signupPageController implements Initializable {
             if(res.next()){ // checks if user exist in employee table
                 ResultSet resultSet = statement.executeQuery("select  EID from EMPLOYEE_ACCOUNT where EID = " + employeeNumberInput.getText());
                 if(resultSet.next()){ // checks if account is already exist
-                    // todo: show popup that this employee already has an account
-                    new Shake(employeeNumberInput).play();
+                    Functions.displayValidatingError(employeeNumberInput,employeeNumberInputValidatorLabel,"This employee already has an account");
                 }else{
                     //statement.executeUpdate("INSERT INTO EMPLOYEE_ACCOUNT VALUES(" + employeeNumberInput.getText() + "," +  + "," + ",");
                 }
             }else{
-                // todo: show popup that there is no employee with this eid and show red info that this eid doesn't exist
+                Functions.displayValidatingError(employeeNumberInput,employeeNumberInputValidatorLabel,"There is no employee with this Employee number(EID)");
+
                 new Shake(employeeNumberInput).play();
             }
         } catch (SQLException e) {
@@ -157,10 +146,28 @@ public class signupPageController implements Initializable {
     }
     @FXML
     public void signupButtonClicked() {
-        if(validateNickname(nicknameInput,nicknameInputValidatorLabel) && validateEmployeeNumber(employeeNumberInput,employeeNumberInputValidatorLabel)
-        && validatePassword(passwordInput,passwordInputValidatorLabel)) { // make sure all fields are validated to signup // the validator just make sure for the input form..
-            loadingSpinner.setVisible(true);
-            signupButton.setText("");
+        boolean isValid = true;
+        if(testingMain.dbConnection == null) {
+            Functions.showDialog("Connection failed","Something went wrong while connection");
+            return;
+        }
+        if(!validateNickname(nicknameInput, nicknameInputValidatorLabel)) {
+            isValid=false;
+            displayValidatingError(nicknameInput,nicknameInputValidatorLabel,"Nickname must be 2 or more characters");
+        }
+        if(!validateEmployeeNumber(employeeNumberInput, employeeNumberInputValidatorLabel)) {
+            isValid=false;
+            displayValidatingError(employeeNumberInput,employeeNumberInputValidatorLabel,"Employee number must be 4 digits");
+        }
+        if(!validatePassword(passwordInput,passwordInputValidatorLabel)) {
+            isValid = false;
+            displayValidatingError(passwordInput,passwordInputValidatorLabel,"Password must be between 6 and 10 Characters");
+        }
+
+        if(isValid){ // Sign up:
+            signupButton.setDisable(true);
+            signUp();
+            signupButton.setDisable(false);
         }
     }
 

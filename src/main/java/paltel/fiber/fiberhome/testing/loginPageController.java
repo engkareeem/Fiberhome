@@ -3,9 +3,6 @@ package paltel.fiber.fiberhome.testing;
 import animatefx.animation.*;
 import  java.sql.*;
 
-import eu.iamgio.animated.AnimatedSwitcher;
-
-import eu.iamgio.animated.Animation;
 import io.github.palexdev.materialfx.controls.MFXProgressSpinner;
 import javafx.application.Platform;
 
@@ -35,8 +32,8 @@ public class loginPageController implements Initializable {
     Stage stage;
     @FXML
     AnchorPane ap;
-
-
+    @FXML
+    Pane disablePane;
     @FXML
     Button loginButton;
     @FXML
@@ -73,6 +70,7 @@ public class loginPageController implements Initializable {
 
     @FXML
     Label registerLabel;
+
     @FXML
     MFXProgressSpinner loadingSpinner;
 
@@ -84,25 +82,13 @@ public class loginPageController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         employeeNumberValidatorListener(employeeNumberInput,employeeNumberInputValidatorLabel);
         passwordValidatorListener(passwordInput,passwordInputValidatorLabel);
-        stage = testingMain.primaryStage;
-        move(stage);
+        Functions.optimizeImageView(backgroundImageView);
+        stage = Navigator.primaryStage;
+        Functions.move(stage,titleBar);
 
 
 
         playOpenAnimation();
-
-
-        Rectangle clip = new Rectangle(
-                backgroundImageView.getFitWidth(), backgroundImageView.getFitHeight()
-        );
-        clip.setArcWidth(29);
-        clip.setArcHeight(29);
-        backgroundImageView.setClip(clip);
-        SnapshotParameters parameters = new SnapshotParameters();
-        parameters.setFill(Color.TRANSPARENT);
-        WritableImage image = backgroundImageView.snapshot(parameters, null);
-        backgroundImageView.setClip(null);
-        backgroundImageView.setImage(image);
 
         stage.iconifiedProperty().addListener((observableValue, aBoolean, iconified) -> {
             if(iconified && !usedMinimize) {
@@ -162,18 +148,7 @@ public class loginPageController implements Initializable {
 
     }
 
-    public void move(Stage stage) {
-        AtomicReference<Double> xOffset = new AtomicReference<>((double) 0);
-        AtomicReference<Double> yOffset = new AtomicReference<>((double) 0);
-        titleBar.setOnMousePressed(event -> {
-            xOffset.set(stage.getX() - event.getScreenX());
-            yOffset.set(stage.getY() - event.getScreenY());
-        });
-        titleBar.setOnMouseDragged(event -> {
-            stage.setX(event.getScreenX() + xOffset.get());
-            stage.setY(event.getScreenY() + yOffset.get());
-        });
-    }
+
 
 /*                                   Testing Area :3                                */
 
@@ -196,12 +171,13 @@ public class loginPageController implements Initializable {
                    loadingSpinner.setVisible(false);
                    loginButton.setText(loginText);
                }else{
-                   System.out.println("Wrong Password Entered"); // todo: show wrong password dialog
+                   Functions.displayValidatingError(passwordInput,passwordInputValidatorLabel,"Wrong Password Entered");
                    loadingSpinner.setVisible(false);
                    loginButton.setText(loginText);
                }
             } else {
-                System.out.println("User was not Found"); // todo: show user was not found dialog
+                Functions.displayValidatingError(employeeNumberInput,employeeNumberInputValidatorLabel,"User was not Found");
+
                 loadingSpinner.setVisible(false);
                 loginButton.setText(loginText);
             }
@@ -212,8 +188,19 @@ public class loginPageController implements Initializable {
     @FXML
     public void loginButtonClicked() {
         boolean isValid = true;
-        if(!validateEmployeeNumber(employeeNumberInput, employeeNumberInputValidatorLabel)){ isValid = false; new Shake(employeeNumberInput).play();}
-        if(!validatePassword(passwordInput,passwordInputValidatorLabel)) {isValid = false; new Shake(passwordInput).play();}
+        if(testingMain.dbConnection == null) {
+            Functions.showDialog("Connection failed","Something went wrong while connection");
+            return;
+        }
+        if(!validateEmployeeNumber(employeeNumberInput, employeeNumberInputValidatorLabel)) {
+            isValid=false;
+            displayValidatingError(employeeNumberInput,employeeNumberInputValidatorLabel,"Employee number must be 4 digits");
+        }
+        if(!validatePassword(passwordInput,passwordInputValidatorLabel)) {
+            isValid = false;
+            displayValidatingError(passwordInput,passwordInputValidatorLabel,"Password must be between 6 and 10 Characters");
+        }
+
         if(isValid){ // log In
             loginButton.setDisable(true);
             login();

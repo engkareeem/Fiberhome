@@ -18,6 +18,13 @@
     -fx-primary-button-pressed-color: #1d68d1;
     -fx-primary-button-pressed-text-color: white;
 
+    -fx-secondary-button-color: #2f3137;
+    -fx-secondary-button-text-color: white;
+    -fx-secondary-button-hover-color: #3b3d45;
+    -fx-secondary-button-hover-text-color: white;
+    -fx-secondary-button-pressed-color: #3f4148;
+    -fx-secondary-button-pressed-text-color: white;
+
     -fx-information-field-border-color: #a7a4a4;
     -fx-information-field-error-border-color: rgba(255, 43, 43, 0.87);
     -fx-information-field-text-color:rgba(255, 255, 255, 0.78);
@@ -28,10 +35,46 @@
     -fx-background-color: -fx-application-background-color;
     -fx-background-radius: 15;
 }
+.disablePane{
+    -fx-background-color: rgba(23, 22, 22, 0.65);
+    -fx-background-radius: 15;
+}
 #backgroundImageView{
     -fx-background-color: transparent;
 }
 
+
+.primaryButton {
+    -fx-background-color: -fx-primary-button-color;
+    -fx-text-fill: -fx-primary-button-text-color;
+    -fx-font-size: 13;
+}
+.primaryButton:hover {
+    -fx-background-color: -fx-primary-button-hover-color;
+    -fx-text-fill: -fx-primary-button-hover-text-color;
+    -fx-font-size: 13;
+}
+.primaryButton:pressed {
+    -fx-background-color: -fx-primary-button-pressed-color;
+    -fx-text-fill: -fx-primary-button-pressed-text-color;
+    -fx-font-size: 13;
+}
+
+.secondaryButton {
+    -fx-background-color: -fx-secondary-button-color;
+    -fx-text-fill: -fx-secondary-button-text-color;
+    -fx-font-size: 13;
+}
+.secondaryButton:hover {
+    -fx-background-color: -fx-secondary-button-hover-color;
+    -fx-text-fill: -fx-secondary-button-hover-text-color;
+    -fx-font-size: 13;
+}
+.secondaryButton:pressed {
+    -fx-background-color: -fx-secondary-button-pressed-color;
+    -fx-text-fill: -fx-secondary-button-pressed-text-color;
+    -fx-font-size: 13;
+}
 
 .primaryText{
     -fx-text-fill: -fx-primary-text-color;

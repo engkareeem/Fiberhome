@@ -15,16 +15,17 @@ import java.sql.SQLException;
 
 
 public class testingMain extends Application {
-    static Stage primaryStage;
+
     static Connection dbConnection;
     @Override
     public void start(Stage stage) throws IOException {
-        primaryStage = stage;
+        Navigator.primaryStage  = stage;
         FXMLLoader fxmlLoader = new FXMLLoader(testingMain.class.getResource("loginPageScene.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         scene.setFill(Color.TRANSPARENT);
 
-        stage.initStyle(StageStyle.TRANSPARENT);
+        Navigator.setupStages();
+
         stage.setTitle("meow meow");
         stage.setScene(scene);
         stage.show();
@@ -36,16 +37,17 @@ public class testingMain extends Application {
             try {
                 DriverManager.registerDriver(new
                         OracleDriver());
-                dbConnection = DriverManager.getConnection("jdbc:oracle:thin:@//nasrallahOracle:1521/orcl", "FiberHomeAdmin", "oracle");
+                dbConnection = DriverManager.getConnection("jdbc:oracle:thin:@//nasrallahOracle:1521/orcl", "FIBER_TEST", "oracle");
 
                 if (dbConnection == null) {
                     // todo: show failed to connect dialog
                 }
                 System.out.println("Connected to Database Successfully");
+                dbConnection=null;
             } catch (SQLException e) {
-
-                e.printStackTrace();
-                throw new RuntimeException(e);
+                // todo: show failed to connect dialog
+                System.out.println("CONNECTION FAILED");
+                throw new RuntimeException();
             }
         }).start();
         launch();

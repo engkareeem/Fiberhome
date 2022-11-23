@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -26,13 +27,16 @@ public class homePageController implements Initializable {
     AnchorPane ap;
     @FXML
     ImageView backgroundImageView;
+    @FXML
+    Pane titleBar;
     private boolean usedMinimize = false;
     Stage stage;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         playOpenAnimation();
         saveLastLogin();
-        stage = testingMain.primaryStage;
+        stage = Navigator.primaryStage;
+        Functions.move(stage,titleBar);
         optimizeImageView(backgroundImageView);
 
     }

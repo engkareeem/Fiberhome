@@ -2,6 +2,9 @@ package paltel.fiber.fiberhome.testing;
 
 import animatefx.animation.FadeIn;
 import animatefx.animation.Shake;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -9,8 +12,16 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
+import java.util.concurrent.atomic.AtomicReference;
+
+import static paltel.fiber.fiberhome.testing.Navigator.getFXMLFile;
 
 public class Functions {
+
+    private static boolean dialogOpend = false;
 
 /*                           Optimize design                                                             */
 
@@ -29,8 +40,40 @@ public class Functions {
         imageView.setImage(image);
     }
 
+/*                                                   Design functions                                                      */
+public static void move(Stage stage, Node pane) {
+    AtomicReference<Double> xOffset = new AtomicReference<>((double) 0);
+    AtomicReference<Double> yOffset = new AtomicReference<>((double) 0);
+    pane.setOnMousePressed(event -> {
+        xOffset.set(stage.getX() - event.getScreenX());
+        yOffset.set(stage.getY() - event.getScreenY());
+    });
+    pane.setOnMouseDragged(event -> {
+        stage.setX(event.getScreenX() + xOffset.get());
+        stage.setY(event.getScreenY() + yOffset.get());
+    });
+}
+
+
+/*                                                      Navigator stuff                                              */
+
+
+    public static void showDialog(String title,String description) {
+        Navigator.showPopup("dialogScene","title",title,"description",description);
+        dialogOpend = true;
+    }
+    public static void closeDialog() {
+        Navigator.closePopup();
+    }
 
 /*                                                      Validators                                                   */
+
+    public static void displayValidatingError(TextField tf,Label validator,String validateText) {
+        validator.setText(validateText);
+        tf.getStyleClass().removeAll("informationTextFields");
+        tf.getStyleClass().add("informationTextFieldsError");
+        new Shake(tf).play();
+    }
 
     public static void employeeNumberValidatorListener(TextField inputField,Label validatorLabel) {
         inputField.textProperty().addListener((obs, oldText, newText) -> {
