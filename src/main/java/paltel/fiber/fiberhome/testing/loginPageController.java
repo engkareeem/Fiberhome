@@ -153,6 +153,10 @@ public class loginPageController implements Initializable {
 /*                                   Testing Area :3                                */
 
     void login(){
+        if(testingMain.dbConnection == null){
+            //todo: show you are not connected to database with button to try to connect again
+            return;
+        }
         try {
             String loginText = loginButton.getText();
             loadingSpinner.setVisible(true);
