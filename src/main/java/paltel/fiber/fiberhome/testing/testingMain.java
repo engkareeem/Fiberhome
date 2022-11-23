@@ -26,31 +26,40 @@ public class testingMain extends Application {
 
         Navigator.setupStages();
 
-        stage.setTitle("meow meow");
+        stage.setTitle("FiberHome");
         stage.setScene(scene);
         stage.show();
     }
 
     public static void main(String[] args) {
-        new Thread(() -> {
-
-            try {
-                DriverManager.registerDriver(new
-                        OracleDriver());
-                dbConnection = DriverManager.getConnection("jdbc:oracle:thin:@//nasrallahOracle:1521/orcl", "FIBER_TEST", "oracle");
-
-                if (dbConnection == null) {
-                    // todo: show failed to connect dialog
-                }
-                System.out.println("Connected to Database Successfully");
-                dbConnection=null;
-            } catch (SQLException e) {
-                // todo: show failed to connect dialog
-                System.out.println("CONNECTION FAILED");
-                throw new RuntimeException();
-            }
-        }).start();
+        connectToDatabase();
         launch();
 
+    }
+    public static void connectToDatabase(){
+        new Thread(() -> {
+            for(int retryTimes = 1; retryTimes <= 3; retryTimes++){
+                try {
+                    //todo: show trying to connect icon and text Connecting
+                    DriverManager.registerDriver(new
+                            OracleDriver());
+                    dbConnection = DriverManager.getConnection("jdbc:oracle:thin:@//nasrallahOracle:1521/orcl", "FiberHomeAdmin", "oracle");
+                } catch (Exception e) {
+                    //todo: show reconnecting+retryTimes e.g: reconnecting1 reconnecting2 etc..
+                } finally {
+                    if (dbConnection != null) {
+                        System.out.println("Connected to Database Successfully");
+                        //todo: show connected icon and text
+                        retryTimes = 999;
+
+
+                    }
+                }
+            }
+            if(dbConnection == null){
+                System.out.println("CONNECTION FAILED");
+                // todo: show failed to connect icon and text
+            }
+        }).start();
     }
 }

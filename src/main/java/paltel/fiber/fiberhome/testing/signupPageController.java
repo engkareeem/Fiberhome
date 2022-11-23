@@ -15,9 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -119,19 +117,33 @@ public class signupPageController implements Initializable {
 
     /*                         TESTING AREA! :3                                   */
     private void signUp(){
+        if(testingMain.dbConnection == null){
+            //todo: show you are not connected to database with button to try to connect again
+            return;
+        }
         try {
             Statement statement = testingMain.dbConnection.createStatement();
             ResultSet res = statement.executeQuery("select EMPLOYEE_ID from EMPLOYEE where EMPLOYEE_ID = " + employeeNumberInput.getText());
             if(res.next()){ // checks if user exist in employee table
-                ResultSet resultSet = statement.executeQuery("select  EID from EMPLOYEE_ACCOUNT where EID = " + employeeNumberInput.getText());
+                ResultSet resultSet = statement.executeQuery("select  EID, ROLE from EMPLOYEE_ACCOUNT where EID = " + employeeNumberInput.getText());
                 if(resultSet.next()){ // checks if account is already exist
-                    Functions.displayValidatingError(employeeNumberInput,employeeNumberInputValidatorLabel,"This employee already has an account");
+                    if(resultSet.getString("Role").equals("Pending")){
+                        Functions.displayValidatingError(employeeNumberInput,employeeNumberInputValidatorLabel,"This Account is in the review section. Please wait for your approval");
+                    }else{
+                        Functions.displayValidatingError(employeeNumberInput,employeeNumberInputValidatorLabel,"This employee already has an account");
+                    }
+
                 }else{
-                    //statement.executeUpdate("INSERT INTO EMPLOYEE_ACCOUNT VALUES(" + employeeNumberInput.getText() + "," +  + "," + ",");
+                    PreparedStatement newUser = testingMain.dbConnection.prepareStatement("INSERT INTO EMPLOYEE_ACCOUNT VALUES(?, ?, ?, ?, ?)");
+                    newUser.setString(1, employeeNumberInput.getText());
+                    newUser.setString(2, passwordInput.getText());
+                    newUser.setString(3, "Pending");
+                    newUser.setNull(4, Types.DATE);
+                    newUser.setString(5, nicknameInput.getText());
+                    newUser.executeUpdate();
                 }
             }else{
                 Functions.displayValidatingError(employeeNumberInput,employeeNumberInputValidatorLabel,"There is no employee with this Employee number(EID)");
-
                 new Shake(employeeNumberInput).play();
             }
         } catch (SQLException e) {
