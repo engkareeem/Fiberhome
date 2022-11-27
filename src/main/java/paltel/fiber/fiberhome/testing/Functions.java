@@ -2,6 +2,7 @@ package paltel.fiber.fiberhome.testing;
 
 import animatefx.animation.FadeIn;
 import animatefx.animation.Shake;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -26,29 +27,34 @@ public class Functions {
 
 /*                            Data base connection Stuff                                                  */
 
-    public static void displayStatus(Scene scene,int status) {
-        // 0 connecting,1 connected, -1 failed
-        if(scene.lookup("#connectionStatusLabel") == null) return;
+    public static void displayStatus(Scene scene,int status,int tryNum) {
+        Platform.runLater(new Runnable() {
+            public void run() {
+                if(scene.lookup("#connectionStatusLabel") == null) return;
 
-        if(status == 0) {
-            scene.lookup("#connectingStatusLabel").setVisible(true);
-            scene.lookup("#connectedStatusLabel").setVisible(false);
-            scene.lookup("#notConnectedStatusLabel").setVisible(false);
-            Label label= (Label) scene.lookup("#connectionStatusLabel");
-            label.setText("Connecting ...");
-        } else if(status == 1) {
-            scene.lookup("#connectingStatusLabel").setVisible(false);
-            scene.lookup("#connectedStatusLabel").setVisible(true);
-            scene.lookup("#notConnectedStatusLabel").setVisible(false);
-            Label label= (Label) scene.lookup("#connectionStatusLabel");
-            label.setText("Connected successfully ...");
-        } else if(status == -1) {
-            scene.lookup("#connectingStatusLabel").setVisible(false);
-            scene.lookup("#connectedStatusLabel").setVisible(false);
-            scene.lookup("#notConnectedStatusLabel").setVisible(true);
-            Label label= (Label) scene.lookup("#connectionStatusLabel");
-            label.setText("Failed to connect ...");
-        }
+                if(status == 0) {
+                    scene.lookup("#connectingStatusLabel").setVisible(true);
+                    scene.lookup("#connectedStatusLabel").setVisible(false);
+                    scene.lookup("#notConnectedStatusLabel").setVisible(false);
+                    Label label= (Label) scene.lookup("#connectionStatusLabel");
+                    label.setText("Connecting ...");
+                } else if(status == 1) {
+                    scene.lookup("#connectingStatusLabel").setVisible(false);
+                    scene.lookup("#connectedStatusLabel").setVisible(true);
+                    scene.lookup("#notConnectedStatusLabel").setVisible(false);
+                    Label label= (Label) scene.lookup("#connectionStatusLabel");
+                    label.setText("Connected successfully ...");
+                } else if(status == -1) {
+                    scene.lookup("#connectingStatusLabel").setVisible(false);
+                    scene.lookup("#connectedStatusLabel").setVisible(false);
+                    scene.lookup("#notConnectedStatusLabel").setVisible(true);
+                    Label label= (Label) scene.lookup("#connectionStatusLabel");
+                    label.setText("Failed to connect ...");
+                }
+            }
+        });
+        // 0 connecting,1 connected, -1 failed
+
 
     }
 /*                           Optimize design                                                             */

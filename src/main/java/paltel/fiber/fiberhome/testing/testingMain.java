@@ -40,21 +40,27 @@ public class testingMain extends Application {
 
     }
     public static void connectToDatabase(){
+
         new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
             for(int retryTimes = 1; retryTimes <= 3; retryTimes++){
                 try {
                     //todo: show trying to connect icon and text Connecting
-                    Functions.displayStatus(stage.getScene(),0);
+                    Functions.displayStatus(stage.getScene(),0,retryTimes);
                     DriverManager.registerDriver(new
                             OracleDriver());
                     dbConnection = DriverManager.getConnection("jdbc:oracle:thin:@//nasrallahOracle:1521/orcl", "FiberHomeAdmin", "oracle");
                 } catch (Exception e) {
-                    Functions.displayStatus(stage.getScene(),0);
-
+                    Functions.displayStatus(stage.getScene(),0,retryTimes);
                     //todo: show reconnecting+retryTimes e.g: reconnecting1 reconnecting2 etc..
                 } finally {
                     if (dbConnection != null) {
                         System.out.println("Connected to Database Successfully");
+                        Functions.displayStatus(stage.getScene(),1,0);
                         //todo: show connected icon and text
                         retryTimes = 999;
 
@@ -63,6 +69,7 @@ public class testingMain extends Application {
                 }
             }
             if(dbConnection == null){
+                Functions.displayStatus(stage.getScene(),-1,0);
                 System.out.println("CONNECTION FAILED");
                 // todo: show failed to connect icon and text
             }
