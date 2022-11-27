@@ -19,19 +19,19 @@ public class testingMain extends Application {
     static Connection dbConnection;
     public static int connectionStatus = 0; // 0 connecting,1 connected, -1 failed
     public static int retrying=0;
-    Stage stage;
+    static Stage stage;
     @Override
-    public void start(Stage stage) throws IOException {
-        Navigator.primaryStage  = this.stage = stage;
+    public void start(Stage _stage) throws IOException {
+        Navigator.primaryStage  = stage = _stage;
         FXMLLoader fxmlLoader = new FXMLLoader(testingMain.class.getResource("loginPageScene.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         scene.setFill(Color.TRANSPARENT);
 
         Navigator.setupStages();
 
-        stage.setTitle("FiberHome");
-        stage.setScene(scene);
-        stage.show();
+        _stage.setTitle("FiberHome");
+        _stage.setScene(scene);
+        _stage.show();
     }
 
     public static void main(String[] args) {
@@ -44,13 +44,13 @@ public class testingMain extends Application {
             for(int retryTimes = 1; retryTimes <= 3; retryTimes++){
                 try {
                     //todo: show trying to connect icon and text Connecting
-
-                    connectionStatus=0;
-                    retrying = retryTimes;
+                    Functions.displayStatus(stage.getScene(),0);
                     DriverManager.registerDriver(new
                             OracleDriver());
                     dbConnection = DriverManager.getConnection("jdbc:oracle:thin:@//nasrallahOracle:1521/orcl", "FiberHomeAdmin", "oracle");
                 } catch (Exception e) {
+                    Functions.displayStatus(stage.getScene(),0);
+
                     //todo: show reconnecting+retryTimes e.g: reconnecting1 reconnecting2 etc..
                 } finally {
                     if (dbConnection != null) {

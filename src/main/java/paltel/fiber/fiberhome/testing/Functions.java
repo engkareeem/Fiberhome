@@ -31,7 +31,23 @@ public class Functions {
         if(scene.lookup("#connectionStatusLabel") == null) return;
 
         if(status == 0) {
-
+            scene.lookup("#connectingStatusLabel").setVisible(true);
+            scene.lookup("#connectedStatusLabel").setVisible(false);
+            scene.lookup("#notConnectedStatusLabel").setVisible(false);
+            Label label= (Label) scene.lookup("#connectionStatusLabel");
+            label.setText("Connecting ...");
+        } else if(status == 1) {
+            scene.lookup("#connectingStatusLabel").setVisible(false);
+            scene.lookup("#connectedStatusLabel").setVisible(true);
+            scene.lookup("#notConnectedStatusLabel").setVisible(false);
+            Label label= (Label) scene.lookup("#connectionStatusLabel");
+            label.setText("Connected successfully ...");
+        } else if(status == -1) {
+            scene.lookup("#connectingStatusLabel").setVisible(false);
+            scene.lookup("#connectedStatusLabel").setVisible(false);
+            scene.lookup("#notConnectedStatusLabel").setVisible(true);
+            Label label= (Label) scene.lookup("#connectionStatusLabel");
+            label.setText("Failed to connect ...");
         }
 
     }
