@@ -69,10 +69,20 @@
          </children>
       </Pane>
       <Pane fx:id="disablePane" prefHeight="600.0" prefWidth="900.0" styleClass="disablePane" visible="false" />
-      <Label layoutX="22.0" layoutY="583.0" styleClass="secondaryText" text="Connecting to server" />
-      <ImageView fitHeight="12.0" fitWidth="12.0" layoutX="6.0" layoutY="584.0" pickOnBounds="true" preserveRatio="true">
+      <Label fx:id="connectionStatusLabel" layoutX="23.0" layoutY="583.8" styleClass="secondaryText" text="Connecting to server" />
+      <ImageView fx:id="connectedStatusLabel" fitHeight="12.0" fitWidth="12.0" layoutX="6.0" layoutY="584.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@assets/maximizehold.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="connectingStatusLabel" fitHeight="12.0" fitWidth="12.0" layoutX="6.0" layoutY="584.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@assets/minimizehold.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="notConnectedStatusLabel" fitHeight="12.0" fitWidth="12.0" layoutX="6.0" layoutY="584.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@assets/closehold.png" />
          </image>
       </ImageView>
    </children>

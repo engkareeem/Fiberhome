@@ -73,6 +73,8 @@ public class loginPageController implements Initializable {
 
     @FXML
     MFXProgressSpinner loadingSpinner;
+    @FXML
+    ImageView connectedStatusLabel,connectingStatusLabel,notConnectedStatusLabel;
 
     private boolean usedMinimize = false;
 

@@ -23,6 +23,18 @@ public class Functions {
 
     private static boolean dialogOpend = false;
 
+
+/*                            Data base connection Stuff                                                  */
+
+    public static void displayStatus(Scene scene,int status) {
+        // 0 connecting,1 connected, -1 failed
+        if(scene.lookup("#connectionStatusLabel") == null) return;
+
+        if(status == 0) {
+
+        }
+
+    }
 /*                           Optimize design                                                             */
 
     public static void optimizeImageView(ImageView imageView) {

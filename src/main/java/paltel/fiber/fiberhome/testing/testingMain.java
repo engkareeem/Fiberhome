@@ -17,10 +17,13 @@ import java.sql.SQLException;
 public class testingMain extends Application {
 
     static Connection dbConnection;
+    public static int connectionStatus = 0; // 0 connecting,1 connected, -1 failed
+    public static int retrying=0;
+    Stage stage;
     @Override
     public void start(Stage stage) throws IOException {
-        Navigator.primaryStage  = stage;
-        FXMLLoader fxmlLoader = new FXMLLoader(testingMain.class.getResource("homePageScene.fxml"));
+        Navigator.primaryStage  = this.stage = stage;
+        FXMLLoader fxmlLoader = new FXMLLoader(testingMain.class.getResource("loginPageScene.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         scene.setFill(Color.TRANSPARENT);
 
@@ -41,6 +44,9 @@ public class testingMain extends Application {
             for(int retryTimes = 1; retryTimes <= 3; retryTimes++){
                 try {
                     //todo: show trying to connect icon and text Connecting
+
+                    connectionStatus=0;
+                    retrying = retryTimes;
                     DriverManager.registerDriver(new
                             OracleDriver());
                     dbConnection = DriverManager.getConnection("jdbc:oracle:thin:@//nasrallahOracle:1521/orcl", "FiberHomeAdmin", "oracle");
