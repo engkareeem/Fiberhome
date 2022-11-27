@@ -1,22 +1,28 @@
 package paltel.fiber.fiberhome.testing;
 
 import animatefx.animation.*;
+import io.github.palexdev.materialfx.controls.MFXPaginatedTableView;
+import io.github.palexdev.materialfx.controls.MFXTableColumn;
+import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
+import io.github.palexdev.materialfx.filter.StringFilter;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
+import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import paltel.fiber.fiberhome.testing.objects.Employee;
 
 import java.net.URL;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 
 import static paltel.fiber.fiberhome.testing.Functions.*;
@@ -29,6 +35,8 @@ public class homePageController implements Initializable {
     ImageView backgroundImageView;
     @FXML
     Pane titleBar;
+    @FXML
+    MFXPaginatedTableView<Employee> employeesTable;
     private boolean usedMinimize = false;
     Stage stage;
     @Override
@@ -38,7 +46,47 @@ public class homePageController implements Initializable {
         stage = Navigator.primaryStage;
         Functions.move(stage,titleBar);
         optimizeImageView(backgroundImageView);
+        setupTable();
+    }
+    private void setupTable() {
+        // ***** IF YOU NEED TO EDIT ANYTHING, LEAVE COMMENT.. **********
 
+
+        // Edit this if you need
+        // I will find solution for column width :3
+        MFXTableColumn<Employee> idColumn = new MFXTableColumn<>("ID", false, Comparator.comparing(Employee::getEid));
+        MFXTableColumn<Employee> FNameColumn = new MFXTableColumn<>("FName", false, Comparator.comparing(Employee::getFname));
+        MFXTableColumn<Employee> MNameColumn = new MFXTableColumn<>("MName", false, Comparator.comparing(Employee::getMname));
+        MFXTableColumn<Employee> LNameColumn = new MFXTableColumn<>("LName", false, Comparator.comparing(Employee::getLname));
+        MFXTableColumn<Employee> districtColumn = new MFXTableColumn<>("District", false, Comparator.comparing(Employee::getDistrict));
+        MFXTableColumn<Employee> jobPositionColumn = new MFXTableColumn<>("Job Position", false, Comparator.comparing(Employee::getJobPos));
+
+        ObservableList<Employee> employees;
+
+        // TODO: Get employees data here
+        //                               v
+        employees = FXCollections.observableArrayList(
+                new Employee("0","234879234","Ahmad","Majah","Salameh",LocalDate.now(),"Doctor",'M',"Admin") ,
+                new Employee("0","234879234","Ahmad","Majah","Salameh",LocalDate.now(),"Doctor",'M',"Admin")
+        );
+        idColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(Employee::getEid));
+        FNameColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(Employee::getFname));
+        MNameColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(Employee::getMname));
+        LNameColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(Employee::getLname));
+        districtColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(Employee::getDistrict));
+        jobPositionColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(Employee::getJobPos) {{
+            setAlignment(Pos.CENTER_LEFT);
+        }});
+        employeesTable.getTableColumns().addAll(idColumn, FNameColumn, MNameColumn, LNameColumn, districtColumn,jobPositionColumn);
+        employeesTable.getFilters().addAll(
+                new StringFilter<>("ID", Employee::getEid),
+                new StringFilter<>("FName", Employee::getFname),
+                new StringFilter<>("MName", Employee::getMname),
+                new StringFilter<>("LName", Employee::getLname),
+                new StringFilter<>("District", Employee::getDistrict),
+                new StringFilter<>("Job Position", Employee::getJobPos)
+        );
+        employeesTable.setItems(employees);
     }
     private void saveLastLogin(){
 
@@ -51,14 +99,14 @@ public class homePageController implements Initializable {
 //                    throw new RuntimeException(e);
 //                }
 //            }
-            try {
-
-                Statement statement = testingMain.dbConnection.createStatement();
-                statement.executeUpdate("update EMPLOYEE_ACCOUNT set LAST_LOGIN = TO_DATE('" + timeStamp + "', 'yyyy-mm-dd HH24:mi:ss') where EID = " + Navigator.getValue("eid"));
-            } catch (SQLException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
+//            try {
+//
+//                Statement statement = testingMain.dbConnection.createStatement();
+//                statement.executeUpdate("update EMPLOYEE_ACCOUNT set LAST_LOGIN = TO_DATE('" + timeStamp + "', 'yyyy-mm-dd HH24:mi:ss') where EID = " + Navigator.getValue("eid"));
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//                throw new RuntimeException(e);
+//            }
         }).start();
     }
     private void playOpenAnimation(){

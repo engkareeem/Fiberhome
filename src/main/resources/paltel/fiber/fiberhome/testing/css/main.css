@@ -1,5 +1,5 @@
 * {
-    -fx-application-background-color: #141318;
+    -fx-application-background-color: #16151a;
     -fx-application-popup-background-color:#1b1b21;
     -fx-application-popup-background-border-color:#5e5e63;
 
@@ -30,6 +30,7 @@
     -fx-information-field-text-color:rgba(255, 255, 255, 0.78);
 
 
+
 }
 .root {
     -fx-background-color: -fx-application-background-color;
@@ -43,6 +44,15 @@
     -fx-background-color: transparent;
 }
 
+.nav-button{
+    -fx-background-color: transparent;
+    -fx-text-fill: #d5d5d5;
+    -fx-font-size: 15;
+}
+.nav-button:hover{
+    -fx-background-color: rgba(255, 255, 255, 0.24);
+
+}
 
 .primaryButton {
     -fx-background-color: -fx-primary-button-color;

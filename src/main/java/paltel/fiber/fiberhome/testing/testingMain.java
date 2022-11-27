@@ -20,7 +20,7 @@ public class testingMain extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         Navigator.primaryStage  = stage;
-        FXMLLoader fxmlLoader = new FXMLLoader(testingMain.class.getResource("loginPageScene.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(testingMain.class.getResource("homePageScene.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         scene.setFill(Color.TRANSPARENT);
 

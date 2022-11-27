@@ -1,0 +1,72 @@
+*{
+    -fx-table-border-color: #272727;
+    -fx-table-background-color:transparent;
+}
+
+#homeNavBarVBox{
+    -fx-background-color: #121216;
+    -fx-effect: dropshadow(three-pass-box, rgba(158, 158, 158, 0.06),5, 0, 5.0,  0.0);
+    -fx-spacing: 10;
+    -fx-background-radius: 15 0 0 15;
+}
+
+
+.mfx-pagination .pages-bar {
+    -fx-background-color: -fx-table-background-color;
+    -fx-border-color: -fx-table-border-color;
+    -fx-border-radius: 30;
+    -fx-padding: 0 10 0 10;
+}
+
+.mfx-pagination .mfx-icon-wrapper {
+    -fx-background-color: #2c2c2c;
+}
+
+.mfx-pagination .mfx-ripple-generator {
+    -mfx-ripple-radius: 24;
+}
+.mfx-pagination .mfx-page {
+    -fx-text-fill: grey;
+}
+.mfx-pagination .mfx-page:selected {
+    -fx-background-color: transparent;
+    -fx-effect: dropshadow(gaussian, rgba(213, 213, 213, 0.2), 15, 0.16, 2, 4);
+    -fx-font-size: 14;
+    -fx-text-fill: white;
+}
+
+.mfx-table-view .columns-container .mfx-table-column{
+    -fx-text-fill: #c3c3c3;
+    -fx-font-size: 12;
+    -fx-font-weight: BOLD;
+    -fx-border-color: transparent transparent transparent transparent;
+}
+.mfx-table-view .columns-container{
+    -fx-border-color: transparent transparent -fx-table-border-color transparent;
+}
+.mfx-table-view .default-footer {
+    -fx-border-color: -fx-table-border-color transparent transparent transparent;
+    -fx-padding: 10;
+}
+.mfx-paginated-table-view{
+    -fx-background-color: -fx-table-background-color;
+    -fx-border-color: -fx-table-border-color;
+}
+.mfx-table-row-cell{
+    -fx-text-fill: #c3c3c3;
+    -fx-font-size: 12;
+}
+.mfx-table-row {
+    -fx-background-color: transparent;
+}
+
+.mfx-table-row:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.07);
+}
+.mfx-table-row .mfx-ripple-generator {
+    -mfx-ripple-radius: 30;
+    -mfx-ripple-color: rgba(255, 255, 255, 0.11);
+}
+.mfx-table-row:selected {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+}
