@@ -37,7 +37,6 @@ public class homePageController implements Initializable {
     Pane titleBar;
     @FXML
     MFXPaginatedTableView<Employee> employeesTable;
-    private boolean usedMinimize = false;
     Stage stage;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -52,7 +51,7 @@ public class homePageController implements Initializable {
         // ***** IF YOU NEED TO EDIT ANYTHING, LEAVE COMMENT.. **********
 
 
-        // Edit this if you need
+        // Edit this if you need,
         // I will find solution for column width :3
         MFXTableColumn<Employee> idColumn = new MFXTableColumn<>("ID", false, Comparator.comparing(Employee::getEid));
         MFXTableColumn<Employee> FNameColumn = new MFXTableColumn<>("FName", false, Comparator.comparing(Employee::getFname));
@@ -66,6 +65,15 @@ public class homePageController implements Initializable {
         // TODO: Get employees data here
         //                               v
         employees = FXCollections.observableArrayList(
+                new Employee("0","234879234","Ahmad","Majah","Salameh",LocalDate.now(),"Doctor",'M',"Admin") ,
+                new Employee("0","234879234","Ahmad","Majah","Salameh",LocalDate.now(),"Doctor",'M',"Admin") ,
+                new Employee("0","234879234","Ahmad","Majah","Salameh",LocalDate.now(),"Doctor",'M',"Admin") ,
+                new Employee("0","234879234","Ahmad","Majah","Salameh",LocalDate.now(),"Doctor",'M',"Admin") ,
+                new Employee("0","234879234","Ahmad","Majah","Salameh",LocalDate.now(),"Doctor",'M',"Admin") ,
+                new Employee("0","234879234","Ahmad","Majah","Salameh",LocalDate.now(),"Doctor",'M',"Admin") ,
+                new Employee("0","234879234","Ahmad","Majah","Salameh",LocalDate.now(),"Doctor",'M',"Admin") ,
+                new Employee("0","234879234","Ahmad","Majah","Salameh",LocalDate.now(),"Doctor",'M',"Admin") ,
+                new Employee("0","234879234","Ahmad","Majah","Salameh",LocalDate.now(),"Doctor",'M',"Admin") ,
                 new Employee("0","234879234","Ahmad","Majah","Salameh",LocalDate.now(),"Doctor",'M',"Admin") ,
                 new Employee("0","234879234","Ahmad","Majah","Salameh",LocalDate.now(),"Doctor",'M',"Admin")
         );
@@ -132,7 +140,6 @@ public class homePageController implements Initializable {
 
     @FXML
     public void minimize(MouseEvent e){
-        usedMinimize = true;
         AnimationFX minimizeAnimation = new ZoomOutDown(ap);
         minimizeAnimation.setOnFinished((event) -> {
             stage.setIconified(true);
