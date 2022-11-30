@@ -11,4 +11,6 @@ module paltel.fiber.fiberhome.testing {
 
     opens paltel.fiber.fiberhome.testing to javafx.fxml;
     exports paltel.fiber.fiberhome.testing;
+    exports paltel.fiber.fiberhome.testing.homecontroller;
+    opens paltel.fiber.fiberhome.testing.homecontroller to javafx.fxml;
 }

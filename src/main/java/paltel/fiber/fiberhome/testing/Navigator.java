@@ -18,7 +18,7 @@ public class Navigator {
     private static Stack<Scene> screens = new Stack<>(); // reacted with or thumb
     private static Stage currentStage = null;
 
-    static Stage primaryStage;
+    public static Stage primaryStage;
     static Stage popupStage;
 
     public static FXMLLoader getFXMLFile(String sceneName){

@@ -11,8 +11,38 @@
     -fx-background-radius: 15 30 30 15;
 }
 
+#employeeDisplayLabel .font-icon{
 
+}
 
+.mfx-filter-dialog #headerLabel {
+    -fx-background-color: black;
+    -fx-border-color: black;
+    -mfx-font-family: "Open Sans SemiBold";
+}
+.mfx-filter-pane {
+    -mfx-main: #1453af;
+    -mfx-main-light: white;
+    -mfx-main-lighter: white;
+    -mfx-gray: grey;
+
+    -fx-background-color: -fx-application-background-color;
+    -fx-background-radius: 10;
+    -fx-padding: 7 14 7 14;
+}
+
+.mfx-filter-dialog {
+    -mfx-base-color: rgb(225, 0, 0);
+}
+.mfx-filter-pane .mfx-button {
+    -fx-pref-width: 135;
+    -fx-pref-height: 36;
+    -fx-background-color: white;
+    -fx-background-radius: 15;
+    -fx-text-fill: white;
+
+    -fx-font-family: "Open Sans Bold";
+}
 
 
 
