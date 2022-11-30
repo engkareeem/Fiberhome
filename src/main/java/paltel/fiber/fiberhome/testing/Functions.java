@@ -1,9 +1,7 @@
 package paltel.fiber.fiberhome.testing;
 
-import animatefx.animation.FadeIn;
 import animatefx.animation.Shake;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
@@ -14,42 +12,72 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import static paltel.fiber.fiberhome.testing.Navigator.getFXMLFile;
+import static paltel.fiber.fiberhome.testing.Functions.DialogType.*;
 
 public class Functions {
 
     private static boolean dialogOpend = false;
+    enum DialogType{
+        ERROR_DIALOG,
+        WARNING_DIALOG,
+        SUCCESSFUL_DIALOG,
+        INFORMATION_DIALOG,
+    }
+    enum Errors{
+        // شملت كلشي مع الايرورز لانه عقلي مش قادر يعطيني اسم يشملهم كلهم، مشيها
+        // اذا طلع معك اسم منيح سوي للاينم ريفاكتور
+        // DEFAULT ERRORS OR TYPES
+        SUCCESSFUL(SUCCESSFUL_DIALOG),
+        WARNING(WARNING_DIALOG),
+        INFORMATION(INFORMATION_DIALOG),
+        ERROR(ERROR_DIALOG),
 
+        // Custom Types
+
+        CONNECTION_ERROR(ERROR_DIALOG),
+        NONE(null);
+
+        private final DialogType dialogType;
+
+        Errors(DialogType dialogType) {
+            this.dialogType = dialogType;
+        }
+        DialogType getType() {
+            return dialogType;
+        }
+    }
 
 /*                            Data base connection Stuff                                                  */
 
     public static void displayStatus(Scene scene,int status,int tryNum) {
         Platform.runLater(new Runnable() {
             public void run() {
-                if(scene.lookup("#connectionStatusLabel") == null) return;
+                if(scene == null || scene.lookup("#connectionStatusLabel") == null) return;
 
                 if(status == 0) {
                     scene.lookup("#connectingStatusLabel").setVisible(true);
                     scene.lookup("#connectedStatusLabel").setVisible(false);
                     scene.lookup("#notConnectedStatusLabel").setVisible(false);
                     Label label= (Label) scene.lookup("#connectionStatusLabel");
-                    label.setText("Connecting ...");
+                    if(tryNum <= 1) label.setText("Connecting ...");
+                    else {
+                        label.setText("Reconnecting " + tryNum + " ...");
+                    }
                 } else if(status == 1) {
                     scene.lookup("#connectingStatusLabel").setVisible(false);
                     scene.lookup("#connectedStatusLabel").setVisible(true);
                     scene.lookup("#notConnectedStatusLabel").setVisible(false);
                     Label label= (Label) scene.lookup("#connectionStatusLabel");
-                    label.setText("Connected successfully ...");
+                    label.setText("Connected successfully");
                 } else if(status == -1) {
                     scene.lookup("#connectingStatusLabel").setVisible(false);
                     scene.lookup("#connectedStatusLabel").setVisible(false);
                     scene.lookup("#notConnectedStatusLabel").setVisible(true);
                     Label label= (Label) scene.lookup("#connectionStatusLabel");
-                    label.setText("Failed to connect ...");
+                    label.setText("Failed to connect");
                 }
             }
         });
@@ -89,11 +117,16 @@ public static void move(Stage stage, Node pane) {
 }
 
 
-/*                                                      Navigator stuff                                              */
+    /*                                                      Navigator stuff                                              */
+    public static void showDialog(String description) {
+        showDialog(description,null,null,Errors.INFORMATION);
+    }
+    public static void showDialog(String description,Errors type) {
+        showDialog(description,null,null,type);
+    }
 
-
-    public static void showDialog(String title,String description) {
-        Navigator.showPopup("dialogScene","title",title,"description",description);
+    public static void showDialog(String description,String buttonText1,String buttonText2,Errors type) {
+        Navigator.showPopup("dialogScene","description",description,"button1",buttonText1,"button2",buttonText2,"type",type);
         dialogOpend = true;
     }
     public static void closeDialog() {

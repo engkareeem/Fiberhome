@@ -20,10 +20,11 @@ public class testingMain extends Application {
     public static int connectionStatus = 0; // 0 connecting,1 connected, -1 failed
     public static int retrying=0;
     static Stage stage;
+    private static boolean whileThread = false;
     @Override
     public void start(Stage _stage) throws IOException {
         Navigator.primaryStage  = stage = _stage;
-        FXMLLoader fxmlLoader = new FXMLLoader(testingMain.class.getResource("loginPageScene.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(testingMain.class.getResource("homePageScene.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         scene.setFill(Color.TRANSPARENT);
 
@@ -36,12 +37,20 @@ public class testingMain extends Application {
 
     public static void main(String[] args) {
         connectToDatabase();
+        try {
+            DriverManager.registerDriver(new OracleDriver());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         launch();
 
     }
     public static void connectToDatabase(){
-
-        new Thread(() -> {
+        System.out.println("PING");
+        if(whileThread) return;
+        Thread connectionThread = new Thread(() -> {
+            System.out.println("PONG");
+            whileThread = true;
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -49,30 +58,30 @@ public class testingMain extends Application {
             }
             for(int retryTimes = 1; retryTimes <= 3; retryTimes++){
                 try {
-                    //todo: show trying to connect icon and text Connecting
                     Functions.displayStatus(stage.getScene(),0,retryTimes);
-                    DriverManager.registerDriver(new
-                            OracleDriver());
-                    dbConnection = DriverManager.getConnection("jdbc:oracle:thin:@//nasrallahOracle:1521/orcl", "FiberHomeAdmin", "oracle");
+                    connectionStatus = 0;
+                    retrying = retryTimes;
+                    dbConnection = DriverManager.getConnection("jdbc:oracle:thin:@//nasrallahOracle:1521/orcl", "FIBER_TEST", "oracle");
                 } catch (Exception e) {
                     Functions.displayStatus(stage.getScene(),0,retryTimes);
-                    //todo: show reconnecting+retryTimes e.g: reconnecting1 reconnecting2 etc..
+                    System.out.println(retryTimes);
                 } finally {
                     if (dbConnection != null) {
                         System.out.println("Connected to Database Successfully");
                         Functions.displayStatus(stage.getScene(),1,0);
-                        //todo: show connected icon and text
+                        connectionStatus = 1;
                         retryTimes = 999;
-
-
                     }
                 }
             }
             if(dbConnection == null){
                 Functions.displayStatus(stage.getScene(),-1,0);
+                connectionStatus = -1;
                 System.out.println("CONNECTION FAILED");
-                // todo: show failed to connect icon and text
+                whileThread = false;
             }
-        }).start();
+        });
+
+        connectionThread.start();
     }
 }

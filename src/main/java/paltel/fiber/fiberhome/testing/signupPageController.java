@@ -118,7 +118,6 @@ public class signupPageController implements Initializable {
     /*                         TESTING AREA! :3                                   */
     private void signUp(){
         if(testingMain.dbConnection == null){
-            //todo: show you are not connected to database with button to try to connect again
             return;
         }
         try {
@@ -160,7 +159,7 @@ public class signupPageController implements Initializable {
     public void signupButtonClicked() {
         boolean isValid = true;
         if(testingMain.dbConnection == null) {
-            Functions.showDialog("Connection failed","Something went wrong while connection");
+            Functions.showDialog("You are not connected to server","Reconnect","Cancel",Errors.CONNECTION_ERROR);
             return;
         }
         if(!validateNickname(nicknameInput, nicknameInputValidatorLabel)) {

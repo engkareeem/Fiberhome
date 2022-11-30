@@ -82,12 +82,12 @@ public class loginPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         employeeNumberValidatorListener(employeeNumberInput,employeeNumberInputValidatorLabel);
         passwordValidatorListener(passwordInput,passwordInputValidatorLabel);
         Functions.optimizeImageView(backgroundImageView);
         stage = Navigator.primaryStage;
         Functions.move(stage,titleBar);
-
 
 
         playOpenAnimation();
@@ -155,10 +155,6 @@ public class loginPageController implements Initializable {
 /*                                   Testing Area :3                                */
 
     void login(){
-        if(testingMain.dbConnection == null){
-            //todo: show you are not connected to database with button to try to connect again
-            return;
-        }
         try {
             String loginText = loginButton.getText();
             loadingSpinner.setVisible(true);
@@ -195,7 +191,7 @@ public class loginPageController implements Initializable {
     public void loginButtonClicked() {
         boolean isValid = true;
         if(testingMain.dbConnection == null) {
-            Functions.showDialog("Connection failed","Something went wrong while connection");
+            Functions.showDialog("You are not connected to server","Reconnect","Cancel",Errors.CONNECTION_ERROR);
             return;
         }
         if(!validateEmployeeNumber(employeeNumberInput, employeeNumberInputValidatorLabel)) {

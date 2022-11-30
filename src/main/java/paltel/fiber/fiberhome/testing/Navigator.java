@@ -91,7 +91,7 @@ public class Navigator {
             newScene.getStylesheets().addAll(currentStage.getScene().getStylesheets()); // sending all styles sheets for new scene
             currentStage.setScene(newScene);
             currentStage.show();
-
+            if(screens.peek() != null) Functions.displayStatus(screens.peek(),testingMain.connectionStatus,testingMain.retrying);
         }catch (Exception exception){
             exception.printStackTrace();
         }
@@ -130,6 +130,8 @@ public class Navigator {
         if(screens.size() > 1){
             screens.pop();
             currentStage.setScene(screens.peek());
+            if(screens.peek() != null) Functions.displayStatus(screens.peek(),testingMain.connectionStatus,testingMain.retrying);
+
         }else {
             currentStage.close();
         }

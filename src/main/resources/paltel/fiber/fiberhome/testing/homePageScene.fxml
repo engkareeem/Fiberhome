@@ -37,29 +37,38 @@
                   <FontIcon iconColor="#00a0d7" iconLiteral="fltfmz-person-28" iconSize="50" layoutX="14.0" layoutY="68.0" />
                </children>
             </Pane>
-            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="198.0" styleClass="nav-button" text="Dashboard">
+            <Button fx:id="dashboardNavButton" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#dashboardNavButtonClicked" prefHeight="45.0" prefWidth="198.0" styleClass="nav-button" text="Dashboard">
                <padding>
                   <Insets left="20.0" />
                </padding>
                <graphic>
                   <FontIcon iconColor="#a6a6a6" iconLiteral="fltfal-app-folder-24" iconSize="20" wrappingWidth="35.0" />
                </graphic>
+               <VBox.margin>
+                  <Insets left="4.0" />
+               </VBox.margin>
             </Button>
-            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="198.0" styleClass="nav-button" text="Employees">
+            <Button fx:id="employeesNavButton" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#employeesNavButtonClicked" prefHeight="45.0" prefWidth="198.0" styleClass="nav-button" text="Employees">
                <padding>
                   <Insets left="20.0" />
                </padding>
                <graphic>
-                  <FontIcon iconColor="#a6a6a6" iconLiteral="fltfmz-person-accounts-24" iconSize="20" wrappingWidth="35.0" />
+                  <FontIcon fx:id="icon" iconColor="#a6a6a6" iconLiteral="fltfmz-person-accounts-24" iconSize="20" wrappingWidth="35.0" />
                </graphic>
+               <VBox.margin>
+                  <Insets left="4.0" />
+               </VBox.margin>
             </Button>
-            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="198.0" styleClass="nav-button" text="Control Panel">
+            <Button fx:id="controlPanelNavButton" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#controlPanelNavButtonClicked" prefHeight="45.0" prefWidth="198.0" styleClass="nav-button" text="Control Panel">
                <graphic>
                   <FontIcon iconColor="#a6a6a6" iconLiteral="fltfmz-slide-text-28" iconSize="20" wrappingWidth="35.0" />
                </graphic>
                <padding>
                   <Insets left="20.0" />
                </padding>
+               <VBox.margin>
+                  <Insets left="4.0" />
+               </VBox.margin>
             </Button>
             <Pane prefHeight="418.0" prefWidth="200.0">
                <children>
@@ -75,9 +84,20 @@
             </Pane>
          </children>
       </VBox>
-      <Pane fx:id="employeePane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0">
+      <Pane fx:id="dashboardPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" visible="false">
          <children>
-            <MFXPaginatedTableView fx:id="employeesTable" layoutX="7.0" layoutY="403.0" prefHeight="250.0" prefWidth="887.0" />
+            <Label layoutX="361.0" layoutY="330.0" styleClass="headerText" text="Thats a dashboard :D" />
+         </children>
+      </Pane>
+      <Pane fx:id="employeesPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0">
+         <children>
+            <MFXPaginatedTableView fx:id="employeesTable" layoutX="20.0" layoutY="404.0" prefHeight="250.0" prefWidth="860.0" />
+            <MFXPaginatedTableView fx:id="employeesTable" layoutX="491.0" layoutY="80.0" prefHeight="312.0" prefWidth="389.0" visible="false" />
+         </children>
+      </Pane>
+      <Pane fx:id="controlPanelPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" visible="false">
+         <children>
+            <Label layoutX="345.0" layoutY="330.0" styleClass="headerText" text="Thats a Control Panel :D" />
          </children>
       </Pane>
    </children>

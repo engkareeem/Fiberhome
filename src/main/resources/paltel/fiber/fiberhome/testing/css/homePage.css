@@ -1,11 +1,11 @@
 *{
-    -fx-table-border-color: #272727;
+    -fx-table-border-color: #0281c6;
     -fx-table-background-color:transparent;
 }
 
 #homeNavBarVBox{
     /*TODO: round sign out button*/
-    -fx-background-color: #121216;
+    -fx-background-color: -fx-nav-bar-background-color;
     -fx-effect: dropshadow(three-pass-box, rgba(158, 158, 158, 0.06),5, 0, 5.0,  0.0);
     -fx-spacing: 10;
     -fx-background-radius: 15 30 30 15;
@@ -21,6 +21,7 @@
 .mfx-paginated-table-view{
     -fx-background-color: -fx-table-background-color;
     -fx-border-color: -fx-table-border-color;
+    -fx-border-radius: 20;
 }
 .mfx-table-row-cell{
     -fx-text-fill: #c3c3c3;
@@ -48,14 +49,25 @@
     -fx-border-color: transparent transparent transparent transparent;
 }
 .mfx-table-view .columns-container{
-    -fx-border-color: transparent transparent -fx-table-border-color transparent;
+    -fx-border-color: transparent transparent #0281c6 transparent;
 }
 
 
 /*           Table footer              */
 .mfx-table-view .default-footer {
-    -fx-border-color: -fx-table-border-color transparent transparent transparent;
+    -fx-border-color: #0281c6 transparent transparent transparent;
     -fx-padding: 10;
+}
+/*.mfx-table-view .default-footer .mfx-icon-wrapper  {*/
+/*    -fx-background-color: transparent;*/
+/*    -fx-border-color: #00a0d7;*/
+/*    -fx-border-radius: 50;*/
+/*}*/
+.mfx-table-view .default-footer .mfx-icon-wrapper .mfx-font-icon {
+    -mfx-color: #00a0d7;
+}
+#filterIcon {
+    -fx-background-color: white;
 }
 /*          Table Pages bar             */
 .mfx-pagination .mfx-page {
@@ -76,7 +88,9 @@
 }
 
 .mfx-pagination .mfx-icon-wrapper {
-    -fx-background-color: #00a0d7;
+    -fx-background-color: transparent;
+    -fx-border-radius: 50;
+    -fx-border-color: #00a0d7;
 }
 
 .mfx-pagination .mfx-ripple-generator {
