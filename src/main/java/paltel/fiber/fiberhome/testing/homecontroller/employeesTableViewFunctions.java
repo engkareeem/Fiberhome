@@ -7,14 +7,18 @@ import io.github.palexdev.materialfx.filter.StringFilter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
-import paltel.fiber.fiberhome.testing.objects.Employee;
+import paltel.fiber.fiberhome.testing.DBapi;
+import paltel.fiber.fiberhome.testing.model.Employee;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Comparator;
 
 public class employeesTableViewFunctions {
     public static void initializeTableView(MFXTableView<Employee> tableview) {
         // ***** IF YOU NEED TO EDIT ANYTHING, LEAVE COMMENT.. **********
+
+
+
 
 
         // Edit this if you need,
@@ -30,19 +34,11 @@ public class employeesTableViewFunctions {
 
         // TODO: Get employees data here
         //                               v
-        employees = FXCollections.observableArrayList(
-                new Employee("0","234879234","Ahmad","Majah","Salameh", LocalDate.now(),"Doctor",'M',"Admin") ,
-                new Employee("0","234879234","Kareem","Majah","Salameh",LocalDate.now(),"Doctor",'M',"Admin") ,
-                new Employee("0","234879234","Samaaneh","Majah","Salameh",LocalDate.now(),"Doctor",'M',"Admin") ,
-                new Employee("0","234879234","Saadeh","Majah","Salameh",LocalDate.now(),"Doctor",'M',"Admin") ,
-                new Employee("0","234879234","Hala","Majah","Salameh",LocalDate.now(),"Doctor",'M',"Admin") ,
-                new Employee("0","234879234","Router","Majah","Salameh",LocalDate.now(),"Doctor",'M',"Admin") ,
-                new Employee("0","234879234","Fridge","Majah","Salameh",LocalDate.now(),"Doctor",'M',"Admin") ,
-                new Employee("0","234879234","Laptop","Majah","Salameh",LocalDate.now(),"Doctor",'M',"Admin") ,
-                new Employee("0","234879234","Keyboard","Majah","Salameh",LocalDate.now(),"Doctor",'M',"Admin") ,
-                new Employee("0","234879234","Toy","Majah","Salameh",LocalDate.now(),"Doctor",'M',"Admin") ,
-                new Employee("0","234879234","Suberb double terbo","Majah","Salameh",LocalDate.now(),"Doctor",'M',"Admin")
-        );
+
+
+        employees = FXCollections.observableArrayList();
+        ArrayList<Employee> employeeArrayList = DBapi.getAllEmployees();
+        employees.addAll(employeeArrayList);
 
         idColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(Employee::getEid));
         FNameColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(Employee::getFname));

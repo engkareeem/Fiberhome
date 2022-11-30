@@ -24,7 +24,7 @@ public class testingMain extends Application {
     @Override
     public void start(Stage _stage) throws IOException {
         Navigator.primaryStage  = stage = _stage;
-        FXMLLoader fxmlLoader = new FXMLLoader(testingMain.class.getResource("homePageScene.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(testingMain.class.getResource("loginPageScene.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         scene.setFill(Color.TRANSPARENT);
 
@@ -61,7 +61,7 @@ public class testingMain extends Application {
                     Functions.displayStatus(stage.getScene(),0,retryTimes);
                     connectionStatus = 0;
                     retrying = retryTimes;
-                    dbConnection = DriverManager.getConnection("jdbc:oracle:thin:@//nasrallahOracle:1521/orcl", "FIBER_TEST", "oracle");
+                    dbConnection = DriverManager.getConnection("jdbc:oracle:thin:@//nasrallahOracle:1521/orcl", "FiberHomeAdmin", "oracle");
                 } catch (Exception e) {
                     Functions.displayStatus(stage.getScene(),0,retryTimes);
                     System.out.println(retryTimes);

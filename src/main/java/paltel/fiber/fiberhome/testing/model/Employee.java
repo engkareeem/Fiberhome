@@ -1,22 +1,22 @@
-package paltel.fiber.fiberhome.testing.objects;
+package paltel.fiber.fiberhome.testing.model;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 public class Employee {
     private String eid;
     private String idNum;
     private String fname,mname,lname;
-    private LocalDate birthdate;
+    private Date birthdate;
     private String district;
     private char sex;
     private String jobPos;
     public Employee() {
         eid=idNum=fname=mname=lname=district=jobPos="";
-        birthdate=LocalDate.now();
+        birthdate=null;
         sex='N';
     }
 
-    public Employee(String eid, String idNum, String fname, String mname, String lname, LocalDate birthdate, String district, char sex, String jobPos) {
+    public Employee(String eid, String idNum, String fname, String mname, String lname, Date birthdate, String district, char sex, String jobPos) {
         this.eid = eid;
         this.idNum = idNum;
         this.fname = fname;
@@ -48,7 +48,7 @@ public class Employee {
         return lname;
     }
 
-    public LocalDate getBirthdate() {
+    public Date getBirthdate() {
         return birthdate;
     }
 
@@ -84,7 +84,7 @@ public class Employee {
         this.lname = lname;
     }
 
-    public void setBirthdate(LocalDate birthdate) {
+    public void setBirthdate(Date birthdate) {
         this.birthdate = birthdate;
     }
 
