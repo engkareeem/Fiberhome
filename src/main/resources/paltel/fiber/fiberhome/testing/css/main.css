@@ -44,23 +44,7 @@
     -fx-background-color: transparent;
 }
 
-.nav-button{
-    -fx-background-color: -fx-nav-bar-background-color;
-    -fx-text-fill: #d5d5d5;
-    -fx-font-size: 15;
-    -fx-padding: 0 0 0 20;
-}
 
-.selected-nav-button{
-    -fx-background-color: -fx-nav-bar-background-color;
-    /*-fx-background-radius: 30;*/
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 191, 255, 0.3),5, 0, -4,  4);
-    -fx-padding: 0 0 0 30;
-}
-.nav-button:hover{
-    -fx-font-weight: BOLD;
-    -fx-fill: white;
-}
 
 .primaryButton {
     -fx-background-color: -fx-primary-button-color;

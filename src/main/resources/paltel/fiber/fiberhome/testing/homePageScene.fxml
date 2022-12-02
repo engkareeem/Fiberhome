@@ -34,46 +34,59 @@
                <children>
                   <Label layoutX="70.0" layoutY="26.0" styleClass="primaryText" text="Kareem M. Yaqoup" />
                   <Label layoutX="71.0" layoutY="47.0" styleClass="secondaryText" text="Admin" />
-                  <Line endX="160.0" layoutX="19.0" layoutY="74.0" stroke="#8c8c8c6e" />
                   <FontIcon iconColor="#00a0d7" iconLiteral="fltfmz-person-28" iconSize="50" layoutX="14.0" layoutY="68.0" />
+                  <Pane fx:id="radiusPane00" layoutX="174.0" layoutY="70.0" prefHeight="40.0" prefWidth="26.0" styleClass="pseudo-radius-activated" visible="false" />
+                  <Pane fx:id="radiusPane01" layoutX="144.0" layoutY="59.0" prefHeight="45.0" prefWidth="56.0" visible="false" />
+                  <Line endX="160.0" layoutX="19.0" layoutY="74.0" stroke="#8c8c8c6e" />
                </children>
             </Pane>
-            <Button fx:id="dashboardNavButton" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#dashboardNavButtonClicked" prefHeight="45.0" prefWidth="198.0" styleClass="nav-button" text="Dashboard">
-               <padding>
-                  <Insets left="20.0" />
-               </padding>
-               <graphic>
-                  <FontIcon iconColor="#a6a6a6" iconLiteral="fltfal-app-folder-24" iconSize="20" wrappingWidth="35.0" />
-               </graphic>
-               <VBox.margin>
-                  <Insets left="4.0" />
-               </VBox.margin>
-            </Button>
-            <Button fx:id="employeesNavButton" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#employeesNavButtonClicked" prefHeight="45.0" prefWidth="198.0" styleClass="nav-button" text="Employees">
-               <padding>
-                  <Insets left="20.0" />
-               </padding>
-               <graphic>
-                  <FontIcon fx:id="icon" iconColor="#a6a6a6" iconLiteral="fltfmz-person-accounts-24" iconSize="20" wrappingWidth="35.0" />
-               </graphic>
-               <VBox.margin>
-                  <Insets left="4.0" />
-               </VBox.margin>
-            </Button>
-            <Button fx:id="controlPanelNavButton" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#controlPanelNavButtonClicked" prefHeight="45.0" prefWidth="198.0" styleClass="nav-button" text="Control Panel">
-               <graphic>
-                  <FontIcon iconColor="#a6a6a6" iconLiteral="fltfmz-slide-text-28" iconSize="20" wrappingWidth="35.0" />
-               </graphic>
-               <padding>
-                  <Insets left="20.0" />
-               </padding>
-               <VBox.margin>
-                  <Insets left="4.0" />
-               </VBox.margin>
-            </Button>
-            <Pane prefHeight="418.0" prefWidth="200.0">
+            <Pane prefHeight="44.0" prefWidth="200.0">
                <children>
-                  <Button alignment="BASELINE_LEFT" layoutY="373.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="178.0" styleClass="nav-button" text="Sign out">
+                  <Button fx:id="navButton1" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#dashboardNavButtonClicked" prefHeight="45.0" prefWidth="200.0" styleClass="nav-button" text="Dashboard">
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                     <graphic>
+                        <FontIcon iconColor="#a6a6a6" iconLiteral="fltfal-app-folder-24" iconSize="20" wrappingWidth="35.0" />
+                     </graphic>
+                  </Button>
+                  <Pane fx:id="radiusPane10" layoutX="174.0" prefHeight="45.0" prefWidth="26.0" styleClass="pseudo-radius-activated" visible="false" />
+                  <Pane fx:id="radiusPane11" layoutX="144.0" prefHeight="45.0" prefWidth="56.0" visible="false" />
+               </children>
+            </Pane>
+            <Pane prefHeight="44.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="navButton2" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#employeesNavButtonClicked" prefHeight="45.0" prefWidth="200.0" styleClass="nav-button" text="Employees">
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                     <graphic>
+                        <FontIcon fx:id="icon" iconColor="#a6a6a6" iconLiteral="fltfmz-person-accounts-24" iconSize="20" wrappingWidth="35.0" />
+                     </graphic>
+                  </Button>
+                  <Pane fx:id="radiusPane20" layoutX="174.0" prefHeight="45.0" prefWidth="26.0" styleClass="pseudo-radius-activated" visible="false" />
+                  <Pane fx:id="radiusPane21" layoutX="144.0" prefHeight="45.0" prefWidth="56.0" visible="false" />
+               </children>
+            </Pane>
+            <Pane prefHeight="44.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="navButton3" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#controlPanelNavButtonClicked" prefHeight="45.0" prefWidth="200.0" styleClass="nav-button" text="Control Panel">
+                     <graphic>
+                        <FontIcon iconColor="#a6a6a6" iconLiteral="fltfmz-slide-text-28" iconSize="20" wrappingWidth="35.0" />
+                     </graphic>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </Button>
+                  <Pane fx:id="radiusPane30" layoutX="174.0" prefHeight="45.0" prefWidth="26.0" styleClass="pseudo-radius-activated" visible="false" />
+                  <Pane fx:id="radiusPane31" layoutX="144.0" prefHeight="45.0" prefWidth="56.0" visible="false" />
+               </children>
+            </Pane>
+            <Pane prefHeight="452.0" prefWidth="200.0">
+               <children>
+                  <Pane fx:id="radiusPane40" layoutX="174.0" prefHeight="40.0" prefWidth="26.0" styleClass="pseudo-radius-activated" visible="false" />
+                  <Pane fx:id="radiusPane41" layoutX="144.0" layoutY="2.0" prefHeight="45.0" prefWidth="56.0" visible="false" />
+                  <Button alignment="BASELINE_LEFT" layoutY="407.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="178.0" styleClass="nav-button" text="Sign out">
                      <graphic>
                         <FontIcon iconColor="#a6a6a6" iconLiteral="fltfmz-sign-out-20" iconSize="20" nodeOrientation="RIGHT_TO_LEFT" rotate="180.0" wrappingWidth="35.0" />
                      </graphic>

@@ -40,7 +40,7 @@ public class homePageController implements Initializable {
     @FXML
     Pane dashboardPane,employeesPane,controlPanelPane;
     @FXML
-    Button dashboardNavButton,employeesNavButton,controlPanelNavButton;
+    Button navButton1,navButton2,navButton3;
     @FXML
     MFXPaginatedTableView<Employee> employeesTable;
     @FXML
@@ -49,7 +49,7 @@ public class homePageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 //        playOpenAnimation();
-        switchNavButton(employeesNavButton);
+//        switchNavButton(navButton2);
 
         saveLastLogin();
         stage = Navigator.primaryStage;
@@ -93,15 +93,14 @@ public class homePageController implements Initializable {
         dashboardPane.setVisible(true);
         employeesPane.setVisible(false);
         controlPanelPane.setVisible(false);
-        switchNavButton(dashboardNavButton);
-
+        switchNavButton(navButton1);
     }
     @FXML
     public void employeesNavButtonClicked() {
         dashboardPane.setVisible(false);
         employeesPane.setVisible(true);
         controlPanelPane.setVisible(false);
-        switchNavButton(employeesNavButton);
+        switchNavButton(navButton2);
     }
 
 
@@ -110,7 +109,7 @@ public class homePageController implements Initializable {
         dashboardPane.setVisible(false);
         employeesPane.setVisible(false);
         controlPanelPane.setVisible(true);
-        switchNavButton(controlPanelNavButton);
+        switchNavButton(navButton3);
     }
 
     /*              Employees table view stuff                      */
@@ -141,18 +140,40 @@ public class homePageController implements Initializable {
     }
 
     private void switchNavButton(Button button) {
-        if(button.equals(dashboardNavButton)) {
-            dashboardNavButton.getStyleClass().add("selected-nav-button");
-            employeesNavButton.getStyleClass().removeAll("selected-nav-button");
-            controlPanelNavButton.getStyleClass().removeAll("selected-nav-button");
-        } else if(button.equals(employeesNavButton)) {
-            dashboardNavButton.getStyleClass().removeAll("selected-nav-button");
-            employeesNavButton.getStyleClass().add("selected-nav-button");
-            controlPanelNavButton.getStyleClass().removeAll("selected-nav-button");
-        } else if(button.equals(controlPanelNavButton)) {
-            dashboardNavButton.getStyleClass().removeAll("selected-nav-button");
-            employeesNavButton.getStyleClass().removeAll("selected-nav-button");
-            controlPanelNavButton.getStyleClass().add("selected-nav-button");
+        int buttonIndex = Integer.parseInt(String.valueOf(button.getId().charAt(9))); // assume we have 9 buttons maximum;
+
+        resetNavBarButtons();
+
+        Pane higherPane = (Pane) stage.getScene().lookup("#radiusPane" + (buttonIndex-1) + "1");
+        Pane lowerPane = (Pane) stage.getScene().lookup("#radiusPane" + (buttonIndex+1) + "1");
+        Pane pHigherPane = (Pane) stage.getScene().lookup("#radiusPane" + (buttonIndex-1) + "0");
+        Pane pLowerPane = (Pane) stage.getScene().lookup("#radiusPane" + (buttonIndex+1) + "0");
+        higherPane.getStyleClass().add("higher-radius-activated");
+        lowerPane.getStyleClass().add("lower-radius-activated");
+        button.getStyleClass().add("selected-nav-button");
+
+        higherPane.setVisible(true);
+        lowerPane.setVisible(true);
+        pHigherPane.setVisible(true);
+        pLowerPane.setVisible(true);
+    }
+    private void resetNavBarButtons() {
+        int index=0;
+        Pane pane = (Pane) stage.getScene().lookup("#radiusPane" + (index) + "1");
+        while(pane !=null) {
+            pane.getStyleClass().removeAll("higher-radius-activated","lower-radius-activated");
+            pane.setVisible(false);
+            pane = (Pane) stage.getScene().lookup("#radiusPane" + (index) + "0");
+            pane.setVisible(false);
+
+            index++;
+            pane = (Pane) stage.getScene().lookup("#radiusPane" + (index) + "1");
+        }
+        index = 1;
+        Button button = (Button) stage.getScene().lookup("#navButton" + (index++));
+        while(button != null) {
+            button.getStyleClass().removeAll("selected-nav-button");
+            button = (Button) stage.getScene().lookup("#navButton" + (index++));
         }
     }
 
