@@ -5,3 +5,15 @@
     -fx-border-color: rgba(128, 128, 128, 0.12);
     -fx-border-radius: 15;
 }
+#profileScrollPaneCard{
+    -fx-background-color: -fx-application-background-color;
+    -fx-background-radius: 15;
+}
+
+
+#profileScrollPaneCard .scroll-bar:vertical .track {
+    -fx-background-color: -fx-application-background-color;
+}
+#profileScrollPaneCard .scroll-bar:vertical .thumb{
+    -fx-background-color: #005876;
+}

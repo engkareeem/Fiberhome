@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -43,6 +44,20 @@ public class homePageController implements Initializable {
     Button navButton1,navButton2,navButton3;
     @FXML
     MFXPaginatedTableView<Employee> employeesTable;
+
+
+    /*                  Employee info         */
+    @FXML
+    Pane employeeInfoPane;
+    @FXML
+    Label employeeInfoEmpName,employeeInfoEmpId,employeeInfoBirthdate,
+            employeeInfoEmpAge,employeeInfoJobPos,employeeInfoEmpDistrict,employeeInfoLastLogin;
+    @FXML
+    Label employeeInfoCurrentProjectName,employeeInfoCurrentProjectId,employeeInfoCurrentProjectContractor,
+            employeeInfoCurrentProjectType,employeeInfoCurrentProjectStartDate,employeeInfoCurrentProjectDueDate
+            ,employeeInfoCurrentProjectStreet,employeeInfoCurrentProjectCity;
+
+
     Stage stage;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
