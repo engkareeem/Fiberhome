@@ -1,16 +1,19 @@
 package paltel.fiber.fiberhome.testing.homecontroller;
 
 import animatefx.animation.*;
+import io.github.palexdev.materialfx.controls.MFXListView;
 import io.github.palexdev.materialfx.controls.MFXPaginatedTableView;
 import io.github.palexdev.materialfx.selection.base.IMultipleSelectionModel;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import paltel.fiber.fiberhome.testing.DBapi;
 import paltel.fiber.fiberhome.testing.Functions;
@@ -40,19 +43,24 @@ public class homePageController implements Initializable {
     Button dashboardNavButton,employeesNavButton,controlPanelNavButton;
     @FXML
     MFXPaginatedTableView<Employee> employeesTable;
-
+    @FXML
+    MFXListView<String> bindingUsersListView;
     Stage stage;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        playOpenAnimation();
+//        playOpenAnimation();
+        switchNavButton(employeesNavButton);
+
         saveLastLogin();
         stage = Navigator.primaryStage;
         Functions.move(stage,titleBar);
-        optimizeImageView(backgroundImageView);
+        Functions.optimizeImageView(backgroundImageView);
         setupTable();
+
+        //        bindingUsersListViewFunctions.initializeListView(bindingUsersListView);
     }
     private void setupTable() {
-        initializeTableView(employeesTable);
+        employeesTableViewFunctions.initializeTableView(employeesTable);
     }
     private void saveLastLogin(){
 
@@ -79,8 +87,6 @@ public class homePageController implements Initializable {
         ZoomIn openingAnimation = new ZoomIn(ap);
         openingAnimation.setOnFinished(event -> {});
         openingAnimation.play();
-
-
     }
     @FXML
     public void dashboardNavButtonClicked() {
@@ -96,7 +102,6 @@ public class homePageController implements Initializable {
         employeesPane.setVisible(true);
         controlPanelPane.setVisible(false);
         switchNavButton(employeesNavButton);
-
     }
 
 
@@ -112,10 +117,7 @@ public class homePageController implements Initializable {
 
     @FXML
     public void employeeDisplayClicked() {
-        IMultipleSelectionModel<Employee> selectionModel = employeesTable.getSelectionModel();
-        Collection<Employee> selected = selectionModel.getSelection().values();
-        Employee emp = (Employee) selected.toArray()[0];
-        // TODO: Selected employee in employees tableview
+        employeesTableViewFunctions.employeeDisplayClicked();
     }
 
     @FXML

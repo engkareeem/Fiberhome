@@ -5,7 +5,7 @@ module paltel.fiber.fiberhome.testing {
     requires MaterialFX;
     requires java.sql;
     requires com.jfoenix;
-    requires ojdbc8;
+    requires com.oracle.database.jdbc;
     requires org.kordamp.ikonli.javafx;
 
 

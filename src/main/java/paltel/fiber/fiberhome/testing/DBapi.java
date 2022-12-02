@@ -12,6 +12,9 @@ public class DBapi {
     public static Connection connection = testingMain.dbConnection;
 
 
+    // TODO: Get User information by userID
+    // TODO: Get Employee information by EID
+
     // Employees
     private static Employee getEmployeeFromRow(ResultSet res) throws SQLException {
         Employee employee = new Employee();
