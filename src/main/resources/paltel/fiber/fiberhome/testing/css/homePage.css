@@ -1,6 +1,7 @@
 *{
     -fx-table-border-color: #0281c6;
     -fx-table-background-color:transparent;
+    -fx-primary-button-color: #0281c6;
 }
 
 #homeNavBarVBox{

@@ -5,10 +5,12 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
@@ -36,7 +38,7 @@
                   <Label layoutX="71.0" layoutY="47.0" styleClass="secondaryText" text="Admin" />
                   <FontIcon iconColor="#00a0d7" iconLiteral="fltfmz-person-28" iconSize="50" layoutX="14.0" layoutY="68.0" />
                   <Pane fx:id="radiusPane00" layoutX="174.0" layoutY="70.0" prefHeight="40.0" prefWidth="26.0" styleClass="pseudo-radius-activated" visible="false" />
-                  <Pane fx:id="radiusPane01" layoutX="144.0" layoutY="59.0" prefHeight="45.0" prefWidth="56.0" visible="false" />
+                  <Pane fx:id="radiusPane01" layoutX="160.0" layoutY="59.0" prefHeight="45.0" prefWidth="40.0" visible="false" />
                   <Line endX="160.0" layoutX="19.0" layoutY="74.0" stroke="#8c8c8c6e" />
                </children>
             </Pane>
@@ -51,7 +53,7 @@
                      </graphic>
                   </Button>
                   <Pane fx:id="radiusPane10" layoutX="174.0" prefHeight="45.0" prefWidth="26.0" styleClass="pseudo-radius-activated" visible="false" />
-                  <Pane fx:id="radiusPane11" layoutX="144.0" prefHeight="45.0" prefWidth="56.0" visible="false" />
+                  <Pane fx:id="radiusPane11" layoutX="160.0" prefHeight="45.0" prefWidth="40.0" visible="false" />
                </children>
             </Pane>
             <Pane prefHeight="44.0" prefWidth="200.0">
@@ -65,7 +67,7 @@
                      </graphic>
                   </Button>
                   <Pane fx:id="radiusPane20" layoutX="174.0" prefHeight="45.0" prefWidth="26.0" styleClass="pseudo-radius-activated" visible="false" />
-                  <Pane fx:id="radiusPane21" layoutX="144.0" prefHeight="45.0" prefWidth="56.0" visible="false" />
+                  <Pane fx:id="radiusPane21" layoutX="160.0" prefHeight="45.0" prefWidth="40.0" visible="false" />
                </children>
             </Pane>
             <Pane prefHeight="44.0" prefWidth="200.0">
@@ -79,14 +81,14 @@
                      </padding>
                   </Button>
                   <Pane fx:id="radiusPane30" layoutX="174.0" prefHeight="45.0" prefWidth="26.0" styleClass="pseudo-radius-activated" visible="false" />
-                  <Pane fx:id="radiusPane31" layoutX="144.0" prefHeight="45.0" prefWidth="56.0" visible="false" />
+                  <Pane fx:id="radiusPane31" layoutX="160.0" prefHeight="45.0" prefWidth="40.0" styleClass="lower-radius-activated" />
                </children>
             </Pane>
             <Pane prefHeight="452.0" prefWidth="200.0">
                <children>
                   <Pane fx:id="radiusPane40" layoutX="174.0" prefHeight="40.0" prefWidth="26.0" styleClass="pseudo-radius-activated" visible="false" />
-                  <Pane fx:id="radiusPane41" layoutX="144.0" layoutY="2.0" prefHeight="45.0" prefWidth="56.0" visible="false" />
-                  <Button alignment="BASELINE_LEFT" layoutY="407.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="178.0" styleClass="nav-button" text="Sign out">
+                  <Pane fx:id="radiusPane41" layoutX="160.0" layoutY="2.0" prefHeight="45.0" prefWidth="40.0" visible="false" />
+                  <Button alignment="BASELINE_LEFT" layoutY="414.0" mnemonicParsing="false" onAction="#signOutClicked" prefHeight="38.0" prefWidth="178.0" styleClass="nav-button" text="Sign out">
                      <graphic>
                         <FontIcon iconColor="#a6a6a6" iconLiteral="fltfmz-sign-out-20" iconSize="20" nodeOrientation="RIGHT_TO_LEFT" rotate="180.0" wrappingWidth="35.0" />
                      </graphic>
@@ -103,12 +105,7 @@
             <Label layoutX="361.0" layoutY="330.0" styleClass="headerText" text="Thats a dashboard :D" />
          </children>
       </Pane>
-      <Pane fx:id="controlPanelPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" visible="false">
-         <children>
-            <Label layoutX="345.0" layoutY="330.0" styleClass="headerText" text="Thats a Control Panel :D" />
-         </children>
-      </Pane>
-      <Pane fx:id="employeesPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0">
+      <Pane fx:id="employeesPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" visible="false">
          <children>
             <MFXPaginatedTableView fx:id="employeesTable" layoutX="15.0" layoutY="404.0" prefHeight="250.0" prefWidth="870.0" />
             <Label fx:id="employeeDisplayLabel" layoutX="119.0" layoutY="626.0" onMouseClicked="#employeeDisplayClicked" textFill="#00a0d7">
@@ -195,6 +192,59 @@
                      </font>
                   </Label>
                </children></Pane>
+         </children>
+      </Pane>
+      <Pane fx:id="controlPanelPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" visible="false">
+         <children>
+            <Label layoutX="345.0" layoutY="330.0" styleClass="headerText" text="Thats a Control Panel :D" />
+         </children>
+      </Pane>
+      <Pane fx:id="displayPage" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/displayPage.css">
+         <children>
+            <Pane fx:id="profileCard" layoutX="14.0" layoutY="39.0" prefHeight="582.0" prefWidth="297.0">
+               <children>
+                  <StackPane layoutY="7.0" prefHeight="177.0" prefWidth="297.0">
+                     <children>
+                        <FontIcon iconColor="#00a0d7" iconLiteral="fltfmz-person-28" iconSize="100" />
+                     </children>
+                  </StackPane>
+                  <Label layoutX="77.0" layoutY="184.0" text="Employee Profile" textFill="#cfcfcf">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="18.0" layoutY="260.0" text="Kareem Mazen Yaqoup" textFill="#cfcfcf">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="20.0" layoutY="293.0" text="Department Manager" textFill="#b9b9b9">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Separator layoutX="18.0" layoutY="290.0" opacity="0.21" prefHeight="1.0" prefWidth="261.0" />
+                  <Label layoutX="252.0" layoutY="265.0" text="0005" textFill="#cfcfcf" />
+                  <Button layoutX="85.0" layoutY="497.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="128.0" styleClass="primaryButton" text="Edit" />
+                  <Label layoutX="249.0" layoutY="296.0" text="Nablus" textFill="#c9c9c9">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="17.0" layoutY="366.0" text="11/9/2001" textFill="#cfcfcf">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="19.0" layoutY="398.0" text="Last login 3/8/2022" textFill="#b9b9b9">
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                  </Label>
+                  <Separator layoutX="17.0" layoutY="395.0" opacity="0.21" prefHeight="1.0" prefWidth="261.0" />
+                  <Label layoutX="251.0" layoutY="371.0" text="21 yo" textFill="#cfcfcf" />
+               </children>
+            </Pane>
          </children>
       </Pane>
    </children>

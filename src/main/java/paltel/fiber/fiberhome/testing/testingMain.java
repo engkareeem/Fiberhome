@@ -61,7 +61,7 @@ public class testingMain extends Application {
                     Functions.displayStatus(stage.getScene(),0,retryTimes);
                     connectionStatus = 0;
                     retrying = retryTimes;
-                    dbConnection = DriverManager.getConnection("jdbc:oracle:thin:@//nasrallahOracle:1521/orcl", "FiberHomeAdmin", "oracle");
+                    dbConnection = DriverManager.getConnection("jdbc:oracle:thin:@//nasrallahOracle:1521/orcl", "FIBER_TEST", "oracle");
                 } catch (Exception e) {
                     Functions.displayStatus(stage.getScene(),0,retryTimes);
                     System.out.println(retryTimes);

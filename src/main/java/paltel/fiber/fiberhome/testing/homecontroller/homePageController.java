@@ -43,16 +43,14 @@ public class homePageController implements Initializable {
     Button navButton1,navButton2,navButton3;
     @FXML
     MFXPaginatedTableView<Employee> employeesTable;
-    @FXML
-    MFXListView<String> bindingUsersListView;
     Stage stage;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 //        playOpenAnimation();
-//        switchNavButton(navButton2);
 
         saveLastLogin();
         stage = Navigator.primaryStage;
+//        switchNavButton(navButton2);
         Functions.move(stage,titleBar);
         Functions.optimizeImageView(backgroundImageView);
         setupTable();
@@ -88,6 +86,8 @@ public class homePageController implements Initializable {
         openingAnimation.setOnFinished(event -> {});
         openingAnimation.play();
     }
+
+    /*                   Nav bar stuff                    */
     @FXML
     public void dashboardNavButtonClicked() {
         dashboardPane.setVisible(true);
@@ -112,12 +112,17 @@ public class homePageController implements Initializable {
         switchNavButton(navButton3);
     }
 
-    /*              Employees table view stuff                      */
-
+    @FXML
+    public void signOutClicked() {
+        // TODO: sign out button clicked
+    }
+    /*               display Employee stuff                     */
     @FXML
     public void employeeDisplayClicked() {
         employeesTableViewFunctions.employeeDisplayClicked();
     }
+
+
 
     @FXML
     public void close(MouseEvent e){
