@@ -20,6 +20,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import paltel.fiber.fiberhome.testing.homecontroller.homePageController;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -82,6 +83,7 @@ public class loginPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         employeeNumberValidatorListener(employeeNumberInput,employeeNumberInputValidatorLabel);
         passwordValidatorListener(passwordInput,passwordInputValidatorLabel);
         Functions.optimizeImageView(backgroundImageView);
@@ -159,23 +161,23 @@ public class loginPageController implements Initializable {
             loadingSpinner.setVisible(true);
             loginButton.setText("");
             Statement statement = testingMain.dbConnection.createStatement();
-//            ResultSet res = statement.executeQuery("select * from employee_account where eid = " + employeeNumberInput.getText());
-            ResultSet res = statement.executeQuery("select * from employee_account where eid = " + "6969");
+            ResultSet res = statement.executeQuery("select * from employee_account where eid = " + employeeNumberInput.getText());
 
             if(res.next()){
-//                if(res.getString("password").equals(passwordInput.getText())){
-                if(res.getString("password").equals("123456789")){
+               if(res.getString("password").equals(passwordInput.getText())){
                    ZoomOut switchAnimation = new ZoomOut(ap);
                    switchAnimation.setOnFinished(event -> {
                        Navigator.pushNamedReplacementWithArgs("homePageScene", "eid", employeeNumberInput.getText());
                    });
                    switchAnimation.play();
                    System.out.println("logged in as " + res.getString("role"));
-                }else{
+                   loadingSpinner.setVisible(false);
+                   loginButton.setText(loginText);
+               }else{
                    Functions.displayValidatingError(passwordInput,passwordInputValidatorLabel,"Wrong Password Entered");
-                }
-                loadingSpinner.setVisible(false);
-                loginButton.setText(loginText);
+                   loadingSpinner.setVisible(false);
+                   loginButton.setText(loginText);
+               }
             } else {
                 Functions.displayValidatingError(employeeNumberInput,employeeNumberInputValidatorLabel,"User was not Found");
 
@@ -188,7 +190,6 @@ public class loginPageController implements Initializable {
     }
     @FXML
     public void loginButtonClicked() {
-        login();
         boolean isValid = true;
         if(testingMain.dbConnection == null) {
             Functions.showDialog("You are not connected to server","Reconnect","Cancel",Errors.CONNECTION_ERROR);

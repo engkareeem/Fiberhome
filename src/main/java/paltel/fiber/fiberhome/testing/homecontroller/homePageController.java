@@ -4,6 +4,10 @@ import animatefx.animation.*;
 import io.github.palexdev.materialfx.controls.MFXListView;
 import io.github.palexdev.materialfx.controls.MFXPaginatedTableView;
 import io.github.palexdev.materialfx.selection.base.IMultipleSelectionModel;
+import paltel.fiber.fiberhome.testing.model.Contractor;
+import paltel.fiber.fiberhome.testing.model.Project;
+import paltel.fiber.fiberhome.testing.model.User;
+import paltel.fiber.fiberhome.testing.testingMain;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,11 +26,14 @@ import paltel.fiber.fiberhome.testing.Navigator;
 import paltel.fiber.fiberhome.testing.model.Employee;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.ResourceBundle;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.*;
 
+import static java.util.Calendar.*;
+import static paltel.fiber.fiberhome.testing.DBapi.*;
 import static paltel.fiber.fiberhome.testing.Functions.*;
 import static paltel.fiber.fiberhome.testing.homecontroller.employeesTableViewFunctions.initializeTableView;
 
@@ -45,13 +52,20 @@ public class homePageController implements Initializable {
     @FXML
     MFXPaginatedTableView<Employee> employeesTable;
 
-
-    /*                  Employee info         */
     @FXML
     Pane employeeInfoPane;
+
+    Pane currentPane;
+
+    private boolean usedMinimize = false;
+
+
+
+    /*                  Employee info         */
+
     @FXML
-    Label employeeInfoEmpName,employeeInfoEmpId,employeeInfoBirthdate,
-            employeeInfoEmpAge,employeeInfoJobPos,employeeInfoEmpDistrict,employeeInfoLastLogin;
+    Label employeeInfoEmpName,employeeInfoEmpId,employeeInfoEmpBirthdate,
+            employeeInfoEmpAge,employeeInfoEmpJobPos,employeeInfoEmpDistrict,employeeInfoLastLogin;
     @FXML
     Label employeeInfoCurrentProjectName,employeeInfoCurrentProjectId,employeeInfoCurrentProjectContractor,
             employeeInfoCurrentProjectType,employeeInfoCurrentProjectStartDate,employeeInfoCurrentProjectDueDate
@@ -61,8 +75,7 @@ public class homePageController implements Initializable {
     Stage stage;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//        playOpenAnimation();
-
+        playOpenAnimation();
         saveLastLogin();
         stage = Navigator.primaryStage;
 //        switchNavButton(navButton2);
@@ -70,7 +83,18 @@ public class homePageController implements Initializable {
         Functions.optimizeImageView(backgroundImageView);
         setupTable();
 
-        //        bindingUsersListViewFunctions.initializeListView(bindingUsersListView);
+        stage.iconifiedProperty().addListener((observableValue, aBoolean, iconified) -> {
+            if(iconified && !usedMinimize) {
+
+                new ZoomOutDown(ap).setSpeed(2).play();
+                usedMinimize = false;
+
+            }else{
+                new ZoomInUp(ap).setSpeed(2).play();
+
+            }
+        });
+
     }
     private void setupTable() {
         employeesTableViewFunctions.initializeTableView(employeesTable);
@@ -109,6 +133,7 @@ public class homePageController implements Initializable {
         employeesPane.setVisible(false);
         controlPanelPane.setVisible(false);
         switchNavButton(navButton1);
+        currentPane = dashboardPane;
     }
     @FXML
     public void employeesNavButtonClicked() {
@@ -116,6 +141,7 @@ public class homePageController implements Initializable {
         employeesPane.setVisible(true);
         controlPanelPane.setVisible(false);
         switchNavButton(navButton2);
+        currentPane = employeesPane;
     }
 
 
@@ -125,16 +151,114 @@ public class homePageController implements Initializable {
         employeesPane.setVisible(false);
         controlPanelPane.setVisible(true);
         switchNavButton(navButton3);
+        currentPane = controlPanelPane;
     }
 
     @FXML
     public void signOutClicked() {
-        // TODO: sign out button clicked
+        AnimationFX closeAnimation = new ZoomOutUp(ap);
+        closeAnimation.setOnFinished((event) -> {
+            Platform.exit();
+            System.exit(0);
+        });
+        closeAnimation.play();
+
     }
     /*               display Employee stuff                     */
+
+    /*
+
+    @FXML
+    Label employeeInfoEmpName,employeeInfoEmpId,employeeInfoBirthdate,
+            employeeInfoEmpAge,employeeInfoJobPos,employeeInfoEmpDistrict,employeeInfoLastLogin;
+    */
+    int getAge(Date firstDate, Date secondDate) {
+        Calendar firstYear = getCalendar(firstDate);
+        Calendar secondYear = getCalendar(secondDate);
+        int numOfYears = secondYear.get(YEAR) - firstYear.get(YEAR);
+        if (firstYear.get(MONTH) > secondYear.get(MONTH) ||
+                (firstYear.get(MONTH) == secondYear.get(MONTH) && firstYear.get(DATE) > secondYear.get(DATE))) {
+            numOfYears--;
+        }
+        return numOfYears;
+    }
+    Calendar getCalendar(Date date) {
+        Calendar calendar = Calendar.getInstance(Locale.getDefault());
+        calendar.setTime(date);
+        return calendar;
+    }
     @FXML
     public void employeeDisplayClicked() {
-        employeesTableViewFunctions.employeeDisplayClicked();
+
+        Employee employee = employeesTableViewFunctions.employeeDisplayClicked();
+        SimpleDateFormat birthdateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat projectDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat lastLoginFormat = new SimpleDateFormat("dd/MM/yyyy - hh:mm aa");
+
+        new Thread(() -> {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    User user = getUserInfo(employee.getEid());
+                    employeeInfoLastLogin.setText("last login: " + lastLoginFormat.format(user.getLastLogin()));
+                }
+            });
+
+        }).start();
+
+        new Thread(() -> {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    Project project = getCurrentProject(employee.getEid());
+                    if(project.getProjectId().isEmpty()){
+                        employeeInfoCurrentProjectName.setText("");
+                        employeeInfoCurrentProjectCity.setText("");
+                        employeeInfoCurrentProjectType.setText("");
+                        employeeInfoCurrentProjectId.setText("");
+                        employeeInfoCurrentProjectStartDate.setText("");
+                        employeeInfoCurrentProjectStreet.setText("");
+                        employeeInfoCurrentProjectDueDate.setText("");
+                        employeeInfoCurrentProjectContractor.setText("");
+
+                    }else{
+                        Contractor contractor = getContractorInfo(project.getContractorId());
+                        employeeInfoCurrentProjectName.setText(project.getCity() + " " + project.getProjType());
+                        employeeInfoCurrentProjectCity.setText("");
+                        employeeInfoCurrentProjectType.setText("");
+                        employeeInfoCurrentProjectId.setText(project.getProjectId());
+                        employeeInfoCurrentProjectStartDate.setText(projectDateFormat.format(project.getStartDate()));
+                        employeeInfoCurrentProjectDueDate.setText(projectDateFormat.format(project.getDueDate()));
+                        employeeInfoCurrentProjectStreet.setText(project.getCity() + " - " + (project.getStreet().isEmpty() ? "" : project.getStreet()));
+                        employeeInfoCurrentProjectContractor.setText("contractor: " + contractor.getFname() + " " + contractor.getLname());
+                    }
+
+
+                }
+            });
+
+        }).start();
+        /*
+        @FXML
+        Label employeeInfoCurrentProjectName,employeeInfoCurrentProjectId,employeeInfoCurrentProjectContractor,
+                employeeInfoCurrentProjectType,employeeInfoCurrentProjectStartDate,employeeInfoCurrentProjectDueDate
+                ,employeeInfoCurrentProjectStreet,employeeInfoCurrentProjectCity;
+
+     */
+
+        employeeInfoEmpName.setText(employee.getFname() + " " + employee.getMname() + " " + employee.getLname());
+        employeeInfoEmpId.setText(employee.getEid());
+        employeeInfoEmpBirthdate.setText(birthdateFormat.format(employee.getBirthdate()));
+        employeeInfoEmpJobPos.setText(employee.getJobPos());
+        employeeInfoEmpAge.setText(getAge(employee.getBirthdate(), new Date()) + " yo");
+        employeeInfoEmpDistrict.setText(employee.getDistrict());
+
+
+        currentPane.setVisible(false);
+        employeeInfoPane.setVisible(true);
+
+
+
     }
 
 

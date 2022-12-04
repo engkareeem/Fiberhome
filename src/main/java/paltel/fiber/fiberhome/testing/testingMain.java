@@ -16,7 +16,7 @@ import java.sql.SQLException;
 
 public class testingMain extends Application {
 
-    static Connection dbConnection;
+    public static Connection dbConnection;
     public static int connectionStatus = 0; // 0 connecting,1 connected, -1 failed
     public static int retrying=0;
     static Stage stage;
@@ -61,7 +61,7 @@ public class testingMain extends Application {
                     Functions.displayStatus(stage.getScene(),0,retryTimes);
                     connectionStatus = 0;
                     retrying = retryTimes;
-                    dbConnection = DriverManager.getConnection("jdbc:oracle:thin:@//nasrallahOracle:1521/orcl", "FIBER_TEST", "oracle");
+                    dbConnection = DriverManager.getConnection("jdbc:oracle:thin:@//nasrallahOracle:1521/orcl", "FiberHomeAdmin", "oracle");
                 } catch (Exception e) {
                     Functions.displayStatus(stage.getScene(),0,retryTimes);
                     System.out.println(retryTimes);

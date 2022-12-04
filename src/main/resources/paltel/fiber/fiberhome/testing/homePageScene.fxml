@@ -203,7 +203,7 @@
       </Pane>
       <Pane fx:id="employeeInfoPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/displayPage.css" visible="false">
          <children>
-            <Pane fx:id="profileCard" layoutX="66.0" layoutY="39.0" prefHeight="582.0" prefWidth="297.0">
+            <Pane fx:id="profileCard" layoutX="14.0" layoutY="39.0" prefHeight="582.0" prefWidth="297.0">
                <children>
                   <StackPane layoutY="7.0" prefHeight="177.0" prefWidth="297.0">
                      <children>

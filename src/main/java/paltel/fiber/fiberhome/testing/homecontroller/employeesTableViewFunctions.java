@@ -7,17 +7,18 @@ import io.github.palexdev.materialfx.filter.StringFilter;
 import io.github.palexdev.materialfx.selection.base.IMultipleSelectionModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Pos;
 import paltel.fiber.fiberhome.testing.DBapi;
 import paltel.fiber.fiberhome.testing.model.Employee;
 
 import java.util.ArrayList;
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Comparator;
 
+
+
 public class employeesTableViewFunctions {
     static MFXTableView<Employee> employeesTable;
+
     public static void initializeTableView(MFXTableView<Employee> tableview) {
         employeesTable=tableview;
 
@@ -68,11 +69,11 @@ public class employeesTableViewFunctions {
         );
         tableview.setItems(employees);
     }
-    public static void employeeDisplayClicked() {
+    public static Employee employeeDisplayClicked() {
         IMultipleSelectionModel<Employee> selectionModel = employeesTable.getSelectionModel();
         Collection<Employee> selected = selectionModel.getSelection().values();
-        Employee emp = (Employee) selected.toArray()[0];
-        System.out.println(emp.getFname());
-        // TODO: Selected employee in employees tableview
+        return (Employee) selected.toArray()[0];
+
+
     }
 }
