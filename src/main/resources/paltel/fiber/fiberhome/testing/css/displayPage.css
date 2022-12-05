@@ -21,7 +21,7 @@
 }
 .info-field{
     -fx-background-color: transparent;
-    -fx-border-color: transparent transparent grey transparent;
+    -fx-border-color: transparent transparent rgba(128, 128, 128, 0.25) transparent;
     -fx-text-fill: #cfcfcf;
 }
 .info-field:focused{

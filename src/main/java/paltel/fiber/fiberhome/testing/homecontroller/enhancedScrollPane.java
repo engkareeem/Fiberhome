@@ -31,7 +31,7 @@ public class enhancedScrollPane {
         hBox.setMinHeight(40);
         hBox.getChildren().addAll(col1,col2,col3);
         hBox.setSpacing(20);
-//        hBox.setPadding(new Insets(0,10,0,10));
+
         hBox.getStyleClass().add("list-row");
         hBox.setId(column1);
 

@@ -7,6 +7,7 @@ import io.github.palexdev.materialfx.controls.MFXScrollPane;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -35,6 +36,8 @@ public class homePageController implements Initializable {
     @FXML
     AnchorPane ap;
     @FXML
+    VBox homeNavBarVBox;
+    @FXML
     ImageView backgroundImageView;
     @FXML
     Pane titleBar;
@@ -53,10 +56,17 @@ public class homePageController implements Initializable {
     private boolean usedMinimize = false;
 
 
+    /*                    Employees page statics         */
+
+    @FXML
+    Label totalEmployeesCountLabel,totalContractorCountLabel,totalWorkingEmployeesCountLabel,totalUsersCountLabel;
 
     /*                  Employee info         */
     @FXML
     Pane profileCard;
+    @FXML
+    Button employeeInfoEditButton;
+    boolean employeeInfoOnEdit = false;
     @FXML
     Label employeeInfoEmpName,employeeInfoEmpId,employeeInfoEmpBirthdate,
             employeeInfoEmpAge,employeeInfoEmpJobPos,employeeInfoEmpDistrict,employeeInfoLastLogin;
@@ -65,7 +75,10 @@ public class homePageController implements Initializable {
             employeeInfoCurrentProjectType,employeeInfoCurrentProjectStartDate,employeeInfoCurrentProjectDueDate
             ,employeeInfoCurrentProjectStreet,employeeInfoCurrentProjectCity;
 
+    /*               User info              */
 
+    @FXML
+    Label userInfoEmpName,userInfoEmpId,userInfoNickName,userInfoRole,userInfoChangePassword;
     Stage stage;
 
     @FXML
@@ -209,10 +222,23 @@ public class homePageController implements Initializable {
     public void employeeInfoClose() {
         employeeInfoPane.setVisible(false);
         employeesPane.setVisible(true);
+        homeNavBarVBox.setDisable(false);
     }
     @FXML
     public void employeeInfoEditButtonClicked() {
-        switchToEdit();
+        if(!employeeInfoOnEdit) {
+            employeeInfoEditButton.setText("Submit");
+            switchToEdit();
+        } else {
+            employeeInfoEditButton.setText("Edit");
+
+            // TODO: Save the new information
+            // i will add the validator if الله قدرني
+
+
+            switchFromEdit();
+        }
+        employeeInfoOnEdit = !employeeInfoOnEdit;
     }
     @FXML
     public void employeeDisplayClicked() {
@@ -228,6 +254,7 @@ public class homePageController implements Initializable {
                 @Override
                 public void run() {
                     User user = getUserInfo(employee.getEid());
+                    if(user == null) return;
                     employeeInfoLastLogin.setText(lastLoginFormat.format(user.getLastLogin()));
                 }
             });
@@ -285,12 +312,16 @@ public class homePageController implements Initializable {
         employeesPane.setVisible(false);
         employeeInfoPane.setVisible(true);
 
-
+        homeNavBarVBox.setDisable(true);
 
     }
 
 
-
+    /*             User info                  */
+    @FXML
+    public void userInfoEditButtonClicked() {
+        
+    }
     @FXML
     public void close(MouseEvent e){
         AnimationFX closeAnimation = new ZoomOutUp(ap);
@@ -373,8 +404,8 @@ public class homePageController implements Initializable {
     }
 
     public void switchToEdit() {
-        employeeInfoEmpName.setVisible(false);
         Label []labels = {employeeInfoEmpName,employeeInfoEmpJobPos,employeeInfoEmpDistrict};
+
         for(Label label:labels) {
             TextField textField = new TextField();
             profileCard.getChildren().add(textField);
@@ -382,8 +413,18 @@ public class homePageController implements Initializable {
             textField.setLayoutY(label.getLayoutY());
             textField.setMaxWidth(label.getWidth());
             textField.getStyleClass().add("info-field");
+            textField.setText(label.getText());
+            textField.setId("editTextField");
             label.setVisible(false);
         }
+    }
+    public void switchFromEdit() {
+        Label []labels = {employeeInfoEmpName,employeeInfoEmpJobPos,employeeInfoEmpDistrict};
+        profileCard.getChildren().removeIf(node -> node.getId() != null && node.getId().equals("editTextField"));
+        for(Label label: labels) {
+            label.setVisible(true);
+        }
+        // TODO: Refresh the labels :3
     }
 
 }

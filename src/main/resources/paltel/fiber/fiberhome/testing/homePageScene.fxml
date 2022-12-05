@@ -36,9 +36,13 @@
          <children>
             <Pane prefHeight="104.0" prefWidth="200.0">
                <children>
-                  <Label layoutX="70.0" layoutY="26.0" styleClass="primaryText" text="Kareem M. Yaqoup" />
-                  <Label layoutX="71.0" layoutY="47.0" styleClass="secondaryText" text="Admin" />
-                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfmz-person-28" iconSize="50" layoutX="14.0" layoutY="68.0" />
+                  <Pane layoutX="14.0" layoutY="18.0">
+                     <children>
+                        <Label layoutX="56.0" layoutY="8.0" styleClass="primaryText" text="Kareem M. Yaqoup" />
+                        <Label layoutX="57.0" layoutY="29.0" styleClass="secondaryText" text="Admin" />
+                        <FontIcon iconColor="#00a0d7" iconLiteral="fltfmz-person-28" iconSize="50" layoutY="50.0" />
+                     </children>
+                  </Pane>
                   <Pane fx:id="radiusPane00" layoutX="174.0" layoutY="70.0" prefHeight="40.0" prefWidth="26.0" styleClass="pseudo-radius-activated" visible="false" />
                   <Pane fx:id="radiusPane01" layoutX="160.0" layoutY="59.0" prefHeight="45.0" prefWidth="40.0" visible="false" />
                   <Line endX="160.0" layoutX="19.0" layoutY="74.0" stroke="#8c8c8c6e" />
@@ -125,12 +129,12 @@
                <children>
                   <Pane fx:id="employeesNumberPane" layoutX="44.0" layoutY="23.0" prefHeight="114.0" prefWidth="193.0">
                      <children>
-                        <Label layoutX="77.0" layoutY="22.0" text="4834" textFill="#cfcfcf">
+                        <Label fx:id="totalEmployeesCountLabel" layoutX="77.0" layoutY="22.0" text="4834" textFill="#cfcfcf">
                            <font>
                               <Font name="System Bold" size="17.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER" layoutX="8.0" layoutY="57.0" prefHeight="50.0" prefWidth="178.0" text="Employees who works at project" textAlignment="CENTER" textFill="#cfcfcf" wrapText="true">
+                        <Label alignment="CENTER" layoutX="8.0" layoutY="57.0" prefHeight="50.0" prefWidth="178.0" text="Employees in this Department" textAlignment="CENTER" textFill="#cfcfcf" wrapText="true">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -187,12 +191,12 @@
                   </Pane>
                   <Pane fx:id="employeesNumberPane" layoutX="277.0" layoutY="23.0" prefHeight="114.0" prefWidth="193.0">
                      <children>
-                        <Label layoutX="77.0" layoutY="23.0" text="4834" textFill="#cfcfcf">
+                        <Label fx:id="totalContractorCountLabel" layoutX="77.0" layoutY="23.0" text="4834" textFill="#cfcfcf">
                            <font>
                               <Font name="System Bold" size="17.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER" layoutX="8.0" layoutY="57.0" prefHeight="50.0" prefWidth="178.0" text="Managers who manages specific dept." textAlignment="CENTER" textFill="#cfcfcf" wrapText="true">
+                        <Label alignment="CENTER" layoutX="8.0" layoutY="57.0" prefHeight="50.0" prefWidth="178.0" text="Contractors assigned to projects" textAlignment="CENTER" textFill="#cfcfcf" wrapText="true">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -201,12 +205,12 @@
                   </Pane>
                   <Pane fx:id="employeesNumberPane" layoutX="44.0" layoutY="160.0" prefHeight="114.0" prefWidth="193.0">
                      <children>
-                        <Label layoutX="77.0" layoutY="23.0" text="4834" textFill="#cfcfcf">
+                        <Label fx:id="totalWorkingEmployeesCountLabel" layoutX="77.0" layoutY="23.0" text="4834" textFill="#cfcfcf">
                            <font>
                               <Font name="System Bold" size="17.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER" layoutX="8.0" layoutY="57.0" prefHeight="50.0" prefWidth="178.0" text="Contractor supervising various projects" textAlignment="CENTER" textFill="#cfcfcf" wrapText="true">
+                        <Label alignment="CENTER" layoutX="8.0" layoutY="57.0" prefHeight="50.0" prefWidth="178.0" text="Employees currently working in projects" textAlignment="CENTER" textFill="#cfcfcf" wrapText="true">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -215,12 +219,12 @@
                   </Pane>
                   <Pane fx:id="employeesNumberPane" layoutX="277.0" layoutY="160.0" prefHeight="114.0" prefWidth="193.0">
                      <children>
-                        <Label layoutX="77.0" layoutY="23.0" text="4834" textFill="#cfcfcf">
+                        <Label fx:id="totalUsersCountLabel" layoutX="77.0" layoutY="23.0" text="4834" textFill="#cfcfcf">
                            <font>
                               <Font name="System Bold" size="17.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER" layoutX="8.0" layoutY="57.0" prefHeight="50.0" prefWidth="178.0" text="Total employees at dept." textAlignment="CENTER" textFill="#cfcfcf" wrapText="true">
+                        <Label alignment="CENTER" layoutX="8.0" layoutY="57.0" prefHeight="50.0" prefWidth="178.0" text="Users have account in the system" textAlignment="CENTER" textFill="#cfcfcf" wrapText="true">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -267,7 +271,7 @@
             <Label layoutX="345.0" layoutY="330.0" styleClass="headerText" text="Thats a Control Panel :D" />
          </children>
       </Pane>
-      <Pane fx:id="employeeInfoPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/displayPage.css">
+      <Pane fx:id="employeeInfoPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/displayPage.css" visible="false">
          <children>
             <Pane fx:id="profileCard" layoutX="76.0" layoutY="39.0" prefHeight="582.0" prefWidth="297.0">
                <children>
@@ -293,7 +297,7 @@
                   </Label>
                   <Separator layoutX="18.0" layoutY="290.0" opacity="0.21" prefHeight="1.0" prefWidth="261.0" />
                   <Label fx:id="employeeInfoEmpId" layoutX="252.0" layoutY="265.0" text="0005" textFill="#cfcfcf" />
-                  <Button layoutX="85.0" layoutY="497.0" mnemonicParsing="false" onAction="#employeeInfoEditButtonClicked" prefHeight="50.0" prefWidth="128.0" styleClass="primaryButton" text="Edit" />
+                  <Button fx:id="employeeInfoEditButton" layoutX="85.0" layoutY="497.0" mnemonicParsing="false" onAction="#employeeInfoEditButtonClicked" prefHeight="50.0" prefWidth="128.0" styleClass="primaryButton" text="Edit" />
                   <Label fx:id="employeeInfoEmpDistrict" alignment="CENTER_RIGHT" layoutX="197.0" layoutY="296.0" prefHeight="15.0" prefWidth="83.0" text="Nablus" textFill="#c9c9c9">
                      <font>
                         <Font size="10.0" />
@@ -304,7 +308,7 @@
                         <Font size="17.0" />
                      </font>
                   </Label>
-                  <Label fx:id="employeeInfoLastLogin" alignment="CENTER_RIGHT" layoutX="223.0" layoutY="398.0" prefHeight="16.0" prefWidth="56.0" text="3/8/2022" textFill="#b9b9b9">
+                  <Label fx:id="employeeInfoLastLogin" alignment="CENTER_RIGHT" layoutX="118.0" layoutY="398.0" prefHeight="16.0" prefWidth="161.0" text="3/8/2022" textFill="#b9b9b9">
                      <font>
                         <Font size="11.0" />
                      </font>
@@ -410,6 +414,43 @@
                   <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-arrow-left-24" iconSize="30" />
                </graphic>
             </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="userInfoPage" layoutX="154.0" layoutY="38.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/displayPage.css">
+         <children>
+            <Pane fx:id="profileCard" layoutX="302.0" layoutY="113.0" prefHeight="452.0" prefWidth="297.0">
+               <children>
+                  <StackPane layoutY="7.0" prefHeight="177.0" prefWidth="297.0">
+                     <children>
+                        <FontIcon iconColor="#00a0d7" iconLiteral="fltfmz-person-28" iconSize="100" />
+                     </children>
+                  </StackPane>
+                  <Label layoutX="100.0" layoutY="184.0" text="User Profile" textFill="#cfcfcf">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="userInfoEmpName" layoutX="18.0" layoutY="260.0" text="Kareem Mazen Yaqoup" textFill="#cfcfcf">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="userInfoNickName" layoutX="20.0" layoutY="293.0" text="AKA. IiKaReeeM" textFill="#b9b9b9">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Separator layoutX="18.0" layoutY="290.0" opacity="0.21" prefHeight="1.0" prefWidth="261.0" />
+                  <Label fx:id="userInfoEmpId" layoutX="252.0" layoutY="265.0" text="0005" textFill="#cfcfcf" />
+                  <Button fx:id="userInfoEditButton" layoutX="85.0" layoutY="374.0" mnemonicParsing="false" onAction="#userInfoEditButtonClicked" prefHeight="50.0" prefWidth="128.0" styleClass="primaryButton" text="Edit" />
+                  <Label fx:id="userInfoRole" alignment="CENTER_RIGHT" layoutX="197.0" layoutY="296.0" prefHeight="15.0" prefWidth="83.0" text="Admin" textFill="#c9c9c9">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="userInfoChangePassword" layoutX="95.0" layoutY="336.0" styleClass="secondaryHyperText" text="Click to change password" />
+               </children>
+            </Pane>
          </children>
       </Pane>
       <Pane fx:id="disablePane" prefHeight="700.0" prefWidth="1100.0" styleClass="disablePane" visible="false" />
