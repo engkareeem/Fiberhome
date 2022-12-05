@@ -36,6 +36,7 @@ public class employeesTableViewFunctions {
         MFXTableColumn<Employee> LNameColumn = new MFXTableColumn<>("Last Name", true, Comparator.comparing(Employee::getLname));
         MFXTableColumn<Employee> districtColumn = new MFXTableColumn<>("District", true, Comparator.comparing(Employee::getDistrict));
         MFXTableColumn<Employee> jobPositionColumn = new MFXTableColumn<>("Job Position", true, Comparator.comparing(Employee::getJobPos));
+        MFXTableColumn<Employee> isHasAccount = new MFXTableColumn<>("Has Account", true, Comparator.comparing(Employee::isHasAccount));
 
         idColumn.setMinWidth(100);
         FNameColumn.setMinWidth(120);
@@ -57,23 +58,24 @@ public class employeesTableViewFunctions {
         LNameColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(Employee::getLname));
         districtColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(Employee::getDistrict));
         jobPositionColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(Employee::getJobPos));
+        isHasAccount.setRowCellFactory(employee -> new MFXTableRowCell<>(Employee::isHasAccount));
 
-        tableview.getTableColumns().addAll(idColumn, FNameColumn, MNameColumn, LNameColumn, districtColumn,jobPositionColumn);
+        tableview.getTableColumns().addAll(idColumn, FNameColumn, MNameColumn, LNameColumn, districtColumn,jobPositionColumn,isHasAccount);
         tableview.getFilters().addAll(
                 new StringFilter<>("EID", Employee::getEid),
                 new StringFilter<>("First Name", Employee::getFname),
                 new StringFilter<>("Middle Name", Employee::getMname),
                 new StringFilter<>("Last Name", Employee::getLname),
                 new StringFilter<>("District", Employee::getDistrict),
-                new StringFilter<>("Job Position", Employee::getJobPos)
+                new StringFilter<>("Job Position", Employee::getJobPos),
+                new StringFilter<>("Has Account", Employee::isHasAccount)
         );
         tableview.setItems(employees);
     }
     public static Employee employeeDisplayClicked() {
         IMultipleSelectionModel<Employee> selectionModel = employeesTable.getSelectionModel();
         Collection<Employee> selected = selectionModel.getSelection().values();
+        if(selected.toArray().length == 0) return null;
         return (Employee) selected.toArray()[0];
-
-
     }
 }

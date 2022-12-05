@@ -28,6 +28,7 @@ public class DBapi {
         employee.setDistrict(res.getString("district"));
         employee.setSex(res.getString("sex").charAt(0));
         employee.setJobPos(res.getString("job_pos"));
+        employee.setHasAccount(isEmployeeHasAccount(employee.getEid()));
         return employee;
     }
 

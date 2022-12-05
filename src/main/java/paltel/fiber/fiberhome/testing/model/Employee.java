@@ -10,13 +10,14 @@ public class Employee {
     private String district;
     private char sex;
     private String jobPos;
+    private boolean hasAccount;
     public Employee() {
         eid=idNum=fname=mname=lname=district=jobPos="";
         birthdate=null;
         sex='N';
     }
 
-    public Employee(String eid, String idNum, String fname, String mname, String lname, Date birthdate, String district, char sex, String jobPos) {
+    public Employee(String eid, String idNum, String fname, String mname, String lname, Date birthdate, String district, char sex, String jobPos,boolean hasAccount) {
         this.eid = eid;
         this.idNum = idNum;
         this.fname = fname;
@@ -26,6 +27,12 @@ public class Employee {
         this.district = district;
         this.sex = sex;
         this.jobPos = jobPos;
+        this.hasAccount=hasAccount;
+    }
+
+
+    public String isHasAccount() {
+        return hasAccount ? "Yes":"No";
     }
 
     public String getEid() {
@@ -98,5 +105,9 @@ public class Employee {
 
     public void setJobPos(String jobPos) {
         this.jobPos = jobPos;
+    }
+
+    public void setHasAccount(boolean hasAccount) {
+        this.hasAccount = hasAccount;
     }
 }

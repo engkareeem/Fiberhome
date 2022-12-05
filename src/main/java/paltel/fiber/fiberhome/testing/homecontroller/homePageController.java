@@ -1,41 +1,34 @@
 package paltel.fiber.fiberhome.testing.homecontroller;
 
 import animatefx.animation.*;
-import io.github.palexdev.materialfx.controls.MFXListView;
 import io.github.palexdev.materialfx.controls.MFXPaginatedTableView;
-import io.github.palexdev.materialfx.selection.base.IMultipleSelectionModel;
-import paltel.fiber.fiberhome.testing.model.Contractor;
-import paltel.fiber.fiberhome.testing.model.Project;
-import paltel.fiber.fiberhome.testing.model.User;
-import paltel.fiber.fiberhome.testing.testingMain;
+import io.github.palexdev.materialfx.controls.MFXScrollPane;
+
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.Screen;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import paltel.fiber.fiberhome.testing.DBapi;
 import paltel.fiber.fiberhome.testing.Functions;
 import paltel.fiber.fiberhome.testing.Navigator;
+import paltel.fiber.fiberhome.testing.model.Contractor;
 import paltel.fiber.fiberhome.testing.model.Employee;
+import paltel.fiber.fiberhome.testing.model.Project;
+import paltel.fiber.fiberhome.testing.model.User;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.*;
 
 import static java.util.Calendar.*;
 import static paltel.fiber.fiberhome.testing.DBapi.*;
-import static paltel.fiber.fiberhome.testing.Functions.*;
-import static paltel.fiber.fiberhome.testing.homecontroller.employeesTableViewFunctions.initializeTableView;
 
 public class homePageController implements Initializable {
 
@@ -62,7 +55,8 @@ public class homePageController implements Initializable {
 
 
     /*                  Employee info         */
-
+    @FXML
+    Pane profileCard;
     @FXML
     Label employeeInfoEmpName,employeeInfoEmpId,employeeInfoEmpBirthdate,
             employeeInfoEmpAge,employeeInfoEmpJobPos,employeeInfoEmpDistrict,employeeInfoLastLogin;
@@ -73,12 +67,29 @@ public class homePageController implements Initializable {
 
 
     Stage stage;
+
+    @FXML
+    MFXScrollPane contractorListScrollPane;
+    @FXML
+    MFXScrollPane lastProjectsScrollPane;
+    @FXML
+    VBox contractorListScrollPaneVbox;
+    @FXML
+    VBox lastProjectsScrollPaneVbox;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        playOpenAnimation();
+//        playOpenAnimation();
         saveLastLogin();
         stage = Navigator.primaryStage;
-//        switchNavButton(navButton2);
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                stage.centerOnScreen();
+            }
+        });
+
+        switchNavButton(navButton2);
         Functions.move(stage,titleBar);
         Functions.optimizeImageView(backgroundImageView);
         setupTable();
@@ -187,10 +198,22 @@ public class homePageController implements Initializable {
         calendar.setTime(date);
         return calendar;
     }
+
+
+    @FXML
+    public void tableAddEmployeeClicked() {
+        Functions.showAddEmployeePopup();
+    }
+
+    @FXML
+    public void employeeInfoEditButtonClicked() {
+        switchToEdit();
+    }
     @FXML
     public void employeeDisplayClicked() {
 
         Employee employee = employeesTableViewFunctions.employeeDisplayClicked();
+        if(employee == null) return;
         SimpleDateFormat birthdateFormat = new SimpleDateFormat("dd/MM/yyyy");
         SimpleDateFormat projectDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         SimpleDateFormat lastLoginFormat = new SimpleDateFormat("dd/MM/yyyy - hh:mm aa");
@@ -200,7 +223,7 @@ public class homePageController implements Initializable {
                 @Override
                 public void run() {
                     User user = getUserInfo(employee.getEid());
-                    employeeInfoLastLogin.setText("last login: " + lastLoginFormat.format(user.getLastLogin()));
+                    employeeInfoLastLogin.setText(lastLoginFormat.format(user.getLastLogin()));
                 }
             });
 
@@ -284,22 +307,28 @@ public class homePageController implements Initializable {
     }
 
     private void switchNavButton(Button button) {
-        int buttonIndex = Integer.parseInt(String.valueOf(button.getId().charAt(9))); // assume we have 9 buttons maximum;
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                int buttonIndex = Integer.parseInt(String.valueOf(button.getId().charAt(9))); // assume we have 9 buttons maximum;
 
-        resetNavBarButtons();
+                resetNavBarButtons();
 
-        Pane higherPane = (Pane) stage.getScene().lookup("#radiusPane" + (buttonIndex-1) + "1");
-        Pane lowerPane = (Pane) stage.getScene().lookup("#radiusPane" + (buttonIndex+1) + "1");
-        Pane pHigherPane = (Pane) stage.getScene().lookup("#radiusPane" + (buttonIndex-1) + "0");
-        Pane pLowerPane = (Pane) stage.getScene().lookup("#radiusPane" + (buttonIndex+1) + "0");
-        higherPane.getStyleClass().add("higher-radius-activated");
-        lowerPane.getStyleClass().add("lower-radius-activated");
-        button.getStyleClass().add("selected-nav-button");
+                Pane higherPane = (Pane) stage.getScene().lookup("#radiusPane" + (buttonIndex-1) + "1");
+                Pane lowerPane = (Pane) stage.getScene().lookup("#radiusPane" + (buttonIndex+1) + "1");
+                Pane pHigherPane = (Pane) stage.getScene().lookup("#radiusPane" + (buttonIndex-1) + "0");
+                Pane pLowerPane = (Pane) stage.getScene().lookup("#radiusPane" + (buttonIndex+1) + "0");
+                higherPane.getStyleClass().add("higher-radius-activated");
+                lowerPane.getStyleClass().add("lower-radius-activated");
+                button.getStyleClass().add("selected-nav-button");
 
-        higherPane.setVisible(true);
-        lowerPane.setVisible(true);
-        pHigherPane.setVisible(true);
-        pLowerPane.setVisible(true);
+                higherPane.setVisible(true);
+                lowerPane.setVisible(true);
+                pHigherPane.setVisible(true);
+                pLowerPane.setVisible(true);
+            }
+        });
+
     }
     private void resetNavBarButtons() {
         int index=0;
@@ -318,6 +347,37 @@ public class homePageController implements Initializable {
         while(button != null) {
             button.getStyleClass().removeAll("selected-nav-button");
             button = (Button) stage.getScene().lookup("#navButton" + (index++));
+        }
+    }
+
+
+
+
+
+    public void addRow() {
+        // this function for a test button I deleted it :#
+
+
+        // contractor example
+        // 40,150,75 is the labels size respectively (ID,NAME,TYPE)
+//        enhancedScrollPane.addRow(contractorListScrollPaneVbox,"9395","Amjad fauore","Electricity",40,150,75);
+
+        // employee projects example
+        enhancedScrollPane.addRow(lastProjectsScrollPaneVbox,"1919","Bidya Fiber","Bidya",35,220,72);
+
+    }
+
+    public void switchToEdit() {
+        employeeInfoEmpName.setVisible(false);
+        Label []labels = {employeeInfoEmpName,employeeInfoEmpJobPos,employeeInfoEmpDistrict};
+        for(Label label:labels) {
+            TextField textField = new TextField();
+            profileCard.getChildren().add(textField);
+            textField.setLayoutX(label.getLayoutX());
+            textField.setLayoutY(label.getLayoutY());
+            textField.setMaxWidth(label.getWidth());
+            textField.getStyleClass().add("info-field");
+            label.setVisible(false);
         }
     }
 

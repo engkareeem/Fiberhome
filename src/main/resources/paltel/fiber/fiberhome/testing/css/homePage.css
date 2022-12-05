@@ -1,7 +1,6 @@
 *{
     -fx-table-border-color: #0281c6;
     -fx-table-background-color:transparent;
-    -fx-primary-button-color: #0281c6;
 }
 
 #homeNavBarVBox{
@@ -10,6 +9,13 @@
     -fx-effect: dropshadow(three-pass-box, rgba(158, 158, 158, 0.06),5, 0, 5.0,  0.0);
     /*-fx-spacing: 10;*/
     -fx-background-radius: 15 30 30 15;
+}
+#contractorListPane{
+    -fx-background-color: -fx-application-background-color;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-effect: dropshadow(gaussian, rgba(94, 94, 99, 0.16), 15, 0.4, 0.0, 0.0);
+    -fx-border-color: rgba(2, 129, 198, 0.79);
 }
 
 #employeesNumberPane{
@@ -27,6 +33,42 @@
     -fx-border-color: rgba(2, 129, 198, 0.79);
 }
 
+
+
+.mfx-scroll-pane{
+    -fx-background-color: -fx-application-background-color;
+    -fx-background-radius: 15;
+}
+
+.list-row{
+    -fx-background-color: transparent;
+    -fx-padding: 0 10 0 10;
+}
+.list-row .label{
+    -fx-text-fill: #cfcfcf;
+    -fx-font-size: 13;
+}
+.list-row:hover{
+    -fx-background-color: rgba(94, 198, 255, 0.09);
+}
+.list-row:pressed{
+    -fx-background-color: rgba(94, 198, 255, 0.12);
+}
+
+
+.mfx-scroll-pane .scroll-bar:vertical .track {
+    -fx-background-color: -fx-application-background-color;
+}
+.mfx-scroll-pane .scroll-bar:vertical .thumb{
+    -fx-background-color: #005876;
+}
+.mfx-scroll-pane .scroll-bar:horizontal .track {
+    -fx-background-color: transparent;
+}
+.mfx-scroll-pane .scroll-bar:horizontal .thumb{
+    -fx-background-color: transparent;
+}
+
 .nav-button{
     -fx-background-color: -fx-nav-bar-background-color;
     -fx-text-fill: #d5d5d5;
@@ -42,11 +84,11 @@
 }
 .higher-radius-activated{
     -fx-background-color: -fx-nav-bar-background-color;
-    -fx-background-radius: 0 0 25 0;
+    -fx-background-radius: 0 0 15 0;
 }
 .lower-radius-activated{
     -fx-background-color: -fx-nav-bar-background-color;
-    -fx-background-radius: 0 25 0 0;
+    -fx-background-radius: 0 15 0 0;
 }
 .higher-radius-deactivated{
     -fx-background-color: transparent;
@@ -88,14 +130,14 @@
 }
 
 .mfx-table-row:hover {
-    -fx-background-color: rgba(255, 255, 255, 0.07);
+    -fx-background-color: rgba(94, 198, 255, 0.09);
 }
 .mfx-table-row .mfx-ripple-generator {
     -mfx-ripple-radius: 30;
-    -mfx-ripple-color: rgba(255, 255, 255, 0.11);
+    -mfx-ripple-color: rgba(205, 227, 239, 0.12);
 }
 .mfx-table-row:selected {
-    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-background-color: rgba(94, 198, 255, 0.12);
 }
 /*            Table HEADER        */
 .mfx-table-view .columns-container .mfx-table-column{

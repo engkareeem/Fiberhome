@@ -1,0 +1,33 @@
+#ap{
+    -fx-background-color: transparent;
+}
+#employeePane{
+    -fx-background-color: -fx-application-background-color;
+    -fx-effect: dropshadow(gaussian, rgba(94, 94, 99, 0.47), 15, 0.4, 0.0, 0.0);
+    -fx-background-radius: 15;
+}
+#genderLabel{
+    -fx-background-image: url("../assets/male.png");
+    -fx-background-size: cover;
+}
+.mfx-date-picker {
+    -fx-background-color: transparent;
+}
+.mfx-date-picker .icon{
+    -mfx-color: grey;
+}
+.combo-box{
+    -fx-background-color: -fx-application-background-color;
+    -fx-background-radius: 7;
+    -fx-border-color: grey;
+    -fx-border-radius: 7;
+    -fx-border-width: 1.2;
+}
+.combo-box .list-view{
+    -fx-background-color: derive(-fx-application-background-color,10%);
+}
+.combo-box .list-cell{
+    -fx-background-color: -fx-application-background-color;
+}
+
+

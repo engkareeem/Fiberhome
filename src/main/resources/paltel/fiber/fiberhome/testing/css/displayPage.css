@@ -5,15 +5,26 @@
     -fx-border-color: rgba(128, 128, 128, 0.12);
     -fx-border-radius: 15;
 }
-#profileScrollPaneCard{
+#currentProjectCard{
     -fx-background-color: -fx-application-background-color;
     -fx-background-radius: 15;
+    -fx-effect: dropshadow(three-pass-box, rgba(158, 158, 158, 0.56),5, 0, 0,  0.0);
+    -fx-border-color: rgba(128, 128, 128, 0.12);
+    -fx-border-radius: 15;
 }
-
-
-#profileScrollPaneCard .scroll-bar:vertical .track {
+#lastProjectsCard{
     -fx-background-color: -fx-application-background-color;
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(three-pass-box, rgba(158, 158, 158, 0.56),5, 0, 0,  0.0);
+    -fx-border-color: rgba(128, 128, 128, 0.12);
+    -fx-border-radius: 15;
 }
-#profileScrollPaneCard .scroll-bar:vertical .thumb{
-    -fx-background-color: #005876;
+.info-field{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent grey transparent;
+    -fx-text-fill: #cfcfcf;
+}
+.info-field:focused{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #0281c6 transparent;
 }

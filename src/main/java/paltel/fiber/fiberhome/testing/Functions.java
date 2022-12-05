@@ -133,6 +133,13 @@ public static void move(Stage stage, Node pane) {
         Navigator.closePopup();
     }
 
+    public static void showAddEmployeePopup() {
+        Navigator.showPopup("addEmployeeScene");
+    }
+    public static void closeAddEmployeePopup() {
+        Navigator.closePopup();
+    }
+
 /*                                                      Validators                                                   */
 
     public static void displayValidatingError(TextField tf,Label validator,String validateText) {

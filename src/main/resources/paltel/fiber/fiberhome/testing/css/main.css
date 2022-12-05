@@ -11,11 +11,11 @@
     -fx-header-text-color: white;
     -fx-secondary-header-text-color: rgba(255, 255, 255, 0.38);
 
-    -fx-primary-button-color: #1453af;
+    -fx-primary-button-color: #0281c6;
     -fx-primary-button-text-color: white;
-    -fx-primary-button-hover-color: #1a61c5;
+    -fx-primary-button-hover-color: #018ad5;
     -fx-primary-button-hover-text-color: white;
-    -fx-primary-button-pressed-color: #1d68d1;
+    -fx-primary-button-pressed-color: #0383ca;
     -fx-primary-button-pressed-text-color: white;
 
     -fx-secondary-button-color: #2f3137;

@@ -45,10 +45,11 @@ public class Navigator {
 
     public static void showPopup(String sceneName,Object ... Keys_Values) {
         try {
-            if (Keys_Values.length == 0) return;
-            popupArguments.clear();
-            for (int i = 0; i < Keys_Values.length - 1; i += 2) {
-                popupArguments.put(Keys_Values[i], Keys_Values[i + 1]);
+            if (Keys_Values.length != 0) {
+                popupArguments.clear();
+                for (int i = 0; i < Keys_Values.length - 1; i += 2) {
+                    popupArguments.put(Keys_Values[i], Keys_Values[i + 1]);
+                }
             }
             FXMLLoader loader = getFXMLFile(sceneName);
             if (loader == null) return;
