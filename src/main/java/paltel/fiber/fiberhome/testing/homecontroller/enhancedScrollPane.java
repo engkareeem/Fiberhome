@@ -40,4 +40,7 @@ public class enhancedScrollPane {
 
         vbox.getChildren().addAll(hBox,separator);
     }
+    public static void resetRows(VBox vbox) {
+        vbox.getChildren().clear();
+    }
 }

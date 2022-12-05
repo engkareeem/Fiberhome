@@ -206,6 +206,11 @@ public class homePageController implements Initializable {
     }
 
     @FXML
+    public void employeeInfoClose() {
+        employeeInfoPane.setVisible(false);
+        employeesPane.setVisible(true);
+    }
+    @FXML
     public void employeeInfoEditButtonClicked() {
         switchToEdit();
     }
@@ -277,7 +282,7 @@ public class homePageController implements Initializable {
         employeeInfoEmpDistrict.setText(employee.getDistrict());
 
 
-        currentPane.setVisible(false);
+        employeesPane.setVisible(false);
         employeeInfoPane.setVisible(true);
 
 
