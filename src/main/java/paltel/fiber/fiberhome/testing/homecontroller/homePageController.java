@@ -79,6 +79,15 @@ public class homePageController implements Initializable {
 
     @FXML
     Label userInfoEmpName,userInfoEmpId,userInfoNickName,userInfoRole,userInfoChangePassword;
+    @FXML
+    Button userInfoEditButton;
+    @FXML
+    Pane userInfoPane;
+    @FXML
+    Pane userProfileCard;
+    boolean userInfoOnEdit = false;
+
+
     Stage stage;
 
     @FXML
@@ -223,22 +232,25 @@ public class homePageController implements Initializable {
         employeeInfoPane.setVisible(false);
         employeesPane.setVisible(true);
         homeNavBarVBox.setDisable(false);
+        switchFromEdit();
+    }
+    @FXML
+    public void userInfoClose() {
+        userInfoPane.setVisible(false);
+        employeesPane.setVisible(true);
+        homeNavBarVBox.setDisable(false);
+        userSwitchFromEdit();
     }
     @FXML
     public void employeeInfoEditButtonClicked() {
         if(!employeeInfoOnEdit) {
-            employeeInfoEditButton.setText("Submit");
             switchToEdit();
         } else {
-            employeeInfoEditButton.setText("Edit");
-
-            // TODO: Save the new information
+            // TODO: [Edit Employee] update employee information here
             // i will add the validator if الله قدرني
-
 
             switchFromEdit();
         }
-        employeeInfoOnEdit = !employeeInfoOnEdit;
     }
     @FXML
     public void employeeDisplayClicked() {
@@ -320,7 +332,34 @@ public class homePageController implements Initializable {
     /*             User info                  */
     @FXML
     public void userInfoEditButtonClicked() {
+        if(!userInfoOnEdit) {
+            userSwitchToEdit();
+        } else {
+
+            // TODO: [Edit User] Update user information here :3
+            // check if there is change password text field
+            // by lookup == null
+
+            userSwitchFromEdit();
+        }
+    }
+    @FXML
+    public void userChangePasswordClicked() {
+//        Label label = new Label("New password");
+//        label.setId("editTextField"); // Just for delete it
+//        label.setLayoutX(userInfoChangePassword.getLayoutX());
+//        label.setLayoutY(userInfoChangePassword.getLayoutY());
         
+        TextField textField = new TextField();
+        profileCard.getChildren().add(textField);
+        textField.setLayoutX(userInfoChangePassword.getLayoutX());
+        textField.setLayoutY(userInfoChangePassword.getLayoutY());
+        textField.setMaxWidth(userInfoChangePassword.getWidth());
+        textField.getStyleClass().add("info-field");
+        textField.setId("editTextField" + userInfoChangePassword.getId());
+        textField.setPromptText("New Password");
+        userProfileCard.getChildren().add(textField);
+        userInfoChangePassword.setVisible(false);
     }
     @FXML
     public void close(MouseEvent e){
@@ -414,18 +453,56 @@ public class homePageController implements Initializable {
             textField.setMaxWidth(label.getWidth());
             textField.getStyleClass().add("info-field");
             textField.setText(label.getText());
-            textField.setId("editTextField");
+            textField.setId("editTextField" + label.getId());
             label.setVisible(false);
         }
+        employeeInfoEditButton.setText("Submit");
+        employeeInfoOnEdit=true;
     }
     public void switchFromEdit() {
+        if(!employeeInfoOnEdit) return;
         Label []labels = {employeeInfoEmpName,employeeInfoEmpJobPos,employeeInfoEmpDistrict};
-        profileCard.getChildren().removeIf(node -> node.getId() != null && node.getId().equals("editTextField"));
+        profileCard.getChildren().removeIf(node -> node.getId() != null && node.getId().startsWith("editTextField"));
         for(Label label: labels) {
             label.setVisible(true);
         }
         // TODO: Refresh the labels :3
+
+        employeeInfoEditButton.setText("Edit");
+        employeeInfoOnEdit=false;
+
     }
+
+
+    public void userSwitchToEdit() {
+        TextField textField = new TextField();
+        profileCard.getChildren().add(textField);
+        textField.setLayoutX(userInfoNickName.getLayoutX());
+        textField.setLayoutY(userInfoNickName.getLayoutY());
+        textField.setMaxWidth(userInfoNickName.getWidth());
+        textField.getStyleClass().add("info-field");
+        textField.setText(userInfoNickName.getText());
+        textField.setId("editTextField" + userInfoNickName.getId());
+        userProfileCard.getChildren().add(textField);
+        userInfoNickName.setVisible(false);
+
+        userInfoChangePassword.setVisible(true);
+        userInfoEditButton.setText("Submit");
+        userInfoOnEdit=true;
+
+    }
+    public void userSwitchFromEdit() {
+        if(!userInfoOnEdit) return;
+        userInfoOnEdit = false;
+        userProfileCard.getChildren().removeIf(node -> node.getId() != null && node.getId().startsWith("editTextField"));
+        userInfoNickName.setVisible(true);
+
+        userInfoEditButton.setText("Edit");
+
+        userInfoChangePassword.setVisible(false);
+
+    }
+
 
 }
 
