@@ -113,6 +113,12 @@ public class homePageController implements Initializable {
     VBox lastProjectsScrollPaneVbox;
 
     @FXML
+    Pane currentProjectCard;
+
+    @FXML
+    Pane lastProjectsCard;
+
+    @FXML
     PieChart pieChart;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -129,7 +135,7 @@ public class homePageController implements Initializable {
 
 //        playOpenAnimation();
         currentPane = employeesPane;
-        saveLastLogin();
+        updateLastLoginTime((String) Navigator.getValue("eid"));
         stage = Navigator.primaryStage;
 
         Platform.runLater(new Runnable() {
@@ -144,6 +150,9 @@ public class homePageController implements Initializable {
         Functions.optimizeImageView(backgroundImageView);
         employeesTableViewFunctions.initializeTableView(employeesTable);
         projectsTableViewFunctions.initializeTableView(projectsTable);
+        setupContractorsTable();
+        setUpStatisticsBlocks();
+
 
         stage.iconifiedProperty().addListener((observableValue, aBoolean, iconified) -> {
             if(iconified && !usedMinimize) {
@@ -159,25 +168,48 @@ public class homePageController implements Initializable {
 
     }
 
-    private void saveLastLogin(){
 
-        String timeStamp = new SimpleDateFormat("yyyy-MM-dd H:mm:ss").format(Calendar.getInstance().getTime());
-        new Thread(()->{
-//            while(Navigator.getValue("eid") == "") {
-//                try {
-//                    Thread.sleep(1000);
-//                } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//            try {
-//
-//                Statement statement = testingMain.dbConnection.createStatement();
-//                statement.executeUpdate("update EMPLOYEE_ACCOUNT set LAST_LOGIN = TO_DATE('" + timeStamp + "', 'yyyy-mm-dd HH24:mi:ss') where EID = " + Navigator.getValue("eid"));
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//                throw new RuntimeException(e);
-//            }
+    private void setupContractorsTable(){
+        ArrayList<Contractor> contractors = getAllContractors();
+        contractors.forEach(contractor -> {
+            enhancedScrollPane.addRow(contractorListScrollPaneVbox, contractor.getContractorId(), contractor.getFname() + " " + contractor.getMname() + " " + contractor.getLname(),
+                    contractor.getContractorType(), 35, 150 ,75);
+
+        });
+    }
+
+    private void setUpStatisticsBlocks(){
+        new Thread(() -> {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    totalEmployeesCountLabel.setText(getEmployeesCount().toString());
+                }
+            });
+        }).start();
+        new Thread(() -> {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    totalUsersCountLabel.setText(getUsersCount().toString());
+                }
+            });
+        }).start();
+        new Thread(() -> {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    totalContractorCountLabel.setText(getContractorCount().toString());
+                }
+            });
+        }).start();
+        new Thread(() -> {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    totalWorkingEmployeesCountLabel.setText(getWorkingEmployeesCount().toString());
+                }
+            });
         }).start();
     }
     private void playOpenAnimation(){
@@ -294,7 +326,7 @@ public class homePageController implements Initializable {
     public void employeeDisplayClicked() {
 
         Employee employee = employeesTableViewFunctions.employeeDisplayClicked();
-        if(employee == null) return;
+        if (employee == null) return;
         SimpleDateFormat birthdateFormat = new SimpleDateFormat("dd/MM/yyyy");
         SimpleDateFormat projectDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         SimpleDateFormat lastLoginFormat = new SimpleDateFormat("dd/MM/yyyy - hh:mm aa");
@@ -304,46 +336,70 @@ public class homePageController implements Initializable {
                 @Override
                 public void run() {
                     User user = getUserInfo(employee.getEid());
-                    if(user == null) return;
-                    employeeInfoLastLogin.setText(lastLoginFormat.format(user.getLastLogin()));
-                }
-            });
-
-        }).start();
-
-        new Thread(() -> {
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    Project project = getCurrentProject(employee.getEid());
-                    if(project.getProjectId().isEmpty()){
-                        employeeInfoCurrentProjectName.setText("");
-                        employeeInfoCurrentProjectCity.setText("");
-                        employeeInfoCurrentProjectType.setText("");
-                        employeeInfoCurrentProjectId.setText("");
-                        employeeInfoCurrentProjectStartDate.setText("");
-                        employeeInfoCurrentProjectStreet.setText("");
-                        employeeInfoCurrentProjectDueDate.setText("");
-                        employeeInfoCurrentProjectContractor.setText("");
-
-                    }else{
-                        Contractor contractor = getContractorInfo(project.getContractorId());
-                        employeeInfoCurrentProjectName.setText(project.getCity() + " " + project.getProjType());
-                        employeeInfoCurrentProjectCity.setText("");
-                        employeeInfoCurrentProjectType.setText("");
-                        employeeInfoCurrentProjectId.setText(project.getProjectId());
-                        employeeInfoCurrentProjectStartDate.setText(projectDateFormat.format(project.getStartDate()));
-                        employeeInfoCurrentProjectDueDate.setText(projectDateFormat.format(project.getDueDate()));
-                        employeeInfoCurrentProjectStreet.setText(project.getCity() + " - " + (project.getStreet().isEmpty() ? "" : project.getStreet()));
-                        employeeInfoCurrentProjectContractor.setText("contractor: " + contractor.getFname() + " " + contractor.getLname());
+                    if (user == null || user.getLastLogin() == null) {
+                        employeeInfoLastLogin.setText("Never");
+                    } else {
+                        employeeInfoLastLogin.setText(lastLoginFormat.format(user.getLastLogin()));
                     }
-
-
                 }
             });
 
         }).start();
 
+        if (employee.getJobPos().equals("Technician") || employee.getJobPos().equals("Project Monitor") || employee.getJobPos().equals("Project Manager")) {
+            currentProjectCard.setVisible(true);
+            lastProjectsCard.setVisible(true);
+            new Thread(() -> {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        Project project = getCurrentProject(employee.getEid());
+                        if (project == null) {
+                            currentProjectCard.setVisible(false);
+
+                        } else {
+                            Contractor contractor = getContractorInfo(project.getContractorId());
+                            employeeInfoCurrentProjectName.setText(project.getCity() + " " + project.getProjType());
+                            employeeInfoCurrentProjectCity.setText("");
+                            employeeInfoCurrentProjectType.setText("");
+                            employeeInfoCurrentProjectId.setText(project.getProjectId());
+                            employeeInfoCurrentProjectStartDate.setText(projectDateFormat.format(project.getStartDate()));
+                            employeeInfoCurrentProjectDueDate.setText(projectDateFormat.format(project.getDueDate()));
+                            employeeInfoCurrentProjectStreet.setText(project.getCity() + " - " + (project.getStreet() == null ? "" : project.getStreet()));
+                            if (contractor == null) {
+                                employeeInfoCurrentProjectContractor.setText("No contractor.");
+                            } else {
+                                employeeInfoCurrentProjectContractor.setText("contractor: " + contractor.getFname() + " " + contractor.getLname());
+
+                            }
+                        }
+
+
+                }
+            });
+
+            }).start();
+
+            new Thread(() -> {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        ArrayList<Project> recentFinishedProjects = getRecentFinishedProjects(employee.getEid());
+                        recentFinishedProjects.forEach(project -> {
+
+                            enhancedScrollPane.addRow(lastProjectsScrollPaneVbox, project.getProjectId(), project.getCity() + " " + project.getProjType(), project.getCity() + " " + (project.getStreet() == null ? "" : project.getStreet()), 32, 222, 30);
+
+                        });
+
+                    }
+                });
+            }).start();
+
+
+        }else {
+            currentProjectCard.setVisible(false);
+            lastProjectsCard.setVisible(false);
+        }
         employeeInfoEmpName.setText(employee.getFname() + " " + employee.getMname() + " " + employee.getLname());
         employeeInfoEmpId.setText(employee.getEid());
         employeeInfoEmpBirthdate.setText(birthdateFormat.format(employee.getBirthdate()));

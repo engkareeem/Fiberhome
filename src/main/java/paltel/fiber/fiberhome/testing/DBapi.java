@@ -9,7 +9,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class DBapi {
     public static Connection connection = testingMain.dbConnection;
@@ -84,6 +86,23 @@ public class DBapi {
 
     }
 
+    public static ArrayList<Contractor> getAllContractors(){
+        ArrayList<Contractor> contractors = new ArrayList<>();
+        try {
+
+            Statement statement = connection.createStatement();
+            ResultSet res =  statement.executeQuery("SELECT * from CONTRACTOR ");
+            while (res.next()){
+                contractors.add(getContractorFromRow(res));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return contractors;
+
+    }
+
     public static ArrayList<Employee> getAllPendingAccounts(){
         ArrayList<Employee> pendingEmployees = new ArrayList<>();
         try {
@@ -126,7 +145,7 @@ public class DBapi {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return new Employee();
+        return null;
     }
 
     public static User getUserInfo(String eid){
@@ -140,7 +159,7 @@ public class DBapi {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return new User();
+        return null;
     }
 
     public static Contractor getContractorInfo(String contractor_id){
@@ -154,7 +173,7 @@ public class DBapi {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return new Contractor();
+        return null;
 
     }
 
@@ -169,17 +188,31 @@ public class DBapi {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return new Project();
+        return null;
+    }
+
+    public static Integer getUsersCount(){
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select count(EID) as numberOfUsers from EMPLOYEE_ACCOUNT");
+            if(res.next()){
+                return res.getInt("numberOfUsers");
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
     }
 
 
 
-    public static Integer getEmployeeCount(){
+    public static Integer getEmployeesCount(){
         try {
             Statement statement = connection.createStatement();
-            ResultSet res = statement.executeQuery("select count(EID) from EMPLOYEE_ACCOUNT");
+            ResultSet res = statement.executeQuery("select count(EID) as numberOfEmployees from EMPLOYEE_ACCOUNT");
             if(res.next()){
-                return res.getInt("EID");
+                return res.getInt("numberOfEmployees");
             }
 
         } catch (SQLException e) {
@@ -191,9 +224,9 @@ public class DBapi {
     public static Integer getContractorCount(){
         try {
             Statement statement = connection.createStatement();
-            ResultSet res = statement.executeQuery("select count(Contractor.CONTRACTOR_ID) from CONTRACTOR where Contractor.CONTRACTOR_ID in (select PROJECT.CONTRACTOR_ID from PROJECT)");
+            ResultSet res = statement.executeQuery("select count(Contractor.CONTRACTOR_ID) as numberOfContractors from CONTRACTOR where Contractor.CONTRACTOR_ID in (select PROJECT.CONTRACTOR_ID from PROJECT)");
             if(res.next()){
-                return res.getInt("ID_number");
+                return res.getInt("numberOfContractors");
             }
 
         } catch (SQLException e) {
@@ -205,9 +238,9 @@ public class DBapi {
     public static Integer getWorkingEmployeesCount(){
         try {
             Statement statement = connection.createStatement();
-            ResultSet res = statement.executeQuery("select count(EMPLOYEE_ID) from EMPLOYEE where EMPLOYEE_ID in (select WORKS_AT.EMPLOYEE_ID from WORKS_AT)");
+            ResultSet res = statement.executeQuery("select count(EMPLOYEE_ID) as numberOfWorkingEmployees from EMPLOYEE where EMPLOYEE_ID in (select WORKS_AT.EMPLOYEE_ID from WORKS_AT)");
             if(res.next()){
-                return res.getInt("Employee_ID");
+                return res.getInt("numberOfWorkingEmployees");
             }
 
         } catch (SQLException e) {
@@ -249,6 +282,21 @@ public class DBapi {
         return roles;
     }
 
+
+    // Utils
+    public static void updateLastLoginTime(String eid){
+        String timeStamp = new SimpleDateFormat("yyyy-MM-dd H:mm:ss").format(Calendar.getInstance().getTime());
+        new Thread(()->{
+            try {
+
+                Statement statement = connection.createStatement();
+                statement.executeUpdate("update EMPLOYEE_ACCOUNT set LAST_LOGIN = TO_DATE('" + timeStamp + "', 'yyyy-mm-dd HH24:mi:ss') where EID = " + eid);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }).start();
+    }
 
 
 
