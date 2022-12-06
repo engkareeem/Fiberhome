@@ -113,7 +113,8 @@ public class homePageController implements Initializable {
     Pane contractorInfoPane;
     boolean userInfoOnEdit = false;
 
-    boolean contractorInfoOnEdit = false;
+
+
     /*                  Projects Page                */
     @FXML
     MFXPaginatedTableView<Project> projectsTable;
@@ -121,10 +122,6 @@ public class homePageController implements Initializable {
     MFXScrollPane warehouseListScrollPane;
     @FXML
     VBox warehouseListScrollPaneVbox;
-
-
-
-
     Stage stage;
 
     @FXML
@@ -144,6 +141,8 @@ public class homePageController implements Initializable {
 
     @FXML
     PieChart pieChart;
+
+    boolean contractorInfoOnEdit = false;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -336,68 +335,59 @@ public class homePageController implements Initializable {
         SimpleDateFormat lastLoginFormat = new SimpleDateFormat("dd/MM/yyyy - hh:mm aa");
 
         new Thread(() -> {
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    User user = getUserInfo(employee.getEid());
-                    if (user == null || user.getLastLogin() == null) {
-                        employeeInfoLastLogin.setText("Never");
-                    } else {
-                        employeeInfoLastLogin.setText(lastLoginFormat.format(user.getLastLogin()));
-                    }
+            Platform.runLater(() -> {
+                User user = getUserInfo(employee.getEid());
+                if (user == null || user.getLastLogin() == null) {
+                    employeeInfoLastLogin.setText("Never");
+                } else {
+                    employeeInfoLastLogin.setText(lastLoginFormat.format(user.getLastLogin()));
                 }
             });
 
         }).start();
 
         if (employee.getJobPos().equals("Technician") || employee.getJobPos().equals("Project Monitor") || employee.getJobPos().equals("Project Manager")) {
-            currentProjectCard.setVisible(true);
-            lastProjectsCard.setVisible(true);
-            employeeInfoAssignToProjectButton.setVisible(false);
             new Thread(() -> {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        Project project = getCurrentProject(employee.getEid());
-                        if (project == null) {
-                            currentProjectCard.setVisible(false);
-                            employeeInfoAssignToProjectButton.setVisible(true);
+                Platform.runLater(() -> {
+                    lastProjectsCard.setVisible(true);
+                    Project project = getCurrentProject(employee.getEid());
+                    if (project == null) {
+                        currentProjectCard.setVisible(false);
+                        employeeInfoAssignToProjectButton.setVisible(true);
 
 
+                    } else {
+                        employeeInfoAssignToProjectButton.setVisible(false);
+                        currentProjectCard.setVisible(true);
+                        Contractor contractor = getContractorInfo(project.getContractorId());
+                        employeeInfoCurrentProjectName.setText(project.getCity() + " " + project.getProjType());
+                        employeeInfoCurrentProjectCity.setText("");
+                        employeeInfoCurrentProjectType.setText("");
+                        employeeInfoCurrentProjectId.setText(project.getProjectId());
+                        employeeInfoCurrentProjectStartDate.setText(projectDateFormat.format(project.getStartDate()));
+                        employeeInfoCurrentProjectDueDate.setText(projectDateFormat.format(project.getDueDate()));
+                        employeeInfoCurrentProjectStreet.setText(project.getCity() + " - " + (project.getStreet() == null ? "" : project.getStreet()));
+                        if (contractor == null) {
+                            employeeInfoCurrentProjectContractor.setText("No contractor.");
                         } else {
-                            Contractor contractor = getContractorInfo(project.getContractorId());
-                            employeeInfoCurrentProjectName.setText(project.getCity() + " " + project.getProjType());
-                            employeeInfoCurrentProjectCity.setText("");
-                            employeeInfoCurrentProjectType.setText("");
-                            employeeInfoCurrentProjectId.setText(project.getProjectId());
-                            employeeInfoCurrentProjectStartDate.setText(projectDateFormat.format(project.getStartDate()));
-                            employeeInfoCurrentProjectDueDate.setText(projectDateFormat.format(project.getDueDate()));
-                            employeeInfoCurrentProjectStreet.setText(project.getCity() + " - " + (project.getStreet() == null ? "" : project.getStreet()));
-                            if (contractor == null) {
-                                employeeInfoCurrentProjectContractor.setText("No contractor.");
-                            } else {
-                                employeeInfoCurrentProjectContractor.setText("contractor: " + contractor.getFname() + " " + contractor.getLname());
+                            employeeInfoCurrentProjectContractor.setText("contractor: " + contractor.getFname() + " " + contractor.getLname());
 
-                            }
                         }
+                    }
 
 
-                }
             });
 
             }).start();
 
             new Thread(() -> {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        ArrayList<Project> recentFinishedProjects = getRecentFinishedProjects(employee.getEid());
-                        recentFinishedProjects.forEach(project -> {
-                            enhancedScrollPane.addRow(lastProjectsScrollPaneVbox, project.getProjectId(), project.getCity() + " " + project.getProjType(), project.getCity() + (project.getStreet() == null ? "" : " - " + project.getStreet()), 32, 165, 125, Functions.ListType.LAST_PROJECTS_LIST);
+                Platform.runLater(() -> {
+                    ArrayList<Project> recentFinishedProjects = getRecentFinishedProjects(employee.getEid());
+                    recentFinishedProjects.forEach(project -> {
+                        enhancedScrollPane.addRow(lastProjectsScrollPaneVbox, project.getProjectId(), project.getCity() + " " + project.getProjType(), project.getCity() + (project.getStreet() == null ? "" : " - " + project.getStreet()), 32, 165, 125, Functions.ListType.LAST_PROJECTS_LIST);
 
-                        });
+                    });
 
-                    }
                 });
             }).start();
 
@@ -446,7 +436,6 @@ public class homePageController implements Initializable {
     }
 
     /*             User info                  */
-
     @FXML
     public void userInfoClicked() {
         currentPane.setVisible(false);
@@ -511,26 +500,23 @@ public class homePageController implements Initializable {
     }
 
     private void switchNavButton(Button button) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                int buttonIndex = Integer.parseInt(String.valueOf(button.getId().charAt(9))); // assume we have 9 buttons maximum;
+        Platform.runLater(() -> {
+            int buttonIndex = Integer.parseInt(String.valueOf(button.getId().charAt(9))); // assume we have 9 buttons maximum;
 
-                resetNavBarButtons();
+            resetNavBarButtons();
 
-                Pane higherPane = (Pane) stage.getScene().lookup("#radiusPane" + (buttonIndex-1) + "1");
-                Pane lowerPane = (Pane) stage.getScene().lookup("#radiusPane" + (buttonIndex+1) + "1");
-                Pane pHigherPane = (Pane) stage.getScene().lookup("#radiusPane" + (buttonIndex-1) + "0");
-                Pane pLowerPane = (Pane) stage.getScene().lookup("#radiusPane" + (buttonIndex+1) + "0");
-                higherPane.getStyleClass().add("higher-radius-activated");
-                lowerPane.getStyleClass().add("lower-radius-activated");
-                button.getStyleClass().add("selected-nav-button");
+            Pane higherPane = (Pane) stage.getScene().lookup("#radiusPane" + (buttonIndex-1) + "1");
+            Pane lowerPane = (Pane) stage.getScene().lookup("#radiusPane" + (buttonIndex+1) + "1");
+            Pane pHigherPane = (Pane) stage.getScene().lookup("#radiusPane" + (buttonIndex-1) + "0");
+            Pane pLowerPane = (Pane) stage.getScene().lookup("#radiusPane" + (buttonIndex+1) + "0");
+            higherPane.getStyleClass().add("higher-radius-activated");
+            lowerPane.getStyleClass().add("lower-radius-activated");
+            button.getStyleClass().add("selected-nav-button");
 
-                higherPane.setVisible(true);
-                lowerPane.setVisible(true);
-                pHigherPane.setVisible(true);
-                pLowerPane.setVisible(true);
-            }
+            higherPane.setVisible(true);
+            lowerPane.setVisible(true);
+            pHigherPane.setVisible(true);
+            pLowerPane.setVisible(true);
         });
 
     }

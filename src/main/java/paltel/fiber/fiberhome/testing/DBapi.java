@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class DBapi {
     public static Connection connection = testingMain.dbConnection;
@@ -68,6 +69,33 @@ public class DBapi {
         contractor.setSex(res.getString("sex").charAt(0));
         contractor.setContractorType(res.getString("contractor_type"));
         return contractor;
+    }
+
+    public static void addEmployee(String eid, String idNumber, String fName, String mName, String lName, Date birthDate, String district, Character sex, String jobPos){
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("insert into Employee(EMPLOYEE_ID, ID_NUMBER, FNAME, MNAME, LNAME, BIRTHDATE, DISTRICT, SEX, JOB_POS)  values(" + eid + "," + idNumber + "," + fName + ","  +  mName + ","  + lName + ", TO_DATE(" + birthDate + ", 'yyyy-mm-dd')," + district +  ","  + sex + ","  + jobPos + ")");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void deleteEmployee(String eid){
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("delete from Employee where EMPLOYEE_ID = " + eid);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void updateEmployee(String eid, String fName, String mName, String lName, String jobPos, String district){
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("update Employee set FNAME = " + fName + ", MNAME = " + mName + ", LNAME = " + lName + ", JOB_POS = " + jobPos + ", DISTRICT = " + district + " where EMPLOYEE_ID = " + eid);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
     public static ArrayList<Employee> getAllEmployees(){
         ArrayList<Employee> employees = new ArrayList<>();
@@ -265,8 +293,21 @@ public class DBapi {
     }
 
 
+    public static ArrayList<String> getJobPositions(){
+        ArrayList<String> jobPositions = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select JOB_POS from JOB_POSITION");
+            while (res.next()){
+                jobPositions.add(res.getString("Job_Pos"));
+            }
 
-    //   ROLES
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return jobPositions;
+    }
+
     public static ArrayList<String> getAccountRoles(){
         ArrayList<String> roles = new ArrayList<>();
         try {
@@ -281,6 +322,40 @@ public class DBapi {
         }
         return roles;
     }
+
+    public static ArrayList<String> getContractorTypes(){
+        ArrayList<String> contractorTypes = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select CONT_TYPE from CONTRACTOR_TYPE");
+            while (res.next()){
+                contractorTypes.add(res.getString("CONT_TYPE"));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return contractorTypes;
+    }
+
+
+    // project Page
+    public static ArrayList<String> getProjectTypes(){
+        ArrayList<String> projectTypes = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select PROJ_TYPE from PROJECT_TYPE");
+            while (res.next()){
+                projectTypes.add(res.getString("PROJ_TYPE"));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return projectTypes;
+    }
+
+
 
 
     // Utils

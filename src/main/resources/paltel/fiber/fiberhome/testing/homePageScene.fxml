@@ -213,7 +213,7 @@
                <children>
                   <HBox alignment="CENTER_LEFT" layoutY="6.0" prefHeight="40.0" prefWidth="339.0" spacing="20.0">
                      <children>
-                        <Label prefHeight="26.0" prefWidth="40.0" text="CID" textFill="#cfcfcf">
+                        <Label prefHeight="26.0" prefWidth="30.0" text="CID" textFill="#cfcfcf">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
@@ -360,7 +360,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="employeeInfoPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/displayPage.css" visible="false">
+      <Pane fx:id="employeeInfoPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/displayPage.css">
          <children>
             <Pane fx:id="profileCard" layoutX="76.0" layoutY="39.0" prefHeight="582.0" prefWidth="297.0" styleClass="card-pane">
                <children>
