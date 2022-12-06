@@ -23,7 +23,8 @@ public class Functions {
     public enum ListType {
         CONT_LIST,
         CURRENT_PROJECTS_LIST,
-        LAST_PROJECTS_LIST
+        LAST_PROJECTS_LIST,
+        WAREHOUSE_LIST
     }
     enum DialogType{
         ERROR_DIALOG,
