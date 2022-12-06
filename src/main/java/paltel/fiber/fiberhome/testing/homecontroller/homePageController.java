@@ -5,8 +5,11 @@ import io.github.palexdev.materialfx.controls.MFXPaginatedTableView;
 import io.github.palexdev.materialfx.controls.MFXScrollPane;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -15,6 +18,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Arc;
+import javafx.scene.shape.ArcType;
 import javafx.stage.Stage;
 import paltel.fiber.fiberhome.testing.Functions;
 import paltel.fiber.fiberhome.testing.Navigator;
@@ -72,14 +78,14 @@ public class homePageController implements Initializable {
     @FXML
     Label employeeInfoCurrentProjectName,employeeInfoCurrentProjectId,employeeInfoCurrentProjectContractor,
             employeeInfoCurrentProjectType,employeeInfoCurrentProjectStartDate,employeeInfoCurrentProjectDueDate
-            ,employeeInfoCurrentProjectStreet,employeeInfoCurrentProjectCity;
+            ,employeeInfoCurrentProjectStreet,employeeInfoCurrentProjectCity,employeeInfoLastProjectsLabel;
 
     /*               User info              */
 
     @FXML
     Label userInfoEmpName,userInfoEmpId,userInfoNickName,userInfoRole,userInfoChangePassword;
     @FXML
-    Button userInfoEditButton;
+    Button userInfoEditButton,employeeInfoAssignToProjectButton;
     @FXML
     Pane userInfoPane;
     @FXML
@@ -105,8 +111,22 @@ public class homePageController implements Initializable {
     VBox contractorListScrollPaneVbox;
     @FXML
     VBox lastProjectsScrollPaneVbox;
+
+    @FXML
+    PieChart pieChart;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        ObservableList<PieChart.Data> pieChartData =
+                FXCollections.observableArrayList(
+                        new PieChart.Data("Grapefruit", 13),
+                        new PieChart.Data("Oranges", 25),
+                        new PieChart.Data("Plums", 10),
+                        new PieChart.Data("Pears", 22),
+                        new PieChart.Data("Apples", 30));
+        pieChart.setData(pieChartData);
+        pieChart.setLabelsVisible(false);
+
 //        playOpenAnimation();
         currentPane = employeesPane;
         saveLastLogin();
@@ -366,6 +386,10 @@ public class homePageController implements Initializable {
 
             userSwitchFromEdit();
         }
+    }
+    @FXML
+    public void employeeInfoAssignToProjectButtonClicked() {
+        // TODO: assign to project button clicked
     }
     @FXML
     public void userChangePasswordClicked() {
