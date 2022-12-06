@@ -18,13 +18,13 @@ public class enhancedScrollPane {
 
 
         Label col1 = new Label(column1);
-        col1.setMinSize(width1,40);
+        col1.setPrefSize(width1,40);
 
         Label col2 = new Label(column2);
-        col2.setMinSize(width2,40);
+        col2.setPrefSize(width2,40);
 
         Label col3 = new Label(column3);
-        col3.setMinSize(width3,40);
+        col3.setPrefSize(width3,40);
 
         HBox hBox = new HBox();
 
