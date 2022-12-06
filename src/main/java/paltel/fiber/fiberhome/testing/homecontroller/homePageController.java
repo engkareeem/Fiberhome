@@ -101,6 +101,7 @@ public class homePageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 //        playOpenAnimation();
+        currentPane = employeesPane;
         saveLastLogin();
         stage = Navigator.primaryStage;
 
@@ -234,13 +235,7 @@ public class homePageController implements Initializable {
         homeNavBarVBox.setDisable(false);
         switchFromEdit();
     }
-    @FXML
-    public void userInfoClose() {
-        userInfoPane.setVisible(false);
-        employeesPane.setVisible(true);
-        homeNavBarVBox.setDisable(false);
-        userSwitchFromEdit();
-    }
+
     @FXML
     public void employeeInfoEditButtonClicked() {
         if(!employeeInfoOnEdit) {
@@ -252,6 +247,10 @@ public class homePageController implements Initializable {
             switchFromEdit();
         }
     }
+
+
+
+
     @FXML
     public void employeeDisplayClicked() {
 
@@ -331,6 +330,19 @@ public class homePageController implements Initializable {
 
     /*             User info                  */
     @FXML
+    public void userInfoClicked() {
+        currentPane.setVisible(false);
+        userInfoPane.setVisible(true);
+        homeNavBarVBox.setDisable(true);
+    }
+    @FXML
+    public void userInfoClose() {
+        userInfoPane.setVisible(false);
+        currentPane.setVisible(true);
+        homeNavBarVBox.setDisable(false);
+        userSwitchFromEdit();
+    }
+    @FXML
     public void userInfoEditButtonClicked() {
         if(!userInfoOnEdit) {
             userSwitchToEdit();
@@ -345,11 +357,6 @@ public class homePageController implements Initializable {
     }
     @FXML
     public void userChangePasswordClicked() {
-//        Label label = new Label("New password");
-//        label.setId("editTextField"); // Just for delete it
-//        label.setLayoutX(userInfoChangePassword.getLayoutX());
-//        label.setLayoutY(userInfoChangePassword.getLayoutY());
-        
         TextField textField = new TextField();
         profileCard.getChildren().add(textField);
         textField.setLayoutX(userInfoChangePassword.getLayoutX());

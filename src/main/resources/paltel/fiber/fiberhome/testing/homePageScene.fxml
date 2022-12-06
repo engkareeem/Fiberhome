@@ -36,7 +36,7 @@
          <children>
             <Pane prefHeight="104.0" prefWidth="200.0">
                <children>
-                  <Pane layoutX="14.0" layoutY="18.0">
+                  <Pane layoutX="14.0" layoutY="18.0" onMouseClicked="#userInfoClicked">
                      <children>
                         <Label layoutX="56.0" layoutY="8.0" styleClass="primaryText" text="Kareem M. Yaqoup" />
                         <Label layoutX="57.0" layoutY="29.0" styleClass="secondaryText" text="Admin" />
