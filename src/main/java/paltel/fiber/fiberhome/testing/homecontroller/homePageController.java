@@ -7,7 +7,6 @@ import io.github.palexdev.materialfx.controls.MFXScrollPane;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -42,9 +41,9 @@ public class homePageController implements Initializable {
     @FXML
     Pane titleBar;
     @FXML
-    Pane dashboardPane,employeesPane,controlPanelPane;
+    Pane dashboardPane,employeesPane,controlPanelPane,projectsPane;
     @FXML
-    Button navButton1,navButton2,navButton3;
+    Button navButton1,navButton2,navButton3,navButton4;
     @FXML
     MFXPaginatedTableView<Employee> employeesTable;
 
@@ -88,6 +87,14 @@ public class homePageController implements Initializable {
     boolean userInfoOnEdit = false;
 
 
+
+    /*                  Projects Page                */
+    @FXML
+    MFXPaginatedTableView<Project> projectsTable;
+    @FXML
+    MFXScrollPane warehouseListScrollPane;
+    @FXML
+    VBox warehouseListScrollPaneVbox;
     Stage stage;
 
     @FXML
@@ -115,7 +122,8 @@ public class homePageController implements Initializable {
         switchNavButton(navButton2);
         Functions.move(stage,titleBar);
         Functions.optimizeImageView(backgroundImageView);
-        setupTable();
+        employeesTableViewFunctions.initializeTableView(employeesTable);
+        projectsTableViewFunctions.initializeTableView(projectsTable);
 
         stage.iconifiedProperty().addListener((observableValue, aBoolean, iconified) -> {
             if(iconified && !usedMinimize) {
@@ -130,9 +138,7 @@ public class homePageController implements Initializable {
         });
 
     }
-    private void setupTable() {
-        employeesTableViewFunctions.initializeTableView(employeesTable);
-    }
+
     private void saveLastLogin(){
 
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd H:mm:ss").format(Calendar.getInstance().getTime());
@@ -166,6 +172,7 @@ public class homePageController implements Initializable {
         dashboardPane.setVisible(true);
         employeesPane.setVisible(false);
         controlPanelPane.setVisible(false);
+        projectsPane.setVisible(false);
         switchNavButton(navButton1);
         currentPane = dashboardPane;
     }
@@ -174,6 +181,7 @@ public class homePageController implements Initializable {
         dashboardPane.setVisible(false);
         employeesPane.setVisible(true);
         controlPanelPane.setVisible(false);
+        projectsPane.setVisible(false);
         switchNavButton(navButton2);
         currentPane = employeesPane;
     }
@@ -184,8 +192,19 @@ public class homePageController implements Initializable {
         dashboardPane.setVisible(false);
         employeesPane.setVisible(false);
         controlPanelPane.setVisible(true);
+        projectsPane.setVisible(false);
         switchNavButton(navButton3);
         currentPane = controlPanelPane;
+    }
+    
+    @FXML
+    public void projectsNavButtonClicked() {
+        dashboardPane.setVisible(false);
+        employeesPane.setVisible(false);
+        controlPanelPane.setVisible(false);
+        projectsPane.setVisible(true);
+        switchNavButton(navButton4);
+        currentPane = projectsPane;
     }
 
     @FXML
@@ -304,13 +323,6 @@ public class homePageController implements Initializable {
             });
 
         }).start();
-        /*
-        @FXML
-        Label employeeInfoCurrentProjectName,employeeInfoCurrentProjectId,employeeInfoCurrentProjectContractor,
-                employeeInfoCurrentProjectType,employeeInfoCurrentProjectStartDate,employeeInfoCurrentProjectDueDate
-                ,employeeInfoCurrentProjectStreet,employeeInfoCurrentProjectCity;
-
-     */
 
         employeeInfoEmpName.setText(employee.getFname() + " " + employee.getMname() + " " + employee.getLname());
         employeeInfoEmpId.setText(employee.getEid());

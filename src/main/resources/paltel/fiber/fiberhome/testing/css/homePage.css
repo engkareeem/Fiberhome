@@ -10,31 +10,29 @@
     /*-fx-spacing: 10;*/
     -fx-background-radius: 15 30 30 15;
 }
-#contractorListPane{
+
+
+.statics-pane{
     -fx-background-color: -fx-application-background-color;
     -fx-background-radius: 15;
     -fx-border-radius: 15;
     -fx-effect: dropshadow(gaussian, rgba(94, 94, 99, 0.16), 15, 0.4, 0.0, 0.0);
     -fx-border-color: rgba(2, 129, 198, 0.79);
 }
-
-#employeesNumberPane{
+.statics-square{
     -fx-background-color: -fx-application-popup-background-color;
     -fx-background-radius: 15;
     -fx-border-color: rgba(128, 128, 128, 0.09);
     -fx-effect: dropshadow(gaussian, rgba(94, 94, 99, 0.07), 15, 0.4, 0.0, 0.0);
     -fx-border-radius: 15;
 }
-#employeesStaticsPane{
+.list-pane{
     -fx-background-color: -fx-application-background-color;
     -fx-background-radius: 15;
     -fx-border-radius: 15;
     -fx-effect: dropshadow(gaussian, rgba(94, 94, 99, 0.16), 15, 0.4, 0.0, 0.0);
     -fx-border-color: rgba(2, 129, 198, 0.79);
 }
-
-
-
 .mfx-scroll-pane{
     -fx-background-color: -fx-application-background-color;
     -fx-background-radius: 15;

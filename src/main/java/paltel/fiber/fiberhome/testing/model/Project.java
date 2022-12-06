@@ -24,6 +24,19 @@ public class Project {
         projectId = city = street = contractorId = projectId = "";
     }
 
+    public Project(String projectId, Integer amount, Date startDate, Date dueDate, String city, String street, String contractorId, String projType) {
+        this.projectId = projectId;
+        this.amount = amount;
+        this.startDate = startDate;
+        this.dueDate = dueDate;
+        this.city = city;
+        this.street = street;
+        this.warehouseList = warehouseList;
+        this.employeeList = employeeList;
+        this.contractorId = contractorId;
+        this.projType = projType;
+    }
+
     public Project(String projectId) {
         this.projectId = projectId;
     }
