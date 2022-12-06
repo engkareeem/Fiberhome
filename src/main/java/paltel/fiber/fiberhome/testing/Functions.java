@@ -20,6 +20,11 @@ import static paltel.fiber.fiberhome.testing.Functions.DialogType.*;
 public class Functions {
 
     private static boolean dialogOpend = false;
+    public enum ListType {
+        CONT_LIST,
+        CURRENT_PROJECTS_LIST,
+        LAST_PROJECTS_LIST
+    }
     enum DialogType{
         ERROR_DIALOG,
         WARNING_DIALOG,

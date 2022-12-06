@@ -38,6 +38,10 @@ import static paltel.fiber.fiberhome.testing.DBapi.*;
 
 public class homePageController implements Initializable {
 
+
+
+
+
     @FXML
     AnchorPane ap;
     @FXML
@@ -90,10 +94,26 @@ public class homePageController implements Initializable {
     Pane userInfoPane;
     @FXML
     Pane userProfileCard;
+
+    /*                 Contractor info           */
+    @FXML
+    Label contractorInfoContName,contractorInfoContId,contractorInfoContType,contractorInfoContBirthdate,contractorInfoContAge;
+    @FXML
+    Label contractorInfoProjectName,contractorInfoProjectId,contractorInfoProjectContractor,contractorInfoProjectType
+            ,contractorInfoProjectStartDate,contractorInfoProjectDueDate,contractorInfoProjectStreet,contractorInfoProjectCity
+            ,contractorInfoCurrentProjectsLabel;
+    @FXML
+    MFXScrollPane currentProjectsScrollPane;
+    @FXML
+    VBox currentProjectsScrollPaneVbox;
+    @FXML
+    Button contractorInfoEditButton;
+
+    @FXML
+    Pane contractorInfoPane;
     boolean userInfoOnEdit = false;
 
-
-
+    boolean contractorInfoOnEdit = false;
     /*                  Projects Page                */
     @FXML
     MFXPaginatedTableView<Project> projectsTable;
@@ -101,6 +121,10 @@ public class homePageController implements Initializable {
     MFXScrollPane warehouseListScrollPane;
     @FXML
     VBox warehouseListScrollPaneVbox;
+
+
+
+
     Stage stage;
 
     @FXML
@@ -174,43 +198,23 @@ public class homePageController implements Initializable {
         ArrayList<Contractor> contractors = getAllContractors();
         contractors.forEach(contractor -> {
             enhancedScrollPane.addRow(contractorListScrollPaneVbox, contractor.getContractorId(), contractor.getFname() + " " + contractor.getMname() + " " + contractor.getLname(),
-                    contractor.getContractorType(), 35, 150 ,75);
+                    contractor.getContractorType(), 35, 150 ,75, Functions.ListType.CONT_LIST,currentPane,homeNavBarVBox,contractorInfoPane);
 
         });
     }
 
     private void setUpStatisticsBlocks(){
         new Thread(() -> {
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    totalEmployeesCountLabel.setText(getEmployeesCount().toString());
-                }
-            });
+            Platform.runLater(() -> totalEmployeesCountLabel.setText(getEmployeesCount().toString()));
         }).start();
         new Thread(() -> {
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    totalUsersCountLabel.setText(getUsersCount().toString());
-                }
-            });
+            Platform.runLater(() -> totalUsersCountLabel.setText(getUsersCount().toString()));
         }).start();
         new Thread(() -> {
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    totalContractorCountLabel.setText(getContractorCount().toString());
-                }
-            });
+            Platform.runLater(() -> totalContractorCountLabel.setText(getContractorCount().toString()));
         }).start();
         new Thread(() -> {
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    totalWorkingEmployeesCountLabel.setText(getWorkingEmployeesCount().toString());
-                }
-            });
+            Platform.runLater(() -> totalWorkingEmployeesCountLabel.setText(getWorkingEmployeesCount().toString()));
         }).start();
     }
     private void playOpenAnimation(){
@@ -293,12 +297,16 @@ public class homePageController implements Initializable {
     public void tableAddEmployeeClicked() {
         Functions.showAddEmployeePopup();
     }
-
+    @FXML
+    public void tableRemoveEmployeeClicked() {
+        // TODO: [remove employee] clicked
+    }
     @FXML
     public void employeeInfoClose() {
         employeeInfoPane.setVisible(false);
         employeesPane.setVisible(true);
         homeNavBarVBox.setDisable(false);
+        enhancedScrollPane.resetRows(contractorListScrollPaneVbox);
         switchFromEdit();
     }
 
@@ -385,7 +393,7 @@ public class homePageController implements Initializable {
                     public void run() {
                         ArrayList<Project> recentFinishedProjects = getRecentFinishedProjects(employee.getEid());
                         recentFinishedProjects.forEach(project -> {
-                            enhancedScrollPane.addRow(lastProjectsScrollPaneVbox, project.getProjectId(), project.getCity() + " " + project.getProjType(), project.getCity() + (project.getStreet() == null ? "" : " - " + project.getStreet()), 32, 185, 125);
+                            enhancedScrollPane.addRow(lastProjectsScrollPaneVbox, project.getProjectId(), project.getCity() + " " + project.getProjType(), project.getCity() + (project.getStreet() == null ? "" : " - " + project.getStreet()), 32, 165, 125, Functions.ListType.LAST_PROJECTS_LIST);
 
                         });
 
@@ -415,8 +423,30 @@ public class homePageController implements Initializable {
 
     }
 
+    /*               Contractor info          */
+
+    @FXML
+    public void contractorInfoEditButtonClicked() {
+        // TODO: contractor info edit button clicked
+        if(!contractorInfoOnEdit) {
+            contractorSwitchToEdit();
+        } else {
+
+            // TODO: update contractor info here
+
+            contractorSwitchFromEdit();
+        }
+    }
+    @FXML
+    public void contractorInfoClose() {
+        contractorInfoPane.setVisible(false);
+        currentPane.setVisible(true);
+        homeNavBarVBox.setDisable(false);
+        contractorSwitchFromEdit();
+    }
 
     /*             User info                  */
+
     @FXML
     public void userInfoClicked() {
         currentPane.setVisible(false);
@@ -537,7 +567,7 @@ public class homePageController implements Initializable {
 //        enhancedScrollPane.addRow(contractorListScrollPaneVbox,"9395","Amjad fauore","Electricity",40,150,75);
 
         // employee projects example
-        enhancedScrollPane.addRow(lastProjectsScrollPaneVbox,"1919","Bidya Fiber","Bidya",35,220,72);
+        enhancedScrollPane.addRow(lastProjectsScrollPaneVbox,"1919","Bidya Fiber","Bidya",35,220,72, Functions.ListType.LAST_PROJECTS_LIST);
 
     }
 
@@ -599,6 +629,37 @@ public class homePageController implements Initializable {
         userInfoEditButton.setText("Edit");
 
         userInfoChangePassword.setVisible(false);
+
+    }
+
+    public void contractorSwitchToEdit() {
+        Label []labels = {contractorInfoContName,contractorInfoContType};
+
+        for(Label label:labels) {
+            TextField textField = new TextField();
+            profileCard.getChildren().add(textField);
+            textField.setLayoutX(label.getLayoutX());
+            textField.setLayoutY(label.getLayoutY());
+            textField.setMaxWidth(label.getWidth());
+            textField.getStyleClass().add("info-field");
+            textField.setText(label.getText());
+            textField.setId("editTextField" + label.getId());
+            label.setVisible(false);
+        }
+        contractorInfoEditButton.setText("Submit");
+        contractorInfoOnEdit=true;
+    }
+    public void contractorSwitchFromEdit() {
+        if(!contractorInfoOnEdit) return;
+        Label []labels = {contractorInfoContName,contractorInfoContType};
+        profileCard.getChildren().removeIf(node -> node.getId() != null && node.getId().startsWith("editTextField"));
+        for(Label label: labels) {
+            label.setVisible(true);
+        }
+        // TODO: Refresh the labels :3
+
+        contractorInfoEditButton.setText("Edit");
+        contractorInfoOnEdit=false;
 
     }
 
