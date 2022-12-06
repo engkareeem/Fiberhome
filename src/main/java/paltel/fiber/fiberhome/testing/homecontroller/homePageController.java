@@ -170,6 +170,7 @@ public class homePageController implements Initializable {
 
 
     private void setupContractorsTable(){
+        enhancedScrollPane.resetRows(contractorListScrollPaneVbox);
         ArrayList<Contractor> contractors = getAllContractors();
         contractors.forEach(contractor -> {
             enhancedScrollPane.addRow(contractorListScrollPaneVbox, contractor.getContractorId(), contractor.getFname() + " " + contractor.getMname() + " " + contractor.getLname(),
@@ -271,12 +272,6 @@ public class homePageController implements Initializable {
     }
     /*               display Employee stuff                     */
 
-    /*
-
-    @FXML
-    Label employeeInfoEmpName,employeeInfoEmpId,employeeInfoBirthdate,
-            employeeInfoEmpAge,employeeInfoJobPos,employeeInfoEmpDistrict,employeeInfoLastLogin;
-    */
     int getAge(Date firstDate, Date secondDate) {
         Calendar firstYear = getCalendar(firstDate);
         Calendar secondYear = getCalendar(secondDate);
@@ -326,6 +321,7 @@ public class homePageController implements Initializable {
     public void employeeDisplayClicked() {
 
         Employee employee = employeesTableViewFunctions.employeeDisplayClicked();
+        enhancedScrollPane.resetRows(lastProjectsScrollPaneVbox);
         if (employee == null) return;
         SimpleDateFormat birthdateFormat = new SimpleDateFormat("dd/MM/yyyy");
         SimpleDateFormat projectDateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -349,6 +345,7 @@ public class homePageController implements Initializable {
         if (employee.getJobPos().equals("Technician") || employee.getJobPos().equals("Project Monitor") || employee.getJobPos().equals("Project Manager")) {
             currentProjectCard.setVisible(true);
             lastProjectsCard.setVisible(true);
+            employeeInfoAssignToProjectButton.setVisible(false);
             new Thread(() -> {
                 Platform.runLater(new Runnable() {
                     @Override
@@ -356,6 +353,8 @@ public class homePageController implements Initializable {
                         Project project = getCurrentProject(employee.getEid());
                         if (project == null) {
                             currentProjectCard.setVisible(false);
+                            employeeInfoAssignToProjectButton.setVisible(true);
+
 
                         } else {
                             Contractor contractor = getContractorInfo(project.getContractorId());
@@ -386,8 +385,7 @@ public class homePageController implements Initializable {
                     public void run() {
                         ArrayList<Project> recentFinishedProjects = getRecentFinishedProjects(employee.getEid());
                         recentFinishedProjects.forEach(project -> {
-
-                            enhancedScrollPane.addRow(lastProjectsScrollPaneVbox, project.getProjectId(), project.getCity() + " " + project.getProjType(), project.getCity() + " " + (project.getStreet() == null ? "" : project.getStreet()), 32, 222, 30);
+                            enhancedScrollPane.addRow(lastProjectsScrollPaneVbox, project.getProjectId(), project.getCity() + " " + project.getProjType(), project.getCity() + (project.getStreet() == null ? "" : " - " + project.getStreet()), 32, 185, 125);
 
                         });
 
@@ -396,7 +394,9 @@ public class homePageController implements Initializable {
             }).start();
 
 
-        }else {
+        }else { // this employee doesn't work on projects
+            employeeInfoLastProjectsLabel.setVisible(false);
+            employeeInfoAssignToProjectButton.setVisible(false);
             currentProjectCard.setVisible(false);
             lastProjectsCard.setVisible(false);
         }
