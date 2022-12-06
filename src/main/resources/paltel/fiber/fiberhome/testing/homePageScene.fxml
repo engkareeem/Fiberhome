@@ -337,14 +337,14 @@
                   </MFXScrollPane>
                </children>
             </Pane>
-            <Label fx:id="employeeDisplayLabel1" layoutX="119.0" layoutY="626.0" onMouseClicked="#employeeDisplayClicked" textFill="#00a0d7">
+            <Label fx:id="projectDisplayLabel" layoutX="119.0" layoutY="626.0" textFill="#00a0d7">
                <graphic>
                   <FontIcon iconColor="#00a0d7" iconLiteral="fltfmz-people-search-24" iconSize="18" text="" />
                </graphic>
             </Label>
-            <Label layoutX="155.0" layoutY="626.0" onMouseClicked="#tableAddEmployeeClicked">
+            <Label fx:id="newProjectLabel" layoutX="155.0" layoutY="626.0">
                <graphic>
-                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-add-circle-24" iconSize="20" />
+                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-add-circle-24" iconSize="20" text="" />
                </graphic>
             </Label>
          </children>
