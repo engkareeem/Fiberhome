@@ -11,6 +11,23 @@
     -fx-background-radius: 15 30 30 15;
 }
 
+.combo-box{
+    -fx-background-color: -fx-application-background-color;
+    -fx-background-radius: 7;
+    -fx-border-color: grey;
+    -fx-border-radius: 7;
+    -fx-border-width: 1.2;
+}
+.combo-box .list-view{
+    -fx-background-color: derive(-fx-application-background-color,10%);
+}
+.combo-box .list-cell{
+    -fx-text-fill: #cfcfcf;
+    -fx-background-color: -fx-application-background-color;
+}
+.combo-box .list-cell:hover{
+    -fx-background-color: derive(-fx-application-background-color,10%);
+}
 
 .statics-pane{
     -fx-background-color: -fx-application-background-color;

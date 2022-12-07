@@ -3,7 +3,6 @@ package paltel.fiber.fiberhome.testing.homecontroller;
 import animatefx.animation.*;
 import io.github.palexdev.materialfx.controls.MFXPaginatedTableView;
 import io.github.palexdev.materialfx.controls.MFXScrollPane;
-
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -18,9 +18,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Arc;
-import javafx.scene.shape.ArcType;
 import javafx.stage.Stage;
 import paltel.fiber.fiberhome.testing.Functions;
 import paltel.fiber.fiberhome.testing.Navigator;
@@ -106,6 +103,8 @@ public class homePageController implements Initializable {
     MFXScrollPane currentProjectsScrollPane;
     @FXML
     VBox currentProjectsScrollPaneVbox;
+    @FXML
+    Pane contractorProfileCard;
     @FXML
     Button contractorInfoEditButton;
 
@@ -197,7 +196,7 @@ public class homePageController implements Initializable {
         ArrayList<Contractor> contractors = getAllContractors();
         contractors.forEach(contractor -> {
             enhancedScrollPane.addRow(contractorListScrollPaneVbox, contractor.getContractorId(), contractor.getFname() + " " + contractor.getMname() + " " + contractor.getLname(),
-                    contractor.getContractorType(), 35, 150 ,75, Functions.ListType.CONT_LIST,currentPane,homeNavBarVBox,contractorInfoPane);
+                    contractor.getContractorType(), 35, 150 ,85, Functions.ListType.CONT_LIST,currentPane,homeNavBarVBox,contractorInfoPane);
 
         });
     }
@@ -298,14 +297,35 @@ public class homePageController implements Initializable {
     }
     @FXML
     public void tableRemoveEmployeeClicked() {
-        // TODO: [remove employee] clicked
+        if(employeesTableViewFunctions.getSelectedRow() == null) return;
+        Employee selectedEmployee = employeesTableViewFunctions.getSelectedRow();
+        Functions.showDialog("Are you sure you want to delete  \"" + selectedEmployee.getFname() + " " + selectedEmployee.getLname() +"\" records?", Functions.Errors.CONFIRM_DIALOG);
+        new Thread(() -> {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            while(Functions.confirmFlag == null) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            if(Functions.confirmFlag) {
+                // TODO: [remove Employee] clicked with confirm
+            }
+
+        }).start();
     }
     @FXML
     public void employeeInfoClose() {
         employeeInfoPane.setVisible(false);
         employeesPane.setVisible(true);
         homeNavBarVBox.setDisable(false);
-        enhancedScrollPane.resetRows(contractorListScrollPaneVbox);
+        enhancedScrollPane.resetRows(lastProjectsScrollPaneVbox);
         switchFromEdit();
     }
 
@@ -327,7 +347,7 @@ public class homePageController implements Initializable {
     @FXML
     public void employeeDisplayClicked() {
 
-        Employee employee = employeesTableViewFunctions.employeeDisplayClicked();
+        Employee employee = employeesTableViewFunctions.getSelectedRow();
         enhancedScrollPane.resetRows(lastProjectsScrollPaneVbox);
         if (employee == null) return;
         SimpleDateFormat birthdateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -428,6 +448,29 @@ public class homePageController implements Initializable {
         }
     }
     @FXML
+    public void contractorInfoDeleteButtonClicked() {
+        Functions.showDialog("Are you sure you want to delete  \"" + contractorInfoContName.getText() +"\" records?", Functions.Errors.CONFIRM_DIALOG);
+        new Thread(() -> {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            while(Functions.confirmFlag == null) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            if(Functions.confirmFlag) {
+                // TODO: [remove Contractor] clicked with confirm
+            }
+
+        }).start();
+    }
+    @FXML
     public void contractorInfoClose() {
         contractorInfoPane.setVisible(false);
         currentPane.setVisible(true);
@@ -479,6 +522,40 @@ public class homePageController implements Initializable {
         userProfileCard.getChildren().add(textField);
         userInfoChangePassword.setVisible(false);
     }
+
+    /*                           Projects Page                 */
+
+    @FXML
+    public void tableRemoveProjectClicked() {
+        if(projectsTableViewFunctions.getSelectedRow() == null) return;
+        Project selectedProject = projectsTableViewFunctions.getSelectedRow();
+        Functions.showDialog("Are you sure you want to delete  \"" + selectedProject.getProjectId() +"\" records from database?", Functions.Errors.CONFIRM_DIALOG);
+        new Thread(() -> {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            while(Functions.confirmFlag == null) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            if(Functions.confirmFlag) {
+                // TODO: [remove Project] clicked with confirm
+            }
+
+        }).start();
+    }
+    @FXML
+    public void tableAddProjectClicked() {
+
+
+    }
+
     @FXML
     public void close(MouseEvent e){
         AnimationFX closeAnimation = new ZoomOutUp(ap);
@@ -558,17 +635,57 @@ public class homePageController implements Initializable {
     }
 
     public void switchToEdit() {
-        Label []labels = {employeeInfoEmpName,employeeInfoEmpJobPos,employeeInfoEmpDistrict};
+        Label []labels = {employeeInfoEmpDistrict};
+        TextField textField;
+        textField = new TextField();
+        textField.setLayoutX(employeeInfoEmpName.getLayoutX());
+        textField.setLayoutY(employeeInfoEmpName.getLayoutY());
+        textField.setMaxWidth(60);
+        textField.getStyleClass().add("info-field");
+        textField.setPromptText("First");
+        textField.setId("editTextField" + "FirstName");
+        profileCard.getChildren().add(textField);
+        textField = new TextField();
+        textField.setLayoutX(employeeInfoEmpName.getLayoutX() + 70);
+        textField.setLayoutY(employeeInfoEmpName.getLayoutY());
+        textField.setMaxWidth(60);
+        textField.getStyleClass().add("info-field");
+        textField.setPromptText("Middle");
+        textField.setId("editTextField" + "MiddleName");
+        profileCard.getChildren().add(textField);
+        textField = new TextField();
+        textField.setLayoutX(employeeInfoEmpName.getLayoutX() + 140);
+        textField.setLayoutY(employeeInfoEmpName.getLayoutY());
+        textField.setMaxWidth(60);
+        textField.getStyleClass().add("info-field");
+        textField.setPromptText("Last");
+        textField.setId("editTextField" + "LastName");
+        profileCard.getChildren().add(textField);
+
+        employeeInfoEmpName.setVisible(false);
+
+        ComboBox<String> comboBox = new ComboBox<>();
+        comboBox.setLayoutX(employeeInfoEmpJobPos.getLayoutX());
+        comboBox.setLayoutY(employeeInfoEmpJobPos.getLayoutY());
+        comboBox.setPrefWidth(employeeInfoEmpJobPos.getWidth());
+        comboBox.setPromptText(employeeInfoEmpJobPos.getText());
+        comboBox.setId("editTextField" + employeeInfoEmpJobPos.getId());
+        ObservableList<String> comboBoxItems = FXCollections.observableArrayList(getJobPositions());
+        comboBox.setItems(comboBoxItems);
+
+        profileCard.getChildren().add(comboBox);
+        employeeInfoEmpJobPos.setVisible(false);
+
 
         for(Label label:labels) {
-            TextField textField = new TextField();
-            profileCard.getChildren().add(textField);
+            textField = new TextField();
             textField.setLayoutX(label.getLayoutX());
             textField.setLayoutY(label.getLayoutY());
             textField.setMaxWidth(label.getWidth());
             textField.getStyleClass().add("info-field");
             textField.setText(label.getText());
             textField.setId("editTextField" + label.getId());
+            profileCard.getChildren().add(textField);
             label.setVisible(false);
         }
         employeeInfoEditButton.setText("Submit");
@@ -619,26 +736,53 @@ public class homePageController implements Initializable {
     }
 
     public void contractorSwitchToEdit() {
-        Label []labels = {contractorInfoContName,contractorInfoContType};
+        TextField textField;
+        textField = new TextField();
+        textField.setLayoutX(contractorInfoContName.getLayoutX());
+        textField.setLayoutY(contractorInfoContName.getLayoutY());
+        textField.setMaxWidth(60);
+        textField.getStyleClass().add("info-field");
+        textField.setPromptText("First");
+        textField.setId("editTextField" + "FirstName");
+        contractorProfileCard.getChildren().add(textField);
+        textField = new TextField();
+        textField.setLayoutX(contractorInfoContName.getLayoutX() + 70);
+        textField.setLayoutY(contractorInfoContName.getLayoutY());
+        textField.setMaxWidth(60);
+        textField.getStyleClass().add("info-field");
+        textField.setPromptText("Middle");
+        textField.setId("editTextField" + "MiddleName");
+        contractorProfileCard.getChildren().add(textField);
+        textField = new TextField();
+        textField.setLayoutX(contractorInfoContName.getLayoutX() + 140);
+        textField.setLayoutY(contractorInfoContName.getLayoutY());
+        textField.setMaxWidth(60);
+        textField.getStyleClass().add("info-field");
+        textField.setPromptText("Last");
+        textField.setId("editTextField" + "LastName");
+        contractorProfileCard.getChildren().add(textField);
 
-        for(Label label:labels) {
-            TextField textField = new TextField();
-            profileCard.getChildren().add(textField);
-            textField.setLayoutX(label.getLayoutX());
-            textField.setLayoutY(label.getLayoutY());
-            textField.setMaxWidth(label.getWidth());
-            textField.getStyleClass().add("info-field");
-            textField.setText(label.getText());
-            textField.setId("editTextField" + label.getId());
-            label.setVisible(false);
-        }
+        contractorInfoContName.setVisible(false);
+
+        ComboBox<String> comboBox = new ComboBox<>();
+        comboBox.setLayoutX(contractorInfoContType.getLayoutX());
+        comboBox.setLayoutY(contractorInfoContType.getLayoutY());
+        comboBox.setPrefWidth(contractorInfoContType.getWidth());
+        comboBox.setPromptText(contractorInfoContType.getText());
+        comboBox.setId("editTextField" + contractorInfoContType.getId());
+        ObservableList<String> comboBoxItems = FXCollections.observableArrayList(getContractorTypes());
+        comboBox.setItems(comboBoxItems);
+
+        contractorProfileCard.getChildren().add(comboBox);
+        contractorInfoContType.setVisible(false);
+
         contractorInfoEditButton.setText("Submit");
         contractorInfoOnEdit=true;
     }
     public void contractorSwitchFromEdit() {
         if(!contractorInfoOnEdit) return;
         Label []labels = {contractorInfoContName,contractorInfoContType};
-        profileCard.getChildren().removeIf(node -> node.getId() != null && node.getId().startsWith("editTextField"));
+        contractorProfileCard.getChildren().removeIf(node -> node.getId() != null && node.getId().startsWith("editTextField"));
         for(Label label: labels) {
             label.setVisible(true);
         }

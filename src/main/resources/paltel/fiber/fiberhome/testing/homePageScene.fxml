@@ -154,7 +154,7 @@
                <children>
                   <Pane fx:id="employeesNumberPane" layoutX="44.0" layoutY="23.0" prefHeight="114.0" prefWidth="193.0" styleClass="statics-square">
                      <children>
-                        <Label fx:id="totalEmployeesCountLabel" layoutX="77.0" layoutY="22.0" text="4834" textFill="#cfcfcf">
+                        <Label fx:id="totalEmployeesCountLabel" alignment="CENTER" layoutY="22.0" prefWidth="193.0" text="4834" textFill="#cfcfcf">
                            <font>
                               <Font name="System Bold" size="17.0" />
                            </font>
@@ -168,7 +168,7 @@
                   </Pane>
                   <Pane fx:id="employeesNumberPane" layoutX="277.0" layoutY="23.0" prefHeight="114.0" prefWidth="193.0" styleClass="statics-square">
                      <children>
-                        <Label fx:id="totalContractorCountLabel" layoutX="77.0" layoutY="23.0" text="4834" textFill="#cfcfcf">
+                        <Label fx:id="totalContractorCountLabel" alignment="CENTER" layoutY="23.0" prefHeight="26.0" prefWidth="193.0" text="4834" textFill="#cfcfcf">
                            <font>
                               <Font name="System Bold" size="17.0" />
                            </font>
@@ -182,7 +182,7 @@
                   </Pane>
                   <Pane fx:id="employeesNumberPane" layoutX="44.0" layoutY="160.0" prefHeight="114.0" prefWidth="193.0" styleClass="statics-square">
                      <children>
-                        <Label fx:id="totalWorkingEmployeesCountLabel" layoutX="77.0" layoutY="23.0" text="4834" textFill="#cfcfcf">
+                        <Label fx:id="totalWorkingEmployeesCountLabel" alignment="CENTER" layoutY="23.0" prefWidth="193.0" text="4834" textFill="#cfcfcf">
                            <font>
                               <Font name="System Bold" size="17.0" />
                            </font>
@@ -196,7 +196,7 @@
                   </Pane>
                   <Pane fx:id="employeesNumberPane" layoutX="277.0" layoutY="160.0" prefHeight="114.0" prefWidth="193.0" styleClass="statics-square">
                      <children>
-                        <Label fx:id="totalUsersCountLabel" layoutX="77.0" layoutY="23.0" text="4834" textFill="#cfcfcf">
+                        <Label fx:id="totalUsersCountLabel" alignment="CENTER" layoutY="23.0" prefWidth="193.0" text="4834" textFill="#cfcfcf">
                            <font>
                               <Font name="System Bold" size="17.0" />
                            </font>
@@ -223,7 +223,7 @@
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Label>
-                        <Label prefHeight="26.0" prefWidth="75.0" text="Type" textFill="#cfcfcf">
+                        <Label prefHeight="26.0" prefWidth="91.0" text="Job" textFill="#cfcfcf">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
@@ -350,17 +350,22 @@
             </Pane>
             <Label fx:id="projectDisplayLabel" layoutX="119.0" layoutY="626.0" textFill="#00a0d7">
                <graphic>
-                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfmz-people-search-24" iconSize="18" text="" />
+                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-clipboard-search-24" iconSize="20" />
                </graphic>
             </Label>
-            <Label fx:id="newProjectLabel" layoutX="155.0" layoutY="626.0">
+            <Label fx:id="newProjectLabel" layoutX="155.0" layoutY="626.0" onMouseClicked="#tableAddProjectClicked">
                <graphic>
                   <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-add-circle-24" iconSize="20" text="" />
                </graphic>
             </Label>
+            <Label layoutX="191.0" layoutY="626.0" onMouseClicked="#tableRemoveProjectClicked">
+               <graphic>
+                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-dismiss-circle-24" iconSize="20" />
+               </graphic>
+            </Label>
          </children>
       </Pane>
-      <Pane fx:id="employeeInfoPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/displayPage.css">
+      <Pane fx:id="employeeInfoPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/displayPage.css" visible="false">
          <children>
             <Pane fx:id="profileCard" layoutX="76.0" layoutY="39.0" prefHeight="582.0" prefWidth="297.0" styleClass="card-pane">
                <children>
@@ -374,12 +379,12 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="employeeInfoEmpName" layoutX="18.0" layoutY="260.0" text="Kareem Mazen Yaqoup" textFill="#cfcfcf">
+                  <Label fx:id="employeeInfoEmpName" layoutX="18.0" layoutY="260.0" prefHeight="26.0" prefWidth="215.0" text="Kareem Mazen Yaqoup" textFill="#cfcfcf">
                      <font>
                         <Font size="17.0" />
                      </font>
                   </Label>
-                  <Label fx:id="employeeInfoEmpJobPos" layoutX="20.0" layoutY="293.0" text="Department Manager" textFill="#b9b9b9">
+                  <Label fx:id="employeeInfoEmpJobPos" layoutX="20.0" layoutY="293.0" prefHeight="20.0" prefWidth="174.0" text="Department Manager" textFill="#b9b9b9">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -520,12 +525,12 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="userInfoEmpName" layoutX="18.0" layoutY="260.0" text="Kareem Mazen Yaqoup" textFill="#cfcfcf">
+                  <Label fx:id="userInfoEmpName" layoutX="18.0" layoutY="260.0" prefHeight="26.0" prefWidth="222.0" text="Kareem Mazen Yaqoup" textFill="#cfcfcf">
                      <font>
                         <Font size="17.0" />
                      </font>
                   </Label>
-                  <Label fx:id="userInfoNickName" layoutX="52.0" layoutY="294.0" text="IiKaReeeM" textFill="#b9b9b9">
+                  <Label fx:id="userInfoNickName" layoutX="52.0" layoutY="294.0" prefHeight="20.0" prefWidth="161.0" text="IiKaReeeM" textFill="#b9b9b9">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -572,14 +577,14 @@
                         <Font size="17.0" />
                      </font>
                   </Label>
-                  <Label fx:id="contractorInfoContType" layoutX="20.0" layoutY="293.0" text="Civil Work" textFill="#b9b9b9">
+                  <Label fx:id="contractorInfoContType" layoutX="20.0" layoutY="293.0" prefHeight="20.0" prefWidth="200.0" text="Civil Work" textFill="#b9b9b9">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
                   <Separator layoutX="18.0" layoutY="290.0" opacity="0.21" prefHeight="1.0" prefWidth="261.0" />
                   <Label fx:id="contractorInfoContId" layoutX="252.0" layoutY="265.0" text="0005" textFill="#cfcfcf" />
-                  <Button fx:id="contractorInfoEditButton" layoutX="85.0" layoutY="497.0" mnemonicParsing="false" onAction="#contractorInfoEditButtonClicked" prefHeight="50.0" prefWidth="128.0" styleClass="primaryButton" text="Edit" />
+                  <Button fx:id="contractorInfoEditButton" layoutX="24.0" layoutY="496.0" mnemonicParsing="false" onAction="#contractorInfoEditButtonClicked" prefHeight="50.0" prefWidth="107.0" styleClass="primaryButton" text="Edit" />
                   <Label fx:id="contractorInfoContBirthdate" layoutX="17.0" layoutY="366.0" text="11/9/2001" textFill="#cfcfcf">
                      <font>
                         <Font size="17.0" />
@@ -587,6 +592,7 @@
                   </Label>
                   <Separator layoutX="17.0" layoutY="395.0" opacity="0.21" prefHeight="1.0" prefWidth="261.0" />
                   <Label fx:id="contractorInfoContAge" alignment="CENTER_RIGHT" layoutX="241.0" layoutY="371.0" prefHeight="17.0" prefWidth="39.0" text="21 yo" textFill="#cfcfcf" />
+                  <Button fx:id="contractorInfoDeleteButton" layoutX="165.0" layoutY="496.0" mnemonicParsing="false" onAction="#contractorInfoDeleteButtonClicked" prefHeight="50.0" prefWidth="107.0" styleClass="primaryCancelButton" text="Delete" />
                </children>
             </Pane>
             <Pane fx:id="projectCard" layoutX="425.0" layoutY="40.0" prefHeight="266.0" prefWidth="400.0" styleClass="card-pane">

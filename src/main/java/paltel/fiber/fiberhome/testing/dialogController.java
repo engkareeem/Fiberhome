@@ -35,6 +35,7 @@ public class dialogController implements Initializable {
     private Functions.Errors error;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Functions.confirmFlag = null;
         stage = Navigator.popupStage;
         ZoomIn stageZoom = new ZoomIn(ap);
         stageZoom.setSpeed(2);
@@ -62,7 +63,6 @@ public class dialogController implements Initializable {
         } else if(error.getType() == INFORMATION_DIALOG) {
             dialogIcon.setIconLiteral("fltral-info-24");
             dialogIcon.setIconColor(Color.web("#499ab2"));
-
         }
     }
     @FXML
@@ -70,11 +70,16 @@ public class dialogController implements Initializable {
         if(error == Functions.Errors.CONNECTION_ERROR) {
             Functions.displayStatus(Navigator.primaryStage.getScene(),0,0);
             testingMain.connectToDatabase();
+        } else if(error == Functions.Errors.CONFIRM_DIALOG) {
+            Functions.confirmFlag = true;
         }
         closeDialog();
     }
     @FXML
     public void cancelButtonClicked() {
+        if(error == Functions.Errors.CONFIRM_DIALOG) {
+            Functions.confirmFlag = false;
+        }
         closeDialog();
     }
     private void closeDialog() {

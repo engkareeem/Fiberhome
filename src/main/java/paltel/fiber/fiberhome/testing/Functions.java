@@ -20,6 +20,7 @@ import static paltel.fiber.fiberhome.testing.Functions.DialogType.*;
 public class Functions {
 
     private static boolean dialogOpend = false;
+    public static Boolean confirmFlag = null;
     public enum ListType {
         CONT_LIST,
         CURRENT_PROJECTS_LIST,
@@ -32,7 +33,7 @@ public class Functions {
         SUCCESSFUL_DIALOG,
         INFORMATION_DIALOG,
     }
-    enum Errors{
+    public enum Errors{
         // شملت كلشي مع الايرورز لانه عقلي مش قادر يعطيني اسم يشملهم كلهم، مشيها
         // اذا طلع معك اسم منيح سوي للاينم ريفاكتور
         // DEFAULT ERRORS OR TYPES
@@ -44,6 +45,7 @@ public class Functions {
         // Custom Types
 
         CONNECTION_ERROR(ERROR_DIALOG),
+        CONFIRM_DIALOG(WARNING_DIALOG),
         NONE(null);
 
         private final DialogType dialogType;

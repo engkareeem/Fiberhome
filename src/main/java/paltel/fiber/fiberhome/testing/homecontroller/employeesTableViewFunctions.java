@@ -72,7 +72,7 @@ public class employeesTableViewFunctions {
         );
         tableview.setItems(employees);
     }
-    public static Employee employeeDisplayClicked() {
+    public static Employee getSelectedRow() {
         IMultipleSelectionModel<Employee> selectionModel = employeesTable.getSelectionModel();
         Collection<Employee> selected = selectionModel.getSelection().values();
         if(selected.toArray().length == 0) return null;

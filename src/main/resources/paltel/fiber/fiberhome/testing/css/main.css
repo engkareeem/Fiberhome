@@ -18,6 +18,13 @@
     -fx-primary-button-pressed-color: #0383ca;
     -fx-primary-button-pressed-text-color: white;
 
+    -fx-primary-cancel-button-color: #ed414b;
+    -fx-primary-cancel-button-text-color: white;
+    -fx-primary-cancel-button-hover-color: #ec4b55;
+    -fx-primary-cancel-button-hover-text-color: white;
+    -fx-primary-cancel-button-pressed-color: #ed3742;
+    -fx-primary-cancel-button-pressed-text-color: white;
+
     -fx-secondary-button-color: #2f3137;
     -fx-secondary-button-text-color: white;
     -fx-secondary-button-hover-color: #3b3d45;
@@ -45,7 +52,21 @@
 }
 
 
-
+.primaryCancelButton {
+    -fx-background-color: -fx-primary-cancel-button-color;
+    -fx-text-fill: -fx-primary-cancel-button-text-color;
+    -fx-font-size: 13;
+}
+.primaryCancelButton:hover {
+    -fx-background-color: -fx-primary-cancel-button-hover-color;
+    -fx-text-fill: -fx-primary-cancel-button-hover-text-color;
+    -fx-font-size: 13;
+}
+.primaryCancelButton:pressed {
+    -fx-background-color: -fx-primary-cancel-button-pressed-color;
+    -fx-text-fill: -fx-primary-cancel-button-pressed-text-color;
+    -fx-font-size: 13;
+}
 .primaryButton {
     -fx-background-color: -fx-primary-button-color;
     -fx-text-fill: -fx-primary-button-text-color;

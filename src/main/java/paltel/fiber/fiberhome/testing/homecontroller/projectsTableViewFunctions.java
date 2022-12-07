@@ -5,13 +5,16 @@ import io.github.palexdev.materialfx.controls.MFXTableView;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
 import io.github.palexdev.materialfx.filter.IntegerFilter;
 import io.github.palexdev.materialfx.filter.StringFilter;
+import io.github.palexdev.materialfx.selection.base.IMultipleSelectionModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import paltel.fiber.fiberhome.testing.DBapi;
+import paltel.fiber.fiberhome.testing.model.Employee;
 import paltel.fiber.fiberhome.testing.model.Project;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
 
@@ -65,5 +68,11 @@ public class projectsTableViewFunctions {
                 new StringFilter<>("Street", Project::getStreet)
         );
         tableview.setItems(projects);
+    }
+    public static Project getSelectedRow() {
+        IMultipleSelectionModel<Project> selectionModel = projectsTable.getSelectionModel();
+        Collection<Project> selected = selectionModel.getSelection().values();
+        if(selected.toArray().length == 0) return null;
+        return (Project) selected.toArray()[0];
     }
 }
