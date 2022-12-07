@@ -79,9 +79,9 @@
             </Pane>
             <Pane prefHeight="44.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="navButton3" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#controlPanelNavButtonClicked" prefHeight="45.0" prefWidth="200.0" styleClass="nav-button" text="Control Panel">
+                  <Button fx:id="navButton3" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#projectsNavButtonClicked" prefHeight="45.0" prefWidth="200.0" styleClass="nav-button" text="Projects">
                      <graphic>
-                        <FontIcon iconColor="#a6a6a6" iconLiteral="fltfmz-slide-text-28" iconSize="20" wrappingWidth="35.0" />
+                        <FontIcon iconColor="#a6a6a6" iconLiteral="fltfmz-settings-24" iconSize="20" wrappingWidth="35.0" />
                      </graphic>
                      <padding>
                         <Insets left="20.0" />
@@ -93,9 +93,9 @@
             </Pane>
             <Pane prefHeight="44.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="navButton4" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#projectsNavButtonClicked" prefHeight="45.0" prefWidth="200.0" styleClass="nav-button" text="Projects">
+                  <Button fx:id="navButton4" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#controlPanelNavButtonClicked" prefHeight="45.0" prefWidth="200.0" styleClass="nav-button" text="Control Panel">
                      <graphic>
-                        <FontIcon iconColor="#a6a6a6" iconLiteral="fltfmz-settings-24" iconSize="20" wrappingWidth="35.0" />
+                        <FontIcon iconColor="#a6a6a6" iconLiteral="fltfmz-slide-text-28" iconSize="20" wrappingWidth="35.0" />
                      </graphic>
                      <padding>
                         <Insets left="20.0" />
@@ -149,7 +149,7 @@
                   <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-dismiss-circle-24" iconSize="20" />
                </graphic>
             </Label>
-            <Label layoutX="375.0" layoutY="7.0" styleClass="headerText" text="Employees" />
+            <Label layoutX="375.0" styleClass="headerText" text="Employees" />
             <Pane fx:id="employeesStaticsPane" layoutX="15.0" layoutY="87.0" prefHeight="296.0" prefWidth="516.0" styleClass="statics-pane">
                <children>
                   <Pane fx:id="employeesNumberPane" layoutX="44.0" layoutY="23.0" prefHeight="114.0" prefWidth="193.0" styleClass="statics-square">
@@ -248,11 +248,11 @@
             <Label layoutX="345.0" layoutY="330.0" styleClass="headerText" text="Thats a Control Panel :D" />
          </children>
       </Pane>
-      <Pane fx:id="projectsPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" visible="false">
+      <Pane fx:id="projectsPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0">
          <children>
-            <Label layoutX="387.0" layoutY="7.0" text="Projects" textFill="WHITE">
+            <Label layoutX="394.0" styleClass="headerText" text="Projects" textFill="WHITE">
                <font>
-                  <Font size="36.0" />
+                  <Font name="System Bold" size="36.0" />
                </font>
             </Label>
             <MFXPaginatedTableView fx:id="projectsTable" layoutX="15.0" layoutY="404.0" prefHeight="250.0" prefWidth="870.0" />
@@ -348,7 +348,7 @@
                   </MFXScrollPane>
                </children>
             </Pane>
-            <Label fx:id="projectDisplayLabel" layoutX="119.0" layoutY="626.0" textFill="#00a0d7">
+            <Label fx:id="projectDisplayLabel" layoutX="119.0" layoutY="626.0" onMouseClicked="#tableDisplayProjectClicked" textFill="#00a0d7">
                <graphic>
                   <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-clipboard-search-24" iconSize="20" />
                </graphic>
@@ -684,6 +684,137 @@
                </children>
             </Pane>
             <Label layoutX="20.0" layoutY="14.0" onMouseClicked="#contractorInfoClose" prefHeight="18.0" prefWidth="32.0">
+               <graphic>
+                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-arrow-left-24" iconSize="30" />
+               </graphic>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="projectInfoPane" layoutX="210.0" layoutY="36.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/displayPage.css" visible="false">
+         <children>
+            <Pane fx:id="projectProfileCard" layoutX="76.0" layoutY="39.0" prefHeight="582.0" prefWidth="297.0" styleClass="card-pane">
+               <children>
+                  <StackPane layoutY="7.0" prefHeight="177.0" prefWidth="297.0">
+                     <children>
+                        <FontIcon iconColor="#00a0d7" iconLiteral="fltfmz-wrench-16" iconSize="100" />
+                     </children>
+                  </StackPane>
+                  <Label layoutX="99.0" layoutY="184.0" text="Project Info" textFill="#cfcfcf">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="contractorInfoContName1" layoutX="18.0" layoutY="260.0" text="Project ID:" textFill="#cfcfcf">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="projectInfoProjType" layoutX="20.0" layoutY="293.0" prefHeight="20.0" prefWidth="174.0" text="Maintenance" textFill="#b9b9b9">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Separator layoutX="18.0" layoutY="290.0" opacity="0.21" prefHeight="1.0" prefWidth="261.0" />
+                  <Label fx:id="projectInfoProjId" layoutX="252.0" layoutY="265.0" text="0005" textFill="#cfcfcf" />
+                  <Button fx:id="projectInfoEditButton" layoutX="95.0" layoutY="496.0" mnemonicParsing="false" onAction="#projectInfoEditButtonClicked" prefHeight="50.0" prefWidth="107.0" styleClass="primaryButton" text="Edit" />
+                  <Label fx:id="projectInfoStartDate" layoutX="17.0" layoutY="366.0" text="11/9/2001" textFill="#cfcfcf">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+                  <Separator layoutX="17.0" layoutY="395.0" opacity="0.21" prefHeight="1.0" prefWidth="261.0" />
+                  <Label fx:id="projectInfoDueDate" alignment="CENTER_RIGHT" layoutX="187.0" layoutY="366.0" prefHeight="26.0" prefWidth="92.0" text="22/1/2005" textFill="#cfcfcf">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="projectInfoCity" alignment="CENTER_RIGHT" layoutX="187.0" layoutY="398.0" prefHeight="15.0" prefWidth="92.0" text="Nablus" textFill="#c9c9c9">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="projectInfoStreet" layoutX="17.0" layoutY="398.0" text="Tons Street 9A" textFill="#c9c9c9">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="projectInfoProjAmount" alignment="CENTER_RIGHT" layoutX="188.0" layoutY="295.0" prefHeight="17.0" prefWidth="91.0" text="69000$" textFill="#cfcfcf" />
+               </children>
+            </Pane>
+            <Pane fx:id="projectContCard" layoutX="425.0" layoutY="40.0" prefHeight="266.0" prefWidth="400.0" styleClass="card-pane">
+               <children>
+                  <Label layoutX="133.0" layoutY="28.0" text="Project Contractor" textFill="#cfcfcf">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="projectInfoContName" layoutX="69.0" layoutY="87.0" text="Amjad Abu Hassan" textFill="#cfcfcf">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="projectInfoContType" layoutX="70.0" layoutY="120.0" text="Electricity" textFill="#b9b9b9">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Separator layoutX="68.0" layoutY="117.0" opacity="0.21" prefHeight="1.0" prefWidth="261.0" />
+                  <Label fx:id="projectInfoContId" alignment="CENTER_RIGHT" layoutX="281.0" layoutY="92.0" prefHeight="17.0" prefWidth="47.0" text="0001" textFill="#cfcfcf" />
+                  <Label fx:id="projectInfoContBirthdate" layoutX="67.0" layoutY="193.0" text="11/9/2001" textFill="#cfcfcf">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+                  <Separator layoutX="67.0" layoutY="221.0" opacity="0.21" prefHeight="1.0" prefWidth="261.0" />
+                  <Label fx:id="projectInfoContAge" alignment="CENTER_RIGHT" layoutX="234.0" layoutY="193.0" prefHeight="26.0" prefWidth="92.0" text="19yo" textFill="#cfcfcf">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Button fx:id="employeeInfoAssignToProjectButton11" layoutX="545.0" layoutY="148.0" mnemonicParsing="false" onAction="#employeeInfoAssignToProjectButtonClicked" prefHeight="50.0" prefWidth="161.0" styleClass="primaryButton" text="Assign to project" visible="false" />
+            <Label fx:id="projectInfoPartsUsedLabel" layoutX="538.0" layoutY="327.0" text="Parts used in project" textFill="#cfcfcf">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Pane fx:id="partsUsedCard" layoutX="425.0" layoutY="354.0" prefHeight="266.0" prefWidth="400.0" styleClass="card-pane">
+               <children>
+                  <HBox alignment="CENTER_LEFT" layoutX="2.0" layoutY="6.0" prefHeight="40.0" prefWidth="396.0" spacing="20.0">
+                     <children>
+                        <Label prefHeight="26.0" prefWidth="86.0" text="PID" textFill="#cfcfcf">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label prefHeight="26.0" prefWidth="143.0" text="Product Name" textFill="#cfcfcf">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label prefHeight="26.0" prefWidth="103.0" text="Warehouse" textFill="#cfcfcf">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </HBox>
+                  <Separator layoutY="46.0" opacity="0.2" prefWidth="400.0" />
+                  <MFXScrollPane fx:id="partsUsedScrollPane" fitToWidth="true" layoutX="4.0" layoutY="50.0" prefHeight="216.0" prefWidth="392.0">
+                     <content>
+                        <VBox fx:id="partsUsedScrollPaneVbox" prefWidth="388.0" />
+                     </content>
+                     <padding>
+                        <Insets top="1.0" />
+                     </padding>
+                  </MFXScrollPane>
+               </children>
+            </Pane>
+            <Label layoutX="20.0" layoutY="14.0" onMouseClicked="#projectInfoClose" prefHeight="18.0" prefWidth="32.0">
                <graphic>
                   <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-arrow-left-24" iconSize="30" />
                </graphic>

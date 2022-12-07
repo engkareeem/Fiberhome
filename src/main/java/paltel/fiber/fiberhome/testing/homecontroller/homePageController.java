@@ -122,6 +122,21 @@ public class homePageController implements Initializable {
     @FXML
     VBox warehouseListScrollPaneVbox;
     Stage stage;
+    /*                 Project info            */
+    @FXML
+    Label projectInfoProjId,projectInfoProjType,projectInfoProjAmount,projectInfoStartDate,projectInfoDueDate,projectInfoStreet,projectInfoCity;
+    @FXML
+    Button projectInfoEditButton;
+    @FXML
+    Label projectInfoContName,projectInfoContId,projectInfoContType,projectInfoContBirthdate,projectInfoContAge;
+    @FXML
+    Label projectInfoPartsUsedLabel;
+    @FXML
+    Pane projectProfileCard,projectContCard,partsUsedCard,projectInfoPane;
+    @FXML
+    MFXScrollPane partsUsedScrollPane;
+    @FXML
+    VBox partsUsedScrollPaneVbox;
 
     @FXML
     MFXScrollPane contractorListScrollPane;
@@ -248,7 +263,7 @@ public class homePageController implements Initializable {
         employeesPane.setVisible(false);
         controlPanelPane.setVisible(true);
         projectsPane.setVisible(false);
-        switchNavButton(navButton3);
+        switchNavButton(navButton4);
         currentPane = controlPanelPane;
     }
     
@@ -258,7 +273,7 @@ public class homePageController implements Initializable {
         employeesPane.setVisible(false);
         controlPanelPane.setVisible(false);
         projectsPane.setVisible(true);
-        switchNavButton(navButton4);
+        switchNavButton(navButton3);
         currentPane = projectsPane;
     }
 
@@ -554,6 +569,27 @@ public class homePageController implements Initializable {
     public void tableAddProjectClicked() {
 
 
+    }
+    @FXML
+    public void tableDisplayProjectClicked() {
+        projectsPane.setVisible(false);
+        homeNavBarVBox.setDisable(true);
+        projectInfoPane.setVisible(true);
+
+        // TODO: Project info initialize
+    }
+
+
+    /*                  Project Info                */
+    @FXML
+    public void projectInfoEditButtonClicked() {
+
+    }
+    @FXML
+    public void projectInfoClose() {
+        projectsPane.setVisible(true);
+        homeNavBarVBox.setDisable(false);
+        projectInfoPane.setVisible(false);
     }
 
     @FXML
