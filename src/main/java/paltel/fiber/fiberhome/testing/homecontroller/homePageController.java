@@ -170,21 +170,18 @@ public class homePageController implements Initializable {
         pieChart.setData(pieChartData);
         pieChart.setLabelsVisible(false);
 
-//        playOpenAnimation();
+        ap.setOpacity(0);
+        Platform.runLater(this::playOpenAnimation);
+
         currentPane = employeesPane;
         updateLastLoginTime((String) Navigator.getValue("eid"));
         stage = Navigator.primaryStage;
 
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                stage.centerOnScreen();
-            }
-        });
+        Platform.runLater(() -> stage.centerOnScreen());
 
         switchNavButton(navButton2);
         Functions.move(stage,titleBar);
-        Functions.optimizeImageView(backgroundImageView);
+//        Functions.optimizeImageView(backgroundImageView);
         employeesTableViewFunctions.initializeTableView(employeesTable);
         projectsTableViewFunctions.initializeTableView(projectsTable);
         setupContractorsTable();

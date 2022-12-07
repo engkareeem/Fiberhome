@@ -9,20 +9,21 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane fx:id="ap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="413.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="paltel.fiber.fiberhome.testing.addEmployeeController">
+<AnchorPane fx:id="ap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="413.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="paltel.fiber.fiberhome.testing.addEmployeeController">
    <children>
-      <Pane fx:id="employeePane" layoutX="14.0" layoutY="14.0" prefHeight="421.0" prefWidth="384.0">
+      <Pane fx:id="employeePane" layoutX="14.0" layoutY="14.0" prefHeight="371.0" prefWidth="384.0">
          <children>
             <Label layoutX="27.0" layoutY="38.0" text="Employee Name" textFill="#cfcfcf">
                <font>
-                  <Font size="14.0" />
+                  <Font name="System Bold" size="14.0" />
                </font>
             </Label>
             <TextField layoutX="48.0" layoutY="84.0" prefHeight="27.0" prefWidth="59.0" styleClass="informationTextFields" />
-            <Label layoutX="39.0" layoutY="148.0" text="Identification Number" textFill="#cfcfcf">
+            <Label layoutX="35.0" layoutY="148.0" text="ID Number" textFill="#cfcfcf">
                <font>
-                  <Font size="14.0" />
+                  <Font name="System Bold" size="14.0" />
                </font>
             </Label>
             <TextField layoutX="28.0" layoutY="170.0" prefHeight="30.0" prefWidth="158.0" styleClass="informationTextFields" />
@@ -46,23 +47,28 @@
             <MFXDatePicker layoutX="28.0" layoutY="230.0" prefHeight="38.0" prefWidth="158.0" />
             <Label layoutX="35.0" layoutY="210.0" text="Birthdate" textFill="#cfcfcf">
                <font>
-                  <Font size="14.0" />
+                  <Font name="System Bold" size="14.0" />
                </font>
             </Label>
             <Label fx:id="genderLabel" layoutX="264.0" layoutY="83.0" prefHeight="30.0" prefWidth="30.0" />
             <Label layoutX="223.0" layoutY="210.0" text="Job Position" textFill="#cfcfcf">
                <font>
-                  <Font size="14.0" />
+                  <Font name="System Bold" size="14.0" />
                </font>
             </Label>
             <ComboBox layoutX="215.0" layoutY="230.0" prefHeight="30.0" prefWidth="136.0" />
             <Label layoutX="223.0" layoutY="148.0" text="District" textFill="#cfcfcf">
                <font>
-                  <Font size="14.0" />
+                  <Font name="System Bold" size="14.0" />
                </font>
             </Label>
             <TextField layoutX="215.0" layoutY="170.0" prefHeight="30.0" prefWidth="136.0" styleClass="informationTextFields" />
-            <Button layoutX="144.0" layoutY="337.0" mnemonicParsing="false" onAction="#addEmployeeButtonClicked" prefHeight="48.0" prefWidth="119.0" styleClass="primaryButton" text="Add Employee" />
+            <Button layoutX="144.0" layoutY="306.0" mnemonicParsing="false" onAction="#addEmployeeButtonClicked" prefHeight="48.0" prefWidth="119.0" styleClass="primaryButton" text="Add Employee" />
+            <Label layoutX="351.0" layoutY="14.0" onMouseClicked="#close">
+               <graphic>
+                  <FontIcon iconColor="#00a6ff" iconLiteral="fltfal-dismiss-28" iconSize="20" />
+               </graphic>
+            </Label>
          </children>
       </Pane>
    </children>
