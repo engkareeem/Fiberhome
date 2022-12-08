@@ -54,6 +54,22 @@ public class enhancedScrollPane {
                     // its inside column1 :D
                 }
             });
+        } else if(type == ListType.WAREHOUSE_LIST) {
+            hBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    nodes[0].setVisible(false); // current page pane
+                    nodes[1].setDisable(true); // nav bar pane
+                    nodes[2].setVisible(true); // Warehouse info pane
+
+                    // user lookup here :3
+                    // trust me bro
+                    // nodes[2].lookup("Any id");
+                    // TODO: [Warehouse info initialize]
+                    // if you ask about warehouse id
+                    // its inside column1 :D
+                }
+            });
         }
 
         Separator separator = new Separator();

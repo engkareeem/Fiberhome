@@ -11,6 +11,16 @@
     -fx-background-radius: 15 30 30 15;
 }
 
+.chart-pie-label{
+    -fx-fill: #cfcfcf;
+}
+
+.chart-legend .VBox {
+    -fx-spacing: 20;
+}
+.chart-legend .label{
+    -fx-text-fill: #cfcfcf;
+}
 .combo-box{
     -fx-background-color: -fx-application-background-color;
     -fx-background-radius: 7;

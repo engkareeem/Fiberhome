@@ -1,13 +1,16 @@
 package paltel.fiber.fiberhome.testing.homecontroller;
 
 import animatefx.animation.*;
+import eu.hansolo.medusa.Gauge;
 import io.github.palexdev.materialfx.controls.MFXPaginatedTableView;
 import io.github.palexdev.materialfx.controls.MFXScrollPane;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Side;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -18,6 +21,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import paltel.fiber.fiberhome.testing.Functions;
 import paltel.fiber.fiberhome.testing.Navigator;
@@ -137,6 +141,19 @@ public class homePageController implements Initializable {
     MFXScrollPane partsUsedScrollPane;
     @FXML
     VBox partsUsedScrollPaneVbox;
+    /*                Warehouse info                   */
+    @FXML
+    Label warehouseInfoWid, warehouseInfoWLocation;
+    @FXML
+    Gauge warehouseInfoWCapacity;
+    @FXML
+    PieChart warehouseInfoWStorage;
+    @FXML
+    MFXScrollPane warehouseInfoPartsScrollPane;
+    @FXML
+    VBox warehouseInfoPartsScrollPaneVbox;
+    @FXML
+    Pane warehouseInfoPane;
 
     @FXML
     MFXScrollPane contractorListScrollPane;
@@ -153,22 +170,22 @@ public class homePageController implements Initializable {
     @FXML
     Pane lastProjectsCard;
 
-    @FXML
-    PieChart pieChart;
+
 
     boolean contractorInfoOnEdit = false;
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        ObservableList<PieChart.Data> pieChartData =
-                FXCollections.observableArrayList(
-                        new PieChart.Data("Grapefruit", 13),
-                        new PieChart.Data("Oranges", 25),
-                        new PieChart.Data("Plums", 10),
-                        new PieChart.Data("Pears", 22),
-                        new PieChart.Data("Apples", 30));
-        pieChart.setData(pieChartData);
-        pieChart.setLabelsVisible(false);
+//        ObservableList<PieChart.Data> pieChartData =
+//                FXCollections.observableArrayList(
+//                        new PieChart.Data("UnReserved Parts %30", 3),
+//                        new PieChart.Data("Reserved Parts %40", 4),
+//                        new PieChart.Data("Free Space %30", 3));
+//        pieChart.setData(pieChartData);
+//        pieChart.setLegendSide(Side.LEFT);
+//
+//        pieChart.setLabelsVisible(false);
 
         ap.setOpacity(0);
         Platform.runLater(this::playOpenAnimation);
@@ -207,9 +224,7 @@ public class homePageController implements Initializable {
         enhancedScrollPane.resetRows(contractorListScrollPaneVbox);
         ArrayList<Contractor> contractors = getAllContractors();
         contractors.forEach(contractor -> {
-            enhancedScrollPane.addRow(contractorListScrollPaneVbox, contractor.getContractorId(), contractor.getFname() + " " + contractor.getMname() + " " + contractor.getLname(),
-                    contractor.getContractorType(), 35, 150 ,85, Functions.ListType.CONT_LIST,currentPane,homeNavBarVBox,contractorInfoPane);
-
+            addContRow(contractor.getContractorId(), contractor.getFname() + " " + contractor.getMname() + " " + contractor.getLname(),contractor.getContractorType());
         });
     }
 
@@ -416,8 +431,7 @@ public class homePageController implements Initializable {
                 Platform.runLater(() -> {
                     ArrayList<Project> recentFinishedProjects = getRecentFinishedProjects(employee.getEid());
                     recentFinishedProjects.forEach(project -> {
-                        enhancedScrollPane.addRow(lastProjectsScrollPaneVbox, project.getProjectId(), project.getCity() + " " + project.getProjType(), project.getCity() + (project.getStreet() == null ? "" : " - " + project.getStreet()), 32, 165, 125, Functions.ListType.LAST_PROJECTS_LIST);
-
+                        addProjRow(project.getProjectId(), project.getCity() + " " + project.getProjType(), project.getCity() + (project.getStreet() == null ? "" : " - " + project.getStreet()));
                     });
 
                 });
@@ -589,6 +603,15 @@ public class homePageController implements Initializable {
         projectInfoPane.setVisible(false);
     }
 
+    /*                   Warehouse info                  */
+
+
+    @FXML
+    public void warehouseInfoClose() {
+        projectsPane.setVisible(true);
+        homeNavBarVBox.setDisable(false);
+        warehouseInfoPane.setVisible(false);
+    }
     @FXML
     public void close(MouseEvent e){
         AnimationFX closeAnimation = new ZoomOutUp(ap);
@@ -663,7 +686,7 @@ public class homePageController implements Initializable {
 //        enhancedScrollPane.addRow(contractorListScrollPaneVbox,"9395","Amjad fauore","Electricity",40,150,75);
 
         // employee projects example
-        enhancedScrollPane.addRow(lastProjectsScrollPaneVbox,"1919","Bidya Fiber","Bidya",35,220,72, Functions.ListType.LAST_PROJECTS_LIST);
+//        enhancedScrollPane.addRow(lastProjectsScrollPaneVbox,"1919","Bidya Fiber","Bidya",35,220,72, Functions.ListType.LAST_PROJECTS_LIST);
 
     }
 
@@ -823,9 +846,23 @@ public class homePageController implements Initializable {
 
         contractorInfoEditButton.setText("Edit");
         contractorInfoOnEdit=false;
-
     }
 
+
+
+
+
+
+    private void addContRow(String column1,String column2,String column3) {
+        enhancedScrollPane.addRow(contractorListScrollPaneVbox,column1,column2,column3, 35, 150 ,85, Functions.ListType.CONT_LIST,currentPane,homeNavBarVBox,contractorInfoPane);
+    }
+    private void addWarehouseRow(String column1,String column2,String column3) {
+        enhancedScrollPane.addRow(warehouseListScrollPaneVbox,column1,column2,column3,40,150,75, Functions.ListType.WAREHOUSE_LIST,currentPane,homeNavBarVBox,warehouseInfoPane);
+    }
+    private void addProjRow(String column1,String column2, String column3) {
+        enhancedScrollPane.addRow(lastProjectsScrollPaneVbox,column1,column2,column3, 32, 165, 125, Functions.ListType.LAST_PROJECTS_LIST);
+
+    }
 
 }
 
