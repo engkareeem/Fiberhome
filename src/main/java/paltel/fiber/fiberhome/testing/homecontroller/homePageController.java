@@ -578,7 +578,7 @@ public class homePageController implements Initializable {
     }
     @FXML
     public void tableAddProjectClicked() {
-
+        Functions.showAddProjectPopup();
 
     }
     @FXML

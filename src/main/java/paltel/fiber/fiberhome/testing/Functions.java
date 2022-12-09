@@ -1,6 +1,7 @@
 package paltel.fiber.fiberhome.testing;
 
 import animatefx.animation.Shake;
+import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -13,6 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
+import java.time.LocalDate;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static paltel.fiber.fiberhome.testing.Functions.DialogType.*;
@@ -147,16 +149,47 @@ public static void move(Stage stage, Node pane) {
     public static void closeAddEmployeePopup() {
         Navigator.closePopup();
     }
+    public static void showAddProjectPopup() {
+        Navigator.showPopup("addProjectScene");
+    }
+    public static void closeAddProjectPopup() {
+        Navigator.closePopup();
+    }
 
 /*                                                      Validators                                                   */
-
-    public static void displayValidatingError(TextField tf,Label validator,String validateText) {
-        validator.setText(validateText);
+    public static void displayValidatingComboBoxError(Node tf,Label validator,String validateText) {
+        if(validator != null) validator.setText(validateText);
+        tf.getStyleClass().removeAll("combo-box-ex");
+        tf.getStyleClass().add("combo-box-error");
+        new Shake(tf).play();
+    }
+    public static void displayValidatingError(Node tf,Label validator,String validateText) {
+        if(validator != null) validator.setText(validateText);
         tf.getStyleClass().removeAll("informationTextFields");
         tf.getStyleClass().add("informationTextFieldsError");
         new Shake(tf).play();
     }
 
+    public static void emptyTextFieldListener(TextField inputField) {
+        inputField.textProperty().addListener((obs, oldText, newText) -> {
+            validateEmptyTextField(inputField);
+        });
+    }
+    public static void idNumberListener(TextField inputField,Label validatorLabel) {
+        inputField.textProperty().addListener((obs, oldText, newText) -> {
+            validateIdNumber(inputField,validatorLabel);
+        });
+    }
+    public static void birthdateListener(MFXDatePicker datePicker,Label validatorLabel) {
+        datePicker.textProperty().addListener((obs, oldText, newText) -> {
+            validateBirthdate(datePicker,validatorLabel);
+        });
+    }
+    public static void projectEndDateListener(MFXDatePicker datePicker,Label validatorLabel) {
+        datePicker.textProperty().addListener((obs, oldText, newText) -> {
+            validateProjectEndDate(datePicker,validatorLabel);
+        });
+    }
     public static void employeeNumberValidatorListener(TextField inputField,Label validatorLabel) {
         inputField.textProperty().addListener((obs, oldText, newText) -> {
             validateEmployeeNumber(inputField,validatorLabel);
@@ -172,7 +205,76 @@ public static void move(Stage stage, Node pane) {
             validateNickname(inputField,validatorLabel);
         });
     }
-
+    public static boolean validateEmptyTextField(TextField inputField) {
+        if(!inputField.getText().isEmpty()) {
+            inputField.getStyleClass().removeAll("informationTextFieldsError");
+            inputField.getStyleClass().add("informationTextFields");
+            return true;
+        }
+        else {
+            inputField.getStyleClass().removeAll("informationTextFields");
+            inputField.getStyleClass().add("informationTextFieldsError");
+            return false;
+        }
+    }
+    public static boolean validateIdNumber(TextField inputField,Label validatorLabel) {
+        String text = inputField.getText();
+        if(text.length() == 10 && isNum(text)) {
+            validatorLabel.setText("");
+            inputField.getStyleClass().removeAll("informationTextFieldsError");
+            inputField.getStyleClass().add("informationTextFields");
+            return true;
+        }
+        else if(text.length() == 0) {
+            validatorLabel.setText("");
+            inputField.getStyleClass().removeAll("informationTextFieldsError");
+            inputField.getStyleClass().add("informationTextFields");
+            return false;
+        }
+        else {
+            validatorLabel.setText("Please enter an valid ID number");
+            inputField.getStyleClass().removeAll("informationTextFields");
+            inputField.getStyleClass().add("informationTextFieldsError");
+            return false;
+        }
+    }
+    public static boolean validateBirthdate(MFXDatePicker datePicker,Label validatorLabel) {
+        if(datePicker.getValue() != null && datePicker.getValue().isBefore(LocalDate.now())) {
+            validatorLabel.setText("");
+            datePicker.getStyleClass().removeAll("informationTextFieldsError");
+            datePicker.getStyleClass().add("informationTextFields");
+            return true;
+        } else if(datePicker.getValue() == null) {
+            validatorLabel.setText("");
+            datePicker.getStyleClass().removeAll("informationTextFieldsError");
+            datePicker.getStyleClass().add("informationTextFields");
+            return false;
+        } else {
+            validatorLabel.setText("Please enter an valid birthdate");
+            datePicker.getStyleClass().removeAll("informationTextFieldsError");
+            datePicker.getStyleClass().add("informationTextFields");
+            return false;
+        }
+    }
+    public static boolean validateProjectEndDate(MFXDatePicker datePicker,Label validatorLabel) {
+        if(datePicker.getValue() != null && datePicker.getValue().isAfter(LocalDate.now())) {
+            System.out.println(datePicker.getValue().getYear());
+            validatorLabel.setText("");
+            datePicker.getStyleClass().removeAll("informationTextFieldsError");
+            datePicker.getStyleClass().add("informationTextFields");
+            return true;
+        } else if(datePicker.getValue() == null) {
+            validatorLabel.setText("");
+            datePicker.getStyleClass().removeAll("informationTextFieldsError");
+            datePicker.getStyleClass().add("informationTextFields");
+            return false;
+        } else {
+            validatorLabel.setText("Please enter an valid end date");
+            datePicker.getStyleClass().removeAll("informationTextFieldsError");
+            datePicker.getStyleClass().add("informationTextFields");
+            return false;
+        }
+    }
     public static boolean validateNickname(TextField inputField,Label validatorLabel) {
         String text = inputField.getText();
         if(text.length() >=2) {

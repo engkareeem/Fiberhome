@@ -20,15 +20,15 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <TextField layoutX="48.0" layoutY="84.0" prefHeight="27.0" prefWidth="59.0" styleClass="informationTextFields" />
+            <TextField fx:id="firstNameTf" layoutX="48.0" layoutY="84.0" prefHeight="27.0" prefWidth="59.0" styleClass="informationTextFields" />
             <Label layoutX="35.0" layoutY="148.0" text="ID Number" textFill="#cfcfcf">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <TextField layoutX="28.0" layoutY="170.0" prefHeight="30.0" prefWidth="158.0" styleClass="informationTextFields" />
-            <TextField layoutX="117.0" layoutY="84.0" prefHeight="27.0" prefWidth="59.0" styleClass="informationTextFields" />
-            <TextField layoutX="186.0" layoutY="84.0" prefHeight="27.0" prefWidth="59.0" styleClass="informationTextFields" />
+            <TextField fx:id="idNumberTf" layoutX="28.0" layoutY="170.0" prefHeight="30.0" prefWidth="158.0" styleClass="informationTextFields" />
+            <TextField fx:id="middleNameTf" layoutX="117.0" layoutY="84.0" prefHeight="27.0" prefWidth="59.0" styleClass="informationTextFields" />
+            <TextField fx:id="lastNameTf" layoutX="186.0" layoutY="84.0" prefHeight="27.0" prefWidth="59.0" styleClass="informationTextFields" />
             <Label layoutX="52.0" layoutY="65.0" text="First" textFill="#cfcfcf">
                <font>
                   <Font size="13.0" />
@@ -44,30 +44,40 @@
                   <Font size="13.0" />
                </font>
             </Label>
-            <MFXDatePicker layoutX="28.0" layoutY="230.0" prefHeight="38.0" prefWidth="158.0" />
+            <MFXDatePicker fx:id="birthdateDatePicker" layoutX="28.0" layoutY="230.0" prefHeight="38.0" prefWidth="158.0" />
             <Label layoutX="35.0" layoutY="210.0" text="Birthdate" textFill="#cfcfcf">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="genderLabel" layoutX="264.0" layoutY="83.0" prefHeight="30.0" prefWidth="30.0" />
+            <Label fx:id="genderLabel" layoutX="268.0" layoutY="75.0" onMouseClicked="#genderClicked" prefHeight="30.0" prefWidth="30.0" styleClass="maleLabel" />
             <Label layoutX="223.0" layoutY="210.0" text="Job Position" textFill="#cfcfcf">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <ComboBox layoutX="215.0" layoutY="230.0" prefHeight="30.0" prefWidth="136.0" />
+            <ComboBox fx:id="jobPosComboBox" layoutX="215.0" layoutY="230.0" prefHeight="30.0" prefWidth="136.0" />
             <Label layoutX="223.0" layoutY="148.0" text="District" textFill="#cfcfcf">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <TextField layoutX="215.0" layoutY="170.0" prefHeight="30.0" prefWidth="136.0" styleClass="informationTextFields" />
+            <TextField fx:id="districtTf" layoutX="215.0" layoutY="170.0" prefHeight="30.0" prefWidth="136.0" styleClass="informationTextFields" />
             <Button layoutX="144.0" layoutY="306.0" mnemonicParsing="false" onAction="#addEmployeeButtonClicked" prefHeight="48.0" prefWidth="119.0" styleClass="primaryButton" text="Add Employee" />
             <Label layoutX="351.0" layoutY="14.0" onMouseClicked="#close">
                <graphic>
                   <FontIcon iconColor="#00a6ff" iconLiteral="fltfal-dismiss-28" iconSize="20" />
                </graphic>
+            </Label>
+            <Label fx:id="idNumberValidator" layoutX="35.0" layoutY="199.0" textFill="RED">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+            <Label fx:id="birthdateValidator" layoutX="35.0" layoutY="268.0" textFill="RED">
+               <font>
+                  <Font size="10.0" />
+               </font>
             </Label>
          </children>
       </Pane>

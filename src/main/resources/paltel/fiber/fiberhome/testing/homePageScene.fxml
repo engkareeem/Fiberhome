@@ -245,7 +245,7 @@
             <Label layoutX="345.0" layoutY="330.0" styleClass="headerText" text="Thats a Control Panel :D" />
          </children>
       </Pane>
-      <Pane fx:id="projectsPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0">
+      <Pane fx:id="projectsPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" visible="false">
          <children>
             <Label layoutX="394.0" styleClass="headerText" text="Projects" textFill="WHITE">
                <font>

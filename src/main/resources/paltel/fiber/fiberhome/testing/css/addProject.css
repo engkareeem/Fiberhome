@@ -1,0 +1,84 @@
+#ap{
+    -fx-background-color: transparent;
+}
+#projectPane{
+    -fx-background-color: -fx-application-background-color;
+    -fx-effect: dropshadow(gaussian, rgba(94, 94, 99, 0.47), 15, 0.4, 0.0, 0.0);
+    -fx-background-radius: 15;
+}
+.card-pane{
+    -fx-background-color: -fx-application-background-color;
+    -fx-background-radius: 15;
+    -fx-border-color: rgba(128, 128, 128, 0.12);
+    -fx-border-width: 2;
+    -fx-border-radius: 7;
+}
+.list-row .label{
+    -fx-text-fill: #cfcfcf;
+    -fx-alignment: center-left;
+    -fx-font-size: 15;
+}
+.list-row{
+    -fx-background-color: transparent;
+    -fx-alignment: center-left;
+    -fx-spacing: 20;
+    -fx-padding: 0 10 0 10;
+}
+
+.mfx-date-picker {
+    -fx-background-color: transparent;
+    -fx-text-fill: #cfcfcf;
+}
+.mfx-date-picker .icon{
+    -mfx-color: grey;
+}
+.mfx-scroll-pane{
+    -fx-background-color: transparent;
+    -fx-background-radius: 15;
+}
+
+.mfx-scroll-pane .scroll-bar:vertical .track {
+    -fx-background-color: -fx-application-background-color;
+}
+.mfx-scroll-pane .scroll-bar:vertical .thumb{
+    -fx-background-color: #005876;
+}
+.mfx-scroll-pane .scroll-bar:horizontal .track {
+    -fx-background-color: transparent;
+}
+.mfx-scroll-pane .scroll-bar:horizontal .thumb{
+    -fx-background-color: transparent;
+}
+
+.combo-box-ex{
+    -fx-background-color: -fx-application-background-color;
+    -fx-background-radius: 7;
+    -fx-border-color: transparent transparent gray transparent;
+    /*-fx-border-radius: 7;*/
+    -fx-border-width: 1.2;
+}
+.combo-box-error{
+    -fx-background-color: -fx-application-background-color;
+    -fx-background-radius: 7;
+    -fx-border-color: transparent transparent red transparent;
+    /*-fx-border-radius: 7;*/
+    -fx-border-width: 1.2;
+}
+.combo-box-error .list-view{
+    -fx-background-color: derive(-fx-application-background-color,10%);
+
+}
+.combo-box-error .list-cell{
+    -fx-background-color: -fx-application-background-color;
+    -fx-alignment: center;
+    -fx-text-fill: #b5b5b5;
+}
+.combo-box-ex .list-view{
+    -fx-background-color: derive(-fx-application-background-color,10%);
+
+}
+.combo-box-ex .list-cell{
+    -fx-background-color: -fx-application-background-color;
+    -fx-alignment: center;
+    -fx-text-fill: #b5b5b5;
+}

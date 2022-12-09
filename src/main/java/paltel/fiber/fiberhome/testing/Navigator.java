@@ -57,7 +57,9 @@ public class Navigator {
             newScene.setFill(Color.TRANSPARENT);
             popupStage.setScene(newScene);
             popupStage.show();
+            popupStage.centerOnScreen();
             primaryStage.getScene().lookup("#disablePane").setVisible(true);
+
         } catch (Exception exception) {
             exception.printStackTrace();
         }
