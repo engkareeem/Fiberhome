@@ -1,0 +1,51 @@
+*{
+    -fx-tab-pane-button-color: #005279;
+    -fx-tab-pane-button-pressed-color: #00a0f1;
+}
+
+#usersAp,#suppliersAp,#warehousesAp {
+    -fx-border-radius: 7 15 15 15;
+    -fx-border-color: rgba(2, 129, 198, 0.79);
+}
+
+.tab-pane *.tab-header-background
+{
+    -fx-background-color: transparent;
+}
+
+
+.tab-pane .tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+}
+
+.tab-pane .tab-pane {
+    -fx-tab-min-width: 90px;
+}
+
+.tab-pane .tab {
+    -fx-background-insets: 0 1 0 1, 0, 0;
+}
+
+.tab-pane .tab {
+    -fx-background-color: -fx-tab-pane-button-color;
+    -fx-pref-width: 120;
+    -fx-pref-height: 40;
+}
+.tab-pane .tab:selected{
+    -fx-background-color: -fx-tab-pane-button-pressed-color;
+    -fx-pref-height: 43;
+}
+.tab-pane .tab:selected > .tab-container > .tab-label {
+    -fx-text-fill: white;
+
+}
+.tab-pane .tab > .tab-container > .tab-label {
+    -fx-text-fill: #cfcfcf;
+    -fx-font-weight: BOLD;
+    -fx-font-size: 14;
+    -fx-pref-width: 105;
+    -fx-text-alignment: center;
+}
+
+
+

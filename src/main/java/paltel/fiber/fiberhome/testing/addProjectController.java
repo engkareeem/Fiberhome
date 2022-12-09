@@ -137,11 +137,10 @@ public class addProjectController implements Initializable {
         ComboBox<String> warehousesComboBox = new ComboBox<>();
         warehousesComboBox.setPrefWidth(130);
         warehousesComboBox.setPromptText("Warehouse");
-
+        warehousesComboBox.getStyleClass().add("combo-box-ex");
         warehousesComboBox.setId(PID + "ComboBox"); // Combobox id
 
         // TODO: Set warehouse combobox items here
-
 
 
         TextField amountTextField = new TextField();
