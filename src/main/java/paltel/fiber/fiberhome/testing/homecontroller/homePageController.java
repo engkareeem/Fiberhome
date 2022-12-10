@@ -64,7 +64,7 @@ public class homePageController implements Initializable {
     @FXML
     Pane employeeInfoPane;
 
-    Pane currentPane;
+    Pane currentPane,prevCurrentPane = null;
 
     private boolean usedMinimize = false;
 
@@ -91,9 +91,11 @@ public class homePageController implements Initializable {
     /*               User info              */
 
     @FXML
-    Label userInfoEmpName,userInfoEmpId,userInfoNickName,userInfoRole,userInfoChangePassword;
+    Label userInfoEmpName,userInfoEmpId,userInfoNickName,userInfoRole,userInfoChangePassword,employeeInfoAssignProjectIdLabel;
     @FXML
-    Button userInfoEditButton,employeeInfoAssignToProjectButton;
+    TextField employeeInfoAssignTextField;
+    @FXML
+    Button userInfoEditButton,employeeInfoAssignToProjectButton,employeeInfoAssignButton;
     @FXML
     Pane userInfoPane;
     @FXML
@@ -107,13 +109,17 @@ public class homePageController implements Initializable {
             ,contractorInfoProjectStartDate,contractorInfoProjectDueDate,contractorInfoProjectStreet,contractorInfoProjectCity
             ,contractorInfoCurrentProjectsLabel;
     @FXML
+    Label contractorInfoAssignProjectIdLabel;
+    @FXML
+    TextField contractorInfoAssignTextField;
+    @FXML
     MFXScrollPane currentProjectsScrollPane;
     @FXML
     VBox currentProjectsScrollPaneVbox;
     @FXML
     Pane contractorProfileCard;
     @FXML
-    Button contractorInfoEditButton;
+    Button contractorInfoEditButton,contractorInfoAssignToProject,contractorInfoAssign;
 
     @FXML
     Pane contractorInfoPane;
@@ -157,7 +163,6 @@ public class homePageController implements Initializable {
     VBox warehouseInfoPartsScrollPaneVbox;
     @FXML
     Pane warehouseInfoPane;
-
     @FXML
     MFXScrollPane contractorListScrollPane;
     @FXML
@@ -166,9 +171,13 @@ public class homePageController implements Initializable {
     VBox contractorListScrollPaneVbox;
     @FXML
     VBox lastProjectsScrollPaneVbox;
+    /*                              Control panel Page                         */
+    @FXML
+    MFXPaginatedTableView<User> controlPanelUsersTableView;
+
 
     @FXML
-    Pane currentProjectCard;
+    Pane currentProjectCard,currentProjectCard1;
 
     @FXML
     Pane lastProjectsCard;
@@ -205,6 +214,7 @@ public class homePageController implements Initializable {
 //        Functions.optimizeImageView(backgroundImageView);
         employeesTableViewFunctions.initializeTableView(employeesTable);
         projectsTableViewFunctions.initializeTableView(projectsTable);
+        usersTableViewFunctions.initializeTableView(controlPanelUsersTableView);
         setupContractorsTable();
         setUpStatisticsBlocks();
 
@@ -356,6 +366,9 @@ public class homePageController implements Initializable {
         employeeInfoPane.setVisible(false);
         employeesPane.setVisible(true);
         homeNavBarVBox.setDisable(false);
+        employeeInfoAssignProjectIdLabel.setVisible(false);
+        employeeInfoAssignTextField.setVisible(false);
+        employeeInfoAssignButton.setVisible(false);
         enhancedScrollPane.resetRows(lastProjectsScrollPaneVbox);
         switchFromEdit();
     }
@@ -403,13 +416,11 @@ public class homePageController implements Initializable {
                     lastProjectsCard.setVisible(true);
                     Project project = getCurrentProject(employee.getEid());
                     if (project == null) {
-                        currentProjectCard.setVisible(false);
+                        currentProjectCard1.setVisible(false);
                         employeeInfoAssignToProjectButton.setVisible(true);
-
-
                     } else {
                         employeeInfoAssignToProjectButton.setVisible(false);
-                        currentProjectCard.setVisible(true);
+                        currentProjectCard1.setVisible(true);
                         Contractor contractor = getContractorInfo(project.getContractorId());
                         employeeInfoCurrentProjectName.setText(project.getCity() + " " + project.getProjType());
                         employeeInfoCurrentProjectCity.setText("");
@@ -421,7 +432,7 @@ public class homePageController implements Initializable {
                         if (contractor == null) {
                             employeeInfoCurrentProjectContractor.setText("No contractor.");
                         } else {
-                            employeeInfoCurrentProjectContractor.setText("contractor: " + contractor.getFname() + " " + contractor.getLname());
+                            employeeInfoCurrentProjectContractor.setText("Cont. : " + contractor.getFname() + " " + contractor.getLname());
 
                         }
                     }
@@ -464,7 +475,19 @@ public class homePageController implements Initializable {
     }
 
     /*               Contractor info          */
-
+    @FXML
+    public void contractorInfoAssignToProjectClicked() {
+        contractorInfoAssignToProject.setVisible(false);
+        contractorInfoAssign.setVisible(true);
+        contractorInfoAssignTextField.setVisible(true);
+        contractorInfoAssignProjectIdLabel.setVisible(true);
+    }
+    @FXML
+    public void contractorInfoAssignClicked() {
+        if(true) {
+            Functions.showDialog("Please enter an valid Project ID", Functions.Errors.ERROR);
+        }
+    }
     @FXML
     public void contractorInfoEditButtonClicked() {
         // TODO: contractor info edit button clicked
@@ -538,6 +561,16 @@ public class homePageController implements Initializable {
     @FXML
     public void employeeInfoAssignToProjectButtonClicked() {
         // TODO: assign to project button clicked
+        employeeInfoAssignToProjectButton.setVisible(false);
+        employeeInfoAssignButton.setVisible(true);
+        employeeInfoAssignProjectIdLabel.setVisible(true);
+        employeeInfoAssignTextField.setVisible(true);
+    }
+    @FXML
+    public void employeeInfoAssignButtonClicked() {
+        if(true) {
+            Functions.showDialog("Please enter an valid Project ID", Functions.Errors.ERROR);
+        }
     }
     @FXML
     public void userChangePasswordClicked() {
@@ -605,6 +638,10 @@ public class homePageController implements Initializable {
         projectsPane.setVisible(true);
         homeNavBarVBox.setDisable(false);
         projectInfoPane.setVisible(false);
+        if(prevCurrentPane != null) {
+            currentPane = prevCurrentPane;
+            prevCurrentPane = null;
+        }
     }
 
     /*                   Warehouse info                  */
@@ -730,6 +767,7 @@ public class homePageController implements Initializable {
         comboBox.setPrefWidth(employeeInfoEmpJobPos.getWidth());
         comboBox.setPromptText(employeeInfoEmpJobPos.getText());
         comboBox.setId("editTextField" + employeeInfoEmpJobPos.getId());
+
         ObservableList<String> comboBoxItems = FXCollections.observableArrayList(getJobPositions());
         comboBox.setItems(comboBoxItems);
 
@@ -861,11 +899,16 @@ public class homePageController implements Initializable {
         enhancedScrollPane.addRow(contractorListScrollPaneVbox,column1,column2,column3, 35, 150 ,85, Functions.ListType.CONT_LIST,currentPane,homeNavBarVBox,contractorInfoPane);
     }
     private void addWarehouseRow(String column1,String column2,String column3) {
-        enhancedScrollPane.addRow(warehouseListScrollPaneVbox,column1,column2,column3,40,150,75, Functions.ListType.WAREHOUSE_LIST,currentPane,homeNavBarVBox,warehouseInfoPane);
+        enhancedScrollPane.addRow(warehouseListScrollPaneVbox,column1,column2,column3,40,150,75, Functions.ListType.WAREHOUSE_LIST,projectsPane,homeNavBarVBox,warehouseInfoPane);
     }
     private void addProjRow(String column1,String column2, String column3) {
         enhancedScrollPane.addRow(lastProjectsScrollPaneVbox,column1,column2,column3, 32, 165, 125, Functions.ListType.LAST_PROJECTS_LIST);
 
+    }
+    private void addCurrentProjectsRow(String column1,String column2, String column3) {
+        enhancedScrollPane.addRow(currentProjectsScrollPaneVbox,column1,column2,column3,32,190,90, Functions.ListType.CURRENT_PROJECTS_LIST,contractorInfoPane,projectInfoPane);
+        prevCurrentPane = currentPane;
+        currentPane = projectInfoPane;
     }
 
 }

@@ -25,13 +25,7 @@
     -fx-padding: 0 10 0 10;
 }
 
-.mfx-date-picker {
-    -fx-background-color: transparent;
-    -fx-text-fill: #cfcfcf;
-}
-.mfx-date-picker .icon{
-    -mfx-color: grey;
-}
+
 .mfx-scroll-pane{
     -fx-background-color: transparent;
     -fx-background-radius: 15;
@@ -50,35 +44,4 @@
     -fx-background-color: transparent;
 }
 
-.combo-box-ex{
-    -fx-background-color: -fx-application-background-color;
-    -fx-background-radius: 7;
-    -fx-border-color: transparent transparent gray transparent;
-    /*-fx-border-radius: 7;*/
-    -fx-border-width: 1.2;
-}
-.combo-box-error{
-    -fx-background-color: -fx-application-background-color;
-    -fx-background-radius: 7;
-    -fx-border-color: transparent transparent red transparent;
-    /*-fx-border-radius: 7;*/
-    -fx-border-width: 1.2;
-}
-.combo-box-error .list-view{
-    -fx-background-color: derive(-fx-application-background-color,10%);
 
-}
-.combo-box-error .list-cell{
-    -fx-background-color: -fx-application-background-color;
-    -fx-alignment: center;
-    -fx-text-fill: #b5b5b5;
-}
-.combo-box-ex .list-view{
-    -fx-background-color: derive(-fx-application-background-color,10%);
-
-}
-.combo-box-ex .list-cell{
-    -fx-background-color: -fx-application-background-color;
-    -fx-alignment: center;
-    -fx-text-fill: #b5b5b5;
-}

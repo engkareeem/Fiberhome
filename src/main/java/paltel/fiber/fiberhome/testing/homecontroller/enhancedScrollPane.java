@@ -39,36 +39,37 @@ public class enhancedScrollPane {
         hBox.setId(column1);
 
         if(type == ListType.CONT_LIST) {
-            hBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    nodes[0].setVisible(false); // current page pane
-                    nodes[1].setDisable(true); // nav bar pane
-                    nodes[2].setVisible(true); // Cont info pane
+            hBox.setOnMouseClicked(mouseEvent -> {
+                nodes[0].setVisible(false); // current page pane
+                nodes[1].setDisable(true); // nav bar pane
+                nodes[2].setVisible(true); // Cont info pane
 
-                    // user lookup here :3
-                    // trust me bro
-                    // nodes[2].lookup("Any id");
-                    // TODO: [Contractor info initialize]
-                    // if you ask about contractor id
-                    // its inside column1 :D
-                }
+                // user lookup here :3
+                // trust me bro
+                // nodes[2].lookup("Any id");
+                // TODO: [Contractor info initialize]
+                // if you ask about contractor id
+                // its inside column1 :D
             });
         } else if(type == ListType.WAREHOUSE_LIST) {
-            hBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    nodes[0].setVisible(false); // current page pane
-                    nodes[1].setDisable(true); // nav bar pane
-                    nodes[2].setVisible(true); // Warehouse info pane
+            hBox.setOnMouseClicked(mouseEvent -> {
+                nodes[0].setVisible(false); // current page pane
+                nodes[1].setDisable(true); // nav bar pane
+                nodes[2].setVisible(true); // Warehouse info pane
 
-                    // user lookup here :3
-                    // trust me bro
-                    // nodes[2].lookup("Any id");
-                    // TODO: [Warehouse info initialize]
-                    // if you ask about warehouse id
-                    // its inside column1 :D
-                }
+                // user lookup here :3
+                // trust me bro
+                // nodes[2].lookup("Any id");
+                // TODO: [Warehouse info initialize]
+                // if you ask about warehouse id
+                // its inside column1 :D
+            });
+        } else if(type == ListType.CURRENT_PROJECTS_LIST) {
+
+            hBox.setOnMouseClicked(mouseEvent -> {
+                nodes[0].setVisible(false); // current page pane
+                nodes[2].setVisible(true); // Project info pane
+                // TODO: [Project info initialize]
             });
         }
 
