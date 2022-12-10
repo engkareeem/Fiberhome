@@ -85,7 +85,6 @@ public class enhancedScrollPane {
                     // TODO: [Contractor info initialize]
                     // if you ask about contractor id
                     // its inside column1 :D
-                }
                 // user lookup here :3
                 // trust me bro
                 // nodes[2].lookup("Any id");
@@ -107,14 +106,13 @@ public class enhancedScrollPane {
                     // TODO: [Warehouse info initialize]
                     // if you ask about warehouse id
                     // its inside column1 :D
-                }
+                });
                 // user lookup here :3
                 // trust me bro
                 // nodes[2].lookup("Any id");
                 // TODO: [Warehouse info initialize]
                 // if you ask about warehouse id
                 // its inside column1 :D
-            });
         } else if(type == ListType.CURRENT_PROJECTS_LIST) {
 
             hBox.setOnMouseClicked(mouseEvent -> {

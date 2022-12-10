@@ -218,7 +218,7 @@ public class homePageController implements Initializable {
         projectsTableViewFunctions.initializeTableView(projectsTable);
         usersTableViewFunctions.initializeTableView(controlPanelUsersTableView);
         setupContractorsTable();
-        setUpStatisticsBlocks();
+//        setUpStatisticsBlocks();
         Functions.optimizeImageView(backgroundImageView);
 
 
