@@ -55,7 +55,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <Label layoutX="454.0" layoutY="125.0" text="Total Budget:- 69000$" textFill="#cfcfcf">
+            <Label layoutX="454.0" layoutY="125.0" text="Total Budget:" textFill="#cfcfcf">
                <font>
                   <Font size="16.0" />
                </font>
@@ -111,6 +111,11 @@
             <Label fx:id="endDateValidator" layoutX="312.0" layoutY="105.0" textFill="RED">
                <font>
                   <Font size="10.0" />
+               </font>
+            </Label>
+            <Label fx:id="totalBudgetLabel" layoutX="550.0" layoutY="125.0" text="0$" textFill="#cfcfcf">
+               <font>
+                  <Font size="16.0" />
                </font>
             </Label>
          </children>

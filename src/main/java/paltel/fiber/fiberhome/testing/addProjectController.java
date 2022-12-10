@@ -19,6 +19,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class addProjectController implements Initializable {
@@ -30,7 +31,7 @@ public class addProjectController implements Initializable {
     @FXML
     TextField cityTf,streetTf;
     @FXML
-    Label endDateValidator;
+    Label endDateValidator,totalBudgetLabel;
     @FXML
     MFXDatePicker endDatePicker;
     @FXML
@@ -44,6 +45,8 @@ public class addProjectController implements Initializable {
 
     Stage stage;
 
+
+    long totalBudget = 0;
 
 
     @Override
@@ -146,11 +149,29 @@ public class addProjectController implements Initializable {
         TextField amountTextField = new TextField();
         amountTextField.getStyleClass().add("informationTextFields");
         amountTextField.setAlignment(Pos.CENTER);
+        amountTextField.setText("0");
 
+        amountTextField.textProperty().addListener((obs, oldText, newText) -> {
+            if(!Functions.isNum(newText) && !newText.equals("")) amountTextField.setText(oldText);
+            else {
+                if(oldText.equals("0")) {
+                    System.out.println("test");
+                    if(!newText.equals("0")) amountTextField.setText(newText.replace("0",""));
+                }
+                if(newText.equals("")) {
+                    amountTextField.setText("0");
+                    // totalBudget -= getProductPrice(PID + WarehouseID) * Integer.parseInt(oldText);
+                } else if(!oldText.equals("")) {
+                    // totalBudget += (getProductPrice(PID + WarehouseID) * Integer.parseInt(newText)) - (getProductPrice * Integer.parseInt(oldText));
+                }
+                totalBudgetLabel.setText(totalBudget + "$");
+            }
+        });
+        
+        
         amountTextField.setId(PID + "TextField"); // Text field id
 
 
-        amountTextField.setText("0");
         amountTextField.setPrefWidth(90);
 
         HBox row = new HBox();
