@@ -271,9 +271,9 @@
                                        </padding>
                                     </HBox>
                                     <Separator layoutY="46.0" opacity="0.1" prefWidth="429.0" />
-                                    <MFXScrollPane fx:id="controlPanelPindingUsersScrollPane" fitToWidth="true" layoutX="4.0" layoutY="50.0" prefHeight="206.0" prefWidth="421.0">
+                                    <MFXScrollPane fx:id="controlPanelPendingUsersScrollPane" fitToWidth="true" layoutX="4.0" layoutY="50.0" prefHeight="206.0" prefWidth="421.0">
                                        <content>
-                                          <VBox fx:id="controlPanelPindingUsersScrollPaneVbox" prefWidth="331.0">
+                                          <VBox fx:id="controlPanelPendingUsersScrollPaneVbox" prefWidth="331.0">
                                              <children>
                                                 <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="339.0" spacing="10.0">
                                                    <children>
@@ -352,12 +352,12 @@
                                     </Pane>
                                     <Pane fx:id="employeesNumberPane211" layoutX="34.0" layoutY="145.0" prefHeight="114.0" prefWidth="160.0" styleClass="statics-square">
                                        <children>
-                                          <Label fx:id="totalEmployeesCountLabel211" alignment="CENTER" layoutY="22.0" prefHeight="26.0" prefWidth="161.0" text="3" textFill="#cfcfcf">
+                                          <Label fx:id="controlPanelTotalAdminAccounts" alignment="CENTER" layoutY="22.0" prefHeight="26.0" prefWidth="161.0" text="3" textFill="#cfcfcf">
                                              <font>
                                                 <Font name="System Bold" size="17.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="controlPanelTotalAdminAccounts" alignment="CENTER" layoutY="57.0" prefHeight="50.0" prefWidth="160.0" text="Admin accounts" textAlignment="CENTER" textFill="#cfcfcf" wrapText="true">
+                                          <Label alignment="CENTER" layoutY="57.0" prefHeight="50.0" prefWidth="160.0" text="Admin accounts" textAlignment="CENTER" textFill="#cfcfcf" wrapText="true">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
@@ -366,12 +366,12 @@
                                     </Pane>
                                     <Pane fx:id="employeesNumberPane212" layoutX="207.0" layoutY="145.0" prefHeight="114.0" prefWidth="160.0" styleClass="statics-square">
                                        <children>
-                                          <Label fx:id="totalEmployeesCountLabel212" alignment="CENTER" layoutY="22.0" prefHeight="26.0" prefWidth="161.0" text="5" textFill="#cfcfcf">
+                                          <Label fx:id="controlPanelTotalPendingAccounts" alignment="CENTER" layoutY="22.0" prefHeight="26.0" prefWidth="161.0" text="5" textFill="#cfcfcf">
                                              <font>
                                                 <Font name="System Bold" size="17.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="controlPanelTotalPindingAccounts" alignment="CENTER" layoutY="57.0" prefHeight="50.0" prefWidth="160.0" text="Pinding accounts" textAlignment="CENTER" textFill="#cfcfcf" wrapText="true">
+                                          <Label alignment="CENTER" layoutY="57.0" prefHeight="50.0" prefWidth="160.0" text="Pending accounts" textAlignment="CENTER" textFill="#cfcfcf" wrapText="true">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
@@ -380,7 +380,7 @@
                                     </Pane>
                                  </children>
                               </Pane>
-                              <Label layoutX="572.0" layoutY="2.0" text="Pinding Accounts" textFill="#cfcfcf">
+                              <Label layoutX="572.0" layoutY="2.0" text="Pending Accounts" textFill="#cfcfcf">
                                  <font>
                                     <Font name="System Bold" size="16.0" />
                                  </font>

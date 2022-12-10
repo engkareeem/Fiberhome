@@ -15,6 +15,13 @@ public class Warehouse {
     public Warehouse() {
     }
 
+    public Warehouse(String warehouseId, String city, Integer capacity, ArrayList<Project> projectList) {
+        this.warehouseId = warehouseId;
+        this.city = city;
+        this.capacity = capacity;
+        this.projectList = projectList;
+    }
+
     public Warehouse(String warehouseId) {
         this.warehouseId = warehouseId;
     }
@@ -45,6 +52,9 @@ public class Warehouse {
 
     public ArrayList<Project> getProjectList() {
         return projectList;
+    }
+    public int getProjectsCount() {
+        return projectList.size();
     }
 
     public void setProjectList(ArrayList<Project> projectList) {

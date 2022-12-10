@@ -8,11 +8,12 @@ public class Supplier{
     private String supplierId;
     private String companyName;
 
-    public Supplier() {
+    public Supplier(String supplierId, String companyName) {
+        this.supplierId = supplierId;
+        this.companyName = companyName;
     }
 
-    public Supplier(String supplierId) {
-        this.supplierId = supplierId;
+    public Supplier() {
     }
 
     public String getSupplierId() {

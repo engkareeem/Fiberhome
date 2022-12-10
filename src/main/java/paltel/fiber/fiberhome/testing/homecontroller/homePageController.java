@@ -174,7 +174,21 @@ public class homePageController implements Initializable {
     /*                              Control panel Page                         */
     @FXML
     MFXPaginatedTableView<User> controlPanelUsersTableView;
+    @FXML
+    MFXPaginatedTableView<Supplier> controlPanelSuppliersTableView;
+    @FXML
+    MFXPaginatedTableView<Warehouse> controlPanelWarehousesTableView;
+    @FXML
+    Label controlPanelTotalActiveUsers,controlPanelTotalEmployeeAccounts,controlPanelTotalAdminAccounts,controlPanelTotalPendingAccounts;
+    @FXML
+    Label controlPanelTotalSuppliers,controlPanelTotalProducts;
+    @FXML
+    Label controlPanelTotalWarehousesNumber,controlPanelTotalWarehousesBudget,controlPanelTotalStoredParts,controlPanelTotalFreeSpace;
 
+    @FXML
+    MFXScrollPane controlPanelPendingUsersScrollPane,controlPanelCheapestProductScrollPane,controlPanelWarehouseProjectsScrollPane;
+    @FXML
+    VBox controlPanelPendingUsersScrollPaneVbox,controlPanelCheapestProductScrollPaneVbox,controlPanelWarehouseProjectsScrollPaneVbox;
 
     @FXML
     Pane currentProjectCard,currentProjectCard1;
@@ -217,6 +231,8 @@ public class homePageController implements Initializable {
         employeesTableViewFunctions.initializeTableView(employeesTable);
         projectsTableViewFunctions.initializeTableView(projectsTable);
         usersTableViewFunctions.initializeTableView(controlPanelUsersTableView);
+        suppliersTableViewFunctions.initializeTableView(controlPanelSuppliersTableView);
+        warehousesTableViewFunctions.initializeTableView(controlPanelWarehousesTableView);
         setupContractorsTable();
 //        setUpStatisticsBlocks();
         Functions.optimizeImageView(backgroundImageView);
