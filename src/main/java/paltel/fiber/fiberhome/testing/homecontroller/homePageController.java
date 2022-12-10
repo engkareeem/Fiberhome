@@ -24,12 +24,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import paltel.fiber.fiberhome.testing.Functions;
 import paltel.fiber.fiberhome.testing.Navigator;
-import paltel.fiber.fiberhome.testing.model.Contractor;
-import paltel.fiber.fiberhome.testing.model.Employee;
-import paltel.fiber.fiberhome.testing.model.Project;
-import paltel.fiber.fiberhome.testing.model.User;
+import paltel.fiber.fiberhome.testing.model.*;
 import paltel.fiber.fiberhome.testing.testingMain;
 
 import java.io.IOException;
@@ -87,6 +85,8 @@ public class homePageController implements Initializable {
     Label employeeInfoCurrentProjectName,employeeInfoCurrentProjectId,employeeInfoCurrentProjectContractor,
             employeeInfoCurrentProjectType,employeeInfoCurrentProjectStartDate,employeeInfoCurrentProjectDueDate
             ,employeeInfoCurrentProjectStreet,employeeInfoCurrentProjectCity,employeeInfoLastProjectsLabel;
+
+    public static MFXPaginatedTableView<Employee> employeesTableView;
 
     /*               User info              */
 
@@ -182,7 +182,10 @@ public class homePageController implements Initializable {
     @FXML
     Pane lastProjectsCard;
 
+    @FXML
+    PieChart pieChart;
 
+    Employee currentEmployeeProfilePage;
 
     boolean contractorInfoOnEdit = false;
 
@@ -200,9 +203,8 @@ public class homePageController implements Initializable {
 //
 //        pieChart.setLabelsVisible(false);
 
-        ap.setOpacity(0);
-        Platform.runLater(this::playOpenAnimation);
-
+//        playOpenAnimation();
+        employeesTableView = employeesTable;
         currentPane = employeesPane;
         updateLastLoginTime((String) Navigator.getValue("eid"));
         stage = Navigator.primaryStage;
@@ -217,7 +219,24 @@ public class homePageController implements Initializable {
         usersTableViewFunctions.initializeTableView(controlPanelUsersTableView);
         setupContractorsTable();
         setUpStatisticsBlocks();
+        Functions.optimizeImageView(backgroundImageView);
 
+
+        new Thread(() -> {
+            Platform.runLater(() -> {
+
+                employeesTableViewFunctions.initializeTableView(employeesTable);
+                setupContractorsTable();
+                setUpEmployeeStatisticsBlocks();
+            });
+        }).start();
+
+        new Thread(() -> {
+            Platform.runLater(() -> {
+                projectsTableViewFunctions.initializeTableView(projectsTable);
+                setupWarehouseTable();
+            });
+        }).start();
 
         stage.iconifiedProperty().addListener((observableValue, aBoolean, iconified) -> {
             if(iconified && !usedMinimize) {
@@ -234,6 +253,7 @@ public class homePageController implements Initializable {
     }
 
 
+
     private void setupContractorsTable(){
         enhancedScrollPane.resetRows(contractorListScrollPaneVbox);
         ArrayList<Contractor> contractors = getAllContractors();
@@ -242,7 +262,16 @@ public class homePageController implements Initializable {
         });
     }
 
-    private void setUpStatisticsBlocks(){
+    private void setupWarehouseTable(){
+        enhancedScrollPane.resetRows(warehouseListScrollPaneVbox);
+        ArrayList<Warehouse> warehouses = getAllWarehouses();
+        warehouses.forEach(warehouse -> {
+            enhancedScrollPane.addRow(warehouseListScrollPaneVbox, warehouse.getWarehouseId(), warehouse.getCity(), String.valueOf(warehouse.getCapacity()), 40, 150 ,75, Functions.ListType.CONT_LIST,currentPane,homeNavBarVBox,contractorInfoPane);
+
+        });
+    }
+
+    private void setUpEmployeeStatisticsBlocks(){
         new Thread(() -> {
             Platform.runLater(() -> totalEmployeesCountLabel.setText(getEmployeesCount().toString()));
         }).start();
@@ -343,20 +372,23 @@ public class homePageController implements Initializable {
         Functions.showDialog("Are you sure you want to delete  \"" + selectedEmployee.getFname() + " " + selectedEmployee.getLname() +"\" records?", Functions.Errors.CONFIRM_DIALOG);
         new Thread(() -> {
             try {
-                Thread.sleep(100);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
             while(Functions.confirmFlag == null) {
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             }
 
             if(Functions.confirmFlag) {
-                // TODO: [remove Employee] clicked with confirm
+                new Thread(() -> Platform.runLater(() -> {
+                    deleteEmployee(selectedEmployee.getEid());
+                    employeesTableViewFunctions.initializeTableView(employeesTable);
+                })).start();
             }
 
         }).start();
@@ -378,9 +410,6 @@ public class homePageController implements Initializable {
         if(!employeeInfoOnEdit) {
             switchToEdit();
         } else {
-            // TODO: [Edit Employee] update employee information here
-            // i will add the validator if الله قدرني
-
             switchFromEdit();
         }
     }
@@ -392,6 +421,7 @@ public class homePageController implements Initializable {
     public void employeeDisplayClicked() {
 
         Employee employee = employeesTableViewFunctions.getSelectedRow();
+        currentEmployeeProfilePage = employee;
         enhancedScrollPane.resetRows(lastProjectsScrollPaneVbox);
         if (employee == null) return;
         SimpleDateFormat birthdateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -505,20 +535,27 @@ public class homePageController implements Initializable {
         Functions.showDialog("Are you sure you want to delete  \"" + contractorInfoContName.getText() +"\" records?", Functions.Errors.CONFIRM_DIALOG);
         new Thread(() -> {
             try {
-                Thread.sleep(100);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
             while(Functions.confirmFlag == null) {
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             }
 
             if(Functions.confirmFlag) {
-                // TODO: [remove Contractor] clicked with confirm
+
+                contractorInfoClose();
+                new Thread(() -> Platform.runLater(() -> {
+                    deleteContractor(contractorInfoContId.getText());
+                    enhancedScrollPane.resetRows(contractorListScrollPaneVbox);
+                })).start();
+                new Thread(() -> Platform.runLater(this::setupContractorsTable)).start();
+
             }
 
         }).start();
@@ -529,11 +566,27 @@ public class homePageController implements Initializable {
         currentPane.setVisible(true);
         homeNavBarVBox.setDisable(false);
         contractorSwitchFromEdit();
+
     }
 
     /*             User info                  */
     @FXML
     public void userInfoClicked() {
+        new Thread(
+                () -> {
+                    Platform.runLater(() -> {
+                        User user = getUserInfo((String) Navigator.getValue("eid"));
+                        Employee emp = getEmployeeInfo((String) Navigator.getValue("eid"));
+                        if(user != null){
+                            userInfoEmpId.setText(user.getEid());
+                            userInfoNickName.setText(user.getNickName());
+                            userInfoRole.setText(user.getRole());
+                            if (emp != null) userInfoEmpName.setText(emp.getFname() + " " + emp.getMname() + " " + emp.getLname());
+                            else userInfoEmpName.setText(user.getNickName());
+                        }
+                    });
+                }
+        ).start();
         currentPane.setVisible(false);
         userInfoPane.setVisible(true);
         homeNavBarVBox.setDisable(true);
@@ -620,11 +673,35 @@ public class homePageController implements Initializable {
     }
     @FXML
     public void tableDisplayProjectClicked() {
+        Project project = getProjectInfo(projectsTableViewFunctions.getSelectedRow().getProjectId()); //projectsTableViewFunctions.getSelectedRow();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        if(project == null) return;
+        new Thread(() -> Platform.runLater(() -> {
+            Contractor contractor = getContractorInfo(project.getContractorId());
+            if(contractor == null){
+                contractorInfoPane.setVisible(false);
+            }else{
+                projectInfoContId.setText(contractor.getContractorId());
+                projectInfoContName.setText(contractor.getFname() + " " + contractor.getMname() + " " + contractor.getLname());
+                projectInfoContBirthdate.setText(dateFormat.format(contractor.getBirthdate()));
+                projectInfoContType.setText(contractor.getContractorType());
+                projectInfoContAge.setText(getAge(contractor.getBirthdate(), new Date()) + " yo");
+            }
+        })).start();
+
+        projectInfoCity.setText(project.getCity());
+        projectInfoStreet.setText(project.getStreet() == null  ? "" : project.getStreet());
+        projectInfoStartDate.setText(dateFormat.format(project.getStartDate()));
+        projectInfoDueDate.setText(dateFormat.format(project.getDueDate()));
+        projectInfoProjAmount.setText(project.getAmount() + "$");
+        projectInfoProjType.setText(project.getProjType());
+
+
+
         projectsPane.setVisible(false);
         homeNavBarVBox.setDisable(true);
         projectInfoPane.setVisible(true);
 
-        // TODO: Project info initialize
     }
 
 
@@ -715,22 +792,6 @@ public class homePageController implements Initializable {
     }
 
 
-
-
-
-    public void addRow() {
-        // this function for a test button I deleted it :#
-
-
-        // contractor example
-        // 40,150,75 is the labels size respectively (ID,NAME,TYPE)
-//        enhancedScrollPane.addRow(contractorListScrollPaneVbox,"9395","Amjad fauore","Electricity",40,150,75);
-
-        // employee projects example
-//        enhancedScrollPane.addRow(lastProjectsScrollPaneVbox,"1919","Bidya Fiber","Bidya",35,220,72, Functions.ListType.LAST_PROJECTS_LIST);
-
-    }
-
     public void switchToEdit() {
         Label []labels = {employeeInfoEmpDistrict};
         TextField textField;
@@ -741,6 +802,7 @@ public class homePageController implements Initializable {
         textField.getStyleClass().add("info-field");
         textField.setPromptText("First");
         textField.setId("editTextField" + "FirstName");
+        textField.setText(currentEmployeeProfilePage.getFname());
         profileCard.getChildren().add(textField);
         textField = new TextField();
         textField.setLayoutX(employeeInfoEmpName.getLayoutX() + 85);
@@ -749,6 +811,7 @@ public class homePageController implements Initializable {
         textField.getStyleClass().add("info-field");
         textField.setPromptText("Middle");
         textField.setId("editTextField" + "MiddleName");
+        textField.setText(currentEmployeeProfilePage.getMname());
         profileCard.getChildren().add(textField);
         textField = new TextField();
         textField.setLayoutX(employeeInfoEmpName.getLayoutX() + 155);
@@ -757,6 +820,7 @@ public class homePageController implements Initializable {
         textField.getStyleClass().add("info-field");
         textField.setPromptText("Last");
         textField.setId("editTextField" + "LastName");
+        textField.setText(currentEmployeeProfilePage.getLname());
         profileCard.getChildren().add(textField);
 
         employeeInfoEmpName.setVisible(false);
@@ -770,6 +834,7 @@ public class homePageController implements Initializable {
 
         ObservableList<String> comboBoxItems = FXCollections.observableArrayList(getJobPositions());
         comboBox.setItems(comboBoxItems);
+        comboBox.setValue(currentEmployeeProfilePage.getJobPos());
 
         profileCard.getChildren().add(comboBox);
         employeeInfoEmpJobPos.setVisible(false);
@@ -790,7 +855,31 @@ public class homePageController implements Initializable {
         employeeInfoOnEdit=true;
     }
     public void switchFromEdit() {
-        if(!employeeInfoOnEdit) return;
+        if (!employeeInfoOnEdit) return;
+
+        TextField fNameTextField = (TextField) employeeInfoPane.lookup("#editTextFieldFirstName");
+        TextField mNameTextField = (TextField) employeeInfoPane.lookup("#editTextFieldMiddleName");
+        TextField lNameTextField = (TextField) employeeInfoPane.lookup("#editTextFieldLastName");
+
+        TextField districtTextField = (TextField) employeeInfoPane.lookup("#editTextFieldemployeeInfoEmpDistrict");
+
+        if(!fNameTextField.getText().isEmpty() && !mNameTextField.getText().isEmpty() && !lNameTextField.getText().isEmpty()) {
+
+
+            ComboBox<String> jobPositionComboBox = (ComboBox<String>) employeeInfoPane.lookup("#editTextFieldemployeeInfoEmpJobPos");
+            new Thread(() -> Platform.runLater(() -> {
+                updateEmployee(currentEmployeeProfilePage.getEid(), fNameTextField.getText(), mNameTextField.getText(), lNameTextField.getText(), jobPositionComboBox.getValue(), districtTextField.getText());
+            })).start();
+
+
+            new Thread(() -> Platform.runLater(() -> employeesTableViewFunctions.initializeTableView(employeesTable))).start();
+
+            employeeInfoEmpName.setText(fNameTextField.getText() + " " + mNameTextField.getText() + " " + lNameTextField.getText());
+            employeeInfoEmpDistrict.setText(districtTextField.getText());
+            employeeInfoEmpJobPos.setText(jobPositionComboBox.getValue());
+
+        }
+
         Label []labels = {employeeInfoEmpName,employeeInfoEmpJobPos,employeeInfoEmpDistrict};
         profileCard.getChildren().removeIf(node -> node.getId() != null && node.getId().startsWith("editTextField"));
         for(Label label: labels) {
@@ -816,6 +905,8 @@ public class homePageController implements Initializable {
         userProfileCard.getChildren().add(textField);
         userInfoNickName.setVisible(false);
 
+
+
         userInfoChangePassword.setVisible(true);
         userInfoEditButton.setText("Submit");
         userInfoOnEdit=true;
@@ -832,6 +923,8 @@ public class homePageController implements Initializable {
         userInfoChangePassword.setVisible(false);
 
     }
+
+
 
     public void contractorSwitchToEdit() {
         TextField textField;
@@ -910,6 +1003,7 @@ public class homePageController implements Initializable {
         prevCurrentPane = currentPane;
         currentPane = projectInfoPane;
     }
+
 
 }
 

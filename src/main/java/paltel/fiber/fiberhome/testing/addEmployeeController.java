@@ -4,6 +4,9 @@ import animatefx.animation.ZoomIn;
 import animatefx.animation.ZoomOut;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import javafx.application.Platform;
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -13,9 +16,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import paltel.fiber.fiberhome.testing.homecontroller.employeesTableViewFunctions;
+import paltel.fiber.fiberhome.testing.homecontroller.homePageController;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+
 
 public class addEmployeeController implements Initializable {
     Stage stage;
@@ -32,7 +39,7 @@ public class addEmployeeController implements Initializable {
     @FXML
     TextField firstNameTf,middleNameTf,lastNameTf,idNumberTf,districtTf;
 
-    boolean gender=true;
+    boolean gender=true; // true for male, false for female
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Functions.emptyTextFieldListener(firstNameTf);
@@ -49,6 +56,12 @@ public class addEmployeeController implements Initializable {
             stageZoom.setSpeed(2);
             stageZoom.play();
         });
+        new Thread(() -> Platform.runLater(() -> {
+            ArrayList<String> jobPositions = DBapi.getJobPositions();
+            ObservableList<String> jobPositionsObservableList = FXCollections.observableArrayList(jobPositions);
+            jobPosComboBox.setItems(jobPositionsObservableList);
+
+        })).start();
         Functions.move(stage,employeePane);
     }
     @FXML
@@ -95,10 +108,10 @@ public class addEmployeeController implements Initializable {
         }
         if(!valid) return;
 
-        // TODO: Add employee here
-
-
+        DBapi.addEmployee(idNumberTf.getText(), firstNameTf.getText(), middleNameTf.getText(), lastNameTf.getText(),java.sql.Date.valueOf(birthdateDatePicker.getValue()), districtTf.getText(),( gender? 'M' : 'F') , jobPosComboBox.getValue() );
         closePopup();
+        new Thread(() -> Platform.runLater(() -> employeesTableViewFunctions.initializeTableView(homePageController.employeesTableView))).start();
+
     }
     @FXML
     public void close() {

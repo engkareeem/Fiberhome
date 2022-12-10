@@ -28,9 +28,9 @@ public class projectsTableViewFunctions {
         // Edit this if you need,
         // I will find solution for column width :3
         MFXTableColumn<Project> idColumn = new MFXTableColumn<>("PID", true, Comparator.comparing(Project::getProjectId));
-        MFXTableColumn<Project> contractorNameColumn = new MFXTableColumn<>("Contractor Name", true, Comparator.comparing(Project::getContractorId));
+        MFXTableColumn<Project> contractorNameColumn = new MFXTableColumn<>("CID", true, Comparator.comparing(Project::getContractorId));
         MFXTableColumn<Project> typeColumn = new MFXTableColumn<>("Type", true, Comparator.comparing(Project::getProjType));
-        MFXTableColumn<Project> totalAmountColumn = new MFXTableColumn<>("Total Budget", true, Comparator.comparing(Project::getAmount));
+        MFXTableColumn<Project> totalAmountColumn = new MFXTableColumn<>("Total Budget ($)", true, Comparator.comparing(Project::getAmount));
         MFXTableColumn<Project> cityColumn = new MFXTableColumn<>("City", true, Comparator.comparing(Project::getCity));
         MFXTableColumn<Project> streetColumn = new MFXTableColumn<>("Street", true, Comparator.comparing(Project::getStreet));
 
@@ -48,6 +48,10 @@ public class projectsTableViewFunctions {
         projects = FXCollections.observableArrayList(
                 new Project("0001",15000, null,null,"Bidya","street","0001","Fiber")
         );
+        tableview.getTableColumns().clear();
+        ArrayList<Project> projectArrayList = DBapi.getAllProjects();
+        projects.addAll(projectArrayList);
+
 //        ArrayList<Employee> employeeArrayList = DBapi.getAllEmployees();
 //        project.addAll(employeeArrayList);
 
