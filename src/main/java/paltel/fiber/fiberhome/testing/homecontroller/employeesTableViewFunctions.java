@@ -27,7 +27,6 @@ public class employeesTableViewFunctions {
 
 
 
-
         // Edit this if you need,
         // I will find solution for column width :3
         MFXTableColumn<Employee> idColumn = new MFXTableColumn<>("EID", true, Comparator.comparing(Employee::getEid));
@@ -59,7 +58,7 @@ public class employeesTableViewFunctions {
         districtColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(Employee::getDistrict));
         jobPositionColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(Employee::getJobPos));
         isHasAccount.setRowCellFactory(employee -> new MFXTableRowCell<>(Employee::isHasAccount));
-
+        tableview.getTableColumns().clear();
         tableview.getTableColumns().addAll(idColumn, FNameColumn, MNameColumn, LNameColumn, districtColumn,jobPositionColumn,isHasAccount);
         tableview.getFilters().addAll(
                 new StringFilter<>("EID", Employee::getEid),
@@ -71,7 +70,10 @@ public class employeesTableViewFunctions {
                 new StringFilter<>("Has Account", Employee::isHasAccount)
         );
         tableview.setItems(employees);
+        tableview.scrollToFirst();
+        tableview.scrollTo(0);
     }
+
     public static Employee getSelectedRow() {
         IMultipleSelectionModel<Employee> selectionModel = employeesTable.getSelectionModel();
         Collection<Employee> selected = selectionModel.getSelection().values();

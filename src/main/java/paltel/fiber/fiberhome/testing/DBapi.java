@@ -1,9 +1,6 @@
 package paltel.fiber.fiberhome.testing;
 
-import paltel.fiber.fiberhome.testing.model.Contractor;
-import paltel.fiber.fiberhome.testing.model.Employee;
-import paltel.fiber.fiberhome.testing.model.Project;
-import paltel.fiber.fiberhome.testing.model.User;
+import paltel.fiber.fiberhome.testing.model.*;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -58,6 +55,23 @@ public class DBapi {
         return project;
     }
 
+    private static Warehouse getWarehouseFromRow(ResultSet res) throws SQLException {
+        Warehouse warehouse = new Warehouse();
+        warehouse.setWarehouseId(res.getString("warehouse_id"));
+        warehouse.setCity(res.getString("city"));
+        warehouse.setCapacity(res.getInt("capacity"));
+        return warehouse;
+    }
+
+    private static Product getProductFromRow(ResultSet res) throws  SQLException{
+        Product product = new Product();
+        product.setProductId(res.getString("product_id"));
+        product.setProductName(res.getString("product_name"));
+        product.setDescription(res.getString("description"));
+        product.setMesUnit(res.getString("mes_unit"));
+        return product;
+    }
+
     private static Contractor getContractorFromRow(ResultSet res) throws SQLException {
         Contractor contractor = new Contractor();
         contractor.setContractorId(res.getString("Contractor_id"));
@@ -71,10 +85,38 @@ public class DBapi {
         return contractor;
     }
 
-    public static void addEmployee(String eid, String idNumber, String fName, String mName, String lName, Date birthDate, String district, Character sex, String jobPos){
+    public static Supplier getSupplierFromRow(ResultSet res) throws SQLException {
+        Supplier supplier = new Supplier();
+        supplier.setSupplierId(res.getString("supplier_id"));
+        supplier.setCompanyName(res.getString("company_name"));
+        return supplier;
+    }
+
+    public static Contact getContactFromRow(ResultSet res) throws SQLException {
+        Contact contact = new Contact();
+        contact.setSupplierId(res.getString("supplier_id"));
+        contact.setHasemail(res.getString("hasemail").charAt(0));
+        contact.setHasfax(res.getString("hasfax").charAt(0));
+        contact.setHasphone(res.getString("hasphone").charAt(0));
+        if(contact.getHasphone().equals('1')) contact.setPhoneNumber(res.getString("company_name"));
+        if(contact.getHasfax().equals('1')) contact.setFax(res.getString("fax"));
+        if(contact.getHasemail().equals('1')) contact.setEmailAddress(res.getString("email_address"));
+        return contact;
+    }
+    public static void addEmployee(String idNumber, String fName, String mName, String lName, Date birthDate, String district, Character sex, String jobPos){
         try {
             Statement statement = connection.createStatement();
-            statement.executeUpdate("insert into Employee(EMPLOYEE_ID, ID_NUMBER, FNAME, MNAME, LNAME, BIRTHDATE, DISTRICT, SEX, JOB_POS)  values(" + eid + "," + idNumber + "," + fName + ","  +  mName + ","  + lName + ", TO_DATE(" + birthDate + ", 'yyyy-mm-dd')," + district +  ","  + sex + ","  + jobPos + ")");
+            String eid = getNewEmployeeId();
+            statement.executeUpdate("insert into Employee(EMPLOYEE_ID, ID_NUMBER, FNAME, MNAME, LNAME, BIRTHDATE, DISTRICT, SEX, JOB_POS)  values('" + eid + "','" + idNumber + "','" + fName + "','"  +  mName + "','"  + lName + "', TO_DATE('" + birthDate + " 0:00:00', 'yyyy-mm-dd HH24:mi:ss'),'" + district +  "','"  + sex + "','"  + jobPos + "')");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void updateEmployee(String eid, String fName, String mName, String lName, String jobPos, String district){
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("update Employee set FNAME = '" + fName + "', MNAME = '" + mName + "', LNAME = '" + lName + "', JOB_POS = '" + jobPos + "', DISTRICT = '" + district + "' where EMPLOYEE_ID = " + eid);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -89,20 +131,229 @@ public class DBapi {
         }
     }
 
-    public static void updateEmployee(String eid, String fName, String mName, String lName, String jobPos, String district){
+    public static void addContractor(String cid, String idNumber, String fName, String mName, String lName, Date birthDate, Character sex, String contractorType){
         try {
             Statement statement = connection.createStatement();
-            statement.executeUpdate("update Employee set FNAME = " + fName + ", MNAME = " + mName + ", LNAME = " + lName + ", JOB_POS = " + jobPos + ", DISTRICT = " + district + " where EMPLOYEE_ID = " + eid);
+            statement.executeUpdate("insert into CONTRACTOR(CONTRACTOR_ID, ID_NUMBER, FNAME, MNAME, LNAME, BIRTHDATE, SEX, CONTRACTOR_TYPE)  values('" + cid + "','" + idNumber + "','" + fName + "','"  +  mName + "','"  + lName + "', TO_DATE('" + birthDate + " 0:00:00', 'yyyy-mm-dd HH24:mi:ss'),'" + + sex + "','"  + contractorType + "')");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
+    public static void updateContractor(String cid, String fName, String mName, String lName, String contractorType){
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("update CONTRACTOR set FNAME = '" + fName + "', MNAME = '" + mName + "', LNAME = '" + lName + "', CONTRACTOR_TYPE = '" + contractorType + "' where CONTRACTOR_ID = " + cid);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void deleteContractor(String cid){
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("delete from CONTRACTOR where CONTRACTOR_ID = " + cid);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void addProduct(String pid, String productName, String description, String measurementUnit){
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("insert into PRODUCT(PRODUCT_ID, PRODUCT_NAME, DESCRIPTION, MES_UNIT)  values('" + pid + "','" + productName + "','"  +  description + "','"  + measurementUnit + "')");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void updateProduct(String pid, String productName, String description, String measurementUnit){
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("update PRODUCT set PRODUCT_NAME = '" + productName + "', DESCRIPTION = '" + description + "', MES_UNIT = '" + measurementUnit + "' where PRODUCT_ID = " + pid);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public static void deleteProduct(String pid){
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("delete from PRODUCT where PRODUCT_ID = " + pid);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void addSupplier(String sid, String companyName){
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("insert into SUPPLIER(SUPPLIER_ID, COMPANY_NAME)  values('" + sid + "','" + companyName + "')");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void updateSupplier(String sid, String companyName){
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("update SUPPLIER set COMPANY_NAME = '" + companyName + "' where SUPPLIER_ID = " + sid);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void deleteSupplier(String sid){
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("delete from SUPPLIER where SUPPLIER_ID = " + sid);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void addWarehouse(String wid, String city, Integer capacity){
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("insert into WAREHOUSE(WAREHOUSE_ID, CITY, CAPACITY)  values('" + wid + "','" + city  + "','" + capacity + "')");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void updateWarehouse(String wid, String city, String capacity){
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("update WAREHOUSE set CITY = '" + city + "', CAPACITY = '" + capacity +  "' where WAREHOUSE_ID = " + wid);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void deleteWarehouse(String wid){
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("delete from WAREHOUSE where WAREHOUSE_ID = " + wid);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public static void assignEmployeeToProject(String eid, String pid){
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("insert into WORKS_AT(EMPLOYEE_ID, PROJECT_ID)  values('" + eid + "','" + pid + "')");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void supplierCanSupply(String sid, String pid){
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("insert into CAN_SUPPLY(SUPPLIER_ID, PRODUCT_ID)  values('" + sid + "','" + pid + "')");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void projectImportsFromWarehouse(String pid, String wid){
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("insert into IMPORTS_FROM(PROJECT_ID, WAREHOUSE_ID)  values('" + pid + "','" + wid + "')");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void projectUsesProduct(String projectId, String productId, Integer quantity){
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("insert into USES(PROJECT_ID, PRODUCT_ID, QUANTITY)  values('" + projectId + "','" + productId + "','" + quantity + "')");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void warehouseStoresProduct(String wid, String pid, Integer quantity, Integer reserved){
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("insert into STORES(WAREHOUSE_ID, PRODUCT_ID, QUANTITY, RESERVED)  values('" + wid + "','" + pid + "','" + quantity + "','" + reserved + "')");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void reserveProductFromWarehouse(String wid, String pid, Integer reserved){
+        try {
+            Statement statement = connection.createStatement();
+            Integer numOfReservedProducts = getNumberOfReservedProductInWarehouse(wid, pid);
+            Integer numOfProducts = getQuantityOfAProductInWarehouse(wid, pid);
+            if(numOfReservedProducts + reserved > numOfProducts){ // when reserving quantity more than available
+                return;
+            }
+            statement.executeUpdate("update STORES set RESERVED = '" + (numOfReservedProducts + reserved)  +  "' where WAREHOUSE_ID = " + wid + " and PRODUCT_ID = " + pid);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Integer getNumberOfReservedProductInWarehouse(String wid, String pid)
+    {
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeQuery("select RESERVED from STORES where WAREHOUSE_ID = " + wid + " and PRODUCT_ID = " + pid );
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+
+        }
+        return 0;
+    }
+
+    public static Integer getQuantityOfAProductInWarehouse(String wid, String pid)
+    {
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeQuery("select QUANTITY from STORES where WAREHOUSE_ID = " + wid + " and PRODUCT_ID = " + pid );
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+
+        }
+        return 0;
+    }
+
+    public static void acceptEmployeeAccount(String eid)
+    {
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("update EMPLOYEE_ACCOUNT set ROLE = 'Employee' where EID = " + eid );
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void denyEmployeeAccount(String eid){
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("delete from EMPLOYEE_ACCOUNT where EID = " + eid);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
+
+
+
     public static ArrayList<Employee> getAllEmployees(){
         ArrayList<Employee> employees = new ArrayList<>();
         try {
 
             Statement statement = connection.createStatement();
-            ResultSet res =  statement.executeQuery("SELECT * from Employee ");
+            ResultSet res =  statement.executeQuery("SELECT * from Employee order by EMPLOYEE_ID");
             while (res.next()){
                 employees.add(getEmployeeFromRow(res));
             }
@@ -119,7 +370,7 @@ public class DBapi {
         try {
 
             Statement statement = connection.createStatement();
-            ResultSet res =  statement.executeQuery("SELECT * from CONTRACTOR ");
+            ResultSet res =  statement.executeQuery("SELECT * from CONTRACTOR ORDER BY CONTRACTOR_ID");
             while (res.next()){
                 contractors.add(getContractorFromRow(res));
             }
@@ -340,6 +591,49 @@ public class DBapi {
 
 
     // project Page
+
+    public static Project getProjectInfo(String proj_id){
+        Project project = new Project();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select * from PROJECT where PROJECT_ID = " + proj_id);
+            if(res.next()){
+                return getProjectFromRow(res);
+            }
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    public static Warehouse getWarehouseInfo(String warehouseId){
+
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select * from WAREHOUSE where WAREHOUSE_ID = " + warehouseId);
+            if(res.next()){
+                return getWarehouseFromRow(res);
+            }
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    public static ArrayList<Project> getAllProjects() {
+        ArrayList<Project> projects = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select * from PROJECT order by PROJECT_ID");
+            while (res.next()){
+                projects.add(getProjectFromRow(res));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return projects;
+    }
     public static ArrayList<String> getProjectTypes(){
         ArrayList<String> projectTypes = new ArrayList<>();
         try {
@@ -355,10 +649,57 @@ public class DBapi {
         return projectTypes;
     }
 
+    public static ArrayList<Warehouse> getAllWarehouses(){
+        ArrayList<Warehouse> warehouses = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select * from WAREHOUSE ORDER BY WAREHOUSE_ID");
+            while (res.next()){
+                warehouses.add(getWarehouseFromRow(res));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return warehouses;
+    }
+
+    public static ArrayList<Product> getProjectProducts(String pid){
+        ArrayList<Product> products = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select * from PRODUCT where PRODUCT_ID in (select USES.PROJECT_ID from USES) order by PRODUCT_ID");
+            while (res.next()){
+                products.add(getProductFromRow(res));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return products;
+    }
+
 
 
 
     // Utils
+
+    public static String getNewEmployeeId() throws SQLException {
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select EMPLOYEE_ID from EMPLOYEE order by EMPLOYEE_ID desc fetch first 1 row only");
+            if(res.next()){
+                String lastEmpId = res.getString("employee_id");
+                Integer lastEmpIdNum = Integer.valueOf(lastEmpId);
+                System.out.println(lastEmpIdNum);
+
+                return String.format("%04d", lastEmpIdNum+1);
+            }
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        return "0000";
+    }
     public static void updateLastLoginTime(String eid){
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd H:mm:ss").format(Calendar.getInstance().getTime());
         new Thread(()->{
@@ -372,8 +713,6 @@ public class DBapi {
             }
         }).start();
     }
-
-
 
 
 
