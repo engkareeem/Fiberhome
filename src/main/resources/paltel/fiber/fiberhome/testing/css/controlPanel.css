@@ -5,7 +5,7 @@
 
 #usersAp,#suppliersAp,#warehousesAp {
     -fx-border-radius: 7 15 15 15;
-    -fx-border-color: rgba(2, 129, 198, 0.79);
+    -fx-border-color: rgba(128, 128, 128, 0.4);
 }
 
 .tab-pane *.tab-header-background

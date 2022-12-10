@@ -266,7 +266,7 @@ public class homePageController implements Initializable {
         enhancedScrollPane.resetRows(warehouseListScrollPaneVbox);
         ArrayList<Warehouse> warehouses = getAllWarehouses();
         warehouses.forEach(warehouse -> {
-            enhancedScrollPane.addRow(warehouseListScrollPaneVbox, warehouse.getWarehouseId(), warehouse.getCity(), String.valueOf(warehouse.getCapacity()), 40, 150 ,75, Functions.ListType.CONT_LIST,currentPane,homeNavBarVBox,contractorInfoPane);
+            addWarehouseRow(warehouse.getWarehouseId(), warehouse.getCity(), String.valueOf(warehouse.getCapacity()));
 
         });
     }
@@ -992,7 +992,7 @@ public class homePageController implements Initializable {
         enhancedScrollPane.addRow(contractorListScrollPaneVbox,column1,column2,column3, 35, 150 ,85, Functions.ListType.CONT_LIST,currentPane,homeNavBarVBox,contractorInfoPane);
     }
     private void addWarehouseRow(String column1,String column2,String column3) {
-        enhancedScrollPane.addRow(warehouseListScrollPaneVbox,column1,column2,column3,40,150,75, Functions.ListType.WAREHOUSE_LIST,projectsPane,homeNavBarVBox,warehouseInfoPane);
+        enhancedScrollPane.addRow(warehouseListScrollPaneVbox,column1,column2,column3,40, 150 ,75, Functions.ListType.WAREHOUSE_LIST,projectsPane,homeNavBarVBox,warehouseInfoPane);
     }
     private void addProjRow(String column1,String column2, String column3) {
         enhancedScrollPane.addRow(lastProjectsScrollPaneVbox,column1,column2,column3, 32, 165, 125, Functions.ListType.LAST_PROJECTS_LIST);
