@@ -11,6 +11,7 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -30,21 +31,14 @@
             <Image url="@assets/background13.png" />
          </image>
       </ImageView>
-      <Pane fx:id="titleBar" prefHeight="38.0" prefWidth="1100.0">
-         <children>
-            <Label fx:id="closeLabel" layoutX="1067.0" layoutY="11.0" onMouseClicked="#close" prefHeight="17.0" prefWidth="17.0" />
-            <Label fx:id="minimizeLabel" layoutX="1037.0" layoutY="11.0" onMouseClicked="#minimize" prefHeight="17.0" prefWidth="17.0" />
-            <Label fx:id="maximizeLabel" layoutX="1007.0" layoutY="11.0" prefHeight="17.0" prefWidth="17.0" />
-         </children>
-      </Pane>
       <VBox fx:id="homeNavBarVBox" prefHeight="700.0" prefWidth="200.0">
          <children>
             <Pane prefHeight="104.0" prefWidth="200.0">
                <children>
                   <Pane layoutX="14.0" layoutY="18.0" onMouseClicked="#userInfoClicked">
                      <children>
-                        <Label layoutX="56.0" layoutY="8.0" styleClass="primaryText" text="Kareem M. Yaqoup" />
-                        <Label layoutX="57.0" layoutY="29.0" styleClass="secondaryText" text="Admin" />
+                        <Label fx:id="userNickNameLabel" layoutX="56.0" layoutY="8.0" styleClass="primaryText" text="Kareem M. Yaqoup" />
+                        <Label fx:id="userRoleLabel" layoutX="57.0" layoutY="29.0" styleClass="secondaryText" text="Admin" />
                         <FontIcon iconColor="#00a0d7" iconLiteral="fltfmz-person-28" iconSize="50" layoutY="50.0" />
                      </children>
                   </Pane>
@@ -242,22 +236,395 @@
             </Pane>
          </children>
       </Pane>
-      <Pane fx:id="controlPanelPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0">
+      <Pane fx:id="controlPanelPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/controlPanel.css" visible="false">
          <children>
-            <Label layoutX="354.0" styleClass="headerText" text="Control Panel" />
-            <TabPane layoutX="9.0" layoutY="52.0" prefHeight="597.0" prefWidth="882.0" tabClosingPolicy="UNAVAILABLE">
+            <Label layoutX="354.0" layoutY="-8.0" styleClass="headerText" text="Control Panel" />
+            <TabPane layoutX="14.0" layoutY="43.0" prefHeight="624.0" prefWidth="872.0" styleClass="MyTabPane" tabClosingPolicy="UNAVAILABLE">
               <tabs>
-                <Tab text="Untitled Tab 1">
+                  <Tab id="tabPaneUsersButton" text="Users">
+                     <content>
+                        <AnchorPane fx:id="usersAp" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="872.0">
+                           <children>
+                              <MFXPaginatedTableView fx:id="controlPanelUsersTableView" layoutX="14.0" layoutY="302.0" prefHeight="250.0" prefWidth="847.0" />
+                              <Pane layoutX="427.0" layoutY="33.0" prefHeight="260.0" prefWidth="430.0" styleClass="list-pane">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" layoutY="6.0" prefHeight="40.0" prefWidth="429.0" spacing="10.0">
+                                       <children>
+                                          <Label prefHeight="26.0" prefWidth="37.0" text="EID" textFill="#cfcfcf">
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
+                                             </font>
+                                          </Label>
+                                          <Label prefHeight="26.0" prefWidth="138.0" text="Employee name" textFill="#cfcfcf">
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
+                                             </font>
+                                          </Label>
+                                          <Label prefHeight="26.0" prefWidth="138.0" text="NickName" textFill="#cfcfcf">
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <padding>
+                                          <Insets left="15.0" right="10.0" />
+                                       </padding>
+                                    </HBox>
+                                    <Separator layoutY="46.0" opacity="0.1" prefWidth="429.0" />
+                                    <MFXScrollPane fx:id="controlPanelPendingUsersScrollPane" fitToWidth="true" layoutX="4.0" layoutY="50.0" prefHeight="206.0" prefWidth="421.0">
+                                       <content>
+                                          <VBox fx:id="controlPanelPendingUsersScrollPaneVbox" prefWidth="331.0">
+                                             <children>
+                                                <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="339.0" spacing="10.0">
+                                                   <children>
+                                                      <Label prefHeight="26.0" prefWidth="37.0" text="6969" textFill="#cfcfcf">
+                                                         <font>
+                                                            <Font size="14.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label prefHeight="26.0" prefWidth="138.0" text="Kareem M Yaqoup" textFill="#cfcfcf">
+                                                         <font>
+                                                            <Font size="14.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label prefHeight="26.0" prefWidth="131.0" text="Sofyan Da Best" textFill="#cfcfcf">
+                                                         <font>
+                                                            <Font size="14.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label alignment="CENTER" prefHeight="26.0" textFill="#cfcfcf">
+                                                         <font>
+                                                            <Font name="System Bold" size="14.0" />
+                                                         </font>
+                                                         <graphic>
+                                                            <FontIcon iconColor="#5cb85c" iconLiteral="fltfal-checkmark-circle-24" iconSize="25" />
+                                                         </graphic>
+                                                      </Label>
+                                                      <Label alignment="CENTER" prefHeight="26.0" textFill="#cfcfcf">
+                                                         <font>
+                                                            <Font name="System Bold" size="14.0" />
+                                                         </font>
+                                                         <graphic>
+                                                            <FontIcon iconColor="#f04d24" iconLiteral="fltfal-dismiss-circle-24" iconSize="25" />
+                                                         </graphic>
+                                                      </Label>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets left="10.0" right="10.0" />
+                                                   </padding>
+                                                </HBox>
+                                                <Separator opacity="0.08" prefWidth="339.0" />
+                                             </children>
+                                          </VBox>
+                                       </content>
+                                    </MFXScrollPane>
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="14.0" layoutY="14.0" prefHeight="280.0" prefWidth="400.0" styleClass="statics-pane">
+                                 <children>
+                                    <Pane fx:id="employeesNumberPane2" layoutX="34.0" layoutY="21.0" prefHeight="114.0" prefWidth="160.0" styleClass="statics-square">
+                                       <children>
+                                          <Label fx:id="controlPanelTotalActiveUsers" alignment="CENTER" layoutY="22.0" prefHeight="26.0" prefWidth="161.0" text="69" textFill="#cfcfcf">
+                                             <font>
+                                                <Font name="System Bold" size="17.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" layoutY="57.0" prefHeight="50.0" prefWidth="160.0" text="Active users today" textAlignment="CENTER" textFill="#cfcfcf" wrapText="true">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </Pane>
+                                    <Pane fx:id="employeesNumberPane21" layoutX="207.0" layoutY="21.0" prefHeight="114.0" prefWidth="160.0" styleClass="statics-square">
+                                       <children>
+                                          <Label fx:id="controlPanelTotalEmployeeAccounts" alignment="CENTER" layoutY="22.0" prefHeight="26.0" prefWidth="161.0" text="192" textFill="#cfcfcf">
+                                             <font>
+                                                <Font name="System Bold" size="17.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" layoutY="57.0" prefHeight="50.0" prefWidth="160.0" text="Employee accounts" textAlignment="CENTER" textFill="#cfcfcf" wrapText="true">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </Pane>
+                                    <Pane fx:id="employeesNumberPane211" layoutX="34.0" layoutY="145.0" prefHeight="114.0" prefWidth="160.0" styleClass="statics-square">
+                                       <children>
+                                          <Label fx:id="controlPanelTotalAdminAccounts" alignment="CENTER" layoutY="22.0" prefHeight="26.0" prefWidth="161.0" text="3" textFill="#cfcfcf">
+                                             <font>
+                                                <Font name="System Bold" size="17.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" layoutY="57.0" prefHeight="50.0" prefWidth="160.0" text="Admin accounts" textAlignment="CENTER" textFill="#cfcfcf" wrapText="true">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </Pane>
+                                    <Pane fx:id="employeesNumberPane212" layoutX="207.0" layoutY="145.0" prefHeight="114.0" prefWidth="160.0" styleClass="statics-square">
+                                       <children>
+                                          <Label fx:id="controlPanelTotalPendingAccounts" alignment="CENTER" layoutY="22.0" prefHeight="26.0" prefWidth="161.0" text="5" textFill="#cfcfcf">
+                                             <font>
+                                                <Font name="System Bold" size="17.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" layoutY="57.0" prefHeight="50.0" prefWidth="160.0" text="Pending accounts" textAlignment="CENTER" textFill="#cfcfcf" wrapText="true">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </Pane>
+                                 </children>
+                              </Pane>
+                              <Label layoutX="572.0" layoutY="2.0" text="Pending Accounts" textFill="#cfcfcf">
+                                 <font>
+                                    <Font name="System Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                <Tab text="Suppliers">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    <AnchorPane fx:id="suppliersAp" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <MFXPaginatedTableView fx:id="controlPanelSuppliersTableView" layoutX="14.0" layoutY="302.0" prefHeight="250.0" prefWidth="847.0" />
+                              <Pane layoutX="14.0" layoutY="14.0" prefHeight="280.0" prefWidth="382.0" styleClass="statics-pane">
+                                 <children>
+                                    <Pane fx:id="employeesNumberPane221" layoutX="22.0" layoutY="77.0" prefHeight="126.0" prefWidth="161.0" styleClass="statics-square">
+                                       <children>
+                                          <Label fx:id="controlPanelTotalSuppliers" alignment="CENTER" layoutY="28.0" prefHeight="26.0" prefWidth="161.0" text="69" textFill="#cfcfcf">
+                                             <font>
+                                                <Font name="System Bold" size="17.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" layoutX="3.0" layoutY="66.0" prefHeight="50.0" prefWidth="157.0" text="Total Suppliers number" textAlignment="CENTER" textFill="#cfcfcf" wrapText="true">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </Pane>
+                                    <Pane fx:id="employeesNumberPane2211" layoutX="199.0" layoutY="77.0" prefHeight="126.0" prefWidth="161.0" styleClass="statics-square">
+                                       <children>
+                                          <Label fx:id="controlPanelTotalProducts" alignment="CENTER" layoutY="28.0" prefHeight="26.0" prefWidth="161.0" text="69" textFill="#cfcfcf">
+                                             <font>
+                                                <Font name="System Bold" size="17.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" layoutX="3.0" layoutY="66.0" prefHeight="50.0" prefWidth="157.0" text="number of products suppliers offer" textAlignment="CENTER" textFill="#cfcfcf" wrapText="true">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </Pane>
+                                 </children></Pane>
+                              <Pane layoutX="406.0" layoutY="14.0" prefHeight="280.0" prefWidth="454.0" styleClass="list-pane">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" layoutY="6.0" prefHeight="40.0" prefWidth="450.0" spacing="10.0">
+                                       <children>
+                                          <Label prefHeight="26.0" prefWidth="82.0" text="PID" textFill="#cfcfcf">
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
+                                             </font>
+                                          </Label>
+                                          <Label prefHeight="26.0" prefWidth="140.0" text="Product Name" textFill="#cfcfcf">
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
+                                             </font>
+                                          </Label>
+                                          <Label prefHeight="26.0" prefWidth="181.0" text="Cheapest Supplier" textFill="#cfcfcf">
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <padding>
+                                          <Insets left="15.0" right="10.0" />
+                                       </padding>
+                                    </HBox>
+                                    <Separator layoutY="46.0" opacity="0.1" prefWidth="454.0" />
+                                    <MFXScrollPane fx:id="controlPanelCheapestProductScrollPane" fitToWidth="true" layoutX="4.0" layoutY="50.0" prefHeight="226.0" prefWidth="446.0">
+                                       <content>
+                                          <VBox fx:id="controlPanelCheapestProductScrollPaneVbox" prefWidth="331.0">
+                                             <children>
+                                                <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="339.0" spacing="10.0">
+                                                   <children>
+                                                      <Label prefHeight="26.0" prefWidth="82.0" text="0000000001" textFill="#cfcfcf">
+                                                         <font>
+                                                            <Font size="14.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label prefHeight="26.0" prefWidth="140.0" text="Fiber Optic Line" textFill="#cfcfcf">
+                                                         <font>
+                                                            <Font size="14.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label prefHeight="26.0" prefWidth="181.0" text="Abu Ward Zem Remots" textFill="#cfcfcf">
+                                                         <font>
+                                                            <Font size="14.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets left="10.0" right="10.0" />
+                                                   </padding>
+                                                </HBox>
+                                                <Separator opacity="0.08" prefWidth="339.0" />
+                                             </children>
+                                          </VBox>
+                                       </content>
+                                    </MFXScrollPane>
+                                 </children>
+                              </Pane>
+                           </children></AnchorPane>
                   </content>
                 </Tab>
-                <Tab text="Untitled Tab 2">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                  </content>
-                </Tab>
+                  <Tab id="tabPaneWarehousesButton" text="Warehouses">
+                     <content>
+                        <AnchorPane fx:id="warehousesAp" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="872.0">
+                           <children>
+                              <MFXPaginatedTableView fx:id="controlPanelWarehousesTableView" layoutX="14.0" layoutY="302.0" prefHeight="250.0" prefWidth="847.0" />
+                              <Pane layoutX="14.0" layoutY="14.0" prefHeight="280.0" prefWidth="382.0" styleClass="statics-pane">
+                                 <children>
+                                    <Pane fx:id="employeesNumberPane22" layoutX="25.0" layoutY="21.0" prefHeight="114.0" prefWidth="160.0" styleClass="statics-square">
+                                       <children>
+                                          <Label fx:id="controlPanelTotalWarehousesNumber" alignment="CENTER" layoutY="22.0" prefHeight="26.0" prefWidth="161.0" text="69" textFill="#cfcfcf">
+                                             <font>
+                                                <Font name="System Bold" size="17.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" layoutX="3.0" layoutY="57.0" prefHeight="50.0" prefWidth="155.0" text="Total warehouses number" textAlignment="CENTER" textFill="#cfcfcf" wrapText="true">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </Pane>
+                                    <Pane fx:id="employeesNumberPane213" layoutX="198.0" layoutY="21.0" prefHeight="114.0" prefWidth="160.0" styleClass="statics-square">
+                                       <children>
+                                          <Label fx:id="controlPanelTotalWarehousesBudget" alignment="CENTER" layoutY="22.0" prefHeight="26.0" prefWidth="161.0" text="192" textFill="#cfcfcf">
+                                             <font>
+                                                <Font name="System Bold" size="17.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" layoutY="57.0" prefHeight="50.0" prefWidth="160.0" text="Total Budget " textAlignment="CENTER" textFill="#cfcfcf" wrapText="true">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </Pane>
+                                    <Pane fx:id="employeesNumberPane2111" layoutX="25.0" layoutY="145.0" prefHeight="114.0" prefWidth="160.0" styleClass="statics-square">
+                                       <children>
+                                          <Label fx:id="controlPanelTotalStoredParts" alignment="CENTER" layoutY="22.0" prefHeight="26.0" prefWidth="161.0" text="3" textFill="#cfcfcf">
+                                             <font>
+                                                <Font name="System Bold" size="17.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" layoutY="57.0" prefHeight="50.0" prefWidth="160.0" text="Total stored parts number" textAlignment="CENTER" textFill="#cfcfcf" wrapText="true">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </Pane>
+                                    <Pane fx:id="employeesNumberPane2121" layoutX="198.0" layoutY="145.0" prefHeight="114.0" prefWidth="160.0" styleClass="statics-square">
+                                       <children>
+                                          <Label fx:id="controlPanelTotalFreeSpace" alignment="CENTER" layoutY="22.0" prefHeight="26.0" prefWidth="161.0" text="5" textFill="#cfcfcf">
+                                             <font>
+                                                <Font name="System Bold" size="17.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" layoutY="57.0" prefHeight="50.0" prefWidth="160.0" text="Total Free space" textAlignment="CENTER" textFill="#cfcfcf" wrapText="true">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </Pane>
+                                 </children></Pane>
+                              <Pane layoutX="406.0" layoutY="14.0" prefHeight="280.0" prefWidth="454.0" styleClass="list-pane">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" layoutY="6.0" prefHeight="40.0" prefWidth="450.0" spacing="10.0">
+                                       <children>
+                                          <Label prefHeight="26.0" prefWidth="37.0" text="PID" textFill="#cfcfcf">
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
+                                             </font>
+                                          </Label>
+                                          <Label prefHeight="26.0" prefWidth="115.0" text="Project Name" textFill="#cfcfcf">
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
+                                             </font>
+                                          </Label>
+                                          <Label prefHeight="26.0" prefWidth="146.0" text="Contractor" textFill="#cfcfcf">
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
+                                             </font>
+                                          </Label>
+                                          <Label prefHeight="26.0" prefWidth="94.0" text="Reserves" textFill="#cfcfcf">
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <padding>
+                                          <Insets left="15.0" right="10.0" />
+                                       </padding>
+                                    </HBox>
+                                    <Separator layoutY="46.0" opacity="0.1" prefWidth="454.0" />
+                                    <MFXScrollPane fx:id="controlPanelWarehouseProjectsScrollPane" fitToWidth="true" layoutX="4.0" layoutY="50.0" prefHeight="226.0" prefWidth="446.0">
+                                       <content>
+                                          <VBox fx:id="controlPanelWarehouseProjectsScrollPaneVbox" prefWidth="331.0">
+                                             <children>
+                                                <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="339.0" spacing="10.0">
+                                                   <children>
+                                                      <Label prefHeight="26.0" prefWidth="37.0" text="0001" textFill="#cfcfcf">
+                                                         <font>
+                                                            <Font size="14.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label prefHeight="26.0" prefWidth="115.0" text="Nablus Expansion" textFill="#cfcfcf">
+                                                         <font>
+                                                            <Font size="14.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label prefHeight="26.0" prefWidth="146.0" text="Kareem Mazen Yaqoup" textFill="#cfcfcf">
+                                                         <font>
+                                                            <Font size="14.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label prefHeight="26.0" prefWidth="94.0" text="123 Product" textFill="#cfcfcf">
+                                                         <font>
+                                                            <Font size="14.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets left="10.0" right="10.0" />
+                                                   </padding>
+                                                </HBox>
+                                                <Separator opacity="0.08" prefWidth="339.0" />
+                                             </children>
+                                          </VBox>
+                                       </content>
+                                    </MFXScrollPane>
+                                 </children>
+                              </Pane>
+                           </children></AnchorPane>
+                     </content>
+                  </Tab>
               </tabs>
+               <padding>
+                  <Insets bottom="2.0" />
+               </padding>
             </TabPane>
          </children>
       </Pane>
@@ -431,52 +798,61 @@
             </Pane>
             <Pane fx:id="currentProjectCard" layoutX="425.0" layoutY="40.0" prefHeight="266.0" prefWidth="400.0" styleClass="card-pane">
                <children>
-                  <Label layoutX="135.0" layoutY="27.0" text="Current Project" textFill="#cfcfcf">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="employeeInfoCurrentProjectName" layoutX="69.0" layoutY="87.0" text="Bidya Fiber" textFill="#cfcfcf">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="employeeInfoCurrentProjectContractor" layoutX="70.0" layoutY="120.0" text="Cont. : NasrAllah Shaer" textFill="#b9b9b9">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                  <Separator layoutX="68.0" layoutY="117.0" opacity="0.21" prefHeight="1.0" prefWidth="261.0" />
-                  <Label fx:id="employeeInfoCurrentProjectId" layoutX="302.0" layoutY="92.0" text="1919" textFill="#cfcfcf" />
-                  <Label fx:id="employeeInfoCurrentProjectStreet" layoutX="70.0" layoutY="225.0" text="Tons Street 9A" textFill="#c9c9c9">
-                     <font>
-                        <Font size="10.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="employeeInfoCurrentProjectStartDate" layoutX="67.0" layoutY="193.0" text="11/9/2001" textFill="#cfcfcf">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Label>
-                  <Separator layoutX="67.0" layoutY="221.0" opacity="0.21" prefHeight="1.0" prefWidth="261.0" />
-                  <Label fx:id="employeeInfoCurrentProjectDueDate" alignment="CENTER_RIGHT" layoutX="234.0" layoutY="193.0" prefHeight="26.0" prefWidth="92.0" text="11/9/2002" textFill="#cfcfcf">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="employeeInfoCurrentProjectCity" alignment="CENTER_RIGHT" layoutX="234.0" layoutY="225.0" prefHeight="15.0" prefWidth="92.0" text="Nablus" textFill="#c9c9c9">
-                     <font>
-                        <Font size="10.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="employeeInfoCurrentProjectType" alignment="CENTER_RIGHT" layoutX="215.0" layoutY="123.0" prefHeight="20.0" prefWidth="115.0" text="Fiber" textFill="#b9b9b9">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
+                  <Pane fx:id="currentProjectCard1" prefHeight="266.0" prefWidth="400.0">
+                     <children>
+                        <Label layoutX="135.0" layoutY="27.0" text="Current Project" textFill="#cfcfcf">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="employeeInfoCurrentProjectName" layoutX="69.0" layoutY="87.0" text="Bidya Fiber" textFill="#cfcfcf">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="employeeInfoCurrentProjectContractor" layoutX="70.0" layoutY="120.0" text="Cont. : NasrAllah Shaer" textFill="#b9b9b9">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Separator layoutX="68.0" layoutY="117.0" opacity="0.21" prefHeight="1.0" prefWidth="261.0" />
+                        <Label fx:id="employeeInfoCurrentProjectId" layoutX="302.0" layoutY="92.0" text="1919" textFill="#cfcfcf" />
+                        <Label fx:id="employeeInfoCurrentProjectStreet" layoutX="70.0" layoutY="225.0" text="Tons Street 9A" textFill="#c9c9c9">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="employeeInfoCurrentProjectStartDate" layoutX="67.0" layoutY="193.0" text="11/9/2001" textFill="#cfcfcf">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Separator layoutX="67.0" layoutY="221.0" opacity="0.21" prefHeight="1.0" prefWidth="261.0" />
+                        <Label fx:id="employeeInfoCurrentProjectDueDate" alignment="CENTER_RIGHT" layoutX="234.0" layoutY="193.0" prefHeight="26.0" prefWidth="92.0" text="11/9/2002" textFill="#cfcfcf">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="employeeInfoCurrentProjectCity" alignment="CENTER_RIGHT" layoutX="234.0" layoutY="225.0" prefHeight="15.0" prefWidth="92.0" text="Nablus" textFill="#c9c9c9">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="employeeInfoCurrentProjectType" alignment="CENTER_RIGHT" layoutX="215.0" layoutY="123.0" prefHeight="20.0" prefWidth="115.0" text="Fiber" textFill="#b9b9b9">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="361.0" layoutY="15.0" onMouseClicked="#employeeInfoRemoveFromProjectClicked">
+                           <graphic>
+                              <FontIcon iconColor="#ff3333" iconLiteral="fltfal-dismiss-circle-24" iconSize="25" />
+                           </graphic>
+                        </Label>
+                     </children>
+                  </Pane>
                </children>
             </Pane>
-            <Button fx:id="employeeInfoAssignToProjectButton" layoutX="545.0" layoutY="148.0" mnemonicParsing="false" onAction="#employeeInfoAssignToProjectButtonClicked" prefHeight="50.0" prefWidth="161.0" styleClass="primaryButton" text="Assign to project" visible="false" />
+            <Button fx:id="employeeInfoAssignToProjectButton" layoutX="544.0" layoutY="148.0" mnemonicParsing="false" onAction="#employeeInfoAssignToProjectButtonClicked" prefHeight="50.0" prefWidth="161.0" styleClass="primaryButton" text="Assign to project" visible="false" />
             <Label fx:id="employeeInfoLastProjectsLabel" layoutX="571.0" layoutY="325.0" text="Last Projects" textFill="#cfcfcf">
                <font>
                   <Font name="System Bold" size="18.0" />
@@ -491,12 +867,12 @@
                               <Font name="System Bold" size="16.0" />
                            </font>
                         </Label>
-                        <Label prefHeight="26.0" prefWidth="222.0" text="Project name" textFill="#cfcfcf">
+                        <Label prefHeight="26.0" prefWidth="205.0" text="Project name" textFill="#cfcfcf">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font>
                         </Label>
-                        <Label text="City" textFill="#cfcfcf">
+                        <Label prefWidth="98.0" text="City" textFill="#cfcfcf">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font>
@@ -522,6 +898,13 @@
                   <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-arrow-left-24" iconSize="30" />
                </graphic>
             </Label>
+            <Button fx:id="employeeInfoAssignButton" layoutX="549.0" layoutY="177.0" mnemonicParsing="false" onAction="#employeeInfoAssignButtonClicked" prefHeight="57.0" prefWidth="153.0" styleClass="primaryButton" text="Assign" visible="false" />
+            <Label fx:id="employeeInfoAssignProjectIdLabel" layoutX="502.0" layoutY="113.0" text="Project ID" textFill="#cfcfcf" visible="false">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <TextField fx:id="employeeInfoAssignTextField" layoutX="597.0" layoutY="113.0" styleClass="informationTextFields" visible="false" />
          </children>
       </Pane>
       <Pane fx:id="userInfoPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/displayPage.css" visible="false">
@@ -597,7 +980,7 @@
                   </Label>
                   <Separator layoutX="18.0" layoutY="290.0" opacity="0.21" prefHeight="1.0" prefWidth="261.0" />
                   <Label fx:id="contractorInfoContId" layoutX="252.0" layoutY="265.0" text="0005" textFill="#cfcfcf" />
-                  <Button fx:id="contractorInfoEditButton" layoutX="24.0" layoutY="496.0" mnemonicParsing="false" onAction="#contractorInfoEditButtonClicked" prefHeight="50.0" prefWidth="107.0" styleClass="primaryButton" text="Edit" />
+                  <Button fx:id="contractorInfoEditButton" layoutX="94.0" layoutY="496.0" mnemonicParsing="false" onAction="#contractorInfoEditButtonClicked" prefHeight="50.0" prefWidth="107.0" styleClass="primaryButton" text="Edit" />
                   <Label fx:id="contractorInfoContBirthdate" layoutX="17.0" layoutY="366.0" text="11/9/2001" textFill="#cfcfcf">
                      <font>
                         <Font size="17.0" />
@@ -605,63 +988,14 @@
                   </Label>
                   <Separator layoutX="17.0" layoutY="395.0" opacity="0.21" prefHeight="1.0" prefWidth="261.0" />
                   <Label fx:id="contractorInfoContAge" alignment="CENTER_RIGHT" layoutX="241.0" layoutY="371.0" prefHeight="17.0" prefWidth="39.0" text="21 yo" textFill="#cfcfcf" />
-                  <Button fx:id="contractorInfoDeleteButton" layoutX="165.0" layoutY="496.0" mnemonicParsing="false" onAction="#contractorInfoDeleteButtonClicked" prefHeight="50.0" prefWidth="107.0" styleClass="primaryCancelButton" text="Delete" />
                </children>
             </Pane>
-            <Pane fx:id="projectCard" layoutX="425.0" layoutY="40.0" prefHeight="266.0" prefWidth="400.0" styleClass="card-pane">
-               <children>
-                  <Label layoutX="168.0" layoutY="26.0" text="Project" textFill="#cfcfcf">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="contractorInfoProjectName" layoutX="69.0" layoutY="87.0" text="Bidya Fiber" textFill="#cfcfcf">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="contractorInfoProjectContractor" layoutX="70.0" layoutY="120.0" text="Cont. : NasrAllah Shaer" textFill="#b9b9b9">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                  <Separator layoutX="68.0" layoutY="117.0" opacity="0.21" prefHeight="1.0" prefWidth="261.0" />
-                  <Label fx:id="contractorInfoProjectId" layoutX="302.0" layoutY="92.0" text="1919" textFill="#cfcfcf" />
-                  <Label fx:id="contractorInfoProjectStreet" layoutX="70.0" layoutY="225.0" text="Tons Street 9A" textFill="#c9c9c9">
-                     <font>
-                        <Font size="10.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="contractorInfoProjectStartDate" layoutX="67.0" layoutY="193.0" text="11/9/2001" textFill="#cfcfcf">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Label>
-                  <Separator layoutX="67.0" layoutY="221.0" opacity="0.21" prefHeight="1.0" prefWidth="261.0" />
-                  <Label fx:id="contractorInfoProjectDueDate" alignment="CENTER_RIGHT" layoutX="234.0" layoutY="193.0" prefHeight="26.0" prefWidth="92.0" text="11/9/2002" textFill="#cfcfcf">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="contractorInfoProjectCity" alignment="CENTER_RIGHT" layoutX="234.0" layoutY="225.0" prefHeight="15.0" prefWidth="92.0" text="Nablus" textFill="#c9c9c9">
-                     <font>
-                        <Font size="10.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="contractorInfoProjectType" alignment="CENTER_RIGHT" layoutX="215.0" layoutY="123.0" prefHeight="20.0" prefWidth="115.0" text="Fiber" textFill="#b9b9b9">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-               </children>
-            </Pane>
-            <Button fx:id="employeeInfoAssignToProjectButton1" layoutX="545.0" layoutY="148.0" mnemonicParsing="false" onAction="#employeeInfoAssignToProjectButtonClicked" prefHeight="50.0" prefWidth="161.0" styleClass="primaryButton" text="Assign to project" visible="false" />
-            <Label fx:id="contractorInfoCurrentProjectsLabel" layoutX="571.0" layoutY="325.0" text="Current Projects" textFill="#cfcfcf">
+            <Label fx:id="contractorInfoCurrentProjectsLabel" layoutX="557.0" layoutY="12.0" text="Current Projects" textFill="#cfcfcf">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Pane fx:id="lastProjectsCard1" layoutX="425.0" layoutY="354.0" prefHeight="266.0" prefWidth="400.0" styleClass="card-pane">
+            <Pane fx:id="lastProjectsCard1" layoutX="425.0" layoutY="38.0" prefHeight="582.0" prefWidth="400.0" styleClass="card-pane">
                <children>
                   <HBox alignment="CENTER_LEFT" layoutX="2.0" layoutY="6.0" prefHeight="40.0" prefWidth="396.0" spacing="20.0">
                      <children>
@@ -670,12 +1004,12 @@
                               <Font name="System Bold" size="16.0" />
                            </font>
                         </Label>
-                        <Label prefHeight="26.0" prefWidth="222.0" text="Project name" textFill="#cfcfcf">
+                        <Label prefHeight="26.0" prefWidth="190.0" text="Project name" textFill="#cfcfcf">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font>
                         </Label>
-                        <Label text="City" textFill="#cfcfcf">
+                        <Label prefHeight="26.0" prefWidth="90.0" text="City" textFill="#cfcfcf">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font>
@@ -686,7 +1020,7 @@
                      </padding>
                   </HBox>
                   <Separator layoutY="46.0" opacity="0.2" prefWidth="400.0" />
-                  <MFXScrollPane fx:id="currentProjectsScrollPane" fitToWidth="true" layoutX="4.0" layoutY="50.0" prefHeight="216.0" prefWidth="392.0">
+                  <MFXScrollPane fx:id="currentProjectsScrollPane" fitToWidth="true" layoutX="4.0" layoutY="50.0" prefHeight="530.0" prefWidth="392.0">
                      <content>
                         <VBox fx:id="currentProjectsScrollPaneVbox" prefWidth="388.0" />
                      </content>
@@ -729,7 +1063,6 @@
                   </Label>
                   <Separator layoutX="18.0" layoutY="290.0" opacity="0.21" prefHeight="1.0" prefWidth="261.0" />
                   <Label fx:id="projectInfoProjId" layoutX="252.0" layoutY="265.0" text="0005" textFill="#cfcfcf" />
-                  <Button fx:id="projectInfoEditButton" layoutX="95.0" layoutY="496.0" mnemonicParsing="false" onAction="#projectInfoEditButtonClicked" prefHeight="50.0" prefWidth="107.0" styleClass="primaryButton" text="Edit" />
                   <Label fx:id="projectInfoStartDate" layoutX="17.0" layoutY="366.0" text="11/9/2001" textFill="#cfcfcf">
                      <font>
                         <Font size="17.0" />
@@ -786,7 +1119,6 @@
                   </Label>
                </children>
             </Pane>
-            <Button fx:id="employeeInfoAssignToProjectButton11" layoutX="545.0" layoutY="148.0" mnemonicParsing="false" onAction="#employeeInfoAssignToProjectButtonClicked" prefHeight="50.0" prefWidth="161.0" styleClass="primaryButton" text="Assign to project" visible="false" />
             <Label fx:id="projectInfoPartsUsedLabel" layoutX="538.0" layoutY="327.0" text="Parts used in project" textFill="#cfcfcf">
                <font>
                   <Font name="System Bold" size="18.0" />
@@ -933,7 +1265,85 @@
             </Label>
          </children>
       </Pane>
+      <Pane fx:id="supplierInfoPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/displayPage.css">
+         <children>
+            <Pane fx:id="contractorProfileCard1" layoutX="76.0" layoutY="39.0" prefHeight="582.0" prefWidth="297.0" styleClass="card-pane">
+               <children>
+                  <StackPane layoutY="7.0" prefHeight="177.0" prefWidth="297.0">
+                     <children>
+                        <FontIcon iconColor="#00a0d7" iconLiteral="fltfmz-person-28" iconSize="100" />
+                     </children>
+                  </StackPane>
+                  <Label layoutX="83.0" layoutY="184.0" text="Supplier Profile" textFill="#cfcfcf">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="supplierInfoCompanyName" layoutX="18.0" layoutY="260.0" prefHeight="26.0" prefWidth="190.0" text="Kareem Mazen Yaqoup" textFill="#cfcfcf">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+                  <Separator layoutX="18.0" layoutY="290.0" opacity="0.21" prefHeight="1.0" prefWidth="261.0" />
+                  <Label fx:id="supplierInfoSupplierId" layoutX="252.0" layoutY="265.0" text="0005" textFill="#cfcfcf" />
+                  <Button fx:id="supplierInfoEditButton" layoutX="95.0" layoutY="480.0" mnemonicParsing="false" onAction="#supplierInfoEditButtonClicked" prefHeight="50.0" prefWidth="107.0" styleClass="primaryButton" text="Edit" />
+               </children>
+            </Pane>
+            <Label layoutX="559.0" layoutY="11.0" text="Offers Products" textFill="#cfcfcf">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Pane fx:id="lastProjectsCard11" layoutX="425.0" layoutY="38.0" prefHeight="582.0" prefWidth="400.0" styleClass="card-pane">
+               <children>
+                  <HBox alignment="CENTER_LEFT" layoutX="2.0" layoutY="6.0" prefHeight="40.0" prefWidth="396.0" spacing="20.0">
+                     <children>
+                        <Label prefHeight="26.0" prefWidth="32.0" text="PID" textFill="#cfcfcf">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label prefHeight="26.0" prefWidth="190.0" text="Product name" textFill="#cfcfcf">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label prefHeight="26.0" prefWidth="90.0" text="Price" textFill="#cfcfcf">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </HBox>
+                  <Separator layoutY="46.0" opacity="0.2" prefWidth="400.0" />
+                  <MFXScrollPane fx:id="offersProductsScrollPane" fitToWidth="true" layoutX="4.0" layoutY="50.0" prefHeight="530.0" prefWidth="392.0">
+                     <content>
+                        <VBox fx:id="offersProductsScrollPaneVbox" prefWidth="388.0" />
+                     </content>
+                     <padding>
+                        <Insets top="1.0" />
+                     </padding>
+                  </MFXScrollPane>
+               </children>
+            </Pane>
+            <Label layoutX="20.0" layoutY="14.0" onMouseClicked="#supplierInfoClose" prefHeight="18.0" prefWidth="32.0">
+               <graphic>
+                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-arrow-left-24" iconSize="30" />
+               </graphic>
+            </Label>
+         </children>
+      </Pane>
       <Pane fx:id="disablePane" prefHeight="700.0" prefWidth="1100.0" styleClass="disablePane" visible="false" />
+      <Pane fx:id="titleBar" prefHeight="38.0" prefWidth="1100.0">
+         <children>
+            <Label fx:id="closeLabel" layoutX="1067.0" layoutY="11.0" onMouseClicked="#close" prefHeight="17.0" prefWidth="17.0" />
+            <Label fx:id="minimizeLabel" layoutX="1037.0" layoutY="11.0" onMouseClicked="#minimize" prefHeight="17.0" prefWidth="17.0" />
+            <Label fx:id="maximizeLabel" layoutX="1007.0" layoutY="11.0" prefHeight="17.0" prefWidth="17.0" />
+         </children>
+      </Pane>
    </children>
    <stylesheets>
       <URL value="@css/main.css" />
