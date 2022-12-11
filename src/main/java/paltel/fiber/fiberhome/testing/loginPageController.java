@@ -21,6 +21,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import paltel.fiber.fiberhome.testing.homecontroller.homePageController;
+import paltel.fiber.fiberhome.testing.utils.Animator;
 
 import java.net.URL;
 import java.util.ResourceBundle;

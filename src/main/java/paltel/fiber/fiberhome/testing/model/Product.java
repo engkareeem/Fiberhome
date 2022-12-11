@@ -10,6 +10,16 @@ public class Product {
 
     private String warehouse_id;
 
+    private Integer available_count;
+
+    public Integer getAvailable_count() {
+        return available_count;
+    }
+
+    public void setAvailable_count(Integer available_count) {
+        this.available_count = available_count;
+    }
+
     public Product() {
     }
 

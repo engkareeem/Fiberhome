@@ -236,26 +236,11 @@ public class homePageController implements Initializable {
         usersTableViewFunctions.initializeTableView(controlPanelUsersTableView);
         suppliersTableViewFunctions.initializeTableView(controlPanelSuppliersTableView);
         warehousesTableViewFunctions.initializeTableView(controlPanelWarehousesTableView);
-        setupContractorsTable();
-//        setUpStatisticsBlocks();
         Functions.optimizeImageView(backgroundImageView);
 
 
-        new Thread(() -> {
-            Platform.runLater(() -> {
 
-                employeesTableViewFunctions.initializeTableView(employeesTable);
-                setupContractorsTable();
-                setUpEmployeeStatisticsBlocks();
-            });
-        }).start();
 
-        new Thread(() -> {
-            Platform.runLater(() -> {
-                projectsTableViewFunctions.initializeTableView(projectsTable);
-                setupWarehouseTable();
-            });
-        }).start();
 
         stage.iconifiedProperty().addListener((observableValue, aBoolean, iconified) -> {
             if(iconified && !usedMinimize) {
@@ -302,6 +287,24 @@ public class homePageController implements Initializable {
         }).start();
         new Thread(() -> {
             Platform.runLater(() -> totalWorkingEmployeesCountLabel.setText(getWorkingEmployeesCount().toString()));
+        }).start();
+    }
+
+    private void setUpProjectsStatisticsBlocks(){
+        new Thread(() -> {
+            //
+
+
+            Platform.runLater(() -> totalProjectsCountLabel.setText(getProjectsCount().toString()));
+        }).start();
+        new Thread(() -> {
+            Platform.runLater(() -> totalWarehouseCountLabel.setText(getWarehousesCount().toString()));
+        }).start();
+        new Thread(() -> {
+            Platform.runLater(() -> totalRunningProjectsCountLabel.setText(getRunningProjectsCount().toString()));
+        }).start();
+        new Thread(() -> {
+            Platform.runLater(() -> totalFinishedProjectsCountLabel.setText(getFinishedProjectsCount().toString()));
         }).start();
     }
     private void playOpenAnimation(){
@@ -627,16 +630,11 @@ public class homePageController implements Initializable {
             userSwitchToEdit();
         } else {
 
-            // TODO: [Edit User] Update user information here :3
-            // check if there is change password text field
-            // by lookup == null
-
             userSwitchFromEdit();
         }
     }
     @FXML
     public void employeeInfoAssignToProjectButtonClicked() {
-        // TODO: assign to project button clicked
         employeeInfoAssignToProjectButton.setVisible(false);
         employeeInfoAssignButton.setVisible(true);
         employeeInfoAssignProjectIdLabel.setVisible(true);
@@ -909,9 +907,8 @@ public class homePageController implements Initializable {
 
     @FXML
     public void warehouseInfoClose() {
-        Gauge warehouseInfoWCapacity = (Gauge) warehouseInfoPane.lookup("#warehouseInfoWCapacity");
-
-        warehouseInfoWCapacity.setValue(0);
+        //Gauge warehouseInfoWCapacity = (Gauge) warehouseInfoPane.lookup("#warehouseInfoWCapacity");
+       // warehouseInfoWCapacity.setValue(0);
         currentPane.setVisible(true);
         homeNavBarVBox.setDisable(false);
         warehouseInfoPane.setVisible(false);
@@ -937,6 +934,27 @@ public class homePageController implements Initializable {
     }
 
     private void switchNavButton(Button button) {
+        if(button.getText().equals("Projects")){
+            new Thread(() -> {
+                Platform.runLater(() -> {
+                    projectsTableViewFunctions.initializeTableView(projectsTable);
+                    setupWarehouseTable();
+                    setUpProjectsStatisticsBlocks();
+                });
+            }).start();
+        }else if(button.getText().equals("Employees")){
+            new Thread(() -> {
+                Platform.runLater(() -> {
+
+                    employeesTableViewFunctions.initializeTableView(employeesTable);
+                    setupContractorsTable();
+                    setUpEmployeeStatisticsBlocks();
+                });
+            }).start();
+        }else if(button.getText().equals("Control Panel")){
+
+        }
+
         Platform.runLater(() -> {
             int buttonIndex = Integer.parseInt(String.valueOf(button.getId().charAt(9))); // assume we have 9 buttons maximum;
 

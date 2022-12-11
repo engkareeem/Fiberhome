@@ -535,7 +535,6 @@ public class DBapi {
     }
 
 
-
     public static Integer getEmployeesCount(){
         try {
             Statement statement = connection.createStatement();
@@ -549,6 +548,117 @@ public class DBapi {
         }
         return 0;
     }
+
+    public static Integer getProjectsCount(){
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select count(PROJECT_ID) as numOfProjects from PROJECT");
+            if(res.next()){
+                return res.getInt("numOfProjects");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static Integer getRunningProjectsCount(){
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select count(PROJECT_ID) as numOfRunningProjects from PROJECT where  DUE_DATE > CURRENT_DATE");
+            if(res.next()){
+                return res.getInt("numOfRunningProjects");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static Integer getFinishedProjectsCount(){
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select count(PROJECT_ID) as numOfFinishedProjects from PROJECT where  DUE_DATE <= CURRENT_DATE");
+            if(res.next()){
+                return res.getInt("numOfFinishedProjects");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static Integer getWarehousesCount(){
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select count(WAREHOUSE_ID) as numOfWarehouses from WAREHOUSE");
+            if(res.next()){
+                return res.getInt("numOfWarehouses");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static ArrayList<Product> getAvailableProductsInWarehouse(String wid){
+        ArrayList<Product> availableProducts = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select PRODUCT.*,STORES.QUANTITY,STORES.RESERVED from PRODUCT, STORES where PRODUCT.PRODUCT_ID in (SELECT USES.PRODUCT_ID from  USES where USES.WAREHOUSE_ID = '" + wid + "')  and PRODUCT.PRODUCT_ID = STORES.PRODUCT_ID");
+            while (res.next()){
+                Product product = getProductFromRow(res);
+                product.setAvailable_count(res.getInt("quantity") - res.getInt("reserved"));
+                availableProducts.add(product);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return availableProducts;
+    }
+    public static Integer getAvailableProductsCountInWarehouse(String wid){
+        ArrayList<Product> availableProducts = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select PRODUCT.PRODUCT_ID,STORES.QUANTITY,STORES.RESERVED from PRODUCT, STORES where PRODUCT.PRODUCT_ID in (SELECT USES.PRODUCT_ID from  USES where USES.WAREHOUSE_ID = '" + wid + "')  and PRODUCT.PRODUCT_ID = STORES.PRODUCT_ID");
+            while (res.next()){
+                Product product = new Product();
+                product.setAvailable_count(res.getInt("quantity") - res.getInt("reserved"));
+                availableProducts.add(product);
+            }
+            Integer availableProductsCount = 0;
+            for(Product product : availableProducts){
+                availableProductsCount += product.getAvailable_count();
+            }
+            return availableProductsCount;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static Integer getCapacityForAWarehouse(String wid){
+        ArrayList<Product> availableProducts = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select SUM(QUANTITY) as numOfStoredProducts from STORES where WAREHOUSE_ID = " + wid);
+            if (res.next()){
+                return res.getInt("numOfStoredProducts");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    //come here
+
 
     public static Integer getContractorCount(){
         try {
@@ -742,7 +852,7 @@ public class DBapi {
 
             if (res.next()){
                 Integer capacity = res.getInt("capacity");
-               return ((((double) usedCapacity )/ capacity) * 100);
+                return ((((double) usedCapacity )/ capacity) * 100);
             }
 
         } catch (SQLException e) {
@@ -785,6 +895,8 @@ public class DBapi {
         }
         return "0000";
     }
+
+
     public static void updateLastLoginTime(String eid){
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd H:mm:ss").format(Calendar.getInstance().getTime());
         new Thread(()->{

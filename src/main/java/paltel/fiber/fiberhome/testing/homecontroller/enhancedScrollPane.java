@@ -2,7 +2,13 @@ package paltel.fiber.fiberhome.testing.homecontroller;
 
 import eu.hansolo.medusa.Gauge;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Side;
 import javafx.scene.Node;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
@@ -11,6 +17,7 @@ import javafx.scene.layout.VBox;
 import paltel.fiber.fiberhome.testing.utils.DBapi;
 import paltel.fiber.fiberhome.testing.Functions.*;
 import paltel.fiber.fiberhome.testing.model.Contractor;
+import paltel.fiber.fiberhome.testing.model.Product;
 import paltel.fiber.fiberhome.testing.model.Project;
 import paltel.fiber.fiberhome.testing.model.Warehouse;
 
@@ -101,6 +108,8 @@ public class enhancedScrollPane {
                 Label warehouseId = (Label) infoPane.lookup("#warehouseInfoWid");
                 Label warehouseLocation = (Label) infoPane.lookup("#warehouseInfoWLocation");
                 Gauge warehouseInfoWCapacity = (Gauge) infoPane.lookup("#warehouseInfoWCapacity");
+                VBox availableProductsVbox = (VBox) infoPane.lookup("#warehouseInfoPartsScrollPaneVbox");
+                PieChart warehouseInfoWStorage = (PieChart) infoPane.lookup("#warehouseInfoWStorage");
 
                 if(warehouse != null){
                     warehouseId.setText(warehouse.getWarehouseId());
@@ -108,23 +117,40 @@ public class enhancedScrollPane {
 
                     Double warehousePercentage = DBapi.getWarehousePercentage(warehouse.getWarehouseId());
                     warehouseInfoWCapacity.setValue(warehousePercentage);
+
+
+                    ArrayList<Product> availableProducts = DBapi.getAvailableProductsInWarehouse(warehouse.getWarehouseId());
+                    Integer usedSpace = DBapi.getCapacityForAWarehouse(warehouse.getWarehouseId());
+
+                    int availableProductsCount = 0;
+                    for(Product product : availableProducts){
+                        availableProductsCount += product.getAvailable_count();
+                    }
+                    int availablePercentage = (int) (((float) availableProductsCount / warehouse.getCapacity()) * 100);
+                    int reservedPercentage =  Math.round(((float) (usedSpace - availableProductsCount)  / warehouse.getCapacity()) * 100);
+                    int freeSpacePercentage = Math.round(((float) (warehouse.getCapacity() - usedSpace)  / warehouse.getCapacity()) * 100);
+                    availablePercentage = availablePercentage + (100 - (reservedPercentage + freeSpacePercentage + availablePercentage));
+                    ObservableList<PieChart.Data> pieChartData =
+                            FXCollections.observableArrayList(
+                                    new PieChart.Data("Available %" + availablePercentage, availableProductsCount),
+                                    new PieChart.Data("Reserved %" + reservedPercentage , usedSpace - availableProductsCount),
+                                    new PieChart.Data("Free Space %" +  freeSpacePercentage, warehouse.getCapacity() - usedSpace ));
+                    warehouseInfoWStorage.setData(pieChartData);
+                    warehouseInfoWStorage.setLegendSide(Side.LEFT);
+                    warehouseInfoWStorage.setLabelsVisible(false);
+
+                    availableProducts.forEach(product -> {
+                        resetRows(availableProductsVbox);
+                        addRow(availableProductsVbox, product.getProductId(), product.getProductName(), String.valueOf(product.getAvailable_count()), 86, 143, 103, null, null);
+
+                    });
                 }
 
 
 
-                    // user lookup here :3
-                    // trust me bro
-                    // nodes[2].lookup("Any id");
-                    // TODO: [Warehouse info initialize]
-                    // if you ask about warehouse id
-                    // its inside column1 :D
+
                 });
-                // user lookup here :3
-                // trust me bro
-                // nodes[2].lookup("Any id");
-                // TODO: [Warehouse info initialize]
-                // if you ask about warehouse id
-                // its inside column1 :D
+
         } else if(type == ListType.CURRENT_PROJECTS_LIST) {
 
             hBox.setOnMouseClicked(mouseEvent -> {
