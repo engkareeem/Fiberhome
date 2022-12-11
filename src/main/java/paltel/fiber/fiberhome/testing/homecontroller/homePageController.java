@@ -7,9 +7,7 @@ import io.github.palexdev.materialfx.controls.MFXScrollPane;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Side;
 import javafx.scene.chart.PieChart;
@@ -22,22 +20,18 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-import paltel.fiber.fiberhome.testing.DBapi;
+import paltel.fiber.fiberhome.testing.utils.DBapi;
 import paltel.fiber.fiberhome.testing.Functions;
 import paltel.fiber.fiberhome.testing.Navigator;
 import paltel.fiber.fiberhome.testing.model.*;
-import paltel.fiber.fiberhome.testing.testingMain;
 
-import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static java.util.Calendar.*;
-import static paltel.fiber.fiberhome.testing.DBapi.*;
+import static paltel.fiber.fiberhome.testing.utils.DBapi.*;
 
 public class homePageController implements Initializable {
 

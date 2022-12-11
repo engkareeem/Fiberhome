@@ -1,6 +1,7 @@
-package paltel.fiber.fiberhome.testing;
+package paltel.fiber.fiberhome.testing.utils;
 
 import paltel.fiber.fiberhome.testing.model.*;
+import paltel.fiber.fiberhome.testing.testingMain;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

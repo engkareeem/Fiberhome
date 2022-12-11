@@ -8,10 +8,10 @@
 <?import javafx.scene.layout.Pane?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane fx:id="ap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="270.0" prefWidth="338.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="paltel.fiber.fiberhome.testing.dialogController">
+<AnchorPane fx:id="ap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="270.0" prefWidth="338.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="paltel.fiber.fiberhome.testing.popupControllers.dialogController">
    <stylesheets>
-      <URL value="@css/dialog.css" />
-      <URL value="@css/main.css" />
+      <URL value="@../css/dialog.css" />
+      <URL value="@../css/main.css" />
    </stylesheets>
    <children>
       <Pane fx:id="dialogPane" layoutX="10.0" layoutY="10.0" prefHeight="250.0" prefWidth="314.0">

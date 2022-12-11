@@ -15,4 +15,8 @@ module paltel.fiber.fiberhome.testing {
     exports paltel.fiber.fiberhome.testing.model;
     exports paltel.fiber.fiberhome.testing.homecontroller;
     opens paltel.fiber.fiberhome.testing.homecontroller to javafx.fxml;
+    exports paltel.fiber.fiberhome.testing.popupControllers;
+    opens paltel.fiber.fiberhome.testing.popupControllers to javafx.fxml;
+    exports paltel.fiber.fiberhome.testing.utils;
+    opens paltel.fiber.fiberhome.testing.utils to javafx.fxml;
 }

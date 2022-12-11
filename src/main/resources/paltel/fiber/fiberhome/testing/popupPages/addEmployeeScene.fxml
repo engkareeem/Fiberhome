@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane fx:id="ap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="413.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="paltel.fiber.fiberhome.testing.addEmployeeController">
+<AnchorPane fx:id="ap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="413.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="paltel.fiber.fiberhome.testing.popupControllers.addEmployeeController">
    <children>
       <Pane fx:id="employeePane" layoutX="14.0" layoutY="14.0" prefHeight="371.0" prefWidth="384.0">
          <children>
@@ -83,7 +83,7 @@
       </Pane>
    </children>
    <stylesheets>
-      <URL value="@css/addEmployee.css" />
-      <URL value="@css/main.css" />
+      <URL value="@../css/addEmployee.css" />
+      <URL value="@../css/main.css" />
    </stylesheets>
 </AnchorPane>

@@ -1,10 +1,8 @@
 package paltel.fiber.fiberhome.testing;
 
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
@@ -21,7 +19,7 @@ public class Navigator {
     private static Stage currentStage = null;
 
     public static Stage primaryStage;
-    static Stage popupStage;
+    public static Stage popupStage;
 
     public static FXMLLoader getFXMLFile(String sceneName){
         URL filePath = Navigator.class.getResource(sceneName + ".fxml");
@@ -51,7 +49,10 @@ public class Navigator {
                     popupArguments.put(Keys_Values[i], Keys_Values[i + 1]);
                 }
             }
-            FXMLLoader loader = getFXMLFile(sceneName);
+            FXMLLoader loader;
+            URL filePath = Navigator.class.getResource("popupPages/" +sceneName + ".fxml");
+            loader = new FXMLLoader(filePath);
+
             if (loader == null) return;
             Scene newScene = new Scene(loader.load());
             newScene.setFill(Color.TRANSPARENT);
@@ -96,7 +97,7 @@ public class Navigator {
             newScene.getStylesheets().addAll(currentStage.getScene().getStylesheets()); // sending all styles sheets for new scene
             currentStage.setScene(newScene);
             currentStage.show();
-            if(screens.peek() != null) Functions.displayStatus(screens.peek(),testingMain.connectionStatus,testingMain.retrying);
+            if(screens.peek() != null) Functions.displayStatus(screens.peek(), testingMain.connectionStatus,testingMain.retrying);
         }catch (Exception exception){
             exception.printStackTrace();
         }

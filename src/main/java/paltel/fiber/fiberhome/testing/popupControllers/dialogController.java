@@ -1,4 +1,4 @@
-package paltel.fiber.fiberhome.testing;
+package paltel.fiber.fiberhome.testing.popupControllers;
 
 import animatefx.animation.*;
 import javafx.fxml.FXML;
@@ -10,6 +10,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.kordamp.ikonli.javafx.FontIcon;
+import paltel.fiber.fiberhome.testing.Functions;
+import paltel.fiber.fiberhome.testing.Navigator;
+import paltel.fiber.fiberhome.testing.testingMain;
 
 import java.net.URL;
 import java.util.ResourceBundle;

@@ -8,15 +8,12 @@ import io.github.palexdev.materialfx.filter.StringFilter;
 import io.github.palexdev.materialfx.selection.base.IMultipleSelectionModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import paltel.fiber.fiberhome.testing.DBapi;
-import paltel.fiber.fiberhome.testing.model.Employee;
+import paltel.fiber.fiberhome.testing.utils.DBapi;
 import paltel.fiber.fiberhome.testing.model.Project;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.Date;
 
 public class projectsTableViewFunctions {
     private static MFXTableView<Project> projectsTable;

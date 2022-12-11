@@ -29,7 +29,7 @@ public class Functions {
         LAST_PROJECTS_LIST,
         WAREHOUSE_LIST
     }
-    enum DialogType{
+    public enum DialogType{
         ERROR_DIALOG,
         WARNING_DIALOG,
         SUCCESSFUL_DIALOG,
@@ -55,7 +55,7 @@ public class Functions {
         Errors(DialogType dialogType) {
             this.dialogType = dialogType;
         }
-        DialogType getType() {
+        public DialogType getType() {
             return dialogType;
         }
     }

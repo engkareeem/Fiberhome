@@ -1,22 +1,14 @@
 package paltel.fiber.fiberhome.testing.homecontroller;
 
-import com.jfoenix.controls.JFXBadge;
 import eu.hansolo.medusa.Gauge;
-import io.github.palexdev.materialfx.controls.MFXScrollPane;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import paltel.fiber.fiberhome.testing.DBapi;
+import paltel.fiber.fiberhome.testing.utils.DBapi;
 import paltel.fiber.fiberhome.testing.Functions.*;
 import paltel.fiber.fiberhome.testing.model.Contractor;
 import paltel.fiber.fiberhome.testing.model.Project;

@@ -1,4 +1,4 @@
-package paltel.fiber.fiberhome.testing;
+package paltel.fiber.fiberhome.testing.utils;
 
 import animatefx.animation.AnimationFX;
 import javafx.animation.Animation;

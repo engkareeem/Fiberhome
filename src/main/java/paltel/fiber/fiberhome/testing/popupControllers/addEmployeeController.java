@@ -1,21 +1,22 @@
-package paltel.fiber.fiberhome.testing;
+package paltel.fiber.fiberhome.testing.popupControllers;
 
 import animatefx.animation.ZoomIn;
 import animatefx.animation.ZoomOut;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import javafx.application.Platform;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import paltel.fiber.fiberhome.testing.utils.DBapi;
+import paltel.fiber.fiberhome.testing.Functions;
+import paltel.fiber.fiberhome.testing.Navigator;
 import paltel.fiber.fiberhome.testing.homecontroller.employeesTableViewFunctions;
 import paltel.fiber.fiberhome.testing.homecontroller.homePageController;
 
@@ -103,7 +104,7 @@ public class addEmployeeController implements Initializable {
             valid = false;
         }
         if(jobPosComboBox.getSelectionModel().getSelectedItem() == null) {
-            Functions.displayValidatingError(jobPosComboBox,null,null);
+            Functions.displayValidatingComboBoxError(jobPosComboBox,null,null);
             valid = false;
         }
         if(!valid) return;

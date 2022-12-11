@@ -1,4 +1,4 @@
-package paltel.fiber.fiberhome.testing;
+package paltel.fiber.fiberhome.testing.popupControllers;
 
 import animatefx.animation.ZoomIn;
 import animatefx.animation.ZoomOut;
@@ -17,9 +17,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import paltel.fiber.fiberhome.testing.Functions;
+import paltel.fiber.fiberhome.testing.Navigator;
 
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class addProjectController implements Initializable {
