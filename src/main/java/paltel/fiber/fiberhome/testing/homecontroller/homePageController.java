@@ -808,6 +808,8 @@ public class homePageController implements Initializable {
 
     @FXML
     public void warehouseInfoClose() {
+        Gauge warehouseInfoWCapacity = (Gauge) warehouseInfoPane.lookup("#warehouseInfoWCapacity");
+        warehouseInfoWCapacity.setValue(0);
         projectsPane.setVisible(true);
         homeNavBarVBox.setDisable(false);
         warehouseInfoPane.setVisible(false);
