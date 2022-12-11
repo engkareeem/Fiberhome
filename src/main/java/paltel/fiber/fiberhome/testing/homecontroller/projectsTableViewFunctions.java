@@ -27,8 +27,8 @@ public class projectsTableViewFunctions {
 
         // Edit this if you need,
         // I will find solution for column width :3
-        MFXTableColumn<Project> idColumn = new MFXTableColumn<>("PID", true, Comparator.comparing(Project::getProjectId));
-        MFXTableColumn<Project> contractorNameColumn = new MFXTableColumn<>("CID", true, Comparator.comparing(Project::getContractorId));
+        MFXTableColumn<Project> idColumn = new MFXTableColumn<>("Project ID", true, Comparator.comparing(Project::getProjectId));
+        MFXTableColumn<Project> contractorNameColumn = new MFXTableColumn<>("Contractor ID", true, Comparator.comparing(Project::getContractorId));
         MFXTableColumn<Project> typeColumn = new MFXTableColumn<>("Type", true, Comparator.comparing(Project::getProjType));
         MFXTableColumn<Project> totalAmountColumn = new MFXTableColumn<>("Total Budget ($)", true, Comparator.comparing(Project::getAmount));
         MFXTableColumn<Project> cityColumn = new MFXTableColumn<>("City", true, Comparator.comparing(Project::getCity));
@@ -60,8 +60,8 @@ public class projectsTableViewFunctions {
         tableview.getTableColumns().clear();
         tableview.getTableColumns().addAll(idColumn, contractorNameColumn, typeColumn, totalAmountColumn, cityColumn,streetColumn);
         tableview.getFilters().addAll(
-                new StringFilter<>("PID", Project::getProjectId),
-                new StringFilter<>("Contractor Name", Project::getContractorId),
+                new StringFilter<>("Project ID", Project::getProjectId),
+                new StringFilter<>("Contractor ID", Project::getContractorId),
                 new StringFilter<>("Type", Project::getProjType),
                 new IntegerFilter<>("Total Amount", Project::getAmount),
                 new StringFilter<>("City", Project::getCity),

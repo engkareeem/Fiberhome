@@ -158,7 +158,7 @@ public class homePageController implements Initializable {
     VBox partsUsedScrollPaneVbox;
     /*                Warehouse info                   */
     @FXML
-    Label warehouseInfoWid, warehouseInfoWLocation;
+    Label warehouseInfoWid, warehouseInfoWLocation,warehouseInfoWCapacityCount;
     @FXML
     Gauge warehouseInfoWCapacity;
     @FXML
@@ -220,16 +220,8 @@ public class homePageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-//        ObservableList<PieChart.Data> pieChartData =
-//                FXCollections.observableArrayList(
-//                        new PieChart.Data("UnReserved Parts %30", 3),
-//                        new PieChart.Data("Reserved Parts %40", 4),
-//                        new PieChart.Data("Free Space %30", 3));
-//        pieChart.setData(pieChartData);
-//        pieChart.setLegendSide(Side.LEFT);
-//
-//        pieChart.setLabelsVisible(false);
+        warehouseInfoWStorage.setLegendSide(Side.LEFT);
+        warehouseInfoWStorage.setLabelsVisible(false);
 
 
         employeesTableView = employeesTable;
@@ -706,7 +698,7 @@ public class homePageController implements Initializable {
     public void supplierInfoClose() {
         supplierInfoPane.setVisible(false);
         homeNavBarVBox.setDisable(false);
-        controlPanelPane.setVisible(true);
+        currentPane.setVisible(true);
         supplierSwitchFromEdit();
     }
 
@@ -786,6 +778,121 @@ public class homePageController implements Initializable {
 
     }
 
+    /*                      Control Panel             */
+    @FXML
+    public void tableRemoveUserClicked() {
+        if(usersTableViewFunctions.getSelectedRow() == null) return;
+        User selectedUser = usersTableViewFunctions.getSelectedRow();
+        Employee userEmp = getEmployeeInfo(selectedUser.getEid());
+        Functions.showDialog("Are you sure you want to delete  \"" +  userEmp.getFname() + " " + userEmp.getLname() +"\" records?", Functions.Errors.CONFIRM_DIALOG);
+        new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            while(Functions.confirmFlag == null) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            if(Functions.confirmFlag) {
+                new Thread(() -> Platform.runLater(() -> {
+
+
+                    // code here
+
+                })).start();
+            }
+
+        }).start();
+    }
+
+    @FXML
+    public void tableDisplayUserClicked() {
+        controlPanelPane.setVisible(false);
+        homeNavBarVBox.setDisable(true);
+        userInfoPane.setVisible(true);
+    }
+
+    @FXML
+    public void tableRemoveSupplierClicked() {
+        if(suppliersTableViewFunctions.getSelectedRow() == null) return;
+        Supplier selectedSupplier = suppliersTableViewFunctions.getSelectedRow();
+        Functions.showDialog("Are you sure you want to delete  \"" + selectedSupplier.getCompanyName()  +"\" records?", Functions.Errors.CONFIRM_DIALOG);
+        new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            while(Functions.confirmFlag == null) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            if(Functions.confirmFlag) {
+                new Thread(() -> Platform.runLater(() -> {
+
+                    // code here
+
+
+                })).start();
+            }
+        }).start();
+    }
+    @FXML
+    public void tableDisplaySupplierClicked() {
+        controlPanelPane.setVisible(false);
+        homeNavBarVBox.setDisable(true);
+        supplierInfoPane.setVisible(true);
+    }
+
+
+
+    @FXML
+    public void tableRemoveWarehouseClicked() {
+        if(warehousesTableViewFunctions.getSelectedRow() == null) return;
+        Warehouse selectedWarehouse = warehousesTableViewFunctions.getSelectedRow();
+        Functions.showDialog("Are you sure you want to delete  \"" +  selectedWarehouse.getWarehouseId() + " " + " Warehouse" +"\" records?", Functions.Errors.CONFIRM_DIALOG);
+        new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            while(Functions.confirmFlag == null) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            if(Functions.confirmFlag) {
+                new Thread(() -> Platform.runLater(() -> {
+
+
+                    // code here
+
+
+                })).start();
+            }
+
+        }).start();
+    }
+    @FXML
+    public void tableDisplayWarehouseClicked() {
+        controlPanelPane.setVisible(false);
+        homeNavBarVBox.setDisable(true);
+        warehouseInfoPane.setVisible(true);
+    }
 
     /*                  Project Info                */
     @FXML
@@ -809,8 +916,9 @@ public class homePageController implements Initializable {
     @FXML
     public void warehouseInfoClose() {
         Gauge warehouseInfoWCapacity = (Gauge) warehouseInfoPane.lookup("#warehouseInfoWCapacity");
+
         warehouseInfoWCapacity.setValue(0);
-        projectsPane.setVisible(true);
+        currentPane.setVisible(true);
         homeNavBarVBox.setDisable(false);
         warehouseInfoPane.setVisible(false);
     }
@@ -953,7 +1061,6 @@ public class homePageController implements Initializable {
 
             System.out.println("Hurray");
             ComboBox<String> jobPositionComboBox = (ComboBox<String>) employeeInfoPane.lookup("#editTextFieldemployeeInfoEmpJobPos");
-            jobPositionComboBox.getStyleClass().add("combo-box-ex");
             new Thread(() -> Platform.runLater(() -> {
                 updateEmployee(currentEmployeeProfilePage.getEid(), fNameTextField.getText(), mNameTextField.getText(), lNameTextField.getText(), jobPositionComboBox.getValue(), districtTextField.getText());
                 employeesTableViewFunctions.initializeTableView(employeesTable);
@@ -1058,6 +1165,7 @@ public class homePageController implements Initializable {
         comboBox.setLayoutY(contractorInfoContType.getLayoutY());
         comboBox.setPrefWidth(contractorInfoContType.getWidth());
         comboBox.setPromptText(contractorInfoContType.getText());
+        comboBox.getStyleClass().add("combo-box-ex");
         comboBox.setId("editTextField" + contractorInfoContType.getId());
         ObservableList<String> comboBoxItems = FXCollections.observableArrayList(getContractorTypes());
         comboBox.setItems(comboBoxItems);

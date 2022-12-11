@@ -70,12 +70,12 @@
                   <Separator layoutY="40.0" opacity="0.2" prefWidth="645.0" />
                   <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="645.0" spacing="20.0">
                      <children>
-                        <Label prefHeight="26.0" prefWidth="95.0" text="PID" textFill="#cfcfcf">
+                        <Label prefHeight="26.0" prefWidth="95.0" text="MID" textFill="#cfcfcf">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font>
                         </Label>
-                        <Label prefHeight="26.0" prefWidth="155.0" text="Product Name" textFill="#cfcfcf">
+                        <Label prefHeight="26.0" prefWidth="155.0" text="Material Name" textFill="#cfcfcf">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font>
