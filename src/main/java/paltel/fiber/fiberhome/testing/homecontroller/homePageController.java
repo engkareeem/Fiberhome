@@ -530,7 +530,7 @@ public class homePageController implements Initializable {
 
                     ArrayList<Project> recentFinishedProjects = getRecentFinishedProjects(employee.getEid());
                     recentFinishedProjects.forEach(recentProject -> {
-                        addProjRow(recentProject.getProjectId(), recentProject.getCity() + " " + recentProject.getProjType(), recentProject.getCity() + (recentProject.getStreet() == null ? "" : " - " + project.getStreet()));
+                        addProjRow(recentProject.getProjectId(), recentProject.getCity() + " " + recentProject.getProjType(), recentProject.getCity() + (recentProject.getStreet() == null ? "" : " - " + recentProject.getStreet()));
                     });
 
 
