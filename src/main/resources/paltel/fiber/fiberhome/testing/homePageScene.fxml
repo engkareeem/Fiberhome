@@ -1166,7 +1166,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="warehouseInfoPane" layoutX="201.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/displayPage.css" visible="false">
+      <Pane fx:id="warehouseInfoPane" layoutX="201.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/displayPage.css">
          <children>
             <Pane fx:id="projectProfileCard1" layoutX="76.0" layoutY="39.0" prefHeight="582.0" prefWidth="297.0" styleClass="card-pane">
                <children>
@@ -1193,7 +1193,7 @@
                   <Separator layoutX="18.0" layoutY="290.0" opacity="0.21" prefHeight="1.0" prefWidth="261.0" />
                   <Label fx:id="warehouseInfoWid" layoutX="265.0" layoutY="265.0" text="01" textFill="#cfcfcf" />
                   <Button fx:id="projectInfoEditButton1" layoutX="95.0" layoutY="496.0" mnemonicParsing="false" onAction="#projectInfoEditButtonClicked" prefHeight="50.0" prefWidth="107.0" styleClass="primaryButton" text="Edit" visible="false" />
-                  <Gauge fx:id="warehouseInfoWCapacity" layoutX="67.0" layoutY="348.0" prefHeight="154.0" prefWidth="161.0" skinType="BAR" value="66.0">
+                  <Gauge fx:id="warehouseInfoWCapacity" layoutX="67.0" layoutY="348.0" prefHeight="154.0" prefWidth="161.0" skinType="BAR">
                      <valueColor>
                         <Color red="0.8117647171020508" green="0.8117647171020508" blue="0.8117647171020508" />
                      </valueColor>
