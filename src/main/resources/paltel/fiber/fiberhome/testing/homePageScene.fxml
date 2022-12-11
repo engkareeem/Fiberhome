@@ -628,7 +628,7 @@
             </TabPane>
          </children>
       </Pane>
-      <Pane fx:id="projectsPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0">
+      <Pane fx:id="projectsPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" visible="false">
          <children>
             <Label layoutX="394.0" styleClass="headerText" text="Projects" textFill="WHITE">
                <font>
@@ -1337,7 +1337,7 @@
          </children>
       </Pane>
       <Pane fx:id="disablePane" prefHeight="700.0" prefWidth="1100.0" styleClass="disablePane" visible="false" />
-      <Pane fx:id="titleBar" prefHeight="38.0" prefWidth="1100.0" visible="false">
+      <Pane fx:id="titleBar" prefHeight="38.0" prefWidth="1100.0">
          <children>
             <Label fx:id="closeLabel" layoutX="1067.0" layoutY="11.0" onMouseClicked="#close" prefHeight="17.0" prefWidth="17.0" />
             <Label fx:id="minimizeLabel" layoutX="1037.0" layoutY="11.0" onMouseClicked="#minimize" prefHeight="17.0" prefWidth="17.0" />
