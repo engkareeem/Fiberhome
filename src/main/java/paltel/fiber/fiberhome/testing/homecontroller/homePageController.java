@@ -43,7 +43,8 @@ public class homePageController implements Initializable {
 
 
 
-
+    @FXML
+    Label userNickNameLabel,userRoleLabel;
 
     @FXML
     AnchorPane ap;
@@ -74,6 +75,8 @@ public class homePageController implements Initializable {
     Label totalEmployeesCountLabel,totalContractorCountLabel,totalWorkingEmployeesCountLabel,totalUsersCountLabel;
 
     /*                  Employee info         */
+    @FXML
+    Pane currentProjectCard,currentProjectCard1;
     @FXML
     Pane profileCard;
     @FXML
@@ -192,17 +195,25 @@ public class homePageController implements Initializable {
     VBox controlPanelPendingUsersScrollPaneVbox,controlPanelCheapestProductScrollPaneVbox,controlPanelWarehouseProjectsScrollPaneVbox;
 
     @FXML
-    Pane currentProjectCard,currentProjectCard1;
-
-    @FXML
     Pane lastProjectsCard;
-
+    /*                  Supplier Info                   */
     @FXML
-    PieChart pieChart;
+    Pane supplierInfoPane;
+    @FXML
+    Pane supplierInfoProfileCard;
+    @FXML
+    MFXScrollPane offersProductsScrollPane;
+    @FXML
+    VBox offersProductsScrollPaneVbox;
+    @FXML
+    Label supplierInfoCompanyName,supplierInfoSupplierId;
+    @FXML
+    Button supplierInfoEditButton;
 
     Employee currentEmployeeProfilePage;
 
     boolean contractorInfoOnEdit = false;
+    boolean supplierInfoOnEdit = false;
 
 
     @Override
@@ -421,7 +432,28 @@ public class homePageController implements Initializable {
         enhancedScrollPane.resetRows(lastProjectsScrollPaneVbox);
         switchFromEdit();
     }
+    @FXML
+    public void employeeInfoRemoveFromProjectClicked() {
+        Functions.showDialog("Are you sure you want to remove this employee from the project?", Functions.Errors.CONFIRM_DIALOG);
+        new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            while(Functions.confirmFlag == null) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if(Functions.confirmFlag) {
+                removeEmployeeFromCurrentProject();
+            }
 
+        }).start();
+    }
     @FXML
     public void employeeInfoEditButtonClicked() {
         if(!employeeInfoOnEdit) {
@@ -523,17 +555,6 @@ public class homePageController implements Initializable {
 
     /*               Contractor info          */
     @FXML
-    public void contractorInfoAssignToProjectClicked() {
-        contractorInfoAssignToProject.setVisible(false);
-        contractorInfoAssign.setVisible(true);
-        contractorInfoAssignTextField.setVisible(true);
-        contractorInfoAssignProjectIdLabel.setVisible(true);
-    }
-    @FXML
-    public void contractorInfoAssignClicked() {
-
-    }
-    @FXML
     public void contractorInfoEditButtonClicked() {
         // TODO: contractor info edit button clicked
         if(!contractorInfoOnEdit) {
@@ -583,7 +604,7 @@ public class homePageController implements Initializable {
 
     }
 
-    /*             User info                  */
+    /*                                      User info                                       */
     @FXML
     public void userInfoClicked() {
         new Thread(
@@ -669,6 +690,22 @@ public class homePageController implements Initializable {
         textField.setPromptText("New Password");
         userProfileCard.getChildren().add(textField);
         userInfoChangePassword.setVisible(false);
+    }
+    /*                         Supplier Info                  */
+    @FXML
+    public void supplierInfoEditButtonClicked() {
+        if(!supplierInfoOnEdit) {
+            supplierSwitchToEdit();
+        } else {
+            supplierSwitchFromEdit();
+        }
+    }
+    @FXML
+    public void supplierInfoClose() {
+        supplierInfoPane.setVisible(false);
+        homeNavBarVBox.setDisable(false);
+        controlPanelPane.setVisible(true);
+        supplierSwitchFromEdit();
     }
 
     /*                           Projects Page                 */
@@ -1047,7 +1084,27 @@ public class homePageController implements Initializable {
         contractorInfoEditButton.setText("Edit");
         contractorInfoOnEdit=false;
     }
-
+    public void supplierSwitchToEdit() {
+        TextField textField;
+        textField = new TextField();
+        textField.setLayoutX(supplierInfoCompanyName.getLayoutX());
+        textField.setLayoutY(supplierInfoCompanyName.getLayoutY());
+        textField.setPrefWidth(supplierInfoCompanyName.getWidth());
+        textField.getStyleClass().add("info-field");
+        textField.setText(supplierInfoCompanyName.getText());
+        textField.setId("editTextField" + supplierInfoCompanyName.getId());
+        supplierInfoProfileCard.getChildren().add(textField);
+        supplierInfoCompanyName.setVisible(false);
+        supplierInfoOnEdit = true;
+        supplierInfoEditButton.setText("Submit");
+    }
+    public void supplierSwitchFromEdit() {
+        if(!supplierInfoOnEdit) return;
+        supplierInfoProfileCard.getChildren().removeIf(node -> node.getId() != null && node.getId().startsWith("editTextField"));
+        supplierInfoCompanyName.setVisible(true);
+        supplierInfoOnEdit = false;
+        supplierInfoEditButton.setText("Edit");
+    }
 
 
 
@@ -1060,7 +1117,7 @@ public class homePageController implements Initializable {
         enhancedScrollPane.addRow(warehouseListScrollPaneVbox,column1,column2,column3,40, 150 ,75, Functions.ListType.WAREHOUSE_LIST,projectsPane,homeNavBarVBox,warehouseInfoPane);
     }
     private void addProjRow(String column1,String column2, String column3) {
-        enhancedScrollPane.addRow(lastProjectsScrollPaneVbox,column1,column2,column3, 32, 165, 125, Functions.ListType.LAST_PROJECTS_LIST);
+        enhancedScrollPane.addRow(lastProjectsScrollPaneVbox,column1,column2,column3, 32, 205, 98, Functions.ListType.LAST_PROJECTS_LIST);
 
     }
     private void addCurrentProjectsRow(String column1,String column2, String column3) {
