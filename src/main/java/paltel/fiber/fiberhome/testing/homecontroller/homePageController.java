@@ -454,7 +454,10 @@ public class homePageController implements Initializable {
                 }
             }
             if(Functions.confirmFlag) {
-                removeEmployeeFromCurrentProject();
+                Platform.runLater(() -> {
+                    removeEmployeeFromCurrentProject();
+
+                });
             }
 
         }).start();
@@ -473,6 +476,8 @@ public class homePageController implements Initializable {
 
     @FXML
     public void employeeDisplayClicked() {
+
+
 
         Employee employee = employeesTableViewFunctions.getSelectedRow();
         currentEmployeeProfilePage = employee;
@@ -495,49 +500,41 @@ public class homePageController implements Initializable {
         }).start();
 
         if (employee.getJobPos().equals("Technician") || employee.getJobPos().equals("Project Monitor") || employee.getJobPos().equals("Project Manager")) {
-            new Thread(() -> {
-                Platform.runLater(() -> {
-                    lastProjectsCard.setVisible(true);
-                    Project project = getCurrentProject(employee.getEid());
-                    if (project == null) {
-                        currentProjectCard1.setVisible(false);
-                        employeeInfoAssignToProjectButton.setVisible(true);
-                    } else {
-                        employeeInfoAssignToProjectButton.setVisible(false);
-                        currentProjectCard1.setVisible(true);
-                        Contractor contractor = getContractorInfo(project.getContractorId());
-                        employeeInfoCurrentProjectName.setText(project.getCity() + " " + project.getProjType());
-                        employeeInfoCurrentProjectCity.setText("");
-                        employeeInfoCurrentProjectType.setText("");
-                        employeeInfoCurrentProjectId.setText(project.getProjectId());
-                        employeeInfoCurrentProjectStartDate.setText(projectDateFormat.format(project.getStartDate()));
-                        employeeInfoCurrentProjectDueDate.setText(projectDateFormat.format(project.getDueDate()));
-                        employeeInfoCurrentProjectStreet.setText(project.getCity() + " - " + (project.getStreet() == null ? "" : project.getStreet()));
-                        if (contractor == null) {
-                            employeeInfoCurrentProjectContractor.setText("No contractor.");
-                        } else {
-                            employeeInfoCurrentProjectContractor.setText("Cont. : " + contractor.getFname() + " " + contractor.getLname());
 
-                        }
-                    }
+            lastProjectsCard.setVisible(true);
+            Project project = getCurrentProject(employee.getEid());
+            if (project == null) {
+                currentProjectCard1.setVisible(false);
+                employeeInfoAssignToProjectButton.setVisible(true);
+            } else {
+                employeeInfoAssignToProjectButton.setVisible(false);
+                currentProjectCard.setVisible(true);
+                currentProjectCard1.setVisible(true);
+                Contractor contractor = getContractorInfo(project.getContractorId());
+                employeeInfoCurrentProjectName.setText(project.getCity() + " " + project.getProjType());
+                employeeInfoCurrentProjectCity.setText("");
+                employeeInfoCurrentProjectType.setText("");
+                employeeInfoCurrentProjectId.setText(project.getProjectId());
+                employeeInfoCurrentProjectStartDate.setText(projectDateFormat.format(project.getStartDate()));
+                employeeInfoCurrentProjectDueDate.setText(projectDateFormat.format(project.getDueDate()));
+                employeeInfoCurrentProjectStreet.setText(project.getCity() + (project.getStreet() == null ? "" : " - " + project.getStreet()));
+                if (contractor == null) {
+                    employeeInfoCurrentProjectContractor.setText("No contractor.");
+                } else {
+                    employeeInfoCurrentProjectContractor.setText("Cont. : " + contractor.getFname() + " " + contractor.getLname());
+
+                }
+            }
 
 
-                });
 
-            }).start();
-
-            new Thread(() -> {
-                Platform.runLater(() -> {
                     ArrayList<Project> recentFinishedProjects = getRecentFinishedProjects(employee.getEid());
-                    recentFinishedProjects.forEach(project -> {
-                        addProjRow(project.getProjectId(), project.getCity() + " " + project.getProjType(), project.getCity() + (project.getStreet() == null ? "" : " - " + project.getStreet()));
+                    recentFinishedProjects.forEach(recentProject -> {
+                        addProjRow(recentProject.getProjectId(), recentProject.getCity() + " " + recentProject.getProjType(), recentProject.getCity() + (recentProject.getStreet() == null ? "" : " - " + project.getStreet()));
                     });
 
-                });
-            }).start();
 
-
-        }else { // this employee doesn't work on projects
+        }else { // this employee can't work on projects
             employeeInfoLastProjectsLabel.setVisible(false);
             employeeInfoAssignToProjectButton.setVisible(false);
             currentProjectCard.setVisible(false);
@@ -762,13 +759,24 @@ public class homePageController implements Initializable {
                 projectInfoContAge.setText(getAge(contractor.getBirthdate(), new Date()) + " yo");
             }
         })).start();
-
         projectInfoCity.setText(project.getCity());
         projectInfoStreet.setText(project.getStreet() == null  ? "" : project.getStreet());
         projectInfoStartDate.setText(dateFormat.format(project.getStartDate()));
         projectInfoDueDate.setText(dateFormat.format(project.getDueDate()));
         projectInfoProjAmount.setText(project.getAmount() + "$");
         projectInfoProjType.setText(project.getProjType());
+
+
+        ArrayList<Product> products = DBapi.getProjectProducts(project.getProjectId());
+        enhancedScrollPane.resetRows(partsUsedScrollPaneVbox);
+        products.forEach(product -> {
+            Warehouse warehouse = DBapi.getWarehouseInfo(product.getWarehouse_id());
+            enhancedScrollPane.addRow(partsUsedScrollPaneVbox,product.getProductId(), product.getProductName(), warehouse.getCity(),86,143, 103, null, null);
+        });
+
+
+
+
 
 
 

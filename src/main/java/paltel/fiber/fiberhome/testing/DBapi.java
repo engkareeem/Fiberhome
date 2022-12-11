@@ -255,9 +255,8 @@ public class DBapi {
     public static void removeEmployeeFromProject(String eid, String pid){
         try {
             Statement statement = connection.createStatement();
-            statement.executeUpdate("delete from WORKS_AT where EMPLOYEE_ID = '" + eid + "' and PROJECT_ID = '" + pid + "')");
+            statement.executeUpdate("delete from WORKS_AT where EMPLOYEE_ID = '" + eid + "' and PROJECT_ID = '" + pid + "'");
         } catch (SQLException e) {
-            e.printStackTrace();
             e.printStackTrace();
         }
     }
@@ -302,7 +301,7 @@ public class DBapi {
         try {
             Statement statement = connection.createStatement();
             Integer numOfReservedProducts = getNumberOfReservedProductInWarehouse(wid, pid);
-            Integer numOfProducts = getQuantityOfAProductInWarehouse(wid, pid);
+            Integer numOfProducts = getQuantityOfAProductInWarehouseForProject(wid, pid);
             if(numOfReservedProducts + reserved > numOfProducts){ // when reserving quantity more than available
                 return;
             }
@@ -324,11 +323,29 @@ public class DBapi {
         return 0;
     }
 
-    public static Integer getQuantityOfAProductInWarehouse(String wid, String pid)
+    public static Integer getQuantityOfAProductInWarehouseForProject(String wid, String pid)
     {
         try {
             Statement statement = connection.createStatement();
-            statement.executeQuery("select QUANTITY from STORES where WAREHOUSE_ID = " + wid + " and PRODUCT_ID = " + pid );
+            ResultSet res = statement.executeQuery("select sum(QUANTITY) as quantityOfProducts from STORES where WAREHOUSE_ID = " + wid + " and PRODUCT_ID = " + pid );
+            if(res.next()){
+                return res.getInt("quantityOfProducts");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return 0;
+    }
+
+    public static Integer getQuantityOfAProductInWarehouse(String wid)
+    {
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select sum(QUANTITY) as quantityOfProducts from STORES where WAREHOUSE_ID = " + wid);
+            if(res.next()){
+                return res.getInt("quantityOfProducts");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
 
@@ -700,9 +717,12 @@ public class DBapi {
         ArrayList<Product> products = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
-            ResultSet res = statement.executeQuery("select * from PRODUCT where PRODUCT_ID in (select USES.PROJECT_ID from USES) order by PRODUCT_ID");
+            ResultSet res = statement.executeQuery("select Product.*,USES.WAREHOUSE_ID  from PRODUCT, USES where PRODUCT.PRODUCT_ID  in (select USES.PRODUCT_ID from USES where USES.PROJECT_ID = '" + pid +  "') and USES.PRODUCT_ID = PRODUCT.PRODUCT_ID order by Product.PRODUCT_ID");
+
             while (res.next()){
-                products.add(getProductFromRow(res));
+                Product product = getProductFromRow(res);
+                product.setWarehouse_id(res.getString("warehouse_id"));
+                products.add(product);
             }
 
         } catch (SQLException e) {
@@ -711,6 +731,24 @@ public class DBapi {
         return products;
     }
 
+
+
+    public static Double getWarehousePercentage(String wid){
+        try {
+            Statement statement = connection.createStatement();
+            Integer usedCapacity = getQuantityOfAProductInWarehouse(wid);
+            ResultSet res = statement.executeQuery("select CAPACITY from WAREHOUSE where WAREHOUSE_ID = " + wid);
+
+            if (res.next()){
+                Integer capacity = res.getInt("capacity");
+               return ((((double) usedCapacity )/ capacity) * 100);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0.0;
+    }
 
 
 

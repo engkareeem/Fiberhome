@@ -1,6 +1,7 @@
 package paltel.fiber.fiberhome.testing.homecontroller;
 
 import com.jfoenix.controls.JFXBadge;
+import eu.hansolo.medusa.Gauge;
 import io.github.palexdev.materialfx.controls.MFXScrollPane;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -19,6 +20,7 @@ import paltel.fiber.fiberhome.testing.DBapi;
 import paltel.fiber.fiberhome.testing.Functions.*;
 import paltel.fiber.fiberhome.testing.model.Contractor;
 import paltel.fiber.fiberhome.testing.model.Project;
+import paltel.fiber.fiberhome.testing.model.Warehouse;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -101,6 +103,21 @@ public class enhancedScrollPane {
                 nodes[1].setDisable(true); // nav bar pane
                 nodes[2].setVisible(true); // Warehouse info pane
 
+                Warehouse warehouse = DBapi.getWarehouseInfo(column1);
+                Pane infoPane = (Pane) nodes[2];
+
+                Label warehouseId = (Label) infoPane.lookup("#warehouseInfoWid");
+                Label warehouseLocation = (Label) infoPane.lookup("#warehouseInfoWLocation");
+                Gauge warehouseInfoWCapacity = (Gauge) infoPane.lookup("#warehouseInfoWCapacity");
+
+                if(warehouse != null){
+                    warehouseId.setText(warehouse.getWarehouseId());
+                    warehouseLocation.setText(warehouse.getCity());
+
+                    Double warehousePercentage = DBapi.getWarehousePercentage(warehouse.getWarehouseId());
+                    warehouseInfoWCapacity.setValue(warehousePercentage);
+                }
+
 
 
                     // user lookup here :3
@@ -121,7 +138,7 @@ public class enhancedScrollPane {
             hBox.setOnMouseClicked(mouseEvent -> {
                 nodes[0].setVisible(false); // current page pane
                 nodes[2].setVisible(true); // Project info pane
-                // TODO: [Project info initialize]
+
             });
         }
 

@@ -8,6 +8,8 @@ public class Product {
     private String description;
     private String mesUnit;
 
+    private String warehouse_id;
+
     public Product() {
     }
 
@@ -47,6 +49,11 @@ public class Product {
         this.mesUnit = mesUnit;
     }
 
+    public String getWarehouse_id() {
+        return warehouse_id;
+    }
 
-
+    public void setWarehouse_id(String warehouse_id) {
+        this.warehouse_id = warehouse_id;
+    }
 }
