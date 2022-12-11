@@ -18,8 +18,10 @@ import javafx.scene.text.Font;
 import paltel.fiber.fiberhome.testing.DBapi;
 import paltel.fiber.fiberhome.testing.Functions.*;
 import paltel.fiber.fiberhome.testing.model.Contractor;
+import paltel.fiber.fiberhome.testing.model.Project;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -28,6 +30,7 @@ import static java.util.Calendar.*;
 import static java.util.Calendar.DATE;
 
 public class enhancedScrollPane {
+    public static Contractor currentContractorProfilePage;
     public static void addRow(VBox vbox, String column1, String column2, String column3, int width1, int width2, int width3, ListType type, Node...nodes) {
         // We work as a super programmers
         // so assume we put in (column1) the id of row :3
@@ -65,6 +68,7 @@ public class enhancedScrollPane {
                     // nodes[2].lookup("Any id");
                     new Thread(() -> Platform.runLater(() -> {
                         Contractor contractor = DBapi.getContractorInfo(column1);
+                        currentContractorProfilePage = contractor;
                         Pane infoPane = (Pane) nodes[2];
 
                         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -74,23 +78,22 @@ public class enhancedScrollPane {
                         Label contractorInfoContName = (Label) infoPane.lookup("#contractorInfoContName");
                         Label contractorInfoContAge = (Label) infoPane.lookup("#contractorInfoContAge");
                         Label contractorInfoContType = (Label) infoPane.lookup("#contractorInfoContType");
+                        VBox contractorCurrentProjectsVbox = (VBox) infoPane.lookup("#currentProjectsScrollPaneVbox");
+
                         if(contractor != null) {
                             contractorInfoContId.setText(contractor.getContractorId());
                             contractorInfoContBirthdate.setText(dateFormat.format(contractor.getBirthdate()));
                             contractorInfoContName.setText(contractor.getFname() + " " + contractor.getMname() + " " + contractor.getLname());
                             contractorInfoContAge.setText(getAge(contractor.getBirthdate(), new Date()) + " yo");
                             contractorInfoContType.setText(contractor.getContractorType());
+                            ArrayList<Project> currentProjects = DBapi.getCurrentContractorProjects(contractor.getContractorId());
+                           currentProjects.forEach(project -> {
+                               resetRows(contractorCurrentProjectsVbox);
+                               addRow(contractorCurrentProjectsVbox, project.getProjectId(), project.getProjType(), project.getCity() +  project.getStreet(), 32, 168, 134, null, null);
+
+                           });
                         }
                     })).start();
-                    // TODO: [Contractor info initialize]
-                    // if you ask about contractor id
-                    // its inside column1 :D
-                // user lookup here :3
-                // trust me bro
-                // nodes[2].lookup("Any id");
-                // TODO: [Contractor info initialize]
-                // if you ask about contractor id
-                // its inside column1 :D
             });
         } else if(type == ListType.WAREHOUSE_LIST) {
             hBox.setOnMouseClicked(mouseEvent -> {

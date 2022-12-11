@@ -52,6 +52,7 @@ public class DBapi {
         project.setAmount(res.getInt("amount"));
         project.setContractorId(res.getString("contractor_id"));
         project.setProjType(res.getString("proj_type"));
+        if (project.getStreet() == null) project.setStreet(" - ");
         return project;
     }
 
@@ -109,7 +110,7 @@ public class DBapi {
             String eid = getNewEmployeeId();
             statement.executeUpdate("insert into Employee(EMPLOYEE_ID, ID_NUMBER, FNAME, MNAME, LNAME, BIRTHDATE, DISTRICT, SEX, JOB_POS)  values('" + eid + "','" + idNumber + "','" + fName + "','"  +  mName + "','"  + lName + "', TO_DATE('" + birthDate + " 0:00:00', 'yyyy-mm-dd HH24:mi:ss'),'" + district +  "','"  + sex + "','"  + jobPos + "')");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -118,7 +119,7 @@ public class DBapi {
             Statement statement = connection.createStatement();
             statement.executeUpdate("update Employee set FNAME = '" + fName + "', MNAME = '" + mName + "', LNAME = '" + lName + "', JOB_POS = '" + jobPos + "', DISTRICT = '" + district + "' where EMPLOYEE_ID = " + eid);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -127,7 +128,7 @@ public class DBapi {
             Statement statement = connection.createStatement();
             statement.executeUpdate("delete from Employee where EMPLOYEE_ID = " + eid);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -136,7 +137,7 @@ public class DBapi {
             Statement statement = connection.createStatement();
             statement.executeUpdate("insert into CONTRACTOR(CONTRACTOR_ID, ID_NUMBER, FNAME, MNAME, LNAME, BIRTHDATE, SEX, CONTRACTOR_TYPE)  values('" + cid + "','" + idNumber + "','" + fName + "','"  +  mName + "','"  + lName + "', TO_DATE('" + birthDate + " 0:00:00', 'yyyy-mm-dd HH24:mi:ss'),'" + + sex + "','"  + contractorType + "')");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -145,7 +146,7 @@ public class DBapi {
             Statement statement = connection.createStatement();
             statement.executeUpdate("update CONTRACTOR set FNAME = '" + fName + "', MNAME = '" + mName + "', LNAME = '" + lName + "', CONTRACTOR_TYPE = '" + contractorType + "' where CONTRACTOR_ID = " + cid);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -154,7 +155,7 @@ public class DBapi {
             Statement statement = connection.createStatement();
             statement.executeUpdate("delete from CONTRACTOR where CONTRACTOR_ID = " + cid);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -163,7 +164,7 @@ public class DBapi {
             Statement statement = connection.createStatement();
             statement.executeUpdate("insert into PRODUCT(PRODUCT_ID, PRODUCT_NAME, DESCRIPTION, MES_UNIT)  values('" + pid + "','" + productName + "','"  +  description + "','"  + measurementUnit + "')");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -172,7 +173,7 @@ public class DBapi {
             Statement statement = connection.createStatement();
             statement.executeUpdate("update PRODUCT set PRODUCT_NAME = '" + productName + "', DESCRIPTION = '" + description + "', MES_UNIT = '" + measurementUnit + "' where PRODUCT_ID = " + pid);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -182,7 +183,7 @@ public class DBapi {
             Statement statement = connection.createStatement();
             statement.executeUpdate("delete from PRODUCT where PRODUCT_ID = " + pid);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -191,7 +192,7 @@ public class DBapi {
             Statement statement = connection.createStatement();
             statement.executeUpdate("insert into SUPPLIER(SUPPLIER_ID, COMPANY_NAME)  values('" + sid + "','" + companyName + "')");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -200,7 +201,7 @@ public class DBapi {
             Statement statement = connection.createStatement();
             statement.executeUpdate("update SUPPLIER set COMPANY_NAME = '" + companyName + "' where SUPPLIER_ID = " + sid);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -209,7 +210,7 @@ public class DBapi {
             Statement statement = connection.createStatement();
             statement.executeUpdate("delete from SUPPLIER where SUPPLIER_ID = " + sid);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -218,7 +219,7 @@ public class DBapi {
             Statement statement = connection.createStatement();
             statement.executeUpdate("insert into WAREHOUSE(WAREHOUSE_ID, CITY, CAPACITY)  values('" + wid + "','" + city  + "','" + capacity + "')");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -227,7 +228,7 @@ public class DBapi {
             Statement statement = connection.createStatement();
             statement.executeUpdate("update WAREHOUSE set CITY = '" + city + "', CAPACITY = '" + capacity +  "' where WAREHOUSE_ID = " + wid);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -236,7 +237,7 @@ public class DBapi {
             Statement statement = connection.createStatement();
             statement.executeUpdate("delete from WAREHOUSE where WAREHOUSE_ID = " + wid);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -246,7 +247,18 @@ public class DBapi {
             Statement statement = connection.createStatement();
             statement.executeUpdate("insert into WORKS_AT(EMPLOYEE_ID, PROJECT_ID)  values('" + eid + "','" + pid + "')");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            e.printStackTrace();
+        }
+    }
+
+    public static void removeEmployeeFromProject(String eid, String pid){
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("delete from WORKS_AT where EMPLOYEE_ID = '" + eid + "' and PROJECT_ID = '" + pid + "')");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
@@ -255,7 +267,7 @@ public class DBapi {
             Statement statement = connection.createStatement();
             statement.executeUpdate("insert into CAN_SUPPLY(SUPPLIER_ID, PRODUCT_ID)  values('" + sid + "','" + pid + "')");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -264,7 +276,7 @@ public class DBapi {
             Statement statement = connection.createStatement();
             statement.executeUpdate("insert into IMPORTS_FROM(PROJECT_ID, WAREHOUSE_ID)  values('" + pid + "','" + wid + "')");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -273,7 +285,7 @@ public class DBapi {
             Statement statement = connection.createStatement();
             statement.executeUpdate("insert into USES(PROJECT_ID, PRODUCT_ID, QUANTITY)  values('" + projectId + "','" + productId + "','" + quantity + "')");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -282,7 +294,7 @@ public class DBapi {
             Statement statement = connection.createStatement();
             statement.executeUpdate("insert into STORES(WAREHOUSE_ID, PRODUCT_ID, QUANTITY, RESERVED)  values('" + wid + "','" + pid + "','" + quantity + "','" + reserved + "')");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -296,7 +308,7 @@ public class DBapi {
             }
             statement.executeUpdate("update STORES set RESERVED = '" + (numOfReservedProducts + reserved)  +  "' where WAREHOUSE_ID = " + wid + " and PRODUCT_ID = " + pid);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -306,7 +318,7 @@ public class DBapi {
             Statement statement = connection.createStatement();
             statement.executeQuery("select RESERVED from STORES where WAREHOUSE_ID = " + wid + " and PRODUCT_ID = " + pid );
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
 
         }
         return 0;
@@ -318,7 +330,7 @@ public class DBapi {
             Statement statement = connection.createStatement();
             statement.executeQuery("select QUANTITY from STORES where WAREHOUSE_ID = " + wid + " and PRODUCT_ID = " + pid );
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
 
         }
         return 0;
@@ -330,7 +342,25 @@ public class DBapi {
             Statement statement = connection.createStatement();
             statement.executeUpdate("update EMPLOYEE_ACCOUNT set ROLE = 'Employee' where EID = " + eid );
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+        }
+    }
+
+    public static void updateEmployeeAccount(String eid, String nickname){
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("update EMPLOYEE_ACCOUNT set NICKNAME = '" + nickname + "' where EID = " + eid );
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void updateEmployeeAccount(String eid, String nickname, String password){
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("update EMPLOYEE_ACCOUNT set NICKNAME = '" + nickname + "', PASSWORD = '" + password + "' where EID = " + eid );
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -339,9 +369,11 @@ public class DBapi {
             Statement statement = connection.createStatement();
             statement.executeUpdate("delete from EMPLOYEE_ACCOUNT where EID = " + eid);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
+
+
 
 
 
@@ -358,7 +390,7 @@ public class DBapi {
                 employees.add(getEmployeeFromRow(res));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
         return employees;
@@ -375,7 +407,7 @@ public class DBapi {
                 contractors.add(getContractorFromRow(res));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
         return contractors;
@@ -392,7 +424,7 @@ public class DBapi {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return pendingEmployees;
     }
@@ -407,7 +439,7 @@ public class DBapi {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return false;
 
@@ -422,7 +454,7 @@ public class DBapi {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return null;
     }
@@ -436,7 +468,7 @@ public class DBapi {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return null;
     }
@@ -450,7 +482,7 @@ public class DBapi {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return null;
 
@@ -465,7 +497,7 @@ public class DBapi {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return null;
     }
@@ -479,7 +511,7 @@ public class DBapi {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return 0;
     }
@@ -489,13 +521,13 @@ public class DBapi {
     public static Integer getEmployeesCount(){
         try {
             Statement statement = connection.createStatement();
-            ResultSet res = statement.executeQuery("select count(EID) as numberOfEmployees from EMPLOYEE_ACCOUNT");
+            ResultSet res = statement.executeQuery("select count(EMPLOYEE_ID) as numberOfEmployees from EMPLOYEE");
             if(res.next()){
                 return res.getInt("numberOfEmployees");
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return 0;
     }
@@ -509,7 +541,7 @@ public class DBapi {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return 0;
     }
@@ -523,7 +555,7 @@ public class DBapi {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return 0;
     }
@@ -532,13 +564,13 @@ public class DBapi {
         ArrayList<Project> recentProjects = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
-            ResultSet res = statement.executeQuery("select * from PROJECT where PROJECT_ID in (select WORKS_AT.PROJECT_ID from WORKS_AT where WORKS_AT.EMPLOYEE_ID = " + eid + ") and PROJECT.DUE_DATE <= CURRENT_DATE order by PROJECT.DUE_DATE DESC");
+            ResultSet res = statement.executeQuery("select * from PROJECT where PROJECT_ID in (select WORKS_AT.PROJECT_ID from WORKS_AT where WORKS_AT.EMPLOYEE_ID = " + eid + ") and PROJECT.DUE_DATE < CURRENT_DATE order by PROJECT.DUE_DATE DESC");
             while (res.next()){
                 recentProjects.add(getProjectFromRow(res));
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return recentProjects;
     }
@@ -554,7 +586,7 @@ public class DBapi {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return jobPositions;
     }
@@ -569,7 +601,7 @@ public class DBapi {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return roles;
     }
@@ -584,7 +616,7 @@ public class DBapi {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return contractorTypes;
     }
@@ -601,7 +633,7 @@ public class DBapi {
                 return getProjectFromRow(res);
             }
         }catch (SQLException e){
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return null;
     }
@@ -615,7 +647,7 @@ public class DBapi {
                 return getWarehouseFromRow(res);
             }
         }catch (SQLException e){
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return null;
     }
@@ -630,7 +662,7 @@ public class DBapi {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return projects;
     }
@@ -644,7 +676,7 @@ public class DBapi {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return projectTypes;
     }
@@ -659,7 +691,7 @@ public class DBapi {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return warehouses;
     }
@@ -674,7 +706,7 @@ public class DBapi {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return products;
     }
@@ -683,6 +715,20 @@ public class DBapi {
 
 
     // Utils
+
+    public static ArrayList<Project> getCurrentContractorProjects(String cid) {
+        ArrayList<Project> projects = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select * from PROJECT where  CONTRACTOR_ID = '" + cid + "' and PROJECT.DUE_DATE > CURRENT_DATE");
+            while (res.next()){
+                projects.add(getProjectFromRow(res));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return projects;
+    }
 
     public static String getNewEmployeeId() throws SQLException {
         try {
@@ -696,7 +742,7 @@ public class DBapi {
                 return String.format("%04d", lastEmpIdNum+1);
             }
         }catch (SQLException e){
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return "0000";
     }
@@ -709,7 +755,6 @@ public class DBapi {
                 statement.executeUpdate("update EMPLOYEE_ACCOUNT set LAST_LOGIN = TO_DATE('" + timeStamp + "', 'yyyy-mm-dd HH24:mi:ss') where EID = " + eid);
             } catch (SQLException e) {
                 e.printStackTrace();
-                throw new RuntimeException(e);
             }
         }).start();
     }

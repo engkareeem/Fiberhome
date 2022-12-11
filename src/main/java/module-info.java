@@ -9,6 +9,7 @@ module paltel.fiber.fiberhome.testing {
     requires org.kordamp.ikonli.javafx;
     requires eu.hansolo.medusa;
 
+
     opens paltel.fiber.fiberhome.testing to javafx.fxml;
     exports paltel.fiber.fiberhome.testing;
     exports paltel.fiber.fiberhome.testing.model;

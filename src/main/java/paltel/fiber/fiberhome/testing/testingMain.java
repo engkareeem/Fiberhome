@@ -46,10 +46,8 @@ public class testingMain extends Application {
 
     }
     public static void connectToDatabase(){
-        System.out.println("PING");
         if(whileThread) return;
         Thread connectionThread = new Thread(() -> {
-            System.out.println("PONG");
             whileThread = true;
             try {
                 Thread.sleep(1000);

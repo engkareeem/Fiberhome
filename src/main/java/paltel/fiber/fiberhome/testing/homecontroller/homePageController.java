@@ -25,6 +25,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import paltel.fiber.fiberhome.testing.DBapi;
 import paltel.fiber.fiberhome.testing.Functions;
 import paltel.fiber.fiberhome.testing.Navigator;
 import paltel.fiber.fiberhome.testing.model.*;
@@ -337,7 +338,7 @@ public class homePageController implements Initializable {
         switchNavButton(navButton4);
         currentPane = controlPanelPane;
     }
-    
+
     @FXML
     public void projectsNavButtonClicked() {
         dashboardPane.setVisible(false);
@@ -484,7 +485,7 @@ public class homePageController implements Initializable {
                     }
 
 
-            });
+                });
 
             }).start();
 
@@ -530,9 +531,7 @@ public class homePageController implements Initializable {
     }
     @FXML
     public void contractorInfoAssignClicked() {
-        if(true) {
-            Functions.showDialog("Please enter an valid Project ID", Functions.Errors.ERROR);
-        }
+
     }
     @FXML
     public void contractorInfoEditButtonClicked() {
@@ -568,9 +567,8 @@ public class homePageController implements Initializable {
                 contractorInfoClose();
                 new Thread(() -> Platform.runLater(() -> {
                     deleteContractor(contractorInfoContId.getText());
-                    enhancedScrollPane.resetRows(contractorListScrollPaneVbox);
+                    setupContractorsTable();
                 })).start();
-                new Thread(() -> Platform.runLater(this::setupContractorsTable)).start();
 
             }
 
@@ -637,9 +635,27 @@ public class homePageController implements Initializable {
     }
     @FXML
     public void employeeInfoAssignButtonClicked() {
-        if(true) {
+
+        try {
+            Integer.valueOf(employeeInfoAssignTextField.getText());
+            if(employeeInfoAssignTextField.getText().trim().length() != 4){
+                System.out.println(employeeInfoAssignTextField.getText().trim().length());
+                throw new Exception();
+            }
+
+            DBapi.assignEmployeeToProject(employeeInfoEmpId.getText(), employeeInfoAssignTextField.getText());
+            employeeInfoClose();
+            employeeDisplayClicked();
+        }catch (Exception exception){
             Functions.showDialog("Please enter an valid Project ID", Functions.Errors.ERROR);
+
         }
+
+    }
+    public void removeEmployeeFromCurrentProject(){
+        DBapi.removeEmployeeFromProject(employeeInfoEmpId.getText(), employeeInfoCurrentProjectId.getText());
+        employeeInfoClose();
+        employeeDisplayClicked();
     }
     @FXML
     public void userChangePasswordClicked() {
@@ -685,8 +701,8 @@ public class homePageController implements Initializable {
     @FXML
     public void tableAddProjectClicked() {
         Functions.showAddProjectPopup();
-
     }
+
     @FXML
     public void tableDisplayProjectClicked() {
         Project project = getProjectInfo(projectsTableViewFunctions.getSelectedRow().getProjectId()); //projectsTableViewFunctions.getSelectedRow();
@@ -809,6 +825,7 @@ public class homePageController implements Initializable {
 
 
     public void switchToEdit() {
+        Employee employee = DBapi.getEmployeeInfo(employeeInfoEmpId.getText());
         Label []labels = {employeeInfoEmpDistrict};
         TextField textField;
         textField = new TextField();
@@ -818,7 +835,7 @@ public class homePageController implements Initializable {
         textField.getStyleClass().add("info-field");
         textField.setPromptText("First");
         textField.setId("editTextField" + "FirstName");
-        textField.setText(currentEmployeeProfilePage.getFname());
+        textField.setText(employee.getFname());
         profileCard.getChildren().add(textField);
         textField = new TextField();
         textField.setLayoutX(employeeInfoEmpName.getLayoutX() + 85);
@@ -827,7 +844,7 @@ public class homePageController implements Initializable {
         textField.getStyleClass().add("info-field");
         textField.setPromptText("Middle");
         textField.setId("editTextField" + "MiddleName");
-        textField.setText(currentEmployeeProfilePage.getMname());
+        textField.setText(employee.getMname());
         profileCard.getChildren().add(textField);
         textField = new TextField();
         textField.setLayoutX(employeeInfoEmpName.getLayoutX() + 155);
@@ -836,7 +853,7 @@ public class homePageController implements Initializable {
         textField.getStyleClass().add("info-field");
         textField.setPromptText("Last");
         textField.setId("editTextField" + "LastName");
-        textField.setText(currentEmployeeProfilePage.getLname());
+        textField.setText(employee.getLname());
         profileCard.getChildren().add(textField);
 
         employeeInfoEmpName.setVisible(false);
@@ -850,7 +867,7 @@ public class homePageController implements Initializable {
 
         ObservableList<String> comboBoxItems = FXCollections.observableArrayList(getJobPositions());
         comboBox.setItems(comboBoxItems);
-        comboBox.setValue(currentEmployeeProfilePage.getJobPos());
+        comboBox.setValue(employee.getJobPos());
 
         profileCard.getChildren().add(comboBox);
         employeeInfoEmpJobPos.setVisible(false);
@@ -881,18 +898,17 @@ public class homePageController implements Initializable {
 
         if(!fNameTextField.getText().isEmpty() && !mNameTextField.getText().isEmpty() && !lNameTextField.getText().isEmpty()) {
 
-
+            System.out.println("Hurray");
             ComboBox<String> jobPositionComboBox = (ComboBox<String>) employeeInfoPane.lookup("#editTextFieldemployeeInfoEmpJobPos");
             new Thread(() -> Platform.runLater(() -> {
                 updateEmployee(currentEmployeeProfilePage.getEid(), fNameTextField.getText(), mNameTextField.getText(), lNameTextField.getText(), jobPositionComboBox.getValue(), districtTextField.getText());
+                employeesTableViewFunctions.initializeTableView(employeesTable);
             })).start();
-
-
-            new Thread(() -> Platform.runLater(() -> employeesTableViewFunctions.initializeTableView(employeesTable))).start();
 
             employeeInfoEmpName.setText(fNameTextField.getText() + " " + mNameTextField.getText() + " " + lNameTextField.getText());
             employeeInfoEmpDistrict.setText(districtTextField.getText());
             employeeInfoEmpJobPos.setText(jobPositionComboBox.getValue());
+
 
         }
 
@@ -901,7 +917,6 @@ public class homePageController implements Initializable {
         for(Label label: labels) {
             label.setVisible(true);
         }
-        // TODO: Refresh the labels :3
 
         employeeInfoEditButton.setText("Edit");
         employeeInfoOnEdit=false;
@@ -930,6 +945,16 @@ public class homePageController implements Initializable {
     }
     public void userSwitchFromEdit() {
         if(!userInfoOnEdit) return;
+        TextField nicknameTextField = (TextField) userInfoPane.lookup("#editTextFielduserInfoNickName");
+        if(userInfoChangePassword.isVisible()){
+
+            updateEmployeeAccount(userInfoEmpId.getText(), nicknameTextField.getText());
+        }else{
+            TextField passwordTextField = (TextField) userInfoPane.lookup("#editTextFielduserInfoChangePassword");
+            updateEmployeeAccount(userInfoEmpId.getText(), nicknameTextField.getText(), passwordTextField.getText());
+        }
+        userInfoNickName.setText(nicknameTextField.getText());
+
         userInfoOnEdit = false;
         userProfileCard.getChildren().removeIf(node -> node.getId() != null && node.getId().startsWith("editTextField"));
         userInfoNickName.setVisible(true);
@@ -951,6 +976,7 @@ public class homePageController implements Initializable {
         textField.getStyleClass().add("info-field");
         textField.setPromptText("First");
         textField.setId("editTextField" + "FirstName");
+        textField.setText(enhancedScrollPane.currentContractorProfilePage.getFname());
         contractorProfileCard.getChildren().add(textField);
         textField = new TextField();
         textField.setLayoutX(contractorInfoContName.getLayoutX() + 85);
@@ -959,6 +985,7 @@ public class homePageController implements Initializable {
         textField.getStyleClass().add("info-field");
         textField.setPromptText("Middle");
         textField.setId("editTextField" + "MiddleName");
+        textField.setText(enhancedScrollPane.currentContractorProfilePage.getMname());
         contractorProfileCard.getChildren().add(textField);
         textField = new TextField();
         textField.setLayoutX(contractorInfoContName.getLayoutX() + 155);
@@ -967,6 +994,7 @@ public class homePageController implements Initializable {
         textField.getStyleClass().add("info-field");
         textField.setPromptText("Last");
         textField.setId("editTextField" + "LastName");
+        textField.setText(enhancedScrollPane.currentContractorProfilePage.getLname());
         contractorProfileCard.getChildren().add(textField);
 
         contractorInfoContName.setVisible(false);
@@ -979,6 +1007,7 @@ public class homePageController implements Initializable {
         comboBox.setId("editTextField" + contractorInfoContType.getId());
         ObservableList<String> comboBoxItems = FXCollections.observableArrayList(getContractorTypes());
         comboBox.setItems(comboBoxItems);
+        comboBox.setValue(enhancedScrollPane.currentContractorProfilePage.getContractorType());
 
         contractorProfileCard.getChildren().add(comboBox);
         contractorInfoContType.setVisible(false);
@@ -988,12 +1017,32 @@ public class homePageController implements Initializable {
     }
     public void contractorSwitchFromEdit() {
         if(!contractorInfoOnEdit) return;
+        TextField fNameTextField = (TextField) contractorInfoPane.lookup("#editTextFieldFirstName");
+        TextField mNameTextField = (TextField) contractorInfoPane.lookup("#editTextFieldMiddleName");
+        TextField lNameTextField = (TextField) contractorInfoPane.lookup("#editTextFieldLastName");
+
+
+        if(!fNameTextField.getText().isEmpty() && !mNameTextField.getText().isEmpty() && !lNameTextField.getText().isEmpty()) {
+
+
+            ComboBox<String> contractorTypeComboBox = (ComboBox<String>) contractorInfoPane.lookup("#editTextFieldcontractorInfoContType");
+            new Thread(() -> Platform.runLater(() -> {
+                updateContractor(enhancedScrollPane.currentContractorProfilePage.getContractorId(), fNameTextField.getText(), mNameTextField.getText(), lNameTextField.getText(), contractorTypeComboBox.getValue());
+                setupContractorsTable();
+            })).start();
+
+
+            contractorInfoContName.setText(fNameTextField.getText() + " " + mNameTextField.getText() + " " + lNameTextField.getText());
+            contractorInfoContType.setText(contractorTypeComboBox.getValue());
+
+        }
+
+
         Label []labels = {contractorInfoContName,contractorInfoContType};
         contractorProfileCard.getChildren().removeIf(node -> node.getId() != null && node.getId().startsWith("editTextField"));
         for(Label label: labels) {
             label.setVisible(true);
         }
-        // TODO: Refresh the labels :3
 
         contractorInfoEditButton.setText("Edit");
         contractorInfoOnEdit=false;

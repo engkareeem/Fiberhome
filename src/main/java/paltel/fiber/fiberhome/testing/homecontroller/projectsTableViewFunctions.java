@@ -45,15 +45,11 @@ public class projectsTableViewFunctions {
 
         ObservableList<Project> projects;
 
-        projects = FXCollections.observableArrayList(
-                new Project("0001",15000, null,null,"Bidya","street","0001","Fiber")
-        );
+        projects = FXCollections.observableArrayList();
         tableview.getTableColumns().clear();
         ArrayList<Project> projectArrayList = DBapi.getAllProjects();
         projects.addAll(projectArrayList);
 
-//        ArrayList<Employee> employeeArrayList = DBapi.getAllEmployees();
-//        project.addAll(employeeArrayList);
 
         idColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(Project::getProjectId));
         contractorNameColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(Project::getContractorId));
@@ -61,7 +57,7 @@ public class projectsTableViewFunctions {
         totalAmountColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(Project::getAmount));
         cityColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(Project::getCity));
         streetColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(Project::getStreet));
-
+        tableview.getTableColumns().clear();
         tableview.getTableColumns().addAll(idColumn, contractorNameColumn, typeColumn, totalAmountColumn, cityColumn,streetColumn);
         tableview.getFilters().addAll(
                 new StringFilter<>("PID", Project::getProjectId),

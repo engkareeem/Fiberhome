@@ -26,7 +26,6 @@ public class employeesTableViewFunctions {
 
 
 
-
         // Edit this if you need,
         // I will find solution for column width :3
         MFXTableColumn<Employee> idColumn = new MFXTableColumn<>("EID", true, Comparator.comparing(Employee::getEid));
@@ -71,7 +70,7 @@ public class employeesTableViewFunctions {
         );
         tableview.setItems(employees);
         tableview.scrollToFirst();
-        tableview.scrollTo(0);
+
     }
 
     public static Employee getSelectedRow() {
