@@ -21,23 +21,7 @@
 .chart-legend .label{
     -fx-text-fill: #cfcfcf;
 }
-.combo-box{
-    -fx-background-color: -fx-application-background-color;
-    -fx-background-radius: 7;
-    -fx-border-color: grey;
-    -fx-border-radius: 7;
-    -fx-border-width: 1.2;
-}
-.combo-box .list-view{
-    -fx-background-color: derive(-fx-application-background-color,10%);
-}
-.combo-box .list-cell{
-    -fx-text-fill: #cfcfcf;
-    -fx-background-color: -fx-application-background-color;
-}
-.combo-box .list-cell:hover{
-    -fx-background-color: derive(-fx-application-background-color,10%);
-}
+
 .card-pane{
     -fx-background-color: -fx-application-background-color;
     -fx-background-radius: 15;
@@ -59,6 +43,7 @@
     -fx-effect: dropshadow(gaussian, rgba(94, 94, 99, 0.07), 15, 0.4, 0.0, 0.0);
     -fx-border-radius: 15;
 }
+
 .list-pane{
     -fx-background-color: -fx-application-background-color;
     -fx-background-radius: 15;

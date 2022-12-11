@@ -640,7 +640,7 @@
                <children>
                   <Pane fx:id="employeesNumberPane" layoutX="44.0" layoutY="23.0" prefHeight="114.0" prefWidth="193.0" styleClass="statics-square">
                      <children>
-                        <Label fx:id="totalEmployeesCountLabel1" layoutX="77.0" layoutY="22.0" text="4834" textFill="#cfcfcf">
+                        <Label fx:id="totalProjectsCountLabel" alignment="CENTER" layoutY="22.0" prefWidth="193.0" text="4834" textFill="#cfcfcf">
                            <font>
                               <Font name="System Bold" size="17.0" />
                            </font>
@@ -654,7 +654,7 @@
                   </Pane>
                   <Pane fx:id="employeesNumberPane" layoutX="277.0" layoutY="23.0" prefHeight="114.0" prefWidth="193.0" styleClass="statics-square">
                      <children>
-                        <Label fx:id="totalContractorCountLabel1" layoutX="77.0" layoutY="23.0" text="4834" textFill="#cfcfcf">
+                        <Label fx:id="totalWarehouseCountLabel" alignment="CENTER" layoutY="23.0" prefWidth="193.0" text="4834" textFill="#cfcfcf">
                            <font>
                               <Font name="System Bold" size="17.0" />
                            </font>
@@ -668,7 +668,7 @@
                   </Pane>
                   <Pane fx:id="employeesNumberPane" layoutX="44.0" layoutY="160.0" prefHeight="114.0" prefWidth="193.0" styleClass="statics-square">
                      <children>
-                        <Label fx:id="totalWorkingEmployeesCountLabel1" layoutX="77.0" layoutY="23.0" text="4834" textFill="#cfcfcf">
+                        <Label fx:id="totalRunningProjectsCountLabel" alignment="CENTER" layoutY="23.0" prefWidth="193.0" text="4834" textFill="#cfcfcf">
                            <font>
                               <Font name="System Bold" size="17.0" />
                            </font>
@@ -682,7 +682,7 @@
                   </Pane>
                   <Pane fx:id="employeesNumberPane1" layoutX="277.0" layoutY="160.0" prefHeight="114.0" prefWidth="193.0" styleClass="statics-square">
                      <children>
-                        <Label fx:id="totalUsersCountLabel1" layoutX="77.0" layoutY="23.0" text="4834" textFill="#cfcfcf">
+                        <Label fx:id="totalFinishedProjectsCountLabel" alignment="CENTER" layoutY="23.0" prefWidth="193.0" text="4834" textFill="#cfcfcf">
                            <font>
                               <Font name="System Bold" size="17.0" />
                            </font>
@@ -1337,7 +1337,7 @@
          </children>
       </Pane>
       <Pane fx:id="disablePane" prefHeight="700.0" prefWidth="1100.0" styleClass="disablePane" visible="false" />
-      <Pane fx:id="titleBar" prefHeight="38.0" prefWidth="1100.0">
+      <Pane fx:id="titleBar" prefHeight="38.0" prefWidth="1100.0" visible="false">
          <children>
             <Label fx:id="closeLabel" layoutX="1067.0" layoutY="11.0" onMouseClicked="#close" prefHeight="17.0" prefWidth="17.0" />
             <Label fx:id="minimizeLabel" layoutX="1037.0" layoutY="11.0" onMouseClicked="#minimize" prefHeight="17.0" prefWidth="17.0" />

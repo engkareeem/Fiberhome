@@ -141,6 +141,8 @@ public class homePageController implements Initializable {
     Stage stage;
     /*                 Project info            */
     @FXML
+    Label totalProjectsCountLabel,totalWarehouseCountLabel,totalRunningProjectsCountLabel,totalFinishedProjectsCountLabel;
+    @FXML
     Label projectInfoProjId,projectInfoProjType,projectInfoProjAmount,projectInfoStartDate,projectInfoDueDate,projectInfoStreet,projectInfoCity;
     @FXML
     Button projectInfoEditButton;
@@ -229,13 +231,16 @@ public class homePageController implements Initializable {
 //
 //        pieChart.setLabelsVisible(false);
 
-//        playOpenAnimation();
+
         employeesTableView = employeesTable;
         currentPane = employeesPane;
         updateLastLoginTime((String) Navigator.getValue("eid"));
         stage = Navigator.primaryStage;
-
-        Platform.runLater(() -> stage.centerOnScreen());
+        ap.setOpacity(0);
+        Platform.runLater(() -> {
+            stage.centerOnScreen();
+            playOpenAnimation();
+        });
 
         switchNavButton(navButton2);
         Functions.move(stage,titleBar);
@@ -900,6 +905,7 @@ public class homePageController implements Initializable {
         comboBox.setLayoutY(employeeInfoEmpJobPos.getLayoutY());
         comboBox.setPrefWidth(employeeInfoEmpJobPos.getWidth());
         comboBox.setPromptText(employeeInfoEmpJobPos.getText());
+        comboBox.getStyleClass().add("combo-box-ex");
         comboBox.setId("editTextField" + employeeInfoEmpJobPos.getId());
 
         ObservableList<String> comboBoxItems = FXCollections.observableArrayList(getJobPositions());
@@ -937,6 +943,7 @@ public class homePageController implements Initializable {
 
             System.out.println("Hurray");
             ComboBox<String> jobPositionComboBox = (ComboBox<String>) employeeInfoPane.lookup("#editTextFieldemployeeInfoEmpJobPos");
+            jobPositionComboBox.getStyleClass().add("combo-box-ex");
             new Thread(() -> Platform.runLater(() -> {
                 updateEmployee(currentEmployeeProfilePage.getEid(), fNameTextField.getText(), mNameTextField.getText(), lNameTextField.getText(), jobPositionComboBox.getValue(), districtTextField.getText());
                 employeesTableViewFunctions.initializeTableView(employeesTable);
