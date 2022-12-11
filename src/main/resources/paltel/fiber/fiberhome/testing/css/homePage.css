@@ -14,12 +14,12 @@
 .chart-pie-label{
     -fx-fill: #cfcfcf;
 }
-
-.chart-legend .VBox {
-    -fx-spacing: 20;
+.chart-legend{
+    -fx-background-color: transparent;
 }
 .chart-legend .label{
     -fx-text-fill: #cfcfcf;
+    -fx-padding: 7 0 7 0;
 }
 
 .card-pane{
