@@ -35,6 +35,13 @@ public class Functions {
         SUCCESSFUL_DIALOG,
         INFORMATION_DIALOG,
     }
+    public enum JobPos{
+        DEP_MANAGER,
+        PROJ_MANAGER,
+        TECHNICIAN,
+        ACCOUNTANT,
+        OTHER
+    }
     public enum Errors{
         // شملت كلشي مع الايرورز لانه عقلي مش قادر يعطيني اسم يشملهم كلهم، مشيها
         // اذا طلع معك اسم منيح سوي للاينم ريفاكتور

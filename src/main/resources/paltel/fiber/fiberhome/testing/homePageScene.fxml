@@ -49,12 +49,12 @@
             </Pane>
             <Pane prefHeight="44.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="navButton1" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#dashboardNavButtonClicked" prefHeight="45.0" prefWidth="200.0" styleClass="nav-button" text="Dashboard">
+                  <Button fx:id="navButton1" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#navButton1Clicked" prefHeight="45.0" prefWidth="200.0" styleClass="nav-button" text="Control Panel">
                      <padding>
                         <Insets left="20.0" />
                      </padding>
                      <graphic>
-                        <FontIcon iconColor="#a6a6a6" iconLiteral="fltfal-app-folder-24" iconSize="20" wrappingWidth="35.0" />
+                        <FontIcon fx:id="navButton1FontIcon" iconColor="#a6a6a6" iconLiteral="fltfal-app-folder-24" iconSize="20" wrappingWidth="35.0" />
                      </graphic>
                   </Button>
                   <Pane fx:id="radiusPane10" layoutX="174.0" prefHeight="45.0" prefWidth="26.0" styleClass="pseudo-radius-activated" visible="false" />
@@ -63,12 +63,12 @@
             </Pane>
             <Pane prefHeight="44.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="navButton2" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#employeesNavButtonClicked" prefHeight="45.0" prefWidth="200.0" styleClass="nav-button" text="Employees">
+                  <Button fx:id="navButton2" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#navButton2Clicked" prefHeight="45.0" prefWidth="200.0" styleClass="nav-button" text="Employees">
                      <padding>
                         <Insets left="20.0" />
                      </padding>
                      <graphic>
-                        <FontIcon fx:id="icon" iconColor="#a6a6a6" iconLiteral="fltfmz-person-accounts-24" iconSize="20" wrappingWidth="35.0" />
+                        <FontIcon fx:id="navButton2FontIcon" iconColor="#a6a6a6" iconLiteral="fltfmz-person-accounts-24" iconSize="20" wrappingWidth="35.0" />
                      </graphic>
                   </Button>
                   <Pane fx:id="radiusPane20" layoutX="174.0" prefHeight="45.0" prefWidth="26.0" styleClass="pseudo-radius-activated" visible="false" />
@@ -77,9 +77,9 @@
             </Pane>
             <Pane prefHeight="44.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="navButton3" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#projectsNavButtonClicked" prefHeight="45.0" prefWidth="200.0" styleClass="nav-button" text="Projects">
+                  <Button fx:id="navButton3" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#navButton3Clicked" prefHeight="45.0" prefWidth="200.0" styleClass="nav-button" text="Projects">
                      <graphic>
-                        <FontIcon iconColor="#a6a6a6" iconLiteral="fltfmz-wrench-16" iconSize="20" wrappingWidth="35.0" />
+                        <FontIcon fx:id="navButton3FontIcon" iconColor="#a6a6a6" iconLiteral="fltfmz-wrench-16" iconSize="20" wrappingWidth="35.0" />
                      </graphic>
                      <padding>
                         <Insets left="20.0" />
@@ -91,7 +91,7 @@
             </Pane>
             <Pane prefHeight="44.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="navButton4" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#controlPanelNavButtonClicked" prefHeight="45.0" prefWidth="200.0" styleClass="nav-button" text="Control Panel">
+                  <Button fx:id="navButton4" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#navButton4Clicked" prefHeight="45.0" prefWidth="200.0" styleClass="nav-button" text="Control Panel" visible="false">
                      <graphic>
                         <FontIcon iconColor="#a6a6a6" iconLiteral="fltfmz-slide-text-28" iconSize="20" wrappingWidth="35.0" />
                      </graphic>
@@ -100,7 +100,7 @@
                      </padding>
                   </Button>
                   <Pane fx:id="radiusPane40" layoutX="174.0" prefHeight="45.0" prefWidth="26.0" styleClass="pseudo-radius-activated" visible="false" />
-                  <Pane fx:id="radiusPane41" layoutX="160.0" prefHeight="45.0" prefWidth="40.0" styleClass="lower-radius-activated" />
+                  <Pane fx:id="radiusPane41" layoutX="160.0" layoutY="1.0" prefHeight="44.0" prefWidth="40.0" styleClass="lower-radius-activated" />
                </children>
             </Pane>
             <Pane prefHeight="415.0" prefWidth="200.0">
@@ -119,11 +119,6 @@
             </Pane>
          </children>
       </VBox>
-      <Pane fx:id="dashboardPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" visible="false">
-         <children>
-            <Label layoutX="367.0" layoutY="139.0" styleClass="headerText" text="Thats a dashboard :D" />
-         </children>
-      </Pane>
       <Pane fx:id="employeesPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" visible="false">
          <children>
             <MFXPaginatedTableView fx:id="employeesTable" layoutX="15.0" layoutY="404.0" maxWidth="870.0" prefHeight="250.0" prefWidth="870.0" />
@@ -1206,7 +1201,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="warehouseInfoPane" layoutX="201.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/displayPage.css">
+      <Pane fx:id="warehouseInfoPane" layoutX="201.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/displayPage.css" visible="false">
          <children>
             <Pane fx:id="projectProfileCard1" layoutX="76.0" layoutY="39.0" prefHeight="582.0" prefWidth="297.0" styleClass="card-pane">
                <children>

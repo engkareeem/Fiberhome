@@ -21,6 +21,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.kordamp.ikonli.javafx.FontIcon;
 import paltel.fiber.fiberhome.testing.utils.DBapi;
 import paltel.fiber.fiberhome.testing.Functions;
 import paltel.fiber.fiberhome.testing.Navigator;
@@ -49,9 +50,11 @@ public class homePageController implements Initializable {
     @FXML
     Pane titleBar;
     @FXML
-    Pane dashboardPane,employeesPane,controlPanelPane,projectsPane;
+    Pane employeesPane,controlPanelPane,projectsPane;
     @FXML
-    Button navButton1,navButton2,navButton3,navButton4;
+    Button navButton1,navButton2,navButton3;
+    @FXML
+    FontIcon navButton1FontIcon,navButton2FontIcon,navButton3FontIcon;
     @FXML
     MFXPaginatedTableView<Employee> employeesTable;
 
@@ -211,9 +214,12 @@ public class homePageController implements Initializable {
     boolean contractorInfoOnEdit = false;
     boolean supplierInfoOnEdit = false;
 
+    User user;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        user = getUserInfo((String) Navigator.getValue("eid"));
+        setupNavBar();
         warehouseInfoWStorage.setLegendSide(Side.LEFT);
         warehouseInfoWStorage.setLabelsVisible(false);
 
@@ -315,38 +321,40 @@ public class homePageController implements Initializable {
 
     /*                   Nav bar stuff                    */
     @FXML
-    public void dashboardNavButtonClicked() {
-        dashboardPane.setVisible(true);
-        employeesPane.setVisible(false);
-        controlPanelPane.setVisible(false);
-        projectsPane.setVisible(false);
-        switchNavButton(navButton1);
-        currentPane = dashboardPane;
+    public void navButton1Clicked() {
+        if(user.getRole().equals("Admin")) {
+            employeesPane.setVisible(false);
+            controlPanelPane.setVisible(true);
+            projectsPane.setVisible(false);
+            currentPane = controlPanelPane;
+            switchNavButton(navButton1);
+        }
     }
     @FXML
-    public void employeesNavButtonClicked() {
-        dashboardPane.setVisible(false);
-        employeesPane.setVisible(true);
-        controlPanelPane.setVisible(false);
-        projectsPane.setVisible(false);
-        switchNavButton(navButton2);
-        currentPane = employeesPane;
+    public void navButton2Clicked() {
+        if(user.getRole().equals("Admin")) {
+            employeesPane.setVisible(true);
+            controlPanelPane.setVisible(false);
+            projectsPane.setVisible(false);
+            currentPane = employeesPane;
+            switchNavButton(navButton2);
+        }
     }
 
 
     @FXML
-    public void controlPanelNavButtonClicked() {
-        dashboardPane.setVisible(false);
-        employeesPane.setVisible(false);
-        controlPanelPane.setVisible(true);
-        projectsPane.setVisible(false);
-        switchNavButton(navButton4);
-        currentPane = controlPanelPane;
+    public void navButton4Clicked() {
+        if(user.getRole().equals("Admin")) {
+            employeesPane.setVisible(false);
+            controlPanelPane.setVisible(false);
+            projectsPane.setVisible(true);
+            currentPane = projectsPane;
+            switchNavButton(navButton3);
+        }
     }
 
     @FXML
-    public void projectsNavButtonClicked() {
-        dashboardPane.setVisible(false);
+    public void navButton3Clicked() {
         employeesPane.setVisible(false);
         controlPanelPane.setVisible(false);
         projectsPane.setVisible(true);
@@ -1263,6 +1271,17 @@ public class homePageController implements Initializable {
         currentPane = projectInfoPane;
     }
 
+    private void setupNavBar() {
+        assert user != null;
+        if(user.getRole().equals("Admin")) {
+            navButton1.setText("Control Panel");
+            navButton2.setText("Employees");
+            navButton3.setText("Projects");
+            navButton1FontIcon.setIconLiteral("fltfal-app-folder-24");
+            navButton2FontIcon.setIconLiteral("fltfmz-person-accounts-24");
+            navButton3FontIcon.setIconLiteral("fltfmz-wrench-16");
+        }
+    }
 
 }
 

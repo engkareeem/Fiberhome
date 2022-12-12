@@ -86,7 +86,7 @@
 }
 .combo-box-ex .list-cell{
     -fx-background-color: -fx-application-background-color;
-    -fx-alignment: center;
+    -fx-alignment: center-left;
     -fx-text-fill: #b5b5b5;
 }
 .combo-box-error{
@@ -102,7 +102,7 @@
 }
 .combo-box-error .list-cell{
     -fx-background-color: -fx-application-background-color;
-    -fx-alignment: center;
+    -fx-alignment: center-left;
     -fx-text-fill: #b5b5b5;
 }
 .primaryCancelButton {
