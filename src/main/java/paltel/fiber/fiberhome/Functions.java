@@ -1,6 +1,6 @@
 package paltel.fiber.fiberhome;
 
-import animatefx.animation.Shake;
+import animatefx.animation.*;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import javafx.application.Platform;
 import javafx.scene.Node;
@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -69,6 +70,30 @@ public class Functions {
         }
     }
 
+    public static void infoInAnimation(Pane currentPane,Pane infoPane) {
+        AnimationFX outAnimation = new SlideInRight(infoPane);
+        AnimationFX inAnimation = new SlideOutLeft(currentPane);
+        outAnimation.setSpeed(2);
+        inAnimation.setSpeed(2);
+
+        outAnimation.play();
+        inAnimation.play();
+        outAnimation.setOnFinished(e -> {
+            currentPane.setVisible(false);
+        });
+    }
+    public static void infoOutAnimation(Pane currentPane,Pane infoPane) {
+        currentPane.setVisible(true);
+        AnimationFX outAnimation = new SlideOutRight(infoPane);
+        AnimationFX inAnimation = new SlideInLeft(currentPane);
+        outAnimation.setSpeed(2);
+        inAnimation.setSpeed(2);
+        outAnimation.play();
+        inAnimation.play();
+        outAnimation.setOnFinished(e -> {
+            infoPane.setVisible(false);
+        });
+    }
 /*                            Data base connection Stuff                                                  */
 
     public static void displayStatus(Scene scene,int status,int tryNum) {
