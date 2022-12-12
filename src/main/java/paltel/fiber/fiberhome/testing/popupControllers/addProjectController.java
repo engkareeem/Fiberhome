@@ -159,8 +159,6 @@ public class addProjectController implements Initializable {
 //        warehousesComboBox.getStyleClass().add("combo-box-ex");
 //        warehousesComboBox.setId(PID + "ComboBox"); // Combobox id
 
-        // TODO: Set warehouse combobox items here
-
         // project types
         ArrayList<String> projectTypes = DBapi.getProjectTypes();
         typeComboBox.setItems(FXCollections.observableArrayList(projectTypes));

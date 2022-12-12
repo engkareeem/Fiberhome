@@ -17,12 +17,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import org.kordamp.ikonli.javafx.FontIcon;
+import paltel.fiber.fiberhome.testing.Functions;
+import paltel.fiber.fiberhome.testing.Navigator;
+import paltel.fiber.fiberhome.testing.model.*;
 import paltel.fiber.fiberhome.testing.utils.DBapi;
 import paltel.fiber.fiberhome.testing.Functions.*;
-import paltel.fiber.fiberhome.testing.model.Contractor;
-import paltel.fiber.fiberhome.testing.model.Product;
-import paltel.fiber.fiberhome.testing.model.Project;
-import paltel.fiber.fiberhome.testing.model.Warehouse;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,6 +31,7 @@ import java.util.Locale;
 
 import static java.util.Calendar.*;
 import static java.util.Calendar.DATE;
+import static paltel.fiber.fiberhome.testing.utils.DBapi.*;
 
 public class enhancedScrollPane {
     public static Contractor currentContractorProfilePage;
@@ -99,7 +99,7 @@ public class enhancedScrollPane {
 
                     // user lookup here :3
                     // trust me bro
-                    // nodes[2].lookup("Any id");
+                    // nodes[2].lookup("#Any id");
                     new Thread(() -> Platform.runLater(() -> {
                         Contractor contractor = DBapi.getContractorInfo(column1);
                         currentContractorProfilePage = contractor;
@@ -107,12 +107,12 @@ public class enhancedScrollPane {
 
                         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-                        Label contractorInfoContId = (Label) infoPane.lookup("#contractorInfoContId");
-                        Label contractorInfoContBirthdate = (Label) infoPane.lookup("#contractorInfoContBirthdate");
-                        Label contractorInfoContName = (Label) infoPane.lookup("#contractorInfoContName");
-                        Label contractorInfoContAge = (Label) infoPane.lookup("#contractorInfoContAge");
-                        Label contractorInfoContType = (Label) infoPane.lookup("#contractorInfoContType");
-                        VBox contractorCurrentProjectsVbox = (VBox) infoPane.lookup("#currentProjectsScrollPaneVbox");
+                        Label contractorInfoContId = (Label) infoPane.lookup("##contractorInfoContId");
+                        Label contractorInfoContBirthdate = (Label) infoPane.lookup("##contractorInfoContBirthdate");
+                        Label contractorInfoContName = (Label) infoPane.lookup("##contractorInfoContName");
+                        Label contractorInfoContAge = (Label) infoPane.lookup("##contractorInfoContAge");
+                        Label contractorInfoContType = (Label) infoPane.lookup("##contractorInfoContType");
+                        VBox contractorCurrentProjectsVbox = (VBox) infoPane.lookup("##currentProjectsScrollPaneVbox");
 
                         if(contractor != null) {
                             contractorInfoContId.setText(contractor.getContractorId());
@@ -138,11 +138,11 @@ public class enhancedScrollPane {
                 Warehouse warehouse = DBapi.getWarehouseInfo(column1);
                 Pane infoPane = (Pane) nodes[2];
 
-                Label warehouseId = (Label) infoPane.lookup("#warehouseInfoWid");
-                Label warehouseLocation = (Label) infoPane.lookup("#warehouseInfoWLocation");
-                Gauge warehouseInfoWCapacity = (Gauge) infoPane.lookup("#warehouseInfoWCapacity");
-                VBox availableProductsVbox = (VBox) infoPane.lookup("#warehouseInfoPartsScrollPaneVbox");
-                PieChart warehouseInfoWStorage = (PieChart) infoPane.lookup("#warehouseInfoWStorage");
+                Label warehouseId = (Label) infoPane.lookup("##warehouseInfoWid");
+                Label warehouseLocation = (Label) infoPane.lookup("##warehouseInfoWLocation");
+                Gauge warehouseInfoWCapacity = (Gauge) infoPane.lookup("##warehouseInfoWCapacity");
+                VBox availableProductsVbox = (VBox) infoPane.lookup("##warehouseInfoPartsScrollPaneVbox");
+                PieChart warehouseInfoWStorage = (PieChart) infoPane.lookup("##warehouseInfoWStorage");
 
                 if(warehouse != null){
                     warehouseId.setText(warehouse.getWarehouseId());
@@ -184,7 +184,7 @@ public class enhancedScrollPane {
 
             hBox.setOnMouseClicked(mouseEvent -> {
                 nodes[0].setVisible(false); // current page pane
-                nodes[2].setVisible(true); // Project info pane
+                nodes[1].setVisible(true); // Project info pane
 
             });
         } else if(type == ListType.PENDING_LIST) {
@@ -198,7 +198,7 @@ public class enhancedScrollPane {
             acceptIcon.setIconSize(25);
             acceptLabel.setGraphic(acceptIcon);
             acceptLabel.setOnMouseClicked(mouseEvent -> {
-                // accept code
+                // TODO: Accept pending account
                 System.out.println("accept user " + column1);
             });
             Label declineLabel = new Label();
@@ -209,11 +209,18 @@ public class enhancedScrollPane {
             declineIcon.setIconSize(25);
             declineLabel.setGraphic(declineIcon);
             declineLabel.setOnMouseClicked(mouseEvent -> {
-                // decline code
+                // TODO: Decline pending account
                 System.out.println("decline user " + column1);
             });
             hBox.getChildren().addAll(acceptLabel,declineLabel);
 
+        } else if(type == ListType.PROJ_MANAGER_PROJ_EMPLOYEES) {
+            hBox.setOnMouseClicked(mouseEvent -> {
+                nodes[0].setVisible(false); // current page pane
+                nodes[1].setDisable(true); // navbar
+                displayEmployeeInfo(column1,(Pane)nodes[2]); // nodes[2] = employeeInfoPage
+
+            });
         }
 
         Separator separator = new Separator();
@@ -229,6 +236,92 @@ public class enhancedScrollPane {
         vbox.getChildren().clear();
     }
 
+    private static void displayEmployeeInfo(String eid,Pane employeeInfoPage) {
+        Employee employee = null;
+        User user = getUserInfo((String) Navigator.getValue("eid"));
+        assert user != null;
+        employee = getEmployeeInfo(eid);
+        if (employee == null) return;
+        resetRows((VBox) employeeInfoPage.lookup("#lastProjectsScrollPaneVbox"));
+        SimpleDateFormat birthdateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat projectDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat lastLoginFormat = new SimpleDateFormat("dd/MM/yyyy - hh:mm aa");
+
+        Employee finalEmployee = employee;
+        new Thread(() -> {
+            Platform.runLater(() -> {
+                User _user = getUserInfo(finalEmployee.getEid());
+                if (_user == null || _user.getLastLogin() == null) {
+                    ((Label)employeeInfoPage.lookup("#employeeInfoLastLogin")).setText("Never");
+                } else {
+                    ((Label)employeeInfoPage.lookup("#employeeInfoLastLogin")).setText(lastLoginFormat.format(_user.getLastLogin()));
+                }
+            });
+
+        }).start();
+
+        if (employee.getJobPos().equals("Technician") || employee.getJobPos().equals("Project Monitor") || employee.getJobPos().equals("Project Manager")) {
+
+            employeeInfoPage.lookup("#lastProjectsCard").setVisible(true);
+            Project project = getCurrentProject(employee.getEid());
+            if (project == null) {
+                (employeeInfoPage.lookup("#currentProjectCard1")).setVisible(false);
+                (employeeInfoPage.lookup("#projManYouDontWork")).setVisible(true);
+            } else {
+                (employeeInfoPage.lookup("#currentProjectCard")).setVisible(true);
+                (employeeInfoPage.lookup("#currentProjectCard1")).setVisible(true);
+                (employeeInfoPage.lookup("#projManYouDontWork")).setVisible(false);
+
+                Contractor contractor = getContractorInfo(project.getContractorId());
+                ((Label)employeeInfoPage.lookup("#employeeInfoCurrentProjectName")).setText(project.getCity() + " " + project.getProjType());
+                ((Label)employeeInfoPage.lookup("#employeeInfoCurrentProjectCity")).setText("");
+                ((Label)employeeInfoPage.lookup("#employeeInfoCurrentProjectType")).setText("");
+                ((Label)employeeInfoPage.lookup("#employeeInfoCurrentProjectId")).setText(project.getProjectId());
+                ((Label)employeeInfoPage.lookup("#employeeInfoCurrentProjectStartDate")).setText(projectDateFormat.format(project.getStartDate()));
+                ((Label)employeeInfoPage.lookup("#employeeInfoCurrentProjectDueDate")).setText(projectDateFormat.format(project.getDueDate()));
+                ((Label)employeeInfoPage.lookup("#employeeInfoCurrentProjectStreet")).setText(project.getCity() + (project.getStreet() == null ? "" : " - " + project.getStreet()));
+                if (contractor == null) {
+                    ((Label)employeeInfoPage.lookup("#employeeInfoCurrentProjectContractor")).setText("No contractor.");
+                } else {
+                    ((Label)employeeInfoPage.lookup("#employeeInfoCurrentProjectContractor")).setText("Cont. : " + contractor.getFname() + " " + contractor.getLname());
+                }
+            }
+
+
+
+            ArrayList<Project> recentFinishedProjects = getRecentFinishedProjects(employee.getEid());
+            recentFinishedProjects.forEach(recentProject -> {
+                addRow((VBox)employeeInfoPage.lookup("#lastProjectsScrollPaneVbox"),recentProject.getProjectId(),recentProject.getCity() + " " + recentProject.getProjType(), recentProject.getCity() + (recentProject.getStreet() == null ? "" : " - " + recentProject.getStreet()), 32, 205, 98, Functions.ListType.LAST_PROJECTS_LIST);
+            });
+
+
+        }else { // this employee can't work on projects
+            employeeInfoPage.lookup("#employeeInfoLastProjectsLabel").setVisible(false);
+            employeeInfoPage.lookup("#employeeInfoAssignToProjectButton").setVisible(false);
+            employeeInfoPage.lookup("#currentProjectCard").setVisible(false);
+            employeeInfoPage.lookup("#lastProjectsCard").setVisible(false);
+        }
+        ((Label)employeeInfoPage.lookup("#employeeInfoEmpName")).setText(employee.getFname() + " " + employee.getMname() + " " + employee.getLname());
+        ((Label)employeeInfoPage.lookup("#employeeInfoEmpId")).setText(employee.getEid());
+        ((Label)employeeInfoPage.lookup("#employeeInfoEmpBirthdate")).setText(birthdateFormat.format(employee.getBirthdate()));
+        ((Label)employeeInfoPage.lookup("#employeeInfoEmpJobPos")).setText(employee.getJobPos());
+        ((Label)employeeInfoPage.lookup("#employeeInfoEmpAge")).setText(getAge(employee.getBirthdate(), new Date()) + " yo");
+        ((Label)employeeInfoPage.lookup("#employeeInfoEmpDistrict")).setText(employee.getDistrict());
+
+        if(user.getJobPos() == Functions.JobPos.PROJ_MANAGER) {
+            employeeInfoPage.lookup("#employeeInfoRemoveFromProject").setVisible(false);
+            employeeInfoPage.lookup("#employeeInfoAssignButton").setVisible(false);
+            employeeInfoPage.lookup("#employeeInfoEditButton").setVisible(false);
+        } else {
+            employeeInfoPage.lookup("#employeesPane").setVisible(false);
+            employeeInfoPage.lookup("#homeNavBarVBox").setDisable(true);
+
+        }
+        employeeInfoPage.lookup("#employeeInfoCloseLabel").setVisible(true);
+        employeeInfoPage.lookup("#employeeInfoPane").setVisible(true);
+
+
+    }
     static int getAge(Date firstDate, Date secondDate) {
         Calendar firstYear = getCalendar(firstDate);
         Calendar secondYear = getCalendar(secondDate);

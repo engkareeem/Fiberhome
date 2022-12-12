@@ -28,7 +28,8 @@ public class Functions {
         CURRENT_PROJECTS_LIST,
         LAST_PROJECTS_LIST,
         WAREHOUSE_LIST,
-        PENDING_LIST
+        PENDING_LIST,
+        PROJ_MANAGER_PROJ_EMPLOYEES
     }
     public enum DialogType{
         ERROR_DIALOG,

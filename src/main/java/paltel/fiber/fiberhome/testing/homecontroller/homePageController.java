@@ -52,7 +52,7 @@ public class homePageController implements Initializable {
     @FXML
     Pane employeesPane,controlPanelPane,projectsPane;
     @FXML
-    Button navButton1,navButton2,navButton3;
+    Button navButton4,navButton1,navButton2,navButton3;
     @FXML
     FontIcon navButton1FontIcon,navButton2FontIcon,navButton3FontIcon;
     @FXML
@@ -210,6 +210,8 @@ public class homePageController implements Initializable {
     Button supplierInfoEditButton;
     /*                   Project manager project info           */
     @FXML
+    Label employeeInfoCloseLabel,employeeInfoRemoveFromProject,projManYouDontWork;
+    @FXML
     Pane projectManagerProjectInfoPane;
     @FXML
     MFXScrollPane ProjManPartsUsedScrollPane,ProjManProjectEmployeesScrollPane;
@@ -231,6 +233,10 @@ public class homePageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Platform.runLater(() -> {
+            addProjManagerProjectEmployeesRow("0003","Zobr","wepofk");
+            addProjManagerProjectParts("0000000002","zobr kber","Nablus");
+        });
         user = getUserInfo((String) Navigator.getValue("eid"));
         setupNavBar();
         warehouseInfoWStorage.setLegendSide(Side.LEFT);
@@ -338,8 +344,12 @@ public class homePageController implements Initializable {
             controlPanelPane.setVisible(true);
             projectsPane.setVisible(false);
             currentPane = controlPanelPane;
-            switchNavButton(navButton1);
+        } else if(user.getJobPos() == Functions.JobPos.PROJ_MANAGER) {
+            employeeDisplayClicked();
+            projectManagerProjectInfoPane.setVisible(false);
+            currentPane = employeeInfoPane;
         }
+        switchNavButton(navButton1);
     }
     @FXML
     public void navButton2Clicked() {
@@ -348,8 +358,12 @@ public class homePageController implements Initializable {
             controlPanelPane.setVisible(false);
             projectsPane.setVisible(false);
             currentPane = employeesPane;
-            switchNavButton(navButton2);
+        } else if(user.getJobPos() == Functions.JobPos.PROJ_MANAGER) {
+            employeeInfoPane.setVisible(false);
+            projectManagerProjectInfoPane.setVisible(true);
+            currentPane = projectManagerProjectInfoPane;
         }
+        switchNavButton(navButton2);
     }
 
 
@@ -358,19 +372,21 @@ public class homePageController implements Initializable {
         if(user.getRole().equals("Admin")) {
             employeesPane.setVisible(false);
             controlPanelPane.setVisible(false);
-            projectsPane.setVisible(true);
+            projectsPane.setVisible(false);
             currentPane = projectsPane;
-            switchNavButton(navButton3);
         }
+        switchNavButton(navButton4);
     }
 
     @FXML
     public void navButton3Clicked() {
-        employeesPane.setVisible(false);
-        controlPanelPane.setVisible(false);
-        projectsPane.setVisible(true);
-        switchNavButton(navButton3);
-        currentPane = projectsPane;
+        if(user.getRole().equals("Admin")) {
+            employeesPane.setVisible(false);
+            controlPanelPane.setVisible(false);
+            projectsPane.setVisible(true);
+            currentPane = projectsPane;
+        }
+        switchNavButton(navButton4);
     }
 
     @FXML
@@ -439,13 +455,17 @@ public class homePageController implements Initializable {
     @FXML
     public void employeeInfoClose() {
         employeeInfoPane.setVisible(false);
-        employeesPane.setVisible(true);
+        currentPane.setVisible(true);
         homeNavBarVBox.setDisable(false);
         employeeInfoAssignProjectIdLabel.setVisible(false);
         employeeInfoAssignTextField.setVisible(false);
         employeeInfoAssignButton.setVisible(false);
         enhancedScrollPane.resetRows(lastProjectsScrollPaneVbox);
         switchFromEdit();
+        if(prevCurrentPane != null) {
+            currentPane = prevCurrentPane;
+            prevCurrentPane = null;
+        }
     }
     @FXML
     public void employeeInfoRemoveFromProjectClicked() {
@@ -486,20 +506,25 @@ public class homePageController implements Initializable {
 
     @FXML
     public void employeeDisplayClicked() {
-
-
-
-        Employee employee = employeesTableViewFunctions.getSelectedRow();
-        currentEmployeeProfilePage = employee;
-        enhancedScrollPane.resetRows(lastProjectsScrollPaneVbox);
+        prevCurrentPane = currentPane;
+        currentPane = projectInfoPane;
+        Employee employee = null;
+        if(user.getJobPos() == Functions.JobPos.PROJ_MANAGER) {
+            employee = getEmployeeInfo(user.getEid());
+        } else {
+            employee = employeesTableViewFunctions.getSelectedRow();
+            currentEmployeeProfilePage = employee;
+        }
         if (employee == null) return;
+        enhancedScrollPane.resetRows(lastProjectsScrollPaneVbox);
         SimpleDateFormat birthdateFormat = new SimpleDateFormat("dd/MM/yyyy");
         SimpleDateFormat projectDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         SimpleDateFormat lastLoginFormat = new SimpleDateFormat("dd/MM/yyyy - hh:mm aa");
 
+        Employee finalEmployee = employee;
         new Thread(() -> {
             Platform.runLater(() -> {
-                User user = getUserInfo(employee.getEid());
+                User user = getUserInfo(finalEmployee.getEid());
                 if (user == null || user.getLastLogin() == null) {
                     employeeInfoLastLogin.setText("Never");
                 } else {
@@ -515,7 +540,12 @@ public class homePageController implements Initializable {
             Project project = getCurrentProject(employee.getEid());
             if (project == null) {
                 currentProjectCard1.setVisible(false);
-                employeeInfoAssignToProjectButton.setVisible(true);
+                if(user.getJobPos() == Functions.JobPos.PROJ_MANAGER) {
+                    projManYouDontWork.setVisible(true);
+                }else {
+                    employeeInfoAssignToProjectButton.setVisible(true);
+                    projManYouDontWork.setVisible(false);
+                }
             } else {
                 employeeInfoAssignToProjectButton.setVisible(false);
                 currentProjectCard.setVisible(true);
@@ -557,11 +587,19 @@ public class homePageController implements Initializable {
         employeeInfoEmpAge.setText(getAge(employee.getBirthdate(), new Date()) + " yo");
         employeeInfoEmpDistrict.setText(employee.getDistrict());
 
+        if(user.getJobPos() == Functions.JobPos.PROJ_MANAGER) {
+            employeeInfoCloseLabel.setVisible(false);
+            employeeInfoRemoveFromProject.setVisible(false);
+            employeeInfoAssignButton.setVisible(false);
+            employeeInfoEditButton.setVisible(false);
+        } else {
+            employeesPane.setVisible(false);
+            homeNavBarVBox.setDisable(true);
+            employeeInfoCloseLabel.setVisible(true);
 
-        employeesPane.setVisible(false);
+        }
         employeeInfoPane.setVisible(true);
 
-        homeNavBarVBox.setDisable(true);
 
     }
 
@@ -1293,8 +1331,6 @@ public class homePageController implements Initializable {
     }
     private void addCurrentProjectsRow(String column1,String column2, String column3) { // there is edit here
         enhancedScrollPane.addRow(currentProjectsScrollPaneVbox,column1,column2,column3,32,190,90, Functions.ListType.CURRENT_PROJECTS_LIST,contractorInfoPane,projectInfoPane);
-//        prevCurrentPane = currentPane;
-//        currentPane = projectInfoPane;
     }
     private void addCheapestProductsRow(String column1,String column2,String column3) {
         enhancedScrollPane.addRow(controlPanelCheapestProductScrollPaneVbox,column1,column2,column3,82,140,181, null);
@@ -1302,16 +1338,37 @@ public class homePageController implements Initializable {
     private void addWarehouseProjectsRow(String column1,String column2,String column3,String column4) { // there is edit here
         enhancedScrollPane.addRow(controlPanelWarehouseProjectsScrollPaneVbox,column1,column2,column3,column4,37,115,146,94,null);
     }
+    private void addProjManagerProjectEmployeesRow(String column1,String column2,String column3) {
+        enhancedScrollPane.addRow(ProjManProjectEmployeesScrollPaneVbox,column1,column2,column3,54,166,114, Functions.ListType.PROJ_MANAGER_PROJ_EMPLOYEES,projectManagerProjectInfoPane,homeNavBarVBox,employeeInfoPane);
+    }
+    private void addProjManagerProjectParts(String column1,String column2,String column3) {
+        enhancedScrollPane.addRow(ProjManPartsUsedScrollPaneVbox,column1, column2, column3,86,143, 103, null);
+
+    }
+
 
     private void setupNavBar() {
         assert user != null;
         if(user.getRole().equals("Admin")) {
             navButton1.setText("Control Panel");
+            navButton1.setVisible(true);
             navButton2.setText("Employees");
+            navButton2.setVisible(true);
             navButton3.setText("Projects");
+            navButton3.setVisible(true);
+
             navButton1FontIcon.setIconLiteral("fltfal-app-folder-24");
             navButton2FontIcon.setIconLiteral("fltfmz-person-accounts-24");
             navButton3FontIcon.setIconLiteral("fltfmz-wrench-16");
+            navButton1Clicked();
+        } else if(user.getJobPos() == Functions.JobPos.PROJ_MANAGER) {
+            navButton1.setText("My Profile");
+            navButton2.setText("Project");
+            navButton1.setVisible(true);
+            navButton2.setVisible(true);
+
+            navButton1FontIcon.setIconLiteral("fltfmz-person-24");
+            navButton2FontIcon.setIconLiteral("fltfmz-wrench-16");
             navButton1Clicked();
         }
     }

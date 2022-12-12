@@ -49,7 +49,7 @@
             </Pane>
             <Pane prefHeight="44.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="navButton1" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#navButton1Clicked" prefHeight="45.0" prefWidth="200.0" styleClass="nav-button" text="Control Panel">
+                  <Button fx:id="navButton1" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#navButton1Clicked" prefHeight="45.0" prefWidth="200.0" styleClass="nav-button" text="Control Panel" visible="false">
                      <padding>
                         <Insets left="20.0" />
                      </padding>
@@ -63,7 +63,7 @@
             </Pane>
             <Pane prefHeight="44.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="navButton2" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#navButton2Clicked" prefHeight="45.0" prefWidth="200.0" styleClass="nav-button" text="Employees">
+                  <Button fx:id="navButton2" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#navButton2Clicked" prefHeight="45.0" prefWidth="200.0" styleClass="nav-button" text="Employees" visible="false">
                      <padding>
                         <Insets left="20.0" />
                      </padding>
@@ -77,7 +77,7 @@
             </Pane>
             <Pane prefHeight="44.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="navButton3" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#navButton3Clicked" prefHeight="45.0" prefWidth="200.0" styleClass="nav-button" text="Projects">
+                  <Button fx:id="navButton3" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#navButton3Clicked" prefHeight="45.0" prefWidth="200.0" styleClass="nav-button" text="Projects" visible="false">
                      <graphic>
                         <FontIcon fx:id="navButton3FontIcon" iconColor="#a6a6a6" iconLiteral="fltfmz-wrench-16" iconSize="20" wrappingWidth="35.0" />
                      </graphic>
@@ -348,7 +348,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="controlPanelPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/controlPanel.css">
+      <Pane fx:id="controlPanelPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/controlPanel.css" visible="false">
          <children>
             <Label layoutX="354.0" layoutY="-8.0" styleClass="headerText" text="Control Panel" />
             <TabPane layoutX="14.0" layoutY="43.0" prefHeight="624.0" prefWidth="872.0" styleClass="MyTabPane" tabClosingPolicy="UNAVAILABLE">
@@ -757,7 +757,7 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="employeeInfoEmpName" layoutX="18.0" layoutY="260.0" prefHeight="26.0" prefWidth="215.0" text="Kareem Mazen Yaqoup" textFill="#cfcfcf">
+                  <Label fx:id="employeeInfoEmpName" layoutX="18.0" layoutY="260.0" prefHeight="26.0" prefWidth="229.0" text="Kareem Mazen Yaqoup" textFill="#cfcfcf">
                      <font>
                         <Font size="17.0" />
                      </font>
@@ -841,13 +841,18 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label layoutX="361.0" layoutY="15.0" onMouseClicked="#employeeInfoRemoveFromProjectClicked">
+                        <Label fx:id="employeeInfoRemoveFromProject" layoutX="361.0" layoutY="15.0" onMouseClicked="#employeeInfoRemoveFromProjectClicked">
                            <graphic>
                               <FontIcon iconColor="#ff3333" iconLiteral="fltfal-dismiss-circle-24" iconSize="25" />
                            </graphic>
                         </Label>
                      </children>
                   </Pane>
+                  <Label fx:id="projManYouDontWork" alignment="CENTER" layoutY="101.0" prefHeight="64.0" prefWidth="400.0" text="You are not currently working on a project" textFill="#cfcfcf" visible="false" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
                </children>
             </Pane>
             <Button fx:id="employeeInfoAssignToProjectButton" layoutX="544.0" layoutY="148.0" mnemonicParsing="false" onAction="#employeeInfoAssignToProjectButtonClicked" prefHeight="50.0" prefWidth="161.0" styleClass="primaryButton" text="Assign to project" visible="false" />
@@ -891,7 +896,7 @@
                   </MFXScrollPane>
                </children>
             </Pane>
-            <Label layoutX="20.0" layoutY="14.0" onMouseClicked="#employeeInfoClose" prefHeight="18.0" prefWidth="32.0">
+            <Label fx:id="employeeInfoCloseLabel" layoutX="20.0" layoutY="14.0" onMouseClicked="#employeeInfoClose" prefHeight="18.0" prefWidth="32.0">
                <graphic>
                   <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-arrow-left-24" iconSize="30" />
                </graphic>
@@ -1164,7 +1169,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="projectManagerProjectInfoPane" layoutX="210.0" layoutY="36.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/displayPage.css" visible="false">
+      <Pane fx:id="projectManagerProjectInfoPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/displayPage.css" visible="false">
          <children>
             <Pane layoutX="76.0" layoutY="39.0" prefHeight="582.0" prefWidth="297.0" styleClass="card-pane">
                <children>
