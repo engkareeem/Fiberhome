@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane fx:id="ap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="413.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="paltel.fiber.fiberhome.popupControllers.addEmployeeController">
+   <children>
+      <Pane fx:id="supplierPane" layoutX="14.0" layoutY="14.0" prefHeight="371.0" prefWidth="384.0">
+         <children>
+            <Label layoutX="351.0" layoutY="14.0" onMouseClicked="#close">
+               <graphic>
+                  <FontIcon iconColor="#00a6ff" iconLiteral="fltfal-dismiss-28" iconSize="20" />
+               </graphic>
+            </Label>
+         </children>
+      </Pane>
+   </children>
+   <stylesheets>
+      <URL value="@../css/main.css" />
+      <URL value="@../css/addSupplier.css" />
+   </stylesheets>
+</AnchorPane>

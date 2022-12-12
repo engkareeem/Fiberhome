@@ -10,13 +10,13 @@ module paltel.fiber.fiberhome.testing {
     requires eu.hansolo.medusa;
 
 
-    opens paltel.fiber.fiberhome.testing to javafx.fxml;
-    exports paltel.fiber.fiberhome.testing;
-    exports paltel.fiber.fiberhome.testing.model;
-    exports paltel.fiber.fiberhome.testing.homecontroller;
-    opens paltel.fiber.fiberhome.testing.homecontroller to javafx.fxml;
-    exports paltel.fiber.fiberhome.testing.popupControllers;
-    opens paltel.fiber.fiberhome.testing.popupControllers to javafx.fxml;
-    exports paltel.fiber.fiberhome.testing.utils;
-    opens paltel.fiber.fiberhome.testing.utils to javafx.fxml;
+    opens paltel.fiber.fiberhome to javafx.fxml;
+    exports paltel.fiber.fiberhome;
+    exports paltel.fiber.fiberhome.model;
+    exports paltel.fiber.fiberhome.homecontroller;
+    opens paltel.fiber.fiberhome.homecontroller to javafx.fxml;
+    exports paltel.fiber.fiberhome.popupControllers;
+    opens paltel.fiber.fiberhome.popupControllers to javafx.fxml;
+    exports paltel.fiber.fiberhome.utils;
+    opens paltel.fiber.fiberhome.utils to javafx.fxml;
 }
