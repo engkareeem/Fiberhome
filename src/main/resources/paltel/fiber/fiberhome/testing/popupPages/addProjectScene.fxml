@@ -43,7 +43,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <ComboBox fx:id="projectContComboBox" layoutX="28.0" layoutY="169.0" prefHeight="28.0" prefWidth="188.0" styleClass="combo-box-ex" />
+            <ComboBox fx:id="projectContComboBox" layoutX="28.0" layoutY="169.0" onAction="#test" prefHeight="28.0" prefWidth="188.0" styleClass="combo-box-ex" />
             <Label layoutX="32.0" layoutY="137.0" text="Project Contractor" textFill="#cfcfcf">
                <font>
                   <Font size="16.0" />
@@ -123,7 +123,7 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <ComboBox fx:id="materialsComboBox" layoutX="16.0" layoutY="292.0" prefHeight="28.0" prefWidth="188.0" styleClass="combo-box-ex" />
+            <ComboBox fx:id="materialsComboBox" layoutX="16.0" layoutY="292.0" onAction="#warehouseComboboxValueChanged" prefHeight="28.0" prefWidth="188.0" styleClass="combo-box-ex" />
             <Separator layoutY="223.0" opacity="0.1" prefWidth="672.0" />
             <Label layoutX="20.0" layoutY="267.0" text="Materials Warehouse" textFill="#cfcfcf">
                <font>

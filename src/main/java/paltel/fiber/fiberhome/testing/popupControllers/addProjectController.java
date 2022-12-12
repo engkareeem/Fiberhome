@@ -221,4 +221,7 @@ public class addProjectController implements Initializable {
         separator.setOpacity(0.1);
         usedPartsScrollPaneVbox.getChildren().addAll(row,separator);
     }
+    public void warehouseComboboxValueChanged() {
+        System.out.println("test");
+    }
 }
