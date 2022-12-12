@@ -44,7 +44,7 @@ public class addProjectController implements Initializable {
     @FXML
     MFXDatePicker endDatePicker;
     @FXML
-    ComboBox<String> projectContComboBox,typeComboBox;
+    ComboBox<String> projectContComboBox,typeComboBox,materialsComboBox;
 
     @FXML
     MFXScrollPane usedPartsScrollPane;
@@ -76,13 +76,13 @@ public class addProjectController implements Initializable {
 
         //ArrayList<Product> products =
 
-        addPartRow("0000000001","Fiber Optic Line","69000");
-        addPartRow("0000000002","Copper Cable","34000");
-        addPartRow("0000000003","Ethernet Cable","65000");
-        addPartRow("0000000004","Twisted Cable","690");
-        addPartRow("0000000005","Twisted Cable","690");
-        addPartRow("0000000006","Twisted Cable","690");
-        addPartRow("0000000007","Twisted Cable","690");
+        addPartRow("0000000001","Fiber Optic Line","69000",0);
+        addPartRow("0000000002","Copper Cable","34000",0);
+        addPartRow("0000000003","Ethernet Cable","65000",0);
+        addPartRow("0000000004","Twisted Cable","690",0);
+        addPartRow("0000000005","Twisted Cable","690",0);
+        addPartRow("0000000006","Twisted Cable","690",0);
+        addPartRow("0000000007","Twisted Cable","690",0);
     }
 
 
@@ -134,10 +134,12 @@ public class addProjectController implements Initializable {
         closeAnimation.play();
     }
 
-    private void addPartRow(String PID, String PName,String price) {
+    private void addPartRow(String PID, String PName,String price,int available) {
         Label PIDLabel = new Label(PID);
         Label PNameLabel = new Label(PName);
         Label priceLabel = new Label(price);
+        Label availableLabel = new Label(String.valueOf(available));
+
         PIDLabel.getStyleClass().add("parts-table-cell");
         PIDLabel.setPrefWidth(95);
 
@@ -147,12 +149,15 @@ public class addProjectController implements Initializable {
         priceLabel.getStyleClass().add("parts-table-cell");
         priceLabel.setPrefWidth(65);
 
+        availableLabel.getStyleClass().add("parts-table-cell");
+        availableLabel.setPrefWidth(130);
 
-        ComboBox<String> warehousesComboBox = new ComboBox<>();
-        warehousesComboBox.setPrefWidth(130);
-        warehousesComboBox.setPromptText("Warehouse");
-        warehousesComboBox.getStyleClass().add("combo-box-ex");
-        warehousesComboBox.setId(PID + "ComboBox"); // Combobox id
+
+//        ComboBox<String> warehousesComboBox = new ComboBox<>();
+//        warehousesComboBox.setPrefWidth(130);
+//        warehousesComboBox.setPromptText("Warehouse");
+//        warehousesComboBox.getStyleClass().add("combo-box-ex");
+//        warehousesComboBox.setId(PID + "ComboBox"); // Combobox id
 
         // TODO: Set warehouse combobox items here
 
@@ -170,12 +175,12 @@ public class addProjectController implements Initializable {
 
 
         // warehouses
-        ArrayList<Warehouse> warehouses = DBapi.getAllWarehouses();
-        ArrayList<String> warehousesNames = new ArrayList<>();
-        for(Warehouse warehouseInstance: warehouses){
-            warehousesNames.add(warehouseInstance.getWarehouseId() + " " + warehouseInstance.getCity());
-        }
-        warehousesComboBox.setItems(FXCollections.observableArrayList(warehousesNames));
+//        ArrayList<Warehouse> warehouses = DBapi.getAllWarehouses();
+//        ArrayList<String> warehousesNames = new ArrayList<>();
+//        for(Warehouse warehouseInstance: warehouses){
+//            warehousesNames.add(warehouseInstance.getWarehouseId() + " " + warehouseInstance.getCity());
+//        }
+//        warehousesComboBox.setItems(FXCollections.observableArrayList(warehousesNames));
 
 
         TextField amountTextField = new TextField();
@@ -209,7 +214,7 @@ public class addProjectController implements Initializable {
         HBox row = new HBox();
         row.getStyleClass().add("list-row");
         row.setMinHeight(40);
-        row.getChildren().addAll(PIDLabel,PNameLabel,priceLabel,warehousesComboBox,amountTextField);
+        row.getChildren().addAll(PIDLabel,PNameLabel,priceLabel,availableLabel,amountTextField);
         row.setPrefWidth(645);
         Separator separator = new Separator();
         separator.prefWidth(645);
