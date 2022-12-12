@@ -386,7 +386,7 @@ public class homePageController implements Initializable {
             projectsPane.setVisible(true);
             currentPane = projectsPane;
         }
-        switchNavButton(navButton4);
+        switchNavButton(navButton3);
     }
 
     @FXML
@@ -507,7 +507,7 @@ public class homePageController implements Initializable {
     @FXML
     public void employeeDisplayClicked() {
         prevCurrentPane = currentPane;
-        currentPane = projectInfoPane;
+        currentPane = employeeInfoPane;
         Employee employee = null;
         if(user.getJobPos() == Functions.JobPos.PROJ_MANAGER) {
             employee = getEmployeeInfo(user.getEid());
