@@ -208,6 +208,19 @@ public class homePageController implements Initializable {
     Label supplierInfoCompanyName,supplierInfoSupplierId;
     @FXML
     Button supplierInfoEditButton;
+    /*                   Project manager project info           */
+    @FXML
+    Pane projectManagerProjectInfoPane;
+    @FXML
+    MFXScrollPane ProjManPartsUsedScrollPane,ProjManProjectEmployeesScrollPane;
+    @FXML
+    VBox ProjManPartsUsedScrollPaneVbox,ProjManProjectEmployeesScrollPaneVbox;
+    @FXML
+    Label ProjManProjectInfoProjId,ProjManProjectInfoProjType,ProjManProjectInfoProjAmount
+            ,ProjManProjectInfoStartDate,ProjManProjectInfoDueDate,ProjManProjectInfoStreet,ProjManProjectInfoCity;
+
+    /* ----------------------------------------------------------------------------- */
+
 
     Employee currentEmployeeProfilePage;
 
@@ -852,8 +865,6 @@ public class homePageController implements Initializable {
         supplierInfoPane.setVisible(true);
     }
 
-
-
     @FXML
     public void tableRemoveWarehouseClicked() {
         if(warehousesTableViewFunctions.getSelectedRow() == null) return;
@@ -884,6 +895,10 @@ public class homePageController implements Initializable {
             }
 
         }).start();
+    }
+    @FXML
+    public void tableViewWarehouseProjectsClicked() {
+        // view warehouse projects
     }
     @FXML
     public void tableDisplayWarehouseClicked() {
@@ -919,6 +934,19 @@ public class homePageController implements Initializable {
         homeNavBarVBox.setDisable(false);
         warehouseInfoPane.setVisible(false);
     }
+    /*                    Project manager Project info              */
+    @FXML
+    public void ProjManProjectInfoClose() {
+        projectsPane.setVisible(true);
+        homeNavBarVBox.setDisable(false);
+        projectInfoPane.setVisible(false);
+    }
+
+
+
+
+
+
     @FXML
     public void close(MouseEvent e){
         AnimationFX closeAnimation = new ZoomOutUp(ap);
@@ -1263,10 +1291,16 @@ public class homePageController implements Initializable {
         enhancedScrollPane.addRow(lastProjectsScrollPaneVbox,column1,column2,column3, 32, 205, 98, Functions.ListType.LAST_PROJECTS_LIST);
 
     }
-    private void addCurrentProjectsRow(String column1,String column2, String column3) {
+    private void addCurrentProjectsRow(String column1,String column2, String column3) { // there is edit here
         enhancedScrollPane.addRow(currentProjectsScrollPaneVbox,column1,column2,column3,32,190,90, Functions.ListType.CURRENT_PROJECTS_LIST,contractorInfoPane,projectInfoPane);
-        prevCurrentPane = currentPane;
-        currentPane = projectInfoPane;
+//        prevCurrentPane = currentPane;
+//        currentPane = projectInfoPane;
+    }
+    private void addCheapestProductsRow(String column1,String column2,String column3) {
+        enhancedScrollPane.addRow(controlPanelCheapestProductScrollPaneVbox,column1,column2,column3,82,140,181, null);
+    }
+    private void addWarehouseProjectsRow(String column1,String column2,String column3,String column4) { // there is edit here
+        enhancedScrollPane.addRow(controlPanelWarehouseProjectsScrollPaneVbox,column1,column2,column3,column4,37,115,146,94,null);
     }
 
     private void setupNavBar() {

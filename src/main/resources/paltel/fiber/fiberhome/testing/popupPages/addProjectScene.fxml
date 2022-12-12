@@ -43,7 +43,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <ComboBox fx:id="projectContComboBox" layoutX="28.0" layoutY="169.0" onAction="#test" prefHeight="28.0" prefWidth="188.0" styleClass="combo-box-ex" />
+            <ComboBox fx:id="projectContComboBox" layoutX="28.0" layoutY="169.0" prefHeight="28.0" prefWidth="188.0" styleClass="combo-box-ex" />
             <Label layoutX="32.0" layoutY="137.0" text="Project Contractor" textFill="#cfcfcf">
                <font>
                   <Font size="16.0" />

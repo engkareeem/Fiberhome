@@ -35,6 +35,36 @@ import static java.util.Calendar.DATE;
 
 public class enhancedScrollPane {
     public static Contractor currentContractorProfilePage;
+    public static void addRow(VBox vbox, String column1, String column2, String column3,String column4, int width1, int width2, int width3,int width4, ListType type, Node...nodes) {
+        Label col1 = new Label(column1);
+        col1.setPrefSize(width1,40);
+
+        Label col2 = new Label(column2);
+        col2.setPrefSize(width2,40);
+
+        Label col3 = new Label(column3);
+        col3.setPrefSize(width3,40);
+
+        Label col4 = new Label(column4);
+        col4.setPrefSize(width4,40);
+
+        HBox hBox = new HBox();
+
+        hBox.setMinHeight(40);
+        hBox.getChildren().addAll(col1,col2,col3,col4);
+        hBox.setSpacing(20);
+
+        hBox.getStyleClass().add("list-row");
+        hBox.setId(column1);
+        hBox.setAlignment(Pos.CENTER_LEFT);
+
+
+        Separator separator = new Separator();
+        separator.setOpacity(0.1);
+
+        vbox.getChildren().addAll(hBox,separator);
+
+    }
     public static void addRow(VBox vbox, String column1, String column2, String column3, int width1, int width2, int width3, ListType type, Node...nodes) {
         // We work as a super programmers
         // so assume we put in (column1) the id of row :3
