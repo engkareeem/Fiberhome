@@ -123,7 +123,7 @@ public class enhancedScrollPane {
                             ArrayList<Project> currentProjects = DBapi.getCurrentContractorProjects(contractor.getContractorId());
                            currentProjects.forEach(project -> {
                                resetRows(contractorCurrentProjectsVbox);
-                               addRow(contractorCurrentProjectsVbox, project.getProjectId(), project.getProjType(), project.getCity() + " " +  project.getStreet(), 32, 168, 134, null, null);
+                               addCurrentProjectsRow(project.getProjectId(),project.getProjType(),project.getCity() + " " +  project.getStreet(),contractorCurrentProjectsVbox,nodes[2],nodes[3]);
 
                            });
                         }
@@ -186,7 +186,7 @@ public class enhancedScrollPane {
 
             hBox.setOnMouseClicked(mouseEvent -> {
                 nodes[0].setVisible(false); // current page pane
-                nodes[1].setVisible(true); // Project info pane
+                displayProjectInfo(column1,nodes[1]);
 
             });
         } else if(type == ListType.PENDING_LIST) {
@@ -245,10 +245,45 @@ public class enhancedScrollPane {
     private void loadContractorInfo(Contractor contractor){
 
     }
+    private static void addCurrentProjectsRow(String column1,String column2, String column3,VBox currentProjectsScrollPaneVbox,Node contractorInfoPane,Node projectInfoPane) { // there is edit here
+        addRow(currentProjectsScrollPaneVbox,column1,column2,column3,32,190,90, Functions.ListType.CURRENT_PROJECTS_LIST,contractorInfoPane,projectInfoPane);
+    }
     public static void resetRows(VBox vbox) {
         vbox.getChildren().clear();
     }
 
+    private static void displayProjectInfo(String pid,Node projectInfoPage) {
+        Project project = getProjectInfo(pid);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        if(project == null) return;
+        new Thread(() -> Platform.runLater(() -> {
+            Contractor contractor = getContractorInfo(project.getContractorId());
+            if(contractor == null){
+                projectInfoPage.lookup("#contractorInfoPane").setVisible(false);
+            }else{
+                ((Label)projectInfoPage.lookup("#projectInfoContId")).setText(contractor.getContractorId());
+                ((Label)projectInfoPage.lookup("#projectInfoContName")).setText(contractor.getFname() + " " + contractor.getMname() + " " + contractor.getLname());
+                ((Label)projectInfoPage.lookup("#projectInfoContBirthdate")).setText(dateFormat.format(contractor.getBirthdate()));
+                ((Label)projectInfoPage.lookup("#projectInfoContType")).setText(contractor.getContractorType());
+                ((Label)projectInfoPage.lookup("#projectInfoContAge")).setText(getAge(contractor.getBirthdate(), new Date()) + " yo");
+            }
+        })).start();
+        ((Label)projectInfoPage.lookup("#projectInfoCity")).setText(project.getCity());
+        ((Label)projectInfoPage.lookup("#projectInfoStreet")).setText(project.getStreet() == null  ? "" : project.getStreet());
+        ((Label)projectInfoPage.lookup("#projectInfoStartDate")).setText(dateFormat.format(project.getStartDate()));
+        ((Label)projectInfoPage.lookup("#projectInfoDueDate")).setText(dateFormat.format(project.getDueDate()));
+        ((Label)projectInfoPage.lookup("#projectInfoProjAmount")).setText(project.getAmount() + "$");
+        ((Label)projectInfoPage.lookup("#projectInfoProjType")).setText(project.getProjType());
+
+
+        ArrayList<Product> products = DBapi.getProjectProducts(project.getProjectId());
+        enhancedScrollPane.resetRows(((VBox)projectInfoPage.lookup("#partsUsedScrollPaneVbox")));
+        products.forEach(product -> {
+            Warehouse warehouse = DBapi.getWarehouseInfo(product.getWarehouse_id());
+            enhancedScrollPane.addRow(((VBox)projectInfoPage.lookup("#partsUsedScrollPaneVbox")),product.getProductId(), product.getProductName(), warehouse.getCity(),86,143, 103, null, null);
+        });
+        projectInfoPage.setVisible(true);
+    }
     private static void displayEmployeeInfo(String eid,Pane employeeInfoPage) {
         Employee employee = null;
         User user = getUserInfo((String) Navigator.getValue("eid"));

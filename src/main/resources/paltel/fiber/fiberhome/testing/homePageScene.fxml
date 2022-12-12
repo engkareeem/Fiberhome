@@ -47,7 +47,7 @@
                   <Line endX="160.0" layoutX="19.0" layoutY="74.0" stroke="#8c8c8c6e" />
                </children>
             </Pane>
-            <Pane prefHeight="44.0" prefWidth="200.0">
+            <Pane prefHeight="45.0" prefWidth="200.0">
                <children>
                   <Button fx:id="navButton1" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#navButton1Clicked" prefHeight="45.0" prefWidth="200.0" styleClass="nav-button" text="Control Panel" visible="false">
                      <padding>
@@ -57,11 +57,11 @@
                         <FontIcon fx:id="navButton1FontIcon" iconColor="#a6a6a6" iconLiteral="fltfal-app-folder-24" iconSize="20" wrappingWidth="35.0" />
                      </graphic>
                   </Button>
-                  <Pane fx:id="radiusPane10" layoutX="174.0" prefHeight="45.0" prefWidth="26.0" styleClass="pseudo-radius-activated" visible="false" />
-                  <Pane fx:id="radiusPane11" layoutX="160.0" prefHeight="45.0" prefWidth="40.0" visible="false" />
+                  <Pane fx:id="radiusPane10" layoutX="174.0" layoutY="-1.0" prefHeight="47.0" prefWidth="26.0" styleClass="pseudo-radius-activated" visible="false" />
+                  <Pane fx:id="radiusPane11" layoutX="160.0" layoutY="-1.0" prefHeight="47.0" prefWidth="40.0" visible="false" />
                </children>
             </Pane>
-            <Pane prefHeight="44.0" prefWidth="200.0">
+            <Pane prefHeight="45.0" prefWidth="200.0">
                <children>
                   <Button fx:id="navButton2" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#navButton2Clicked" prefHeight="45.0" prefWidth="200.0" styleClass="nav-button" text="Employees" visible="false">
                      <padding>
@@ -71,11 +71,11 @@
                         <FontIcon fx:id="navButton2FontIcon" iconColor="#a6a6a6" iconLiteral="fltfmz-person-accounts-24" iconSize="20" wrappingWidth="35.0" />
                      </graphic>
                   </Button>
-                  <Pane fx:id="radiusPane20" layoutX="174.0" prefHeight="45.0" prefWidth="26.0" styleClass="pseudo-radius-activated" visible="false" />
-                  <Pane fx:id="radiusPane21" layoutX="160.0" prefHeight="45.0" prefWidth="40.0" visible="false" />
+                  <Pane fx:id="radiusPane20" layoutX="174.0" layoutY="-1.0" prefHeight="47.0" prefWidth="26.0" styleClass="pseudo-radius-activated" visible="false" />
+                  <Pane fx:id="radiusPane21" layoutX="160.0" layoutY="-1.0" prefHeight="47.0" prefWidth="40.0" visible="false" />
                </children>
             </Pane>
-            <Pane prefHeight="44.0" prefWidth="200.0">
+            <Pane prefHeight="45.0" prefWidth="200.0">
                <children>
                   <Button fx:id="navButton3" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#navButton3Clicked" prefHeight="45.0" prefWidth="200.0" styleClass="nav-button" text="Projects" visible="false">
                      <graphic>
@@ -85,11 +85,11 @@
                         <Insets left="20.0" />
                      </padding>
                   </Button>
-                  <Pane fx:id="radiusPane30" layoutX="174.0" prefHeight="45.0" prefWidth="26.0" styleClass="pseudo-radius-activated" visible="false" />
-                  <Pane fx:id="radiusPane31" layoutX="160.0" prefHeight="45.0" prefWidth="40.0" styleClass="lower-radius-activated" />
+                  <Pane fx:id="radiusPane30" layoutX="174.0" layoutY="-1.0" prefHeight="47.0" prefWidth="26.0" styleClass="pseudo-radius-activated" visible="false" />
+                  <Pane fx:id="radiusPane31" layoutX="160.0" layoutY="-1.0" prefHeight="47.0" prefWidth="40.0" styleClass="lower-radius-activated" />
                </children>
             </Pane>
-            <Pane prefHeight="44.0" prefWidth="200.0">
+            <Pane prefHeight="45.0" prefWidth="200.0">
                <children>
                   <Button fx:id="navButton4" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#navButton4Clicked" prefHeight="45.0" prefWidth="200.0" styleClass="nav-button" text="Control Panel" visible="false">
                      <graphic>
@@ -99,8 +99,8 @@
                         <Insets left="20.0" />
                      </padding>
                   </Button>
-                  <Pane fx:id="radiusPane40" layoutX="174.0" prefHeight="45.0" prefWidth="26.0" styleClass="pseudo-radius-activated" visible="false" />
-                  <Pane fx:id="radiusPane41" layoutX="160.0" layoutY="1.0" prefHeight="44.0" prefWidth="40.0" styleClass="lower-radius-activated" />
+                  <Pane fx:id="radiusPane40" layoutX="174.0" layoutY="-1.0" prefHeight="47.0" prefWidth="26.0" styleClass="pseudo-radius-activated" visible="false" />
+                  <Pane fx:id="radiusPane41" layoutX="160.0" layoutY="-1.0" prefHeight="47.0" prefWidth="40.0" styleClass="lower-radius-activated" />
                </children>
             </Pane>
             <Pane prefHeight="415.0" prefWidth="200.0">
