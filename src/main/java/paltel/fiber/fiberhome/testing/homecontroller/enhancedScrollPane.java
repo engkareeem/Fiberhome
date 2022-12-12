@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
@@ -14,6 +15,8 @@ import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import org.kordamp.ikonli.javafx.FontIcon;
 import paltel.fiber.fiberhome.testing.utils.DBapi;
 import paltel.fiber.fiberhome.testing.Functions.*;
 import paltel.fiber.fiberhome.testing.model.Contractor;
@@ -54,7 +57,7 @@ public class enhancedScrollPane {
 
         hBox.getStyleClass().add("list-row");
         hBox.setId(column1);
-
+        hBox.setAlignment(Pos.CENTER_LEFT);
 
 
         if(type == ListType.CONT_LIST) {
@@ -146,12 +149,7 @@ public class enhancedScrollPane {
 
                     });
                 }
-
-
-
-
-                });
-
+            });
         } else if(type == ListType.CURRENT_PROJECTS_LIST) {
 
             hBox.setOnMouseClicked(mouseEvent -> {
@@ -159,6 +157,33 @@ public class enhancedScrollPane {
                 nodes[2].setVisible(true); // Project info pane
 
             });
+        } else if(type == ListType.PENDING_LIST) {
+            hBox.getStyleClass().remove("list-row");
+            hBox.getStyleClass().add("list-row-ex");
+            Label acceptLabel = new Label();
+            FontIcon acceptIcon = new FontIcon();
+            acceptLabel.setPrefWidth(24);
+            acceptIcon.setIconLiteral("fltfal-checkmark-circle-24");
+            acceptIcon.getStyleClass().add("accept-icon-button");
+            acceptIcon.setIconSize(25);
+            acceptLabel.setGraphic(acceptIcon);
+            acceptLabel.setOnMouseClicked(mouseEvent -> {
+                // accept code
+                System.out.println("accept user " + column1);
+            });
+            Label declineLabel = new Label();
+            FontIcon declineIcon = new FontIcon();
+            declineLabel.setPrefWidth(24);
+            declineIcon.setIconLiteral("fltfal-dismiss-circle-24");
+            declineIcon.getStyleClass().add("decline-icon-button");
+            declineIcon.setIconSize(25);
+            declineLabel.setGraphic(declineIcon);
+            declineLabel.setOnMouseClicked(mouseEvent -> {
+                // decline code
+                System.out.println("decline user " + column1);
+            });
+            hBox.getChildren().addAll(acceptLabel,declineLabel);
+
         }
 
         Separator separator = new Separator();

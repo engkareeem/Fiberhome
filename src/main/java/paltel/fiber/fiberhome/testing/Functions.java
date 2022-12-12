@@ -27,7 +27,8 @@ public class Functions {
         CONT_LIST,
         CURRENT_PROJECTS_LIST,
         LAST_PROJECTS_LIST,
-        WAREHOUSE_LIST
+        WAREHOUSE_LIST,
+        PENDING_LIST
     }
     public enum DialogType{
         ERROR_DIALOG,

@@ -233,8 +233,6 @@ public class homePageController implements Initializable {
             stage.centerOnScreen();
             playOpenAnimation();
         });
-
-        switchNavButton(navButton2);
         Functions.move(stage,titleBar);
 //        Functions.optimizeImageView(backgroundImageView);
         employeesTableViewFunctions.initializeTableView(employeesTable);
@@ -1280,6 +1278,7 @@ public class homePageController implements Initializable {
             navButton1FontIcon.setIconLiteral("fltfal-app-folder-24");
             navButton2FontIcon.setIconLiteral("fltfmz-person-accounts-24");
             navButton3FontIcon.setIconLiteral("fltfmz-wrench-16");
+            navButton1Clicked();
         }
     }
 

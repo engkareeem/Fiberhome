@@ -348,7 +348,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="controlPanelPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/controlPanel.css" visible="false">
+      <Pane fx:id="controlPanelPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/controlPanel.css">
          <children>
             <Label layoutX="354.0" layoutY="-8.0" styleClass="headerText" text="Control Panel" />
             <TabPane layoutX="14.0" layoutY="43.0" prefHeight="624.0" prefWidth="872.0" styleClass="MyTabPane" tabClosingPolicy="UNAVAILABLE">
@@ -385,49 +385,7 @@
                                     <Separator layoutY="46.0" opacity="0.1" prefWidth="429.0" />
                                     <MFXScrollPane fx:id="controlPanelPendingUsersScrollPane" fitToWidth="true" layoutX="4.0" layoutY="50.0" prefHeight="206.0" prefWidth="421.0">
                                        <content>
-                                          <VBox fx:id="controlPanelPendingUsersScrollPaneVbox" prefWidth="331.0">
-                                             <children>
-                                                <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="339.0" spacing="10.0">
-                                                   <children>
-                                                      <Label prefHeight="26.0" prefWidth="37.0" text="6969" textFill="#cfcfcf">
-                                                         <font>
-                                                            <Font size="14.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label prefHeight="26.0" prefWidth="138.0" text="Kareem M Yaqoup" textFill="#cfcfcf">
-                                                         <font>
-                                                            <Font size="14.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label prefHeight="26.0" prefWidth="131.0" text="Sofyan Da Best" textFill="#cfcfcf">
-                                                         <font>
-                                                            <Font size="14.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label alignment="CENTER" prefHeight="26.0" textFill="#cfcfcf">
-                                                         <font>
-                                                            <Font name="System Bold" size="14.0" />
-                                                         </font>
-                                                         <graphic>
-                                                            <FontIcon iconColor="#5cb85c" iconLiteral="fltfal-checkmark-circle-24" iconSize="25" />
-                                                         </graphic>
-                                                      </Label>
-                                                      <Label alignment="CENTER" prefHeight="26.0" textFill="#cfcfcf">
-                                                         <font>
-                                                            <Font name="System Bold" size="14.0" />
-                                                         </font>
-                                                         <graphic>
-                                                            <FontIcon iconColor="#f04d24" iconLiteral="fltfal-dismiss-circle-24" iconSize="25" />
-                                                         </graphic>
-                                                      </Label>
-                                                   </children>
-                                                   <padding>
-                                                      <Insets left="10.0" right="10.0" />
-                                                   </padding>
-                                                </HBox>
-                                                <Separator opacity="0.08" prefWidth="339.0" />
-                                             </children>
-                                          </VBox>
+                                          <VBox fx:id="controlPanelPendingUsersScrollPaneVbox" prefWidth="331.0" />
                                        </content>
                                     </MFXScrollPane>
                                  </children>

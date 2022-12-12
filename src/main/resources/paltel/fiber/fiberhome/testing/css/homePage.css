@@ -11,6 +11,19 @@
     -fx-background-radius: 15 30 30 15;
 }
 
+.accept-icon-button{
+    -fx-icon-color: #5cb85c;
+}
+.accept-icon-button:hover{
+    -fx-icon-color: derive(#5cb85c,-13%);
+}
+.decline-icon-button{
+    -fx-icon-color: #f04d24;
+}
+.decline-icon-button:hover{
+    -fx-icon-color: derive(#f04d24,-13%);
+}
+
 .chart-pie-label{
     -fx-fill: #cfcfcf;
 }
@@ -56,6 +69,15 @@
     -fx-background-radius: 15;
 }
 
+.list-row-ex{
+    -fx-background-color: transparent;
+    -fx-padding: 0 10 0 10;
+    -fx-spacing: 10;
+}
+.list-row-ex .label{
+    -fx-text-fill: #cfcfcf;
+    -fx-font-size: 13;
+}
 .list-row{
     -fx-background-color: transparent;
     -fx-padding: 0 10 0 10;
