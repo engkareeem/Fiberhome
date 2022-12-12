@@ -130,6 +130,7 @@ public class enhancedScrollPane {
                     int reservedPercentage =  Math.round(((float) (usedSpace - availableProductsCount)  / warehouse.getCapacity()) * 100);
                     int freeSpacePercentage = Math.round(((float) (warehouse.getCapacity() - usedSpace)  / warehouse.getCapacity()) * 100);
                     availablePercentage = availablePercentage + (100 - (reservedPercentage + freeSpacePercentage + availablePercentage));
+
                     ObservableList<PieChart.Data> pieChartData =
                             FXCollections.observableArrayList(
                                     new PieChart.Data("Available %" + availablePercentage, availableProductsCount),

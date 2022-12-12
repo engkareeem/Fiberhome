@@ -183,6 +183,7 @@ public class DBapi {
         try {
             Statement statement = connection.createStatement();
             statement.executeUpdate("delete from PRODUCT where PRODUCT_ID = " + pid);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -241,6 +242,25 @@ public class DBapi {
             e.printStackTrace();
         }
     }
+
+
+    public static void addProject(){}
+    public static void deleteProject(String pid){
+        try {
+            Statement statement = connection.createStatement();
+            connection.setAutoCommit(false); // transaction
+            statement.executeUpdate("delete from PROJECT where PROJECT_ID = " + pid);
+            statement.executeUpdate("delete from WORKS_AT where PROJECT_ID = " + pid);
+            statement.executeUpdate("delete from USES where PROJECT_ID = " + pid);
+
+            connection.commit();
+            connection.setAutoCommit(true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 
     public static void assignEmployeeToProject(String eid, String pid){
@@ -879,15 +899,13 @@ public class DBapi {
         return projects;
     }
 
-    public static String getNewEmployeeId() throws SQLException {
+    public static String getNewEmployeeId() {
         try {
             Statement statement = connection.createStatement();
             ResultSet res = statement.executeQuery("select EMPLOYEE_ID from EMPLOYEE order by EMPLOYEE_ID desc fetch first 1 row only");
             if(res.next()){
                 String lastEmpId = res.getString("employee_id");
-                Integer lastEmpIdNum = Integer.valueOf(lastEmpId);
-                System.out.println(lastEmpIdNum);
-
+                int lastEmpIdNum = Integer.valueOf(lastEmpId);
                 return String.format("%04d", lastEmpIdNum+1);
             }
         }catch (SQLException e){
@@ -896,6 +914,21 @@ public class DBapi {
         return "0000";
     }
 
+    public static String getNewProjectId() {
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select PROJECT_ID from PROJECT order by PROJECT_ID desc fetch first 1 row only");
+            if(res.next()){
+                String lastProjId = res.getString("project_id");
+                int lastProjIdNum = Integer.parseInt(lastProjId);
+
+                return String.format("%04d", lastProjIdNum+1);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return "0000";
+    }
 
     public static void updateLastLoginTime(String eid){
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd H:mm:ss").format(Calendar.getInstance().getTime());

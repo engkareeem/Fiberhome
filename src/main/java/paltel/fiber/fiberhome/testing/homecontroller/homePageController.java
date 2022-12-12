@@ -415,10 +415,12 @@ public class homePageController implements Initializable {
             }
 
             if(Functions.confirmFlag) {
-                new Thread(() -> Platform.runLater(() -> {
+
                     deleteEmployee(selectedEmployee.getEid());
                     employeesTableViewFunctions.initializeTableView(employeesTable);
-                })).start();
+                    setUpEmployeeStatisticsBlocks();
+
+
             }
 
         }).start();
@@ -555,13 +557,9 @@ public class homePageController implements Initializable {
     /*               Contractor info          */
     @FXML
     public void contractorInfoEditButtonClicked() {
-        // TODO: contractor info edit button clicked
         if(!contractorInfoOnEdit) {
             contractorSwitchToEdit();
         } else {
-
-            // TODO: update contractor info here
-
             contractorSwitchFromEdit();
         }
     }
@@ -585,10 +583,10 @@ public class homePageController implements Initializable {
             if(Functions.confirmFlag) {
 
                 contractorInfoClose();
-                new Thread(() -> Platform.runLater(() -> {
                     deleteContractor(contractorInfoContId.getText());
                     setupContractorsTable();
-                })).start();
+                    setUpEmployeeStatisticsBlocks();
+
 
             }
 
@@ -711,20 +709,22 @@ public class homePageController implements Initializable {
         Functions.showDialog("Are you sure you want to delete  \"" + selectedProject.getProjectId() +"\" records from database?", Functions.Errors.CONFIRM_DIALOG);
         new Thread(() -> {
             try {
-                Thread.sleep(100);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
             while(Functions.confirmFlag == null) {
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             }
 
             if(Functions.confirmFlag) {
-                // TODO: [remove Project] clicked with confirm
+                deleteProject(selectedProject.getProjectId());
+                projectsTableViewFunctions.initializeTableView(projectsTable);
+                setUpProjectsStatisticsBlocks();
             }
 
         }).start();

@@ -5,6 +5,9 @@ import animatefx.animation.ZoomOut;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXScrollPane;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableSet;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -19,8 +22,13 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import paltel.fiber.fiberhome.testing.Functions;
 import paltel.fiber.fiberhome.testing.Navigator;
+import paltel.fiber.fiberhome.testing.model.Contractor;
+import paltel.fiber.fiberhome.testing.model.Product;
+import paltel.fiber.fiberhome.testing.model.Warehouse;
+import paltel.fiber.fiberhome.testing.utils.DBapi;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class addProjectController implements Initializable {
@@ -65,6 +73,8 @@ public class addProjectController implements Initializable {
             stageZoom.play();
         });
         Functions.move(stage,projectPane);
+
+        //ArrayList<Product> products =
 
         addPartRow("0000000001","Fiber Optic Line","69000");
         addPartRow("0000000002","Copper Cable","34000");
@@ -145,6 +155,27 @@ public class addProjectController implements Initializable {
         warehousesComboBox.setId(PID + "ComboBox"); // Combobox id
 
         // TODO: Set warehouse combobox items here
+
+        // project types
+        ArrayList<String> projectTypes = DBapi.getProjectTypes();
+        typeComboBox.setItems(FXCollections.observableArrayList(projectTypes));
+
+        // contractors
+        ArrayList<Contractor> contractors = DBapi.getAllContractors();
+        ArrayList<String>  contractorNames = new ArrayList<>();
+        for(Contractor contractorInstance: contractors){
+            contractorNames.add(contractorInstance.getContractorId() + " " + contractorInstance.getFname() + " " + contractorInstance.getMname() + " " + contractorInstance.getLname());
+        }
+        projectContComboBox.setItems(FXCollections.observableArrayList(contractorNames));
+
+
+        // warehouses
+        ArrayList<Warehouse> warehouses = DBapi.getAllWarehouses();
+        ArrayList<String> warehousesNames = new ArrayList<>();
+        for(Warehouse warehouseInstance: warehouses){
+            warehousesNames.add(warehouseInstance.getWarehouseId() + " " + warehouseInstance.getCity());
+        }
+        warehousesComboBox.setItems(FXCollections.observableArrayList(warehousesNames));
 
 
         TextField amountTextField = new TextField();
