@@ -119,6 +119,7 @@
             </Pane>
          </children>
       </VBox>
+      <Pane fx:id="disableNavBar" prefHeight="700.0" prefWidth="200.0" styleClass="disablePane" visible="false" />
       <Pane fx:id="employeesPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" visible="false">
          <children>
             <MFXPaginatedTableView fx:id="employeesTable" layoutX="15.0" layoutY="404.0" maxWidth="870.0" prefHeight="250.0" prefWidth="870.0" />

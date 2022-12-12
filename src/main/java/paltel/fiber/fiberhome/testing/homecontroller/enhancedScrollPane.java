@@ -93,7 +93,7 @@ public class enhancedScrollPane {
         if(type == ListType.CONT_LIST) {
             hBox.setOnMouseClicked(mouseEvent -> {
                 nodes[0].setVisible(false); // current page pane
-                nodes[1].setDisable(true); // nav bar pane
+                Navigator.getStage().getScene().lookup("#disableNavBar").setVisible(true); // nav bar pane
                 nodes[2].setVisible(true); // Cont info pane
 
 
@@ -132,7 +132,7 @@ public class enhancedScrollPane {
         } else if(type == ListType.WAREHOUSE_LIST) {
             hBox.setOnMouseClicked(mouseEvent -> {
                 nodes[0].setVisible(false); // current page pane
-                nodes[1].setDisable(true); // nav bar pane
+                Navigator.getStage().getScene().lookup("#disableNavBar").setVisible(true); // nav bar pane
                 nodes[2].setVisible(true); // Warehouse info pane
 
                 Warehouse warehouse = DBapi.getWarehouseInfo(column1);
@@ -230,7 +230,7 @@ public class enhancedScrollPane {
         } else if(type == ListType.PROJ_MANAGER_PROJ_EMPLOYEES) {
             hBox.setOnMouseClicked(mouseEvent -> {
                 nodes[0].setVisible(false); // current page pane
-                nodes[1].setDisable(true); // navbar
+                Navigator.getStage().getScene().lookup("#disableNavBar").setVisible(true); // navbar
                 displayEmployeeInfo(column1,(Pane)nodes[2]); // nodes[2] = employeeInfoPage
 
             });
@@ -362,8 +362,7 @@ public class enhancedScrollPane {
             employeeInfoPage.lookup("#employeeInfoEditButton").setVisible(false);
         } else {
             employeeInfoPage.lookup("#employeesPane").setVisible(false);
-            employeeInfoPage.lookup("#homeNavBarVBox").setDisable(true);
-
+            employeeInfoPage.lookup("#disableNavBar").setVisible(true);
         }
         employeeInfoPage.lookup("#employeeInfoCloseLabel").setVisible(true);
         employeeInfoPage.lookup("#employeeInfoPane").setVisible(true);

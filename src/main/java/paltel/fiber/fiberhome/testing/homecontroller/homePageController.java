@@ -40,6 +40,8 @@ public class homePageController implements Initializable {
 
     @FXML
     Label userNickNameLabel,userRoleLabel;
+    @FXML
+    Pane disableNavBar;
 
     @FXML
     AnchorPane ap;
@@ -517,7 +519,7 @@ public class homePageController implements Initializable {
     public void employeeInfoClose() {
         employeeInfoPane.setVisible(false);
         currentPane.setVisible(true);
-        homeNavBarVBox.setDisable(false);
+        disableNavBar.setVisible(false);
         employeeInfoAssignProjectIdLabel.setVisible(false);
         employeeInfoAssignTextField.setVisible(false);
         employeeInfoAssignButton.setVisible(false);
@@ -651,7 +653,7 @@ public class homePageController implements Initializable {
             employeeInfoEditButton.setVisible(false);
         } else {
             employeesPane.setVisible(false);
-            homeNavBarVBox.setDisable(true);
+            disableNavBar.setVisible(true);
             employeeInfoCloseLabel.setVisible(true);
 
         }
@@ -702,7 +704,7 @@ public class homePageController implements Initializable {
     public void contractorInfoClose() {
         contractorInfoPane.setVisible(false);
         currentPane.setVisible(true);
-        homeNavBarVBox.setDisable(false);
+        disableNavBar.setVisible(false);
         contractorSwitchFromEdit();
     }
 
@@ -726,13 +728,13 @@ public class homePageController implements Initializable {
         ).start();
         currentPane.setVisible(false);
         userInfoPane.setVisible(true);
-        homeNavBarVBox.setDisable(true);
+        disableNavBar.setVisible(true);
     }
     @FXML
     public void userInfoClose() {
         userInfoPane.setVisible(false);
         currentPane.setVisible(true);
-        homeNavBarVBox.setDisable(false);
+        disableNavBar.setVisible(false);
         userSwitchFromEdit();
     }
     @FXML
@@ -799,7 +801,7 @@ public class homePageController implements Initializable {
     @FXML
     public void supplierInfoClose() {
         supplierInfoPane.setVisible(false);
-        homeNavBarVBox.setDisable(false);
+        disableNavBar.setVisible(false);
         currentPane.setVisible(true);
         supplierSwitchFromEdit();
     }
@@ -880,7 +882,7 @@ public class homePageController implements Initializable {
 
 
         projectsPane.setVisible(false);
-        homeNavBarVBox.setDisable(true);
+        disableNavBar.setVisible(true);
         projectInfoPane.setVisible(true);
 
     }
@@ -921,7 +923,7 @@ public class homePageController implements Initializable {
     @FXML
     public void tableDisplayUserClicked() {
         controlPanelPane.setVisible(false);
-        homeNavBarVBox.setDisable(true);
+        disableNavBar.setVisible(true);
         userInfoPane.setVisible(true);
     }
 
@@ -957,7 +959,7 @@ public class homePageController implements Initializable {
     @FXML
     public void tableDisplaySupplierClicked() {
         controlPanelPane.setVisible(false);
-        homeNavBarVBox.setDisable(true);
+        disableNavBar.setVisible(true);
         supplierInfoPane.setVisible(true);
     }
 
@@ -999,7 +1001,7 @@ public class homePageController implements Initializable {
     @FXML
     public void tableDisplayWarehouseClicked() {
         controlPanelPane.setVisible(false);
-        homeNavBarVBox.setDisable(true);
+        disableNavBar.setVisible(true);
         warehouseInfoPane.setVisible(true);
     }
 
@@ -1015,7 +1017,7 @@ public class homePageController implements Initializable {
             prevCurrentPane.setVisible(true);
         } else {
             projectsPane.setVisible(true);
-            homeNavBarVBox.setDisable(false);
+            disableNavBar.setVisible(false);
         }
     }
 
@@ -1027,14 +1029,14 @@ public class homePageController implements Initializable {
         //Gauge warehouseInfoWCapacity = (Gauge) warehouseInfoPane.lookup("#warehouseInfoWCapacity");
        // warehouseInfoWCapacity.setValue(0);
         currentPane.setVisible(true);
-        homeNavBarVBox.setDisable(false);
+        disableNavBar.setVisible(false);
         warehouseInfoPane.setVisible(false);
     }
     /*                    Project manager Project info              */
     @FXML
     public void ProjManProjectInfoClose() {
         projectsPane.setVisible(true);
-        homeNavBarVBox.setDisable(false);
+        disableNavBar.setVisible(false);
         projectInfoPane.setVisible(false);
     }
 
