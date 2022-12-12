@@ -421,20 +421,36 @@ public class DBapi {
 
 
 
-    public static ArrayList<Employee> getAllEmployees(){
+    public static ArrayList<Employee> getAllEmployees() {
         ArrayList<Employee> employees = new ArrayList<>();
         try {
 
             Statement statement = connection.createStatement();
-            ResultSet res =  statement.executeQuery("SELECT * from Employee order by EMPLOYEE_ID");
-            while (res.next()){
+            ResultSet res = statement.executeQuery("SELECT * from Employee order by EMPLOYEE_ID");
+            while (res.next()) {
                 employees.add(getEmployeeFromRow(res));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return employees;
+    }
+
+        public static ArrayList<User> getAllUsers(){
+            ArrayList<User> users = new ArrayList<>();
+            try {
+
+                Statement statement = connection.createStatement();
+                ResultSet res =  statement.executeQuery("SELECT * from EMPLOYEE_ACCOUNT order by EID");
+                while (res.next()){
+                    users.add(getUserFromRow(res));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+            return users;
 
     }
 
@@ -962,6 +978,15 @@ public class DBapi {
             Statement statement = connection.createStatement();
             statement.executeUpdate("delete from EMPLOYEE_ACCOUNT where EID = " + eid);
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteEmployeeAccount(String eid){
+        try{
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("delete from EMPLOYEE_ACCOUNT where EID = " + eid);
+        }catch (SQLException e){
             e.printStackTrace();
         }
     }

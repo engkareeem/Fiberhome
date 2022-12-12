@@ -22,6 +22,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.kordamp.ikonli.javafx.FontIcon;
+import paltel.fiber.fiberhome.testing.testingMain;
 import paltel.fiber.fiberhome.testing.utils.DBapi;
 import paltel.fiber.fiberhome.testing.Functions;
 import paltel.fiber.fiberhome.testing.Navigator;
@@ -240,8 +241,10 @@ public class homePageController implements Initializable {
             addProjManagerProjectParts("0000000002","zobr kber","Nablus");
         });
         user = getUserInfo((String) Navigator.getValue("eid"));
+        Employee employee = getEmployeeInfo((String) Navigator.getValue("eid"));
+
         userNickNameLabel.setText(user.getNickName());
-        userRoleLabel.setText(user.getRole());
+        userRoleLabel.setText(employee.getJobPos());
         setupNavBar();
         warehouseInfoWStorage.setLegendSide(Side.LEFT);
         warehouseInfoWStorage.setLabelsVisible(false);
@@ -259,11 +262,9 @@ public class homePageController implements Initializable {
         });
         Functions.move(stage,titleBar);
 //        Functions.optimizeImageView(backgroundImageView);
-        employeesTableViewFunctions.initializeTableView(employeesTable);
-        projectsTableViewFunctions.initializeTableView(projectsTable);
-        usersTableViewFunctions.initializeTableView(controlPanelUsersTableView);
-        suppliersTableViewFunctions.initializeTableView(controlPanelSuppliersTableView);
-        warehousesTableViewFunctions.initializeTableView(controlPanelWarehousesTableView);
+
+
+
         Functions.optimizeImageView(backgroundImageView);
 
 
@@ -454,10 +455,10 @@ public class homePageController implements Initializable {
 
     @FXML
     public void signOutClicked() {
-        AnimationFX closeAnimation = new ZoomOutUp(ap);
+        AnimationFX closeAnimation = new ZoomOut(ap);
         closeAnimation.setOnFinished((event) -> {
-            Platform.exit();
-            System.exit(0);
+            Navigator.pushNamedReplacement("loginPageScene");
+            testingMain.connectToDatabase();
         });
         closeAnimation.play();
 
@@ -543,10 +544,7 @@ public class homePageController implements Initializable {
                 }
             }
             if(Functions.confirmFlag) {
-                Platform.runLater(() -> {
-                    removeEmployeeFromCurrentProject();
-
-                });
+                Platform.runLater(this::removeEmployeeFromCurrentProject);
             }
 
         }).start();
@@ -909,12 +907,11 @@ public class homePageController implements Initializable {
             }
 
             if(Functions.confirmFlag) {
-                new Thread(() -> Platform.runLater(() -> {
-
-
-                    // code here
-
-                })).start();
+                Platform.runLater(() -> {
+                    deleteEmployeeAccount(selectedUser.getEid());
+                    usersTableViewFunctions.initializeTableView(controlPanelUsersTableView);
+                    setUpControlPanelUsersBlocks();
+                });
             }
 
         }).start();
@@ -922,6 +919,13 @@ public class homePageController implements Initializable {
 
     @FXML
     public void tableDisplayUserClicked() {
+        User user = usersTableViewFunctions.getSelectedRow();
+        Employee employee = DBapi.getEmployeeInfo(user.getEid());
+        userInfoNickName.setText(user.getNickName());
+        userInfoEmpId.setText(user.getEid());
+        userInfoEmpName.setText(employee.getFname() + " " + employee.getMname() + " " + employee.getLname());
+
+
         controlPanelPane.setVisible(false);
         disableNavBar.setVisible(true);
         userInfoPane.setVisible(true);
@@ -1087,8 +1091,13 @@ public class homePageController implements Initializable {
             // todo: Control Panel ROBLOX
             setUpControlPanelUsersBlocks();
             setupPendingAccountsTable();
+            usersTableViewFunctions.initializeTableView(controlPanelUsersTableView);
+
             setUpControlPanelSuppliersBlocks();
+            suppliersTableViewFunctions.initializeTableView(controlPanelSuppliersTableView);
+
             setUpControlPanelWarehousesBlocks();
+            warehousesTableViewFunctions.initializeTableView(controlPanelWarehousesTableView);
         }
 
         Platform.runLater(() -> {
@@ -1204,22 +1213,22 @@ public class homePageController implements Initializable {
         TextField lNameTextField = (TextField) employeeInfoPane.lookup("#editTextFieldLastName");
 
         TextField districtTextField = (TextField) employeeInfoPane.lookup("#editTextFieldemployeeInfoEmpDistrict");
+        if(employeeInfoPane.isVisible()) {
+            if (!fNameTextField.getText().isEmpty() && !mNameTextField.getText().isEmpty() && !lNameTextField.getText().isEmpty()) {
 
-        if(!fNameTextField.getText().isEmpty() && !mNameTextField.getText().isEmpty() && !lNameTextField.getText().isEmpty()) {
+                ComboBox<String> jobPositionComboBox = (ComboBox<String>) employeeInfoPane.lookup("#editTextFieldemployeeInfoEmpJobPos");
+                new Thread(() -> Platform.runLater(() -> {
+                    updateEmployee(currentEmployeeProfilePage.getEid(), fNameTextField.getText(), mNameTextField.getText(), lNameTextField.getText(), jobPositionComboBox.getValue(), districtTextField.getText());
+                    employeesTableViewFunctions.initializeTableView(employeesTable);
+                })).start();
 
-            ComboBox<String> jobPositionComboBox = (ComboBox<String>) employeeInfoPane.lookup("#editTextFieldemployeeInfoEmpJobPos");
-            new Thread(() -> Platform.runLater(() -> {
-                updateEmployee(currentEmployeeProfilePage.getEid(), fNameTextField.getText(), mNameTextField.getText(), lNameTextField.getText(), jobPositionComboBox.getValue(), districtTextField.getText());
-                employeesTableViewFunctions.initializeTableView(employeesTable);
-            })).start();
-
-            employeeInfoEmpName.setText(fNameTextField.getText() + " " + mNameTextField.getText() + " " + lNameTextField.getText());
-            employeeInfoEmpDistrict.setText(districtTextField.getText());
-            employeeInfoEmpJobPos.setText(jobPositionComboBox.getValue());
+                employeeInfoEmpName.setText(fNameTextField.getText() + " " + mNameTextField.getText() + " " + lNameTextField.getText());
+                employeeInfoEmpDistrict.setText(districtTextField.getText());
+                employeeInfoEmpJobPos.setText(jobPositionComboBox.getValue());
 
 
+            }
         }
-
         Label []labels = {employeeInfoEmpName,employeeInfoEmpJobPos,employeeInfoEmpDistrict};
         profileCard.getChildren().removeIf(node -> node.getId() != null && node.getId().startsWith("editTextField"));
         for(Label label: labels) {
@@ -1254,14 +1263,16 @@ public class homePageController implements Initializable {
     public void userSwitchFromEdit() {
         if(!userInfoOnEdit) return;
         TextField nicknameTextField = (TextField) userInfoPane.lookup("#editTextFielduserInfoNickName");
-        if(userInfoChangePassword.isVisible()){
+        if(userInfoPane.isVisible()) {
+            if (userInfoChangePassword.isVisible()) {
 
-            updateEmployeeAccount(userInfoEmpId.getText(), nicknameTextField.getText());
-        }else{
-            TextField passwordTextField = (TextField) userInfoPane.lookup("#editTextFielduserInfoChangePassword");
-            updateEmployeeAccount(userInfoEmpId.getText(), nicknameTextField.getText(), passwordTextField.getText());
+                updateEmployeeAccount(userInfoEmpId.getText(), nicknameTextField.getText());
+            } else {
+                TextField passwordTextField = (TextField) userInfoPane.lookup("#editTextFielduserInfoChangePassword");
+                updateEmployeeAccount(userInfoEmpId.getText(), nicknameTextField.getText(), passwordTextField.getText());
+            }
+            userInfoNickName.setText(nicknameTextField.getText());
         }
-        userInfoNickName.setText(nicknameTextField.getText());
 
         userInfoOnEdit = false;
         userProfileCard.getChildren().removeIf(node -> node.getId() != null && node.getId().startsWith("editTextField"));
@@ -1330,22 +1341,23 @@ public class homePageController implements Initializable {
         TextField mNameTextField = (TextField) contractorInfoPane.lookup("#editTextFieldMiddleName");
         TextField lNameTextField = (TextField) contractorInfoPane.lookup("#editTextFieldLastName");
 
+        if(contractorInfoPane.isVisible()) {
 
-        if(!fNameTextField.getText().isEmpty() && !mNameTextField.getText().isEmpty() && !lNameTextField.getText().isEmpty()) {
-
-
-            ComboBox<String> contractorTypeComboBox = (ComboBox<String>) contractorInfoPane.lookup("#editTextFieldcontractorInfoContType");
-            new Thread(() -> Platform.runLater(() -> {
-                updateContractor(enhancedScrollPane.currentContractorProfilePage.getContractorId(), fNameTextField.getText(), mNameTextField.getText(), lNameTextField.getText(), contractorTypeComboBox.getValue());
-                setupContractorsTable();
-            })).start();
+            if (!fNameTextField.getText().isEmpty() && !mNameTextField.getText().isEmpty() && !lNameTextField.getText().isEmpty()) {
 
 
-            contractorInfoContName.setText(fNameTextField.getText() + " " + mNameTextField.getText() + " " + lNameTextField.getText());
-            contractorInfoContType.setText(contractorTypeComboBox.getValue());
+                ComboBox<String> contractorTypeComboBox = (ComboBox<String>) contractorInfoPane.lookup("#editTextFieldcontractorInfoContType");
+                new Thread(() -> Platform.runLater(() -> {
+                    updateContractor(enhancedScrollPane.currentContractorProfilePage.getContractorId(), fNameTextField.getText(), mNameTextField.getText(), lNameTextField.getText(), contractorTypeComboBox.getValue());
+                    setupContractorsTable();
+                })).start();
 
+
+                contractorInfoContName.setText(fNameTextField.getText() + " " + mNameTextField.getText() + " " + lNameTextField.getText());
+                contractorInfoContType.setText(contractorTypeComboBox.getValue());
+
+            }
         }
-
 
         Label []labels = {contractorInfoContName,contractorInfoContType};
         contractorProfileCard.getChildren().removeIf(node -> node.getId() != null && node.getId().startsWith("editTextField"));

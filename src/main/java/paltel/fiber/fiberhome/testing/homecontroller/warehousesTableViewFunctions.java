@@ -50,7 +50,7 @@ public class warehousesTableViewFunctions {
         tableview.getTableColumns().addAll(idColumn, locationColumn, capacityColumn, projectsCountColumn);
         tableview.getFilters().addAll(
                 new StringFilter<>("WID", Warehouse::getWarehouseId),
-                new StringFilter<>("Location", Warehouse::getCity),
+                new StringFilter<>("City", Warehouse::getCity),
                 new IntegerFilter<>("Type", Warehouse::getCapacity),
                 new IntegerFilter<>("Projects Count", Warehouse::getProjectsCount)
         );

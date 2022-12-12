@@ -9,7 +9,9 @@ import io.github.palexdev.materialfx.selection.base.IMultipleSelectionModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import paltel.fiber.fiberhome.testing.model.User;
+import paltel.fiber.fiberhome.testing.utils.DBapi;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 
@@ -30,28 +32,28 @@ public class usersTableViewFunctions {
         idColumn.setMinWidth(100);
         userNickNameColumn.setMinWidth(120);
         roleColumn.setMinWidth(120);
-        lastLoginColumn.setMinWidth(120);
+        lastLoginColumn.setMinWidth(200);
 
 
 
         ObservableList<User> users;
 
         users = FXCollections.observableArrayList(
-                new User("0001","1234","Admin",null,"Bahjat")
         );
-//        ArrayList<Employee> employeeArrayList = DBapi.getAllEmployees();
-//        project.addAll(employeeArrayList);
+        ArrayList<User> employeeArrayList = DBapi.getAllUsers();
+        users.addAll(employeeArrayList);
 
         idColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(User::getEid));
         userNickNameColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(User::getNickName));
         roleColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(User::getRole));
-        lastLoginColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(User::getLastLogin));
+        lastLoginColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(User::getFormattedLastLogin));
 
+        tableview.getTableColumns().clear();
         tableview.getTableColumns().addAll(idColumn, userNickNameColumn, roleColumn, lastLoginColumn);
         tableview.getFilters().addAll(
-                new StringFilter<>("PID", User::getEid),
-                new StringFilter<>("Contractor Name", User::getNickName),
-                new StringFilter<>("Type", User::getRole)
+                new StringFilter<>("UID", User::getEid),
+                new StringFilter<>("User Nickname", User::getNickName),
+                new StringFilter<>("Role", User::getRole)
         );
         tableview.setItems(users);
     }

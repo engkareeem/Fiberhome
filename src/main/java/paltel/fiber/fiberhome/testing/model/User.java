@@ -3,6 +3,7 @@ package paltel.fiber.fiberhome.testing.model;
 import paltel.fiber.fiberhome.testing.Functions;
 import paltel.fiber.fiberhome.testing.utils.DBapi;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
@@ -62,6 +63,11 @@ public class User {
 
     public Date getLastLogin() {
         return lastLogin;
+    }
+
+    public String getFormattedLastLogin(){
+        SimpleDateFormat lastLoginFormat = new SimpleDateFormat("dd/MM/yyyy - hh:mm aa");
+        return lastLoginFormat.format(lastLogin);
     }
 
     public void setLastLogin(Date lastLogin) {
