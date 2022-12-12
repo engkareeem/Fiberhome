@@ -10,7 +10,29 @@ public class Product {
 
     private String warehouse_id;
 
+    private String supplier_id;
+
+    private Integer cost;
+
+    public Integer getCost() {
+        return cost;
+    }
+
+    public void setCost(Integer cost) {
+        this.cost = cost;
+    }
+
+    public String getSupplier_id() {
+        return supplier_id;
+    }
+
+    public void setSupplier_id(String supplier_id) {
+        this.supplier_id = supplier_id;
+    }
+
     private Integer available_count;
+
+
 
     public Integer getAvailable_count() {
         return available_count;

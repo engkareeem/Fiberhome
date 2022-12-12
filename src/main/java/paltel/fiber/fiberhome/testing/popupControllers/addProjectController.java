@@ -74,15 +74,33 @@ public class addProjectController implements Initializable {
         });
         Functions.move(stage,projectPane);
 
-        //ArrayList<Product> products =
 
-        addPartRow("0000000001","Fiber Optic Line","69000",0);
-        addPartRow("0000000002","Copper Cable","34000",0);
-        addPartRow("0000000003","Ethernet Cable","65000",0);
-        addPartRow("0000000004","Twisted Cable","690",0);
-        addPartRow("0000000005","Twisted Cable","690",0);
-        addPartRow("0000000006","Twisted Cable","690",0);
-        addPartRow("0000000007","Twisted Cable","690",0);
+        // project types
+        ArrayList<String> projectTypes = DBapi.getProjectTypes();
+        typeComboBox.setItems(FXCollections.observableArrayList(projectTypes));
+
+        // contractors
+        ArrayList<Contractor> contractors = DBapi.getAllContractors();
+        ArrayList<String>  contractorNames = new ArrayList<>();
+        for(Contractor contractorInstance: contractors){
+            contractorNames.add(contractorInstance.getContractorId() + " " + contractorInstance.getFname() + " " + contractorInstance.getMname() + " " + contractorInstance.getLname());
+        }
+        projectContComboBox.setItems(FXCollections.observableArrayList(contractorNames));
+
+        // warehouse
+
+        ArrayList<Warehouse> warehouses = DBapi.getAllWarehouses();
+        ArrayList<String> warehousesNames = new ArrayList<>();
+        for(Warehouse warehouseInstance: warehouses){
+            warehousesNames.add(warehouseInstance.getWarehouseId() + " " + warehouseInstance.getCity());
+        }
+        materialsComboBox.setItems(FXCollections.observableArrayList(warehousesNames));
+
+
+
+
+
+
     }
 
 
@@ -114,7 +132,19 @@ public class addProjectController implements Initializable {
         if(!valid) return;
 
 
-        // TODO: Add project here
+
+        String warehouseID = materialsComboBox.getValue().trim().split("\\s+")[0];
+
+
+        String projectId = DBapi.addProject(cityTf.getText(), streetTf.getText(), endDatePicker.getValue(), typeComboBox.getValue(), projectContComboBox.getValue().split("\\s+")[0] , (int) totalBudget);
+        ArrayList<Product> availableProductsInWarehouse = DBapi.getAvailableProductsInWarehouse(warehouseID);
+        for (Product productInstance : availableProductsInWarehouse) {
+            TextField amountTextField = (TextField) usedPartsScrollPane.lookup("#" + productInstance.getProductId() + "TextField");
+            int productAmount = Integer.parseInt(amountTextField.getText());
+            if(productAmount > 0){
+                DBapi.reserveProductForAProject(productInstance.getProductId(),projectId, warehouseID, productAmount);
+            }
+        }
 
 
         closePopup();
@@ -159,26 +189,8 @@ public class addProjectController implements Initializable {
 //        warehousesComboBox.getStyleClass().add("combo-box-ex");
 //        warehousesComboBox.setId(PID + "ComboBox"); // Combobox id
 
-        // project types
-        ArrayList<String> projectTypes = DBapi.getProjectTypes();
-        typeComboBox.setItems(FXCollections.observableArrayList(projectTypes));
-
-        // contractors
-        ArrayList<Contractor> contractors = DBapi.getAllContractors();
-        ArrayList<String>  contractorNames = new ArrayList<>();
-        for(Contractor contractorInstance: contractors){
-            contractorNames.add(contractorInstance.getContractorId() + " " + contractorInstance.getFname() + " " + contractorInstance.getMname() + " " + contractorInstance.getLname());
-        }
-        projectContComboBox.setItems(FXCollections.observableArrayList(contractorNames));
 
 
-        // warehouses
-//        ArrayList<Warehouse> warehouses = DBapi.getAllWarehouses();
-//        ArrayList<String> warehousesNames = new ArrayList<>();
-//        for(Warehouse warehouseInstance: warehouses){
-//            warehousesNames.add(warehouseInstance.getWarehouseId() + " " + warehouseInstance.getCity());
-//        }
-//        warehousesComboBox.setItems(FXCollections.observableArrayList(warehousesNames));
 
 
         TextField amountTextField = new TextField();
@@ -190,14 +202,14 @@ public class addProjectController implements Initializable {
             if(!Functions.isNum(newText) && !newText.equals("")) amountTextField.setText(oldText);
             else {
                 if(oldText.equals("0")) {
-                    System.out.println("test");
                     if(!newText.equals("0")) amountTextField.setText(newText.replace("0",""));
                 }
                 if(newText.equals("")) {
                     amountTextField.setText("0");
-                    // totalBudget -= getProductPrice(PID + WarehouseID) * Integer.parseInt(oldText);
+
+                     totalBudget -= Integer.parseInt(priceLabel.getText()) * Integer.parseInt(oldText);
                 } else if(!oldText.equals("")) {
-                    // totalBudget += (getProductPrice(PID + WarehouseID) * Integer.parseInt(newText)) - (getProductPrice * Integer.parseInt(oldText));
+                     totalBudget += (Integer.parseInt(priceLabel.getText()) * Integer.parseInt(newText)) - (Integer.parseInt(priceLabel.getText()) * Integer.parseInt(oldText));
                 }
                 totalBudgetLabel.setText(totalBudget + "$");
             }
@@ -220,6 +232,17 @@ public class addProjectController implements Initializable {
         usedPartsScrollPaneVbox.getChildren().addAll(row,separator);
     }
     public void warehouseComboboxValueChanged() {
-        System.out.println("test");
+        if(materialsComboBox.getValue() != null && !materialsComboBox.getValue().isEmpty()) {
+            resetRows(usedPartsScrollPaneVbox);
+            String warehouseID = materialsComboBox.getValue().trim().split("\\s+")[0];
+            ArrayList<Product> availableProductsInWarehouse = DBapi.getAvailableProductsInWarehouse(warehouseID);
+            availableProductsInWarehouse.forEach(productInstance -> {
+                addPartRow(productInstance.getProductId(), productInstance.getProductName(), productInstance.getCost().toString(), productInstance.getAvailable_count());
+
+            });
+        }
+    }
+    public static void resetRows(VBox vbox) {
+        vbox.getChildren().clear();
     }
 }

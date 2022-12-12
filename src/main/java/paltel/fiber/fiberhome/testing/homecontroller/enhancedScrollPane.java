@@ -99,7 +99,7 @@ public class enhancedScrollPane {
 
                     // user lookup here :3
                     // trust me bro
-                    // nodes[2].lookup("#Any id");
+                    // nodes[2].lookup("Any id");
                     new Thread(() -> Platform.runLater(() -> {
                         Contractor contractor = DBapi.getContractorInfo(column1);
                         currentContractorProfilePage = contractor;
@@ -107,12 +107,12 @@ public class enhancedScrollPane {
 
                         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-                        Label contractorInfoContId = (Label) infoPane.lookup("##contractorInfoContId");
-                        Label contractorInfoContBirthdate = (Label) infoPane.lookup("##contractorInfoContBirthdate");
-                        Label contractorInfoContName = (Label) infoPane.lookup("##contractorInfoContName");
-                        Label contractorInfoContAge = (Label) infoPane.lookup("##contractorInfoContAge");
-                        Label contractorInfoContType = (Label) infoPane.lookup("##contractorInfoContType");
-                        VBox contractorCurrentProjectsVbox = (VBox) infoPane.lookup("##currentProjectsScrollPaneVbox");
+                        Label contractorInfoContId = (Label) infoPane.lookup("#contractorInfoContId");
+                        Label contractorInfoContBirthdate = (Label) infoPane.lookup("#contractorInfoContBirthdate");
+                        Label contractorInfoContName = (Label) infoPane.lookup("#contractorInfoContName");
+                        Label contractorInfoContAge = (Label) infoPane.lookup("#contractorInfoContAge");
+                        Label contractorInfoContType = (Label) infoPane.lookup("#contractorInfoContType");
+                        VBox contractorCurrentProjectsVbox = (VBox) infoPane.lookup("#currentProjectsScrollPaneVbox");
 
                         if(contractor != null) {
                             contractorInfoContId.setText(contractor.getContractorId());
@@ -123,7 +123,7 @@ public class enhancedScrollPane {
                             ArrayList<Project> currentProjects = DBapi.getCurrentContractorProjects(contractor.getContractorId());
                            currentProjects.forEach(project -> {
                                resetRows(contractorCurrentProjectsVbox);
-                               addRow(contractorCurrentProjectsVbox, project.getProjectId(), project.getProjType(), project.getCity() +  project.getStreet(), 32, 168, 134, null, null);
+                               addRow(contractorCurrentProjectsVbox, project.getProjectId(), project.getProjType(), project.getCity() + " " +  project.getStreet(), 32, 168, 134, null, null);
 
                            });
                         }
@@ -138,15 +138,18 @@ public class enhancedScrollPane {
                 Warehouse warehouse = DBapi.getWarehouseInfo(column1);
                 Pane infoPane = (Pane) nodes[2];
 
-                Label warehouseId = (Label) infoPane.lookup("##warehouseInfoWid");
-                Label warehouseLocation = (Label) infoPane.lookup("##warehouseInfoWLocation");
-                Gauge warehouseInfoWCapacity = (Gauge) infoPane.lookup("##warehouseInfoWCapacity");
-                VBox availableProductsVbox = (VBox) infoPane.lookup("##warehouseInfoPartsScrollPaneVbox");
-                PieChart warehouseInfoWStorage = (PieChart) infoPane.lookup("##warehouseInfoWStorage");
+                Label warehouseId = (Label) infoPane.lookup("#warehouseInfoWid");
+                Label warehouseCapacity = (Label) infoPane.lookup("#warehouseInfoWCapacityCount");
+                Label warehouseLocation = (Label) infoPane.lookup("#warehouseInfoWLocation");
+                Gauge warehouseInfoWCapacity = (Gauge) infoPane.lookup("#warehouseInfoWCapacity");
+                VBox availableProductsVbox = (VBox) infoPane.lookup("#warehouseInfoPartsScrollPaneVbox");
+                PieChart warehouseInfoWStorage = (PieChart) infoPane.lookup("#warehouseInfoWStorage");
 
                 if(warehouse != null){
                     warehouseId.setText(warehouse.getWarehouseId());
                     warehouseLocation.setText(warehouse.getCity());
+                    warehouseCapacity.setText(warehouse.getCapacity().toString());
+
 
                     Double warehousePercentage = DBapi.getWarehousePercentage(warehouse.getWarehouseId());
                     warehouseInfoWCapacity.setValue(warehousePercentage);
@@ -172,9 +175,8 @@ public class enhancedScrollPane {
                     warehouseInfoWStorage.setData(pieChartData);
                     warehouseInfoWStorage.setLegendSide(Side.LEFT);
                     warehouseInfoWStorage.setLabelsVisible(false);
-
+                    resetRows(availableProductsVbox);
                     availableProducts.forEach(product -> {
-                        resetRows(availableProductsVbox);
                         addRow(availableProductsVbox, product.getProductId(), product.getProductName(), String.valueOf(product.getAvailable_count()), 86, 143, 103, null, null);
 
                     });
@@ -198,8 +200,14 @@ public class enhancedScrollPane {
             acceptIcon.setIconSize(25);
             acceptLabel.setGraphic(acceptIcon);
             acceptLabel.setOnMouseClicked(mouseEvent -> {
-                // TODO: Accept pending account
-                System.out.println("accept user " + column1);
+                DBapi.acceptEmployeeAccount(column1);
+                enhancedScrollPane.resetRows((VBox) hBox.getParent());
+                ArrayList<Employee> pendingUsers = getAllPendingAccounts();
+                pendingUsers.forEach(employeeInstance -> {
+                    User userInstance = getUserInfo(employeeInstance.getEid());
+                    enhancedScrollPane.addRow((VBox) hBox.getParent(),employeeInstance.getEid(), employeeInstance.getFname() + " " + employeeInstance.getMname() + " " + employeeInstance.getLname() ,userInstance.getNickName() ,37,138,131, Functions.ListType.PENDING_LIST);
+                });
+
             });
             Label declineLabel = new Label();
             FontIcon declineIcon = new FontIcon();
@@ -209,8 +217,13 @@ public class enhancedScrollPane {
             declineIcon.setIconSize(25);
             declineLabel.setGraphic(declineIcon);
             declineLabel.setOnMouseClicked(mouseEvent -> {
-                // TODO: Decline pending account
-                System.out.println("decline user " + column1);
+                DBapi.denyEmployeeAccount(column1);
+                enhancedScrollPane.resetRows((VBox) hBox.getParent());
+                ArrayList<Employee> pendingUsers = getAllPendingAccounts();
+                pendingUsers.forEach(employeeInstance -> {
+                    User userInstance = getUserInfo(employeeInstance.getEid());
+                    enhancedScrollPane.addRow((VBox) hBox.getParent(),employeeInstance.getEid(), employeeInstance.getFname() + " " + employeeInstance.getMname() + " " + employeeInstance.getLname() ,userInstance.getNickName() ,37,138,131, Functions.ListType.PENDING_LIST);
+                });
             });
             hBox.getChildren().addAll(acceptLabel,declineLabel);
 
@@ -332,6 +345,8 @@ public class enhancedScrollPane {
         }
         return numOfYears;
     }
+
+
     static Calendar getCalendar(Date date) {
         Calendar calendar = Calendar.getInstance(Locale.getDefault());
         calendar.setTime(date);

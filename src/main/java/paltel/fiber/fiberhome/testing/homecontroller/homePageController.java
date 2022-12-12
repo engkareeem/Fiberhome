@@ -238,6 +238,8 @@ public class homePageController implements Initializable {
             addProjManagerProjectParts("0000000002","zobr kber","Nablus");
         });
         user = getUserInfo((String) Navigator.getValue("eid"));
+        userNickNameLabel.setText(user.getNickName());
+        userRoleLabel.setText(user.getRole());
         setupNavBar();
         warehouseInfoWStorage.setLegendSide(Side.LEFT);
         warehouseInfoWStorage.setLabelsVisible(false);
@@ -247,6 +249,7 @@ public class homePageController implements Initializable {
         currentPane = employeesPane;
         updateLastLoginTime((String) Navigator.getValue("eid"));
         stage = Navigator.primaryStage;
+
         ap.setOpacity(0);
         Platform.runLater(() -> {
             stage.centerOnScreen();
@@ -277,6 +280,7 @@ public class homePageController implements Initializable {
             }
         });
 
+
     }
 
 
@@ -286,6 +290,15 @@ public class homePageController implements Initializable {
         ArrayList<Contractor> contractors = getAllContractors();
         contractors.forEach(contractor -> {
             addContRow(contractor.getContractorId(), contractor.getFname() + " " + contractor.getMname() + " " + contractor.getLname(),contractor.getContractorType());
+        });
+    }
+
+    private void setupPendingAccountsTable(){
+        enhancedScrollPane.resetRows(controlPanelPendingUsersScrollPaneVbox);
+        ArrayList<Employee> pendingUsers = getAllPendingAccounts();
+        pendingUsers.forEach(employeeInstance -> {
+            User userInstance = getUserInfo(employeeInstance.getEid());
+            enhancedScrollPane.addRow(controlPanelPendingUsersScrollPaneVbox,employeeInstance.getEid(), employeeInstance.getFname() + " " + employeeInstance.getMname() + " " + employeeInstance.getLname() ,userInstance.getNickName() ,37,138,131, Functions.ListType.PENDING_LIST);
         });
     }
 
@@ -313,11 +326,47 @@ public class homePageController implements Initializable {
         }).start();
     }
 
+    private void setUpControlPanelUsersBlocks(){
+        new Thread(() -> {
+            Platform.runLater(() -> controlPanelTotalActiveUsers.setText(getActiveUsersCount().toString()));
+        }).start();
+        new Thread(() -> {
+            Platform.runLater(() -> controlPanelTotalAdminAccounts.setText(getAdminUsersCount().toString()));
+        }).start();
+        new Thread(() -> {
+            Platform.runLater(() -> controlPanelTotalEmployeeAccounts.setText(getEmployeeUsersCount().toString()));
+        }).start();
+        new Thread(() -> {
+            Platform.runLater(() -> controlPanelTotalPendingAccounts.setText(getPendingUsersCount().toString()));
+        }).start();
+    }
+    private void setUpControlPanelSuppliersBlocks(){
+        new Thread(() -> {
+            Platform.runLater(() -> controlPanelTotalSuppliers.setText(getTotalSuppliersCount().toString()));
+        }).start();
+        new Thread(() -> {
+            Platform.runLater(() -> controlPanelTotalProducts.setText(getTotalProductsCount().toString()));
+        }).start();
+
+    }
+
+    private void setUpControlPanelWarehousesBlocks(){
+        new Thread(() -> {
+            Platform.runLater(() -> controlPanelTotalWarehousesNumber.setText(getTotalWarehousesCount().toString()));
+        }).start();
+        new Thread(() -> {
+            Platform.runLater(() -> controlPanelTotalStoredParts.setText(getTotalProductsStoredInWarehouses().toString()));
+        }).start();
+        new Thread(() -> {
+            Platform.runLater(() -> controlPanelTotalFreeSpace.setText(getTotalFreeSpaceInWarehouses().toString()));
+        }).start();
+        new Thread(() -> {
+            Platform.runLater(() -> controlPanelTotalUsedMaterials.setText(getTotalUsedPartsInWarehouses().toString()));
+        }).start();
+    }
+
     private void setUpProjectsStatisticsBlocks(){
         new Thread(() -> {
-            //
-
-
             Platform.runLater(() -> totalProjectsCountLabel.setText(getProjectsCount().toString()));
         }).start();
         new Thread(() -> {
@@ -706,7 +755,6 @@ public class homePageController implements Initializable {
         try {
             Integer.valueOf(employeeInfoAssignTextField.getText());
             if(employeeInfoAssignTextField.getText().trim().length() != 4){
-                System.out.println(employeeInfoAssignTextField.getText().trim().length());
                 throw new Exception();
             }
 
@@ -786,10 +834,13 @@ public class homePageController implements Initializable {
     @FXML
     public void tableAddProjectClicked() {
         Functions.showAddProjectPopup();
+        projectsTableViewFunctions.initializeTableView(projectsTable);
+        setUpProjectsStatisticsBlocks();
     }
 
     @FXML
     public void tableDisplayProjectClicked() {
+        if(projectsTableViewFunctions.getSelectedRow() == null) return;
         Project project = getProjectInfo(projectsTableViewFunctions.getSelectedRow().getProjectId()); //projectsTableViewFunctions.getSelectedRow();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         if(project == null) return;
@@ -1029,7 +1080,11 @@ public class homePageController implements Initializable {
                 });
             }).start();
         }else if(button.getText().equals("Control Panel")){
-
+            // todo: Control Panel ROBLOX
+            setUpControlPanelUsersBlocks();
+            setupPendingAccountsTable();
+            setUpControlPanelSuppliersBlocks();
+            setUpControlPanelWarehousesBlocks();
         }
 
         Platform.runLater(() -> {
@@ -1148,7 +1203,6 @@ public class homePageController implements Initializable {
 
         if(!fNameTextField.getText().isEmpty() && !mNameTextField.getText().isEmpty() && !lNameTextField.getText().isEmpty()) {
 
-            System.out.println("Hurray");
             ComboBox<String> jobPositionComboBox = (ComboBox<String>) employeeInfoPane.lookup("#editTextFieldemployeeInfoEmpJobPos");
             new Thread(() -> Platform.runLater(() -> {
                 updateEmployee(currentEmployeeProfilePage.getEid(), fNameTextField.getText(), mNameTextField.getText(), lNameTextField.getText(), jobPositionComboBox.getValue(), districtTextField.getText());

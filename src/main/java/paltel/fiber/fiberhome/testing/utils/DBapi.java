@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -244,7 +245,31 @@ public class DBapi {
     }
 
 
-    public static void addProject(){}
+    public static String addProject(String city, String street, LocalDate dueDate, String projectType, String contractorId, Integer amount){
+        String pid = getNewProjectId();
+        try {
+            Statement statement = connection.createStatement();
+            String timeStamp = new SimpleDateFormat("yyyy-MM-dd H:mm:ss").format(Calendar.getInstance().getTime());
+            statement.executeUpdate("insert into PROJECT(PROJECT_ID, AMOUNT, START_DATE, DUE_DATE, CITY, STREET, CONTRACTOR_ID, PROJ_TYPE)  values('" + pid + "'," + amount + ", TO_DATE('" + timeStamp + "', 'yyyy-mm-dd HH24:mi:ss') , TO_DATE('" + dueDate + " 0:00:00', 'yyyy-mm-dd HH24:mi:ss'),'"  + city +  "','"  + street + "','"  + contractorId + "','"  + projectType + "')");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return pid;
+    }
+
+    public static void reserveProductForAProject(String productId, String projectId,String warehouseId, Integer quantity){
+        try{
+            Statement statement = connection.createStatement();
+            connection.setAutoCommit(false);
+            statement.executeUpdate("insert into USES(PROJECT_ID, PRODUCT_ID, QUANTITY, WAREHOUSE_ID) VALUES('" + projectId + "','" + productId + "'," + quantity + ",'" + warehouseId + "')");
+            Integer reservedCount = getNumberOfReservedProductInWarehouse(warehouseId, productId);
+            statement.executeUpdate("update STORES set RESERVED = " + reservedCount + quantity + " where WAREHOUSE_ID = " + warehouseId + " and PRODUCT_ID = " + productId);
+            connection.commit();
+            connection.setAutoCommit(true);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
     public static void deleteProject(String pid){
         try {
             Statement statement = connection.createStatement();
@@ -374,15 +399,7 @@ public class DBapi {
         return 0;
     }
 
-    public static void acceptEmployeeAccount(String eid)
-    {
-        try {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate("update EMPLOYEE_ACCOUNT set ROLE = 'Employee' where EID = " + eid );
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+
 
     public static void updateEmployeeAccount(String eid, String nickname){
         try {
@@ -401,20 +418,6 @@ public class DBapi {
             e.printStackTrace();
         }
     }
-
-    public static void denyEmployeeAccount(String eid){
-        try {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate("delete from EMPLOYEE_ACCOUNT where EID = " + eid);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-
-
-
 
 
 
@@ -452,20 +455,6 @@ public class DBapi {
 
     }
 
-    public static ArrayList<Employee> getAllPendingAccounts(){
-        ArrayList<Employee> pendingEmployees = new ArrayList<>();
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet res = statement.executeQuery("select * from EMPLOYEE where EMPLOYEE_ID in (select EID from EMPLOYEE_ACCOUNT where ROLE = 'Pending')");
-            while (res.next()){
-                pendingEmployees.add(getEmployeeFromRow(res));
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return pendingEmployees;
-    }
 
     public static boolean isEmployeeHasAccount(String eid){
 
@@ -540,19 +529,6 @@ public class DBapi {
         return null;
     }
 
-    public static Integer getUsersCount(){
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet res = statement.executeQuery("select count(EID) as numberOfUsers from EMPLOYEE_ACCOUNT");
-            if(res.next()){
-                return res.getInt("numberOfUsers");
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
 
 
     public static Integer getEmployeesCount(){
@@ -629,39 +605,35 @@ public class DBapi {
         ArrayList<Product> availableProducts = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
-            ResultSet res = statement.executeQuery("select PRODUCT.*,STORES.QUANTITY,STORES.RESERVED from PRODUCT, STORES where PRODUCT.PRODUCT_ID in (SELECT USES.PRODUCT_ID from  USES where USES.WAREHOUSE_ID = '" + wid + "')  and PRODUCT.PRODUCT_ID = STORES.PRODUCT_ID");
+            ResultSet res = statement.executeQuery("select * from PRODUCT where PRODUCT.PRODUCT_ID in (SELECT STORES.PRODUCT_ID from  STORES where STORES.WAREHOUSE_ID = '" + wid + "') order by PRODUCT_ID");
             while (res.next()){
                 Product product = getProductFromRow(res);
-                product.setAvailable_count(res.getInt("quantity") - res.getInt("reserved"));
                 availableProducts.add(product);
             }
+            res.close();
+            for(Product product: availableProducts){
+                res = statement.executeQuery("select * from STORES where WAREHOUSE_ID = " + wid + " and PRODUCT_ID = " + product.getProductId());
+                if (res.next()){
+                    product.setAvailable_count(res.getInt("quantity") - res.getInt("reserved"));
+                    product.setSupplier_id(res.getString("supplier_id"));
+                }
+
+            }
+            res.close();
+            for (Product product: availableProducts){
+                res = statement.executeQuery("select PRODUCT_COST from CAN_SUPPLY where SUPPLIER_ID = " + product.getSupplier_id() + " and PRODUCT_ID = " + product.getProductId());
+                if (res.next()){
+                    product.setCost(res.getInt("product_cost"));
+                }
+            }
+
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return availableProducts;
     }
-    public static Integer getAvailableProductsCountInWarehouse(String wid){
-        ArrayList<Product> availableProducts = new ArrayList<>();
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet res = statement.executeQuery("select PRODUCT.PRODUCT_ID,STORES.QUANTITY,STORES.RESERVED from PRODUCT, STORES where PRODUCT.PRODUCT_ID in (SELECT USES.PRODUCT_ID from  USES where USES.WAREHOUSE_ID = '" + wid + "')  and PRODUCT.PRODUCT_ID = STORES.PRODUCT_ID");
-            while (res.next()){
-                Product product = new Product();
-                product.setAvailable_count(res.getInt("quantity") - res.getInt("reserved"));
-                availableProducts.add(product);
-            }
-            Integer availableProductsCount = 0;
-            for(Product product : availableProducts){
-                availableProductsCount += product.getAvailable_count();
-            }
-            return availableProductsCount;
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
 
     public static Integer getCapacityForAWarehouse(String wid){
         ArrayList<Product> availableProducts = new ArrayList<>();
@@ -677,7 +649,9 @@ public class DBapi {
         }
         return 0;
     }
-    //come here
+
+
+
 
 
     public static Integer getContractorCount(){
@@ -848,12 +822,19 @@ public class DBapi {
         ArrayList<Product> products = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
-            ResultSet res = statement.executeQuery("select Product.*,USES.WAREHOUSE_ID  from PRODUCT, USES where PRODUCT.PRODUCT_ID  in (select USES.PRODUCT_ID from USES where USES.PROJECT_ID = '" + pid +  "') and USES.PRODUCT_ID = PRODUCT.PRODUCT_ID order by Product.PRODUCT_ID");
+            ResultSet res = statement.executeQuery("select *  from PRODUCT where PRODUCT.PRODUCT_ID  in (select USES.PRODUCT_ID from USES where USES.PROJECT_ID = '" + pid +  "') order by Product.PRODUCT_ID");
 
             while (res.next()){
-                Product product = getProductFromRow(res);
-                product.setWarehouse_id(res.getString("warehouse_id"));
-                products.add(product);
+                products.add(getProductFromRow(res));
+            }
+
+            res.close();
+
+            for (Product product : products) {
+                res = statement.executeQuery("select WAREHOUSE_ID from USES where PROJECT_ID = " + pid + " and PRODUCT_ID = " + product.getProductId());
+                if(res.next()){
+                    product.setWarehouse_id(res.getString("warehouse_id"));
+                }
             }
 
         } catch (SQLException e) {
@@ -861,8 +842,6 @@ public class DBapi {
         }
         return products;
     }
-
-
 
     public static Double getWarehousePercentage(String wid){
         try {
@@ -881,6 +860,201 @@ public class DBapi {
         return 0.0;
     }
 
+
+
+
+    // Control PANEL USERS
+    public static Integer getActiveUsersCount(){
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select count(EID) as numberOfUsers from EMPLOYEE_ACCOUNT where LAST_LOGIN > (sysdate-1)"); // last hour login 1/24
+            if(res.next()){
+                return res.getInt("numberOfUsers");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    public static Integer getUsersCount(){
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select count(EID) as numberOfUsers from EMPLOYEE_ACCOUNT where ROLE != 'Pending'");
+            if(res.next()){
+                return res.getInt("numberOfUsers");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static Integer getEmployeeUsersCount(){
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select count(EID) as numberOfUsers from EMPLOYEE_ACCOUNT where ROLE = 'Employee'");
+            if(res.next()){
+                return res.getInt("numberOfUsers");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    public static Integer getAdminUsersCount(){
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select count(EID) as numberOfAdminUsers from EMPLOYEE_ACCOUNT where ROLE = 'Admin'"); // last hour login
+            if(res.next()){
+                return res.getInt("numberOfAdminUsers");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static Integer getPendingUsersCount(){
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select count(EID) as numberOfPendingUsers from EMPLOYEE_ACCOUNT where ROLE = 'Pending'"); // last hour login
+            if(res.next()){
+                return res.getInt("numberOfPendingUsers");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static ArrayList<Employee> getAllPendingAccounts(){
+        ArrayList<Employee> pendingEmployees = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select * from EMPLOYEE where EMPLOYEE_ID in (select EID from EMPLOYEE_ACCOUNT where ROLE = 'Pending')");
+            while (res.next()){
+                pendingEmployees.add(getEmployeeFromRow(res));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return pendingEmployees;
+    }
+
+    public static void acceptEmployeeAccount(String eid)
+    {
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("update EMPLOYEE_ACCOUNT set ROLE = 'Employee' where EID = " + eid );
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void denyEmployeeAccount(String eid){
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("delete from EMPLOYEE_ACCOUNT where EID = " + eid);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Control Panel Suppliers
+    public static Integer getTotalSuppliersCount(){
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select count(SUPPLIER_ID) as numOfSuppliers from SUPPLIER");
+            if(res.next()){
+                return res.getInt("numOfSuppliers");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static Integer getTotalProductsCount(){
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select count(PRODUCT_ID) as numOfProducts from PRODUCT");
+            if(res.next()){
+                return res.getInt("numOfProducts");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+
+
+
+    // Control Panel Warehouses
+
+    public static Integer getTotalWarehousesCount(){
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select count(WAREHOUSE_ID) as numOfWarehouses from WAREHOUSE");
+            if(res.next()){
+                return res.getInt("numOfWarehouses");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static Integer getTotalProductsStoredInWarehouses(){
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select sum(QUANTITY) as numOfProducts from STORES");
+            if(res.next()){
+                return res.getInt("numOfProducts");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    public static Integer getTotalFreeSpaceInWarehouses(){
+        Integer freeSpace = 0;
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select sum(CAPACITY) as totalCapacity from WAREHOUSE");
+            if(res.next()){
+                freeSpace = res.getInt("totalCapacity");
+            }
+            freeSpace -= getTotalProductsStoredInWarehouses();
+            return freeSpace;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static Integer getTotalUsedPartsInWarehouses(){
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select sum(RESERVED) as totalReserved from STORES");
+            if(res.next()){
+                return res.getInt("totalReserved");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
 
     // Utils
