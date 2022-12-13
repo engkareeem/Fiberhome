@@ -613,7 +613,7 @@ public class homePageController implements Initializable {
     }
     @FXML
     public void tableWarehousePrintClicked() {
-        Functions.showReportViewer("warehouse_report");
+        Functions.showReportViewer("warehouses_report");
     }
     @FXML
     public void tableAddEmployeeClicked() {
@@ -1631,6 +1631,13 @@ public class homePageController implements Initializable {
     }
     public void supplierSwitchFromEdit() {
         if(!supplierInfoOnEdit) return;
+        if(supplierInfoPane.isVisible()){
+            String newCompanyName = supplierInfoCompanyName.getText();
+            if(!newCompanyName.isEmpty()){
+                updateSupplier(supplierInfoSupplierId.getId(), newCompanyName);
+                supplierInfoCompanyName.setText(newCompanyName);
+            }
+        }
         supplierInfoProfileCard.getChildren().removeIf(node -> node.getId() != null && node.getId().startsWith("editTextField"));
         supplierInfoCompanyName.setVisible(true);
         supplierInfoOnEdit = false;

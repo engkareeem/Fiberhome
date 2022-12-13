@@ -127,6 +127,30 @@ public class Functions {
 
     }
 
+    public static void showReportViewerForAProject(String pid){
+        try {
+            InputStream inputStream = Main.class.getResourceAsStream("reports/project_report.jrxml");
+            Map<String, Object> map = new HashMap<>();
+            map.put("PID", pid);
+            JasperDesign jasperDesign= JRXmlLoader.load(inputStream);
+            JasperReport jasperReport= JasperCompileManager.compileReport(jasperDesign);
+            JasperPrint jasperPrint= JasperFillManager.fillReport(jasperReport, map, Main.dbConnection);
+            JRViewer viewer = new JRViewer(jasperPrint);
+            viewer.setZoomRatio(0.5F);
+            JFrame frame = new JFrame("");
+            frame.setSize(1200, 750);
+            frame.getContentPane().add(viewer);
+            frame.setIconImage(null);
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+            viewer.requestFocus();
+
+        }catch (JRException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
     public static void infoInAnimation(Node currentPane,Node infoPane) {
         AnimationFX outAnimation = new SlideInRight(infoPane);
         AnimationFX inAnimation = new SlideOutLeft(currentPane);

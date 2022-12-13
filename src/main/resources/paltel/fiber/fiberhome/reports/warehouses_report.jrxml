@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="projects_report" pageWidth="1050" pageHeight="500" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="1010" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d4a1d5eb-82dd-412f-a620-202e4bdf9dba">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="warehouses_report" pageWidth="1050" pageHeight="500" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="1010" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d4a1d5eb-82dd-412f-a620-202e4bdf9dba">
 	<property name="template.engine" value="tabular_template"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FiberHomeDB"/>
-	<property name="com.jaspersoft.studio.data.sql.tables" value="IldBUkVIT1VTRSIgLDE1LDE1LDAzY2JkNGNhLWU0MTUtNDllNC05ZDE2LTNjNDBhYWZiODUwNTs="/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<style name="Table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -55,7 +55,7 @@
 FROM "STORES", "SUPPLIER", "PRODUCT"
 where "STORES"."WAREHOUSE_ID" = $P{WID1}
 and "STORES"."Supplier_Id" = "SUPPLIER"."SUPPLIER_ID"
-and "STORES"."PRODUCT_ID" = "PRODUCT"."PRODUCT_ID" ]]>
+and "STORES"."PRODUCT_ID" = "PRODUCT"."PRODUCT_ID"]]>
 		</queryString>
 		<field name="PRODUCT_ID" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.name" value="PRODUCT_ID"/>
@@ -90,8 +90,7 @@ and "STORES"."PRODUCT_ID" = "PRODUCT"."PRODUCT_ID" ]]>
 	<queryString>
 		<![CDATA[SELECT *
 FROM "WAREHOUSE"
-WHERE 
-	 "WAREHOUSE"."WAREHOUSE_ID" = $P{WID}]]>
+]]>
 	</queryString>
 	<field name="WAREHOUSE_ID" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="WAREHOUSE_ID"/>
@@ -118,7 +117,7 @@ WHERE
 				</staticText>
 				<image onErrorType="Blank">
 					<reportElement x="20" y="12" width="70" height="69" forecolor="#000000" uuid="cff3904f-452f-4c5c-b512-48611f6caef0"/>
-					<imageExpression><![CDATA["C:/Users/karee/IdeaProjects/Fiberhome/src/main/resources/paltel/fiber/fiberhome/assets/paltel_icon.png"]]></imageExpression>
+					<imageExpression><![CDATA["D:/an-najah branch/DB/Project/FiberhomeMain/src/main/resources/paltel/fiber/fiberhome/assets/paltel_icon.png"]]></imageExpression>
 				</image>
 			</frame>
 		</band>
@@ -137,7 +136,10 @@ WHERE
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="tableDataset" uuid="d1ae317e-5486-45cf-a9d3-d5f1b98147ea">
+					<datasetRun subDataset="tableDataset" uuid="46d463f1-80e6-4bdd-ae5f-a3ba6347cac8">
+						<datasetParameter name="WID1">
+							<datasetParameterExpression><![CDATA[$F{WAREHOUSE_ID}]]></datasetParameterExpression>
+						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
 					<jr:column width="89" uuid="517620a0-dded-4d15-9555-9d212a2a5dae">

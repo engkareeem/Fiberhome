@@ -148,7 +148,7 @@ public class loginPageController implements Initializable {
 
 
     void login(){
-       // Functions.showReportViewerForAWarehouse("01");
+//       Functions.showReportViewer("warehouses_report");
         try {
             String loginText = loginButton.getText();
             loadingSpinner.setVisible(true);
