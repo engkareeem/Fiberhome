@@ -757,9 +757,9 @@ public class homePageController implements Initializable {
             if(Functions.confirmFlag) {
 
                 contractorInfoClose();
-                    deleteContractor(contractorInfoContId.getText());
-                    setupContractorsTable();
-                    setUpEmployeeStatisticsBlocks();
+                deleteContractor(contractorInfoContId.getText());
+                setupContractorsTable();
+                setUpEmployeeStatisticsBlocks();
 
 
             }
@@ -769,8 +769,9 @@ public class homePageController implements Initializable {
     }
     @FXML
     public void contractorInfoClose() {
-        contractorInfoPane.setVisible(false);
-        currentPane.setVisible(true);
+        Functions.infoOutAnimation(currentPane,contractorInfoPane);
+//        contractorInfoPane.setVisible(false);
+//        currentPane.setVisible(true);
         disableNavBar.setVisible(false);
         contractorSwitchFromEdit();
     }
@@ -795,14 +796,16 @@ public class homePageController implements Initializable {
 
                 }
         ).start();
-        currentPane.setVisible(false);
         userInfoPane.setVisible(true);
+        Functions.infoInAnimation(currentPane,userInfoPane);
+//        currentPane.setVisible(false);
         disableNavBar.setVisible(true);
     }
     @FXML
     public void userInfoClose() {
-        userInfoPane.setVisible(false);
-        currentPane.setVisible(true);
+        Functions.infoOutAnimation(currentPane,userInfoPane);
+//        userInfoPane.setVisible(false);
+//        currentPane.setVisible(true);
         disableNavBar.setVisible(false);
         userSwitchFromEdit();
     }
@@ -811,7 +814,6 @@ public class homePageController implements Initializable {
         if(!userInfoOnEdit) {
             userSwitchToEdit();
         } else {
-
             userSwitchFromEdit();
         }
     }
@@ -869,9 +871,10 @@ public class homePageController implements Initializable {
     }
     @FXML
     public void supplierInfoClose() {
-        supplierInfoPane.setVisible(false);
+        Functions.infoOutAnimation(currentPane,supplierInfoPane);
+//        supplierInfoPane.setVisible(false);
         disableNavBar.setVisible(false);
-        currentPane.setVisible(true);
+//        currentPane.setVisible(true);
         supplierSwitchFromEdit();
     }
 
@@ -1001,16 +1004,17 @@ public class homePageController implements Initializable {
     @FXML
     public void tableDisplayUserClicked() {
         User user = usersTableViewFunctions.getSelectedRow();
+        if(user == null) return;
         Employee employee = DBapi.getEmployeeInfo(user.getEid());
         userInfoNickName.setText(user.getNickName());
         userInfoEmpId.setText(user.getEid());
         userInfoRole.setText(user.getRole());
         userInfoEmpName.setText(employee.getFname() + " " + employee.getMname() + " " + employee.getLname());
 
-
-        controlPanelPane.setVisible(false);
-        disableNavBar.setVisible(true);
         userInfoPane.setVisible(true);
+        Functions.infoInAnimation(currentPane,userInfoPane);
+//        controlPanelPane.setVisible(false);
+        disableNavBar.setVisible(true);
     }
 
     @FXML
@@ -1057,9 +1061,11 @@ public class homePageController implements Initializable {
         }
 
         // todo ROBLOX
-        controlPanelPane.setVisible(false);
-        disableNavBar.setVisible(true);
+
         supplierInfoPane.setVisible(true);
+        Functions.infoInAnimation(currentPane,supplierInfoPane);
+//        controlPanelPane.setVisible(false);
+        disableNavBar.setVisible(true);
     }
 
     @FXML
@@ -1112,9 +1118,7 @@ public class homePageController implements Initializable {
     @FXML
     public void tableDisplayWarehouseClicked() {
         if(warehousesTableViewFunctions.getSelectedRow() == null) return;
-        controlPanelPane.setVisible(false);
-        disableNavBar.setVisible(true);
-        warehouseInfoPane.setVisible(true);
+
         Warehouse warehouse = warehousesTableViewFunctions.getSelectedRow();
         if(warehouse != null){
             warehouseInfoWid.setText(warehouse.getWarehouseId());
@@ -1151,6 +1155,10 @@ public class homePageController implements Initializable {
                 addWarehouseRow( product.getProductId(), product.getProductName(), String.valueOf(product.getAvailable_count()));
 
             });
+            warehouseInfoPane.setVisible(true);
+            Functions.infoInAnimation(controlPanelPane,warehouseInfoPane);
+//            controlPanelPane.setVisible(false);
+            disableNavBar.setVisible(true);
         }
 
 
@@ -1179,11 +1187,10 @@ public class homePageController implements Initializable {
 
     @FXML
     public void warehouseInfoClose() {
-        //Gauge warehouseInfoWCapacity = (Gauge) warehouseInfoPane.lookup("#warehouseInfoWCapacity");
-       // warehouseInfoWCapacity.setValue(0);
-        currentPane.setVisible(true);
+        Functions.infoOutAnimation(currentPane,warehouseInfoPane);
+//        currentPane.setVisible(true);
         disableNavBar.setVisible(false);
-        warehouseInfoPane.setVisible(false);
+//        warehouseInfoPane.setVisible(false);
     }
     /*                    Project manager Project info              */
     @FXML

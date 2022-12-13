@@ -260,7 +260,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="controlPanelPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/controlPanel.css" visible="false">
+      <Pane fx:id="controlPanelPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/controlPanel.css">
          <children>
             <Label layoutX="354.0" layoutY="-8.0" styleClass="headerText" text="Control Panel" />
             <TabPane layoutX="14.0" layoutY="43.0" prefHeight="624.0" prefWidth="872.0" styleClass="MyTabPane" tabClosingPolicy="UNAVAILABLE">
@@ -433,7 +433,7 @@
                                                 <Font name="System Bold" size="17.0" />
                                              </font>
                                           </Label>
-                                          <Label alignment="CENTER" layoutX="3.0" layoutY="66.0" prefHeight="50.0" prefWidth="157.0" text="number of products suppliers offer" textAlignment="CENTER" textFill="#cfcfcf" wrapText="true">
+                                          <Label alignment="CENTER" layoutX="3.0" layoutY="66.0" prefHeight="50.0" prefWidth="157.0" text="Number of Materials that suppliers offer" textAlignment="CENTER" textFill="#cfcfcf" wrapText="true">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
@@ -445,12 +445,12 @@
                                  <children>
                                     <HBox alignment="CENTER_LEFT" layoutY="6.0" prefHeight="40.0" prefWidth="450.0" spacing="10.0">
                                        <children>
-                                          <Label prefHeight="26.0" prefWidth="82.0" text="PID" textFill="#cfcfcf">
+                                          <Label prefHeight="26.0" prefWidth="82.0" text="MID" textFill="#cfcfcf">
                                              <font>
                                                 <Font name="System Bold" size="14.0" />
                                              </font>
                                           </Label>
-                                          <Label prefHeight="26.0" prefWidth="140.0" text="Product Name" textFill="#cfcfcf">
+                                          <Label prefHeight="26.0" prefWidth="140.0" text="Material Name" textFill="#cfcfcf">
                                              <font>
                                                 <Font name="System Bold" size="14.0" />
                                              </font>
@@ -886,9 +886,9 @@
                   <Label fx:id="userInfoChangePassword" layoutX="18.0" layoutY="339.0" onMouseClicked="#userChangePasswordClicked" styleClass="secondaryHyperText" text="Click to change password" visible="false" />
                </children>
             </Pane>
-            <Label layoutX="12.0" layoutY="9.0" onMouseClicked="#userInfoClose" prefHeight="18.0" prefWidth="32.0">
+            <Label layoutX="854.0" layoutY="14.0" onMouseClicked="#userInfoClose" prefHeight="18.0" prefWidth="32.0">
                <graphic>
-                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-arrow-left-24" iconSize="30" />
+                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-arrow-right-24" iconSize="30" />
                </graphic>
             </Label>
          </children>
@@ -969,9 +969,9 @@
                   </MFXScrollPane>
                </children>
             </Pane>
-            <Label layoutX="20.0" layoutY="14.0" onMouseClicked="#contractorInfoClose" prefHeight="18.0" prefWidth="32.0">
+            <Label layoutX="854.0" layoutY="14.0" onMouseClicked="#contractorInfoClose" prefHeight="18.0" prefWidth="32.0">
                <graphic>
-                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-arrow-left-24" iconSize="30" />
+                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-arrow-right-24" iconSize="30" />
                </graphic>
             </Label>
          </children>
@@ -1320,9 +1320,9 @@
                   </MFXScrollPane>
                </children>
             </Pane>
-            <Label layoutX="20.0" layoutY="14.0" onMouseClicked="#warehouseInfoClose" prefHeight="18.0" prefWidth="32.0">
+            <Label layoutX="854.0" layoutY="14.0" onMouseClicked="#warehouseInfoClose" prefHeight="18.0" prefWidth="32.0">
                <graphic>
-                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-arrow-left-24" iconSize="30" />
+                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-arrow-right-24" iconSize="30" />
                </graphic>
             </Label>
             <Label layoutX="592.0" layoutY="12.0" text="Storage" textFill="#cfcfcf">
@@ -1396,9 +1396,9 @@
                   </MFXScrollPane>
                </children>
             </Pane>
-            <Label layoutX="20.0" layoutY="14.0" onMouseClicked="#supplierInfoClose" prefHeight="18.0" prefWidth="32.0">
+            <Label layoutX="854.0" layoutY="14.0" onMouseClicked="#supplierInfoClose" prefHeight="18.0" prefWidth="32.0">
                <graphic>
-                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-arrow-left-24" iconSize="30" />
+                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-arrow-right-24" iconSize="30" />
                </graphic>
             </Label>
          </children>

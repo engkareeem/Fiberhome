@@ -70,7 +70,7 @@ public class Functions {
         }
     }
 
-    public static void infoInAnimation(Pane currentPane,Pane infoPane) {
+    public static void infoInAnimation(Node currentPane,Node infoPane) {
         AnimationFX outAnimation = new SlideInRight(infoPane);
         AnimationFX inAnimation = new SlideOutLeft(currentPane);
         outAnimation.setSpeed(2);
@@ -82,7 +82,7 @@ public class Functions {
             currentPane.setVisible(false);
         });
     }
-    public static void infoOutAnimation(Pane currentPane,Pane infoPane) {
+    public static void infoOutAnimation(Node currentPane,Node infoPane) {
         currentPane.setVisible(true);
         AnimationFX outAnimation = new SlideOutRight(infoPane);
         AnimationFX inAnimation = new SlideInLeft(currentPane);

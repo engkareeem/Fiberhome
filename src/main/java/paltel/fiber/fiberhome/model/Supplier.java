@@ -11,6 +11,15 @@ public class Supplier{
     public Contact getContact() {
         return contact;
     }
+    public String getPhoneNumber() {
+        return contact.getPhoneNumber();
+    }
+    public String getEmailAddress() {
+        return contact.getEmailAddress();
+    }
+    public String getFax() {
+        return contact.getFax();
+    }
 
     public void setContact(Contact contact) {
         this.contact = contact;

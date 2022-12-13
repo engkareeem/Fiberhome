@@ -89,9 +89,11 @@ public class enhancedScrollPane {
 
         if(type == ListType.CONT_LIST) {
             hBox.setOnMouseClicked(mouseEvent -> {
-                nodes[0].setVisible(false); // current page pane
+                nodes[2].setVisible(true);
+                Functions.infoInAnimation(nodes[0],nodes[2]);
+//                nodes[0].setVisible(false); // current page pane
                 Navigator.getStage().getScene().lookup("#disableNavBar").setVisible(true); // nav bar pane
-                nodes[2].setVisible(true); // Cont info pane
+//                nodes[2].setVisible(true); // Cont info pane
 
 
                     // user lookup here :3
@@ -128,9 +130,10 @@ public class enhancedScrollPane {
             });
         } else if(type == ListType.WAREHOUSE_LIST) {
             hBox.setOnMouseClicked(mouseEvent -> {
-                nodes[0].setVisible(false); // current page pane
-                Navigator.getStage().getScene().lookup("#disableNavBar").setVisible(true); // nav bar pane
+                Functions.infoInAnimation(nodes[0],nodes[2]);
                 nodes[2].setVisible(true); // Warehouse info pane
+//                nodes[0].setVisible(false); // current page pane
+                Navigator.getStage().getScene().lookup("#disableNavBar").setVisible(true); // nav bar pane
 
                 Warehouse warehouse = DBapi.getWarehouseInfo(column1);
                 Pane infoPane = (Pane) nodes[2];
@@ -182,8 +185,8 @@ public class enhancedScrollPane {
         } else if(type == ListType.CURRENT_PROJECTS_LIST) {
 
             hBox.setOnMouseClicked(mouseEvent -> {
-                nodes[0].setVisible(false); // current page pane
-                displayProjectInfo(column1,nodes[1]);
+
+                displayProjectInfo(column1,nodes[0],nodes[1]);
 
             });
         } else if(type == ListType.PENDING_LIST) {
@@ -250,7 +253,7 @@ public class enhancedScrollPane {
         vbox.getChildren().clear();
     }
 
-    private static void displayProjectInfo(String pid,Node projectInfoPage) {
+    private static void displayProjectInfo(String pid,Node currentPane, Node projectInfoPage) {
         Project project = getProjectInfo(pid);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         if(project == null) return;
@@ -280,7 +283,9 @@ public class enhancedScrollPane {
             Warehouse warehouse = DBapi.getWarehouseInfo(product.getWarehouse_id());
             enhancedScrollPane.addRow(((VBox)projectInfoPage.lookup("#partsUsedScrollPaneVbox")),product.getProductId(), product.getProductName(), warehouse.getCity(),86,143, 103, null, null);
         });
+
         projectInfoPage.setVisible(true);
+        Functions.infoInAnimation(currentPane,projectInfoPage);
     }
     private static void displayEmployeeInfo(String eid,Pane employeeInfoPage) {
         Employee employee = null;
