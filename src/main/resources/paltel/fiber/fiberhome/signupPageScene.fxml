@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <AnchorPane fx:id="ap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="paltel.fiber.fiberhome.signupPageController">
    <children>
@@ -64,10 +65,14 @@
       </Pane>
       <Pane fx:id="titleBar" prefHeight="38.0" prefWidth="900.0">
          <children>
-            <Label layoutX="14.0" layoutY="11.0" onMouseClicked="#comeBack" styleClass="secondaryHyperText" text="&lt;- COME BACK" />
             <Label fx:id="closeLabel" layoutX="870.0" layoutY="11.0" onMouseClicked="#close" prefHeight="17.0" prefWidth="17.0" />
             <Label fx:id="minimizeLabel" layoutX="840.0" layoutY="11.0" onMouseClicked="#minimize" prefHeight="17.0" prefWidth="17.0" />
             <Label fx:id="maximizeLabel" layoutX="810.0" layoutY="11.0" prefHeight="17.0" prefWidth="17.0" />
+            <Label layoutX="6.0" layoutY="9.0" onMouseClicked="#comeBack" prefHeight="18.0" prefWidth="32.0">
+               <graphic>
+                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-arrow-left-24" iconSize="30" />
+               </graphic>
+            </Label>
          </children>
       </Pane>
       <Pane fx:id="disablePane" prefHeight="600.0" prefWidth="900.0" styleClass="disablePane" visible="false" />

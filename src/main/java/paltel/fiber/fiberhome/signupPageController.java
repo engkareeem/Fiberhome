@@ -137,6 +137,23 @@ public class signupPageController implements Initializable {
                     newUser.setNull(4, Types.DATE);
                     newUser.setString(5, nicknameInput.getText());
                     newUser.executeUpdate();
+                    Functions.showDialog("Thank you,now STFU and wait to approval", Functions.Errors.SUCCESSFUL);
+                    new Thread(() -> {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                        while (Functions.confirmFlag == null) {
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                        Platform.runLater(Navigator::pop);
+                    }).start();
+
                 }
             }else{
                 Functions.displayValidatingError(employeeNumberInput,employeeNumberInputValidatorLabel,"There is no employee with this Employee number(EID)");

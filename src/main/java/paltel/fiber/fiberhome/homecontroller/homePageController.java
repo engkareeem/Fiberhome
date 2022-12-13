@@ -214,6 +214,10 @@ public class homePageController implements Initializable {
     Button supplierInfoEditButton;
     /*                   Project manager project info           */
     @FXML
+    Pane projectManagerProjectInfoPaneChild;
+    @FXML
+    Label projectManagerProjectInfoPaneDontWork;
+    @FXML
     Label employeeInfoCloseLabel,employeeInfoRemoveFromProject,projManYouDontWork;
     @FXML
     Pane projectManagerProjectInfoPane;
@@ -441,15 +445,15 @@ public class homePageController implements Initializable {
             projectsPane.setVisible(false);
             currentPane = controlPanelPane;
         } else if(user.getJobPos() == Functions.JobPos.PROJ_MANAGER) {
-            employeeDisplay(false);
-            projectManagerProjectInfoPane.setVisible(false);
             currentPane = employeeInfoPane;
+            employeeDisplay(false,true);
+            projectManagerProjectInfoPane.setVisible(false);
         } else if(user.getJobPos() == Functions.JobPos.TECHNICIAN) {
-            employeeDisplay(false);
             currentPane = employeesPane;
+            employeeDisplay(false,true);
         } else if(user.getJobPos() == Functions.JobPos.ACCOUNTANT) {
-            employeeDisplay(false);
             currentPane = employeesPane;
+            employeeDisplay(false,true);
         }
         switchNavButton(navButton1);
         prevCurrentPane = null;
@@ -463,11 +467,11 @@ public class homePageController implements Initializable {
             currentPane = employeesPane;
             prevCurrentPane = contractorInfoPane;
         } else if(user.getJobPos() == Functions.JobPos.PROJ_MANAGER) {
-            employeeInfoClose(false);
+            employeeInfoClose(false,true);
             projectManagerProjectInfoPane.setVisible(true);
             currentPane = projectManagerProjectInfoPane;
         } else if(user.getJobPos() == Functions.JobPos.TECHNICIAN) {
-            employeeInfoClose(false);
+            employeeInfoClose(false,true);
         }
         switchNavButton(navButton2);
     }
@@ -574,10 +578,12 @@ public class homePageController implements Initializable {
     }
     @FXML
     public void employeeInfoCloseClicked() {
-        employeeInfoClose(false);
+        employeeInfoClose(false,false);
     }
-    public void employeeInfoClose(boolean refresh) {
-        if(!refresh) {
+    public void employeeInfoClose(boolean refresh,boolean primary) {
+        if(primary) {
+            employeeInfoPane.setVisible(false);
+        }else if(!refresh) {
             Functions.infoOutAnimation(currentPane,employeeInfoPane);
         }
         else {
@@ -627,9 +633,9 @@ public class homePageController implements Initializable {
 
     @FXML
     public void employeeDisplayClicked() {
-        employeeDisplay(false);
+        employeeDisplay(false,false);
     }
-    public void employeeDisplay(boolean refresh) {
+    public void employeeDisplay(boolean refresh,boolean primary) {
         Employee employee = null;
         if(user.getJobPos() == Functions.JobPos.PROJ_MANAGER || user.getJobPos() == Functions.JobPos.TECHNICIAN || user.getJobPos() == Functions.JobPos.ACCOUNTANT) {
             employee = getEmployeeInfo(user.getEid());
@@ -723,7 +729,7 @@ public class homePageController implements Initializable {
 
         }
         employeeInfoPane.setVisible(true);
-        if(!refresh) {
+        if(!refresh && !primary) {
             Functions.infoInAnimation(employeesPane,employeeInfoPane);
         }
     }
@@ -834,8 +840,8 @@ public class homePageController implements Initializable {
             }
 
             DBapi.assignEmployeeToProject(employeeInfoEmpId.getText(), employeeInfoAssignTextField.getText());
-            employeeInfoClose(true);
-            employeeDisplay(true);
+            employeeInfoClose(true,false);
+            employeeDisplay(true,false);
         }catch (Exception exception){
             Functions.showDialog("Please enter an valid Project ID", Functions.Errors.ERROR);
 
@@ -844,8 +850,8 @@ public class homePageController implements Initializable {
     }
     public void removeEmployeeFromCurrentProject(){
         DBapi.removeEmployeeFromProject(employeeInfoEmpId.getText(), employeeInfoCurrentProjectId.getText());
-        employeeInfoClose(true);
-        employeeDisplay(true);
+        employeeInfoClose(true,false);
+        employeeDisplay(true,false);
     }
     @FXML
     public void userChangePasswordClicked() {
@@ -1587,7 +1593,9 @@ public class homePageController implements Initializable {
     }
     private void addProjManagerProjectParts(String column1,String column2,String column3) {
         enhancedScrollPane.addRow(ProjManPartsUsedScrollPaneVbox,column1, column2, column3,86,143, 103, null);
-
+    }
+    private void addOffersProductsRow(String column1,String column2,String column3) {
+        enhancedScrollPane.addRow(offersProductsScrollPaneVbox,column1,column2,column3,32,190,90,null);
     }
 
 

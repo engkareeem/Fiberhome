@@ -166,7 +166,9 @@ public static void move(Stage stage, Node pane) {
         showDialog(description,null,null,Errors.INFORMATION);
     }
     public static void showDialog(String description,Errors type) {
-        showDialog(description,null,null,type);
+        if(type == Errors.SUCCESSFUL) {
+            showDialog(description,"Confirm",null,type);
+        } else showDialog(description,null,null,type);
     }
 
     public static void showDialog(String description,String buttonText1,String buttonText2,Errors type) {

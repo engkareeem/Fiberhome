@@ -47,8 +47,25 @@ public class dialogController implements Initializable {
 
         String buttonText1 = (String)Navigator.getPopupValue("button1");
         String buttonText2 = (String)Navigator.getPopupValue("button2");
-        confirmButton.setText(buttonText1 != null ? buttonText1:"Confirm");
-        cancelButton.setText(buttonText2 != null ? buttonText2:"Cancel");
+        if(buttonText1 == null && buttonText2 == null) {
+            confirmButton.setText("Confirm");
+            cancelButton.setText("Cancel");
+        } else if(buttonText2 == null) {
+            confirmButton.setText(buttonText1);
+            confirmButton.setLayoutX(106);
+            confirmButton.setLayoutY(186);
+            cancelButton.setVisible(false);
+        } else if(buttonText1 == null){
+            cancelButton.setText(buttonText2);
+            cancelButton.setLayoutX(106);
+            cancelButton.setLayoutY(186);
+            confirmButton.setVisible(false);
+        } else {
+            confirmButton.setText(buttonText1);
+            cancelButton.setText(buttonText2);
+        }
+//        confirmButton.setText(buttonText1 != null ? buttonText1:"Confirm");
+//        cancelButton.setText(buttonText2 != null ? buttonText2:"Cancel");
 
         error = (Functions.Errors)Navigator.getPopupValue("type");
         assert error != null;
@@ -72,6 +89,8 @@ public class dialogController implements Initializable {
             Functions.displayStatus(Navigator.primaryStage.getScene(),0,0);
             Main.connectToDatabase();
         } else if(error == Functions.Errors.CONFIRM_DIALOG) {
+            Functions.confirmFlag = true;
+        } else if(error == Functions.Errors.SUCCESSFUL) {
             Functions.confirmFlag = true;
         }
         closeDialog();

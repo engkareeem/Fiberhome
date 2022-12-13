@@ -260,7 +260,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="controlPanelPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/controlPanel.css">
+      <Pane fx:id="controlPanelPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/controlPanel.css" visible="false">
          <children>
             <Label layoutX="354.0" layoutY="-8.0" styleClass="headerText" text="Control Panel" />
             <TabPane layoutX="14.0" layoutY="43.0" prefHeight="624.0" prefWidth="872.0" styleClass="MyTabPane" tabClosingPolicy="UNAVAILABLE">
@@ -1107,129 +1107,134 @@
       </Pane>
       <Pane fx:id="projectManagerProjectInfoPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/displayPage.css" visible="false">
          <children>
-            <Pane layoutX="76.0" layoutY="39.0" prefHeight="582.0" prefWidth="297.0" styleClass="card-pane">
+            <Pane fx:id="projectManagerProjectInfoPaneChild" layoutX="71.0" layoutY="34.0">
                <children>
-                  <StackPane layoutY="7.0" prefHeight="177.0" prefWidth="297.0">
+                  <Pane layoutX="5.0" layoutY="5.0" prefHeight="582.0" prefWidth="297.0" styleClass="card-pane">
                      <children>
-                        <FontIcon iconColor="#00a0d7" iconLiteral="fltfmz-wrench-16" iconSize="100" />
+                        <StackPane layoutY="7.0" prefHeight="177.0" prefWidth="297.0">
+                           <children>
+                              <FontIcon iconColor="#00a0d7" iconLiteral="fltfmz-wrench-16" iconSize="100" />
+                           </children>
+                        </StackPane>
+                        <Label layoutX="99.0" layoutY="184.0" text="Project Info" textFill="#cfcfcf">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="18.0" layoutY="260.0" text="Project ID:" textFill="#cfcfcf">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="ProjManProjectInfoProjType" layoutX="20.0" layoutY="293.0" prefHeight="20.0" prefWidth="174.0" text="Maintenance" textFill="#b9b9b9">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Separator layoutX="18.0" layoutY="290.0" opacity="0.21" prefHeight="1.0" prefWidth="261.0" />
+                        <Label fx:id="ProjManProjectInfoProjId" layoutX="252.0" layoutY="265.0" text="0005" textFill="#cfcfcf" />
+                        <Label fx:id="ProjManProjectInfoStartDate" layoutX="17.0" layoutY="366.0" text="11/9/2001" textFill="#cfcfcf">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Separator layoutX="17.0" layoutY="395.0" opacity="0.21" prefHeight="1.0" prefWidth="261.0" />
+                        <Label fx:id="ProjManProjectInfoDueDate" alignment="CENTER_RIGHT" layoutX="187.0" layoutY="366.0" prefHeight="26.0" prefWidth="92.0" text="22/1/2005" textFill="#cfcfcf">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="ProjManProjectInfoCity" alignment="CENTER_RIGHT" layoutX="187.0" layoutY="398.0" prefHeight="15.0" prefWidth="92.0" text="Nablus" textFill="#c9c9c9">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="ProjManProjectInfoStreet" layoutX="17.0" layoutY="398.0" text="Tons Street 9A" textFill="#c9c9c9">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="ProjManProjectInfoProjAmount" alignment="CENTER_RIGHT" layoutX="188.0" layoutY="295.0" prefHeight="17.0" prefWidth="91.0" text="69000$" textFill="#cfcfcf" />
                      </children>
-                  </StackPane>
-                  <Label layoutX="99.0" layoutY="184.0" text="Project Info" textFill="#cfcfcf">
+                  </Pane>
+                  <Pane fx:id="projectContCard2" layoutX="354.0" layoutY="6.0" prefHeight="266.0" prefWidth="400.0" styleClass="card-pane">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" layoutX="2.0" layoutY="6.0" prefHeight="40.0" prefWidth="396.0" spacing="20.0">
+                           <children>
+                              <Label prefHeight="26.0" prefWidth="54.0" text="EID" textFill="#cfcfcf">
+                                 <font>
+                                    <Font name="System Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label prefHeight="26.0" prefWidth="166.0" text="Employee Name" textFill="#cfcfcf">
+                                 <font>
+                                    <Font name="System Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label prefHeight="26.0" prefWidth="114.0" text="Job Position" textFill="#cfcfcf">
+                                 <font>
+                                    <Font name="System Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
+                        </HBox>
+                        <Separator layoutY="46.0" opacity="0.2" prefWidth="400.0" />
+                        <MFXScrollPane fx:id="ProjManProjectEmployeesScrollPane" fitToWidth="true" layoutX="4.0" layoutY="50.0" prefHeight="216.0" prefWidth="392.0">
+                           <content>
+                              <VBox fx:id="ProjManProjectEmployeesScrollPaneVbox" prefWidth="388.0" />
+                           </content>
+                           <padding>
+                              <Insets top="1.0" />
+                           </padding>
+                        </MFXScrollPane>
+                     </children>
+                  </Pane>
+                  <Label fx:id="projectInfoPartsUsedLabel2" layoutX="467.0" layoutY="293.0" text="Materials used in project" textFill="#cfcfcf">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label layoutX="18.0" layoutY="260.0" text="Project ID:" textFill="#cfcfcf">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="ProjManProjectInfoProjType" layoutX="20.0" layoutY="293.0" prefHeight="20.0" prefWidth="174.0" text="Maintenance" textFill="#b9b9b9">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                  <Separator layoutX="18.0" layoutY="290.0" opacity="0.21" prefHeight="1.0" prefWidth="261.0" />
-                  <Label fx:id="ProjManProjectInfoProjId" layoutX="252.0" layoutY="265.0" text="0005" textFill="#cfcfcf" />
-                  <Label fx:id="ProjManProjectInfoStartDate" layoutX="17.0" layoutY="366.0" text="11/9/2001" textFill="#cfcfcf">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Label>
-                  <Separator layoutX="17.0" layoutY="395.0" opacity="0.21" prefHeight="1.0" prefWidth="261.0" />
-                  <Label fx:id="ProjManProjectInfoDueDate" alignment="CENTER_RIGHT" layoutX="187.0" layoutY="366.0" prefHeight="26.0" prefWidth="92.0" text="22/1/2005" textFill="#cfcfcf">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="ProjManProjectInfoCity" alignment="CENTER_RIGHT" layoutX="187.0" layoutY="398.0" prefHeight="15.0" prefWidth="92.0" text="Nablus" textFill="#c9c9c9">
-                     <font>
-                        <Font size="10.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="ProjManProjectInfoStreet" layoutX="17.0" layoutY="398.0" text="Tons Street 9A" textFill="#c9c9c9">
-                     <font>
-                        <Font size="10.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="ProjManProjectInfoProjAmount" alignment="CENTER_RIGHT" layoutX="188.0" layoutY="295.0" prefHeight="17.0" prefWidth="91.0" text="69000$" textFill="#cfcfcf" />
-               </children>
-            </Pane>
-            <Pane fx:id="projectContCard2" layoutX="425.0" layoutY="40.0" prefHeight="266.0" prefWidth="400.0" styleClass="card-pane">
-               <children>
-                  <HBox alignment="CENTER_LEFT" layoutX="2.0" layoutY="6.0" prefHeight="40.0" prefWidth="396.0" spacing="20.0">
+                  <Pane fx:id="partsUsedCard2" layoutX="354.0" layoutY="320.0" prefHeight="266.0" prefWidth="400.0" styleClass="card-pane">
                      <children>
-                        <Label prefHeight="26.0" prefWidth="54.0" text="EID" textFill="#cfcfcf">
-                           <font>
-                              <Font name="System Bold" size="16.0" />
-                           </font>
-                        </Label>
-                        <Label prefHeight="26.0" prefWidth="166.0" text="Employee Name" textFill="#cfcfcf">
-                           <font>
-                              <Font name="System Bold" size="16.0" />
-                           </font>
-                        </Label>
-                        <Label prefHeight="26.0" prefWidth="114.0" text="Job Position" textFill="#cfcfcf">
-                           <font>
-                              <Font name="System Bold" size="16.0" />
-                           </font>
-                        </Label>
+                        <HBox alignment="CENTER_LEFT" layoutX="2.0" layoutY="6.0" prefHeight="40.0" prefWidth="396.0" spacing="20.0">
+                           <children>
+                              <Label prefHeight="26.0" prefWidth="86.0" text="MID" textFill="#cfcfcf">
+                                 <font>
+                                    <Font name="System Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label prefHeight="26.0" prefWidth="143.0" text="Material Name" textFill="#cfcfcf">
+                                 <font>
+                                    <Font name="System Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label prefHeight="26.0" prefWidth="103.0" text="Warehouse" textFill="#cfcfcf">
+                                 <font>
+                                    <Font name="System Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
+                        </HBox>
+                        <Separator layoutY="46.0" opacity="0.2" prefWidth="400.0" />
+                        <MFXScrollPane fx:id="ProjManPartsUsedScrollPane" fitToWidth="true" layoutX="4.0" layoutY="50.0" prefHeight="216.0" prefWidth="392.0">
+                           <content>
+                              <VBox fx:id="ProjManPartsUsedScrollPaneVbox" prefWidth="388.0" />
+                           </content>
+                           <padding>
+                              <Insets top="1.0" />
+                           </padding>
+                        </MFXScrollPane>
                      </children>
-                     <padding>
-                        <Insets left="10.0" right="10.0" />
-                     </padding>
-                  </HBox>
-                  <Separator layoutY="46.0" opacity="0.2" prefWidth="400.0" />
-                  <MFXScrollPane fx:id="ProjManProjectEmployeesScrollPane" fitToWidth="true" layoutX="4.0" layoutY="50.0" prefHeight="216.0" prefWidth="392.0">
-                     <content>
-                        <VBox fx:id="ProjManProjectEmployeesScrollPaneVbox" prefWidth="388.0" />
-                     </content>
-                     <padding>
-                        <Insets top="1.0" />
-                     </padding>
-                  </MFXScrollPane>
+                  </Pane>
                </children>
             </Pane>
-            <Label fx:id="projectInfoPartsUsedLabel2" layoutX="538.0" layoutY="327.0" text="Materials used in project" textFill="#cfcfcf">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Label>
-            <Pane fx:id="partsUsedCard2" layoutX="425.0" layoutY="354.0" prefHeight="266.0" prefWidth="400.0" styleClass="card-pane">
-               <children>
-                  <HBox alignment="CENTER_LEFT" layoutX="2.0" layoutY="6.0" prefHeight="40.0" prefWidth="396.0" spacing="20.0">
-                     <children>
-                        <Label prefHeight="26.0" prefWidth="86.0" text="MID" textFill="#cfcfcf">
-                           <font>
-                              <Font name="System Bold" size="16.0" />
-                           </font>
-                        </Label>
-                        <Label prefHeight="26.0" prefWidth="143.0" text="Material Name" textFill="#cfcfcf">
-                           <font>
-                              <Font name="System Bold" size="16.0" />
-                           </font>
-                        </Label>
-                        <Label prefHeight="26.0" prefWidth="103.0" text="Warehouse" textFill="#cfcfcf">
-                           <font>
-                              <Font name="System Bold" size="16.0" />
-                           </font>
-                        </Label>
-                     </children>
-                     <padding>
-                        <Insets left="10.0" right="10.0" />
-                     </padding>
-                  </HBox>
-                  <Separator layoutY="46.0" opacity="0.2" prefWidth="400.0" />
-                  <MFXScrollPane fx:id="ProjManPartsUsedScrollPane" fitToWidth="true" layoutX="4.0" layoutY="50.0" prefHeight="216.0" prefWidth="392.0">
-                     <content>
-                        <VBox fx:id="ProjManPartsUsedScrollPaneVbox" prefWidth="388.0" />
-                     </content>
-                     <padding>
-                        <Insets top="1.0" />
-                     </padding>
-                  </MFXScrollPane>
-               </children>
-            </Pane>
+            <Label fx:id="projectManagerProjectInfoPaneDontWork" layoutX="155.0" layoutY="308.0" styleClass="headerText" text="You are not currently working at a Project" visible="false" />
          </children>
       </Pane>
       <Pane fx:id="warehouseInfoPane" layoutX="201.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/displayPage.css" visible="false">
@@ -1334,7 +1339,7 @@
       </Pane>
       <Pane fx:id="supplierInfoPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/displayPage.css" visible="false">
          <children>
-            <Pane fx:id="contractorProfileCard1" layoutX="76.0" layoutY="39.0" prefHeight="582.0" prefWidth="297.0" styleClass="card-pane">
+            <Pane fx:id="supplierInfoProfileCard" layoutX="76.0" layoutY="39.0" prefHeight="582.0" prefWidth="297.0" styleClass="card-pane">
                <children>
                   <StackPane layoutY="7.0" prefHeight="177.0" prefWidth="297.0">
                      <children>
