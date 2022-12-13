@@ -33,8 +33,6 @@ public class Project {
         this.dueDate = dueDate;
         this.city = city;
         this.street = street;
-        this.warehouseList = warehouseList;
-        this.employeeList = employeeList;
         this.contractorId = contractorId;
         this.projType = projType;
     }

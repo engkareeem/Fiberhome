@@ -110,7 +110,12 @@ public class Functions {
             currentPane.setVisible(false);
         });
     }
-    public static void infoOutAnimation(Node currentPane,Node infoPane) {
+
+    public static void infoOutAnimation(Node currentPane, Node infoPane) {
+        infoOutAnimation(currentPane, infoPane, false);
+    }
+
+    public static void infoOutAnimation(Node currentPane, Node infoPane, boolean back) {
         currentPane.setVisible(true);
         AnimationFX outAnimation = new SlideOutRight(infoPane);
         AnimationFX inAnimation = new SlideInLeft(currentPane);
@@ -118,8 +123,14 @@ public class Functions {
         inAnimation.setSpeed(2);
         outAnimation.play();
         inAnimation.play();
-        outAnimation.setOnFinished(e -> {
+        inAnimation.setOnFinished(e -> {
             infoPane.setVisible(false);
+            if(back) {
+                Platform.runLater(() -> {
+                    infoPane.setTranslateX(0);
+                    infoPane.setTranslateY(0);
+                });
+            }
         });
     }
 /*                            Data base connection Stuff                                                  */

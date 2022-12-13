@@ -230,12 +230,16 @@ public class enhancedScrollPane {
             hBox.getChildren().addAll(acceptLabel,declineLabel);
 
         } else if(type == ListType.PROJ_MANAGER_PROJ_EMPLOYEES) {
-            hBox.setOnMouseClicked(mouseEvent -> {
-                nodes[0].setVisible(false); // current page pane
-                Navigator.getStage().getScene().lookup("#disableNavBar").setVisible(true); // navbar
-                displayEmployeeInfo(column1,(Pane)nodes[2]); // nodes[2] = employeeInfoPage
+            if(vbox.getChildren().size() == 0) {
+                hBox.getStyleClass().remove("list-row");
+                hBox.getStyleClass().add("cont-list-row");
+            } else {
+                hBox.setOnMouseClicked(mouseEvent -> {
+                    Navigator.getStage().getScene().lookup("#disableNavBar").setVisible(true); // navbar
+                    displayEmployeeInfo(column1,nodes[0],(Pane)nodes[2]); // nodes[2] = employeeInfoPage
+                });
+            }
 
-            });
         }
 
         Separator separator = new Separator();
@@ -288,7 +292,7 @@ public class enhancedScrollPane {
         projectInfoPage.setVisible(true);
         Functions.infoInAnimation(currentPane,projectInfoPage);
     }
-    private static void displayEmployeeInfo(String eid,Pane employeeInfoPage) {
+    private static void displayEmployeeInfo(String eid,Node currentPane, Pane employeeInfoPage) {
         Employee employee = null;
         User user = getUserInfo((String) Navigator.getValue("eid"));
         assert user != null;
@@ -313,6 +317,7 @@ public class enhancedScrollPane {
         }).start();
 
         if (employee.getJobPos().equals("Technician") || employee.getJobPos().equals("Project Monitor") || employee.getJobPos().equals("Project Manager")) {
+            employeeInfoPage.lookup("#profileCard").setLayoutX(76);
 
             employeeInfoPage.lookup("#lastProjectsCard").setVisible(true);
             Project project = getCurrentProject(employee.getEid());
@@ -352,6 +357,7 @@ public class enhancedScrollPane {
             employeeInfoPage.lookup("#employeeInfoAssignToProjectButton").setVisible(false);
             employeeInfoPage.lookup("#currentProjectCard").setVisible(false);
             employeeInfoPage.lookup("#lastProjectsCard").setVisible(false);
+            employeeInfoPage.lookup("#profileCard").setLayoutX(276);
         }
         ((Label)employeeInfoPage.lookup("#employeeInfoEmpName")).setText(employee.getFname() + " " + employee.getMname() + " " + employee.getLname());
         ((Label)employeeInfoPage.lookup("#employeeInfoEmpId")).setText(employee.getEid());
@@ -369,8 +375,12 @@ public class enhancedScrollPane {
             employeeInfoPage.lookup("#disableNavBar").setVisible(true);
         }
         employeeInfoPage.lookup("#employeeInfoCloseLabel").setVisible(true);
-        employeeInfoPage.lookup("#employeeInfoPane").setVisible(true);
-
+        employeeInfoPage.lookup("#employeeInfoCloseLabel").setOnMouseClicked(mouseEvent -> {
+            Functions.infoOutAnimation(currentPane,employeeInfoPage,true);
+            Navigator.primaryStage.getScene().lookup("#disableNavBar").setVisible(false);
+        });
+        employeeInfoPage.setVisible(true);
+        Functions.infoInAnimation(currentPane,employeeInfoPage);
 
     }
     static int getAge(Date firstDate, Date secondDate) {

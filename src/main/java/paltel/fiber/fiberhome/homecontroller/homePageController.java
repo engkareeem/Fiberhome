@@ -230,6 +230,16 @@ public class homePageController implements Initializable {
     Label ProjManProjectInfoProjId,ProjManProjectInfoProjType,ProjManProjectInfoProjAmount
             ,ProjManProjectInfoStartDate,ProjManProjectInfoDueDate,ProjManProjectInfoStreet,ProjManProjectInfoCity;
 
+
+    /*                                   Accountant Page                            */
+    @FXML
+    Label totalWarehousesNumberLabel, totalRunningProjectsNumberLabel, totalWarehousesBudgetLabel, totalProjectsBudgetLabel;
+    @FXML
+    MFXScrollPane departmentWarehousesScrollPane,departmentProjectsScrollPane;
+    @FXML
+    VBox departmentWarehousesScrollPaneVbox,departmentProjectsScrollPaneVbox;
+    @FXML
+    Pane accountantPane;
     /* ----------------------------------------------------------------------------- */
 
 
@@ -242,10 +252,6 @@ public class homePageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Platform.runLater(() -> {
-            addProjManagerProjectEmployeesRow("0003","Zobr","wepofk");
-            addProjManagerProjectParts("0000000002","zobr kber","Nablus");
-        });
         user = getUserInfo((String) Navigator.getValue("eid"));
         Employee employee = getEmployeeInfo((String) Navigator.getValue("eid"));
 
@@ -440,7 +446,7 @@ public class homePageController implements Initializable {
     /*                   Nav bar stuff                    */
     @FXML
     public void navButton1Clicked() {
-        if(user.getRole().equals("Admin")) {
+        if(user.getRole().equals("Admin") || user.getJobPos() == Functions.JobPos.DEP_MANAGER) {
             employeesPane.setVisible(false);
             controlPanelPane.setVisible(true);
             projectsPane.setVisible(false);
@@ -453,6 +459,7 @@ public class homePageController implements Initializable {
             currentPane = employeesPane;
             employeeDisplay(false,true);
         } else if(user.getJobPos() == Functions.JobPos.ACCOUNTANT) {
+            accountantPane.setVisible(false);
             currentPane = employeesPane;
             employeeDisplay(false,true);
         }
@@ -461,7 +468,7 @@ public class homePageController implements Initializable {
     }
     @FXML
     public void navButton2Clicked() {
-        if(user.getRole().equals("Admin")) {
+        if(user.getRole().equals("Admin") || user.getJobPos() == Functions.JobPos.DEP_MANAGER) {
             employeesPane.setVisible(true);
             controlPanelPane.setVisible(false);
             projectsPane.setVisible(false);
@@ -470,10 +477,14 @@ public class homePageController implements Initializable {
             // test
         } else if(user.getJobPos() == Functions.JobPos.PROJ_MONITOR) {
             employeeInfoClose(false,true);
-            projectManagerProjectInfoPane.setVisible(true);
+            projectManagerProjectInfoInitialize();
             currentPane = projectManagerProjectInfoPane;
         } else if(user.getJobPos() == Functions.JobPos.TECHNICIAN) {
             employeeInfoClose(false,true);
+        } else if(user.getJobPos() == Functions.JobPos.ACCOUNTANT) {
+            employeeInfoClose(false,true);
+            accountantPageInitialize();
+            currentPane = projectsPane;
         }
         switchNavButton(navButton2);
     }
@@ -481,7 +492,7 @@ public class homePageController implements Initializable {
 
     @FXML
     public void navButton4Clicked() {
-        if(user.getRole().equals("Admin")) {
+        if(user.getRole().equals("Admin") || user.getJobPos() == Functions.JobPos.DEP_MANAGER) {
             employeesPane.setVisible(false);
             controlPanelPane.setVisible(false);
             projectsPane.setVisible(false);
@@ -493,7 +504,7 @@ public class homePageController implements Initializable {
 
     @FXML
     public void navButton3Clicked() {
-        if(user.getRole().equals("Admin")) {
+        if(user.getRole().equals("Admin") || user.getJobPos() == Functions.JobPos.DEP_MANAGER) {
             employeesPane.setVisible(false);
             controlPanelPane.setVisible(false);
             projectsPane.setVisible(true);
@@ -524,6 +535,59 @@ public class homePageController implements Initializable {
         closeAnimation.play();
 
     }
+
+    public void accountantPageInitialize() {
+        accountantPane.setVisible(true);
+        totalWarehousesNumberLabel.setText(String.valueOf(getWarehousesCount()));
+        totalRunningProjectsNumberLabel.setText(String.valueOf(getRunningProjectsCount()));
+        totalWarehousesBudgetLabel.setText(getTotalWarehousesBudget() + "$"); // TODO: getWarehousesBudget
+        totalProjectsBudgetLabel.setText(getTotalProjectsBudget()+"$"); // TODO: getProjectsBudget
+
+        ArrayList<Project> projects = getAllProjects();
+        enhancedScrollPane.resetRows(departmentProjectsScrollPaneVbox);
+        projects.forEach(project -> {
+            enhancedScrollPane.addRow(departmentProjectsScrollPaneVbox,project.getProjectId(),project.getProjType(), project.getAmount() + "$",32,184,98,null);
+        });
+        ArrayList<Warehouse> warehouses = getAllWarehouses();
+        enhancedScrollPane.resetRows(departmentWarehousesScrollPaneVbox);
+        warehouses.forEach(warehouse -> {
+            enhancedScrollPane.addRow(departmentWarehousesScrollPaneVbox,warehouse.getWarehouseId(),warehouse.getCity(),String.valueOf(warehouse.getCapacity()),"0",40,150,75,90,null);
+        });
+    }
+    public void projectManagerProjectInfoInitialize() {
+        Employee employee = getEmployeeInfo(user.getEid());
+        if(employee == null) return;
+        projectManagerProjectInfoPane.setVisible(true);
+        Project currentProject = getCurrentProject(employee.getEid());
+        if(currentProject == null) {
+            projectManagerProjectInfoPaneDontWork.setVisible(true);
+            projectManagerProjectInfoPaneChild.setVisible(false);
+        } else {
+            SimpleDateFormat projectDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            ProjManProjectInfoProjId.setText(currentProject.getProjectId());
+            ProjManProjectInfoProjType.setText(currentProject.getProjType());
+            ProjManProjectInfoProjAmount.setText(currentProject.getAmount() + "$");
+            ProjManProjectInfoStartDate.setText(projectDateFormat.format(currentProject.getStartDate()));
+            ProjManProjectInfoDueDate.setText(projectDateFormat.format(currentProject.getDueDate()));
+            ProjManProjectInfoStreet.setText(currentProject.getStreet());
+            ProjManProjectInfoCity.setText(currentProject.getCity());
+
+            ArrayList<Product> products = DBapi.getProjectProducts(currentProject.getProjectId());
+            enhancedScrollPane.resetRows(ProjManPartsUsedScrollPaneVbox);
+            products.forEach(product -> {
+                Warehouse warehouse = DBapi.getWarehouseInfo(product.getWarehouse_id());
+                addProjManagerProjectParts(product.getProductId(), product.getProductName(), warehouse.getCity());
+            });
+            enhancedScrollPane.resetRows(ProjManProjectEmployeesScrollPaneVbox);
+            ArrayList<Employee> employees = getAllEmployeesWorkingOnAProject(currentProject.getProjectId());
+            Contractor contractor = getContractorInfo(currentProject.getContractorId());
+            addProjManagerProjectEmployeesRow(contractor.getContractorId(),"C. " +contractor.getFname() + " " + contractor.getMname() + " " + contractor.getLname(),contractor.getContractorType());
+            employees.forEach(emp -> {
+                addProjManagerProjectEmployeesRow(emp.getEid(),emp.getFname() + " " + emp.getMname() + " " + emp.getLname(),emp.getJobPos());
+            });
+        }
+    }
+
     /*               display Employee stuff                     */
 
     int getAge(Date firstDate, Date secondDate) {
@@ -667,7 +731,7 @@ public class homePageController implements Initializable {
         }).start();
 
         if (employee.getJobPos().equals("Technician") || employee.getJobPos().equals("Project Monitor") || employee.getJobPos().equals("Project Manager")) {
-
+            profileCard.setLayoutX(76);
             lastProjectsCard.setVisible(true);
             Project project = getCurrentProject(employee.getEid());
             if (project == null) {
@@ -710,6 +774,7 @@ public class homePageController implements Initializable {
             employeeInfoLastProjectsLabel.setVisible(false);
             employeeInfoAssignToProjectButton.setVisible(false);
             currentProjectCard.setVisible(false);
+            profileCard.setLayoutX(276);
             lastProjectsCard.setVisible(false);
         }
         employeeInfoEmpName.setText(employee.getFname() + " " + employee.getMname() + " " + employee.getLname());
@@ -1604,7 +1669,7 @@ public class homePageController implements Initializable {
 
     private void setupNavBar() {
         assert user != null;
-        if(user.getRole().equals("Admin")) {
+        if(user.getRole().equals("Admin") || user.getJobPos() == Functions.JobPos.DEP_MANAGER) {
             navButton1.setText("Control Panel");
             navButton1.setVisible(true);
             navButton2.setText("Employees");
@@ -1638,7 +1703,12 @@ public class homePageController implements Initializable {
             navButton1.setText("My Profile");
             navButton1.setVisible(true);
 
+            navButton2.setText("Statistic");
+            navButton2.setVisible(true);
+
+
             navButton1FontIcon.setIconLiteral("fltfmz-person-24");
+            navButton2FontIcon.setIconLiteral("fltfal-arrow-trending-24");
 
             navButton1Clicked();
 

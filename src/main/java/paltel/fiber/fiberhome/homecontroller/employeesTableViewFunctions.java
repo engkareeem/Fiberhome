@@ -1,5 +1,6 @@
 package paltel.fiber.fiberhome.homecontroller;
 
+import io.github.palexdev.materialfx.controls.MFXPaginatedTableView;
 import io.github.palexdev.materialfx.controls.MFXTableColumn;
 import io.github.palexdev.materialfx.controls.MFXTableView;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
@@ -69,8 +70,7 @@ public class employeesTableViewFunctions {
                 new StringFilter<>("Has Account", Employee::isHasAccount)
         );
         tableview.setItems(employees);
-        tableview.scrollToFirst();
-
+        ((MFXPaginatedTableView<Employee>)tableview).setCurrentPage(1);
     }
 
     public static Employee getSelectedRow() {

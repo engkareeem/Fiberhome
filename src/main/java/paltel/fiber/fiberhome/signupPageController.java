@@ -137,7 +137,7 @@ public class signupPageController implements Initializable {
                     newUser.setNull(4, Types.DATE);
                     newUser.setString(5, nicknameInput.getText());
                     newUser.executeUpdate();
-                    Functions.showDialog("Thank you,now STFU and wait to approval", Functions.Errors.SUCCESSFUL);
+                    Functions.showDialog("Thank you,Now wait to Admin approval", Functions.Errors.SUCCESSFUL);
                     new Thread(() -> {
                         try {
                             Thread.sleep(1000);

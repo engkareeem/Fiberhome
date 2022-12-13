@@ -1,5 +1,6 @@
 package paltel.fiber.fiberhome.homecontroller;
 
+import io.github.palexdev.materialfx.controls.MFXPaginatedTableView;
 import io.github.palexdev.materialfx.controls.MFXTableColumn;
 import io.github.palexdev.materialfx.controls.MFXTableView;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
@@ -8,6 +9,7 @@ import io.github.palexdev.materialfx.filter.StringFilter;
 import io.github.palexdev.materialfx.selection.base.IMultipleSelectionModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import paltel.fiber.fiberhome.model.Employee;
 import paltel.fiber.fiberhome.model.Project;
 import paltel.fiber.fiberhome.utils.DBapi;
 
@@ -65,6 +67,8 @@ public class projectsTableViewFunctions {
                 new StringFilter<>("Street", Project::getStreet)
         );
         tableview.setItems(projects);
+        ((MFXPaginatedTableView<Project>)tableview).setCurrentPage(1);
+
     }
     public static Project getSelectedRow() {
         IMultipleSelectionModel<Project> selectionModel = projectsTable.getSelectionModel();

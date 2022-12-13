@@ -588,7 +588,143 @@
             </TabPane>
          </children>
       </Pane>
-      <Pane layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" visible="false" />
+      <Pane fx:id="accountantPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" visible="false">
+         <children>
+            <Pane fx:id="depProjectsPane" layoutX="486.0" layoutY="45.0" prefHeight="615.0" prefWidth="400.0" styleClass="card-pane">
+               <children>
+                  <HBox alignment="CENTER_LEFT" layoutX="2.0" layoutY="6.0" prefHeight="40.0" prefWidth="396.0" spacing="20.0">
+                     <children>
+                        <Label prefHeight="26.0" prefWidth="32.0" text="PID" textFill="#cfcfcf">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label prefHeight="26.0" prefWidth="184.0" text="Project type" textFill="#cfcfcf">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label prefWidth="98.0" text="Total Budget" textFill="#cfcfcf">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </HBox>
+                  <Separator layoutY="46.0" opacity="0.2" prefWidth="400.0" />
+                  <MFXScrollPane fx:id="departmentProjectsScrollPane" fitToWidth="true" layoutX="4.0" layoutY="50.0" prefHeight="563.0" prefWidth="392.0">
+                     <content>
+                        <VBox fx:id="departmentProjectsScrollPaneVbox" prefWidth="388.0" />
+                     </content>
+                     <padding>
+                        <Insets top="1.0" />
+                     </padding>
+                  </MFXScrollPane>
+               </children>
+            </Pane>
+            <Pane layoutX="14.0" layoutY="364.0" prefHeight="296.0" prefWidth="453.0" styleClass="card-pane">
+               <children>
+                  <HBox alignment="CENTER_LEFT" layoutY="6.0" prefHeight="40.0" prefWidth="449.0" spacing="20.0">
+                     <children>
+                        <Label prefHeight="26.0" prefWidth="40.0" text="WID" textFill="#cfcfcf">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label prefHeight="26.0" prefWidth="150.0" text="Location" textFill="#cfcfcf">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label prefHeight="26.0" prefWidth="75.0" text="Capacity" textFill="#cfcfcf">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label prefHeight="26.0" prefWidth="90.0" text="Total Budget" textFill="#cfcfcf">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets left="15.0" right="10.0" />
+                     </padding>
+                  </HBox>
+                  <Separator layoutY="46.0" opacity="0.1" prefWidth="451.0" />
+                  <MFXScrollPane fx:id="departmentWarehousesScrollPane" fitToWidth="true" layoutX="4.0" layoutY="50.0" prefHeight="243.0" prefWidth="445.0">
+                     <content>
+                        <VBox fx:id="departmentWarehousesScrollPaneVbox" prefWidth="339.0" />
+                     </content>
+                  </MFXScrollPane>
+               </children>
+            </Pane>
+            <Pane layoutX="14.0" layoutY="45.0" prefHeight="302.0" prefWidth="453.0" styleClass="card-pane">
+               <children>
+                  <Pane fx:id="employeesNumberPane23" layoutX="38.0" layoutY="15.0" prefHeight="130.0" prefWidth="180.0" styleClass="statics-square">
+                     <children>
+                        <Label fx:id="totalWarehousesNumberLabel" alignment="CENTER" layoutY="22.0" prefHeight="26.0" prefWidth="180.0" text="0" textFill="#cfcfcf">
+                           <font>
+                              <Font name="System Bold" size="17.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutX="7.0" layoutY="56.0" prefHeight="64.0" prefWidth="167.0" text="Total number of warehouses " textAlignment="CENTER" textFill="#cfcfcf" wrapText="true">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Pane fx:id="employeesNumberPane214" layoutX="235.0" layoutY="15.0" prefHeight="130.0" prefWidth="180.0" styleClass="statics-square">
+                     <children>
+                        <Label fx:id="totalRunningProjectsNumberLabel" alignment="CENTER" layoutY="22.0" prefHeight="26.0" prefWidth="180.0" text="0" textFill="#cfcfcf">
+                           <font>
+                              <Font name="System Bold" size="17.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutX="7.0" layoutY="56.0" prefHeight="64.0" prefWidth="167.0" text="Total number of running Projects" textAlignment="CENTER" textFill="#cfcfcf" wrapText="true">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Pane fx:id="employeesNumberPane2112" layoutX="38.0" layoutY="157.0" prefHeight="130.0" prefWidth="180.0" styleClass="statics-square">
+                     <children>
+                        <Label fx:id="totalWarehousesBudgetLabel" alignment="CENTER" layoutY="22.0" prefHeight="26.0" prefWidth="180.0" text="0" textFill="#cfcfcf">
+                           <font>
+                              <Font name="System Bold" size="17.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutX="7.0" layoutY="56.0" prefHeight="64.0" prefWidth="167.0" text="Total budget in warehouses" textAlignment="CENTER" textFill="#cfcfcf" wrapText="true">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Pane fx:id="employeesNumberPane2122" layoutX="235.0" layoutY="157.0" prefHeight="130.0" prefWidth="180.0" styleClass="statics-square">
+                     <children>
+                        <Label fx:id="totalProjectsBudgetLabel" alignment="CENTER" layoutY="22.0" prefHeight="26.0" prefWidth="180.0" text="0" textFill="#cfcfcf">
+                           <font>
+                              <Font name="System Bold" size="17.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutX="7.0" layoutY="56.0" prefHeight="64.0" prefWidth="167.0" text="Total budget used in projects" textAlignment="CENTER" textFill="#cfcfcf" wrapText="true">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+            <Label layoutX="386.0" layoutY="-8.0" styleClass="headerText" text="Accountant" />
+         </children>
+      </Pane>
       <Pane fx:id="employeeInfoPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/displayPage.css" visible="false">
          <children>
             <Pane fx:id="profileCard" layoutX="76.0" layoutY="39.0" prefHeight="582.0" prefWidth="297.0" styleClass="card-pane">
@@ -933,7 +1069,7 @@
                         <Font size="10.0" />
                      </font>
                   </Label>
-                  <Label fx:id="projectInfoProjAmount" alignment="CENTER_RIGHT" layoutX="188.0" layoutY="295.0" prefHeight="17.0" prefWidth="91.0" text="69000$" textFill="#cfcfcf" />
+                  <Label fx:id="projectInfoProjAmount" alignment="CENTER_RIGHT" layoutX="188.0" layoutY="295.0" prefHeight="17.0" prefWidth="91.0" text="0$" textFill="#cfcfcf" />
                </children>
             </Pane>
             <Pane fx:id="projectContCard" layoutX="425.0" layoutY="40.0" prefHeight="266.0" prefWidth="400.0" styleClass="card-pane">
@@ -1011,6 +1147,11 @@
             <Label layoutX="854.0" layoutY="14.0" onMouseClicked="#projectInfoCloseClicked" prefHeight="18.0" prefWidth="32.0">
                <graphic>
                   <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-arrow-right-24" iconSize="30" />
+               </graphic>
+            </Label>
+            <Label layoutX="846.0" layoutY="620.0" onMouseClicked="#projectPrintClicked" visible="false">
+               <graphic>
+                  <FontIcon iconColor="#cfcfcf" iconLiteral="fltfmz-print-24" iconSize="40" />
                </graphic>
             </Label>
          </children>
@@ -1187,7 +1328,7 @@
                         <Font size="17.0" />
                      </font>
                   </Label>
-                  <Label fx:id="warehouseInfoWCapacityCount" alignment="TOP_RIGHT" layoutX="239.0" layoutY="295.0" prefHeight="17.0" prefWidth="39.0" text="69" textFill="#cfcfcf" />
+                  <Label fx:id="warehouseInfoWCapacityCount" alignment="TOP_RIGHT" layoutX="239.0" layoutY="295.0" prefHeight="17.0" prefWidth="39.0" text="0" textFill="#cfcfcf" />
                </children>
             </Pane>
             <Pane fx:id="projectContCard1" layoutX="425.0" layoutY="40.0" prefHeight="266.0" prefWidth="400.0" styleClass="card-pane">
@@ -1244,6 +1385,11 @@
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
+            </Label>
+            <Label layoutX="846.0" layoutY="620.0" onMouseClicked="#warehousePrintClicked" visible="false">
+               <graphic>
+                  <FontIcon iconColor="#cfcfcf" iconLiteral="fltfmz-print-24" iconSize="40" />
+               </graphic>
             </Label>
          </children>
       </Pane>
