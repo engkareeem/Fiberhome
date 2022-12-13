@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import paltel.fiber.fiberhome.model.Supplier;
 import paltel.fiber.fiberhome.utils.DBapi;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 
@@ -28,14 +29,16 @@ public class suppliersTableViewFunctions {
         MFXTableColumn<Supplier> supplierEmailAddressColumn = new MFXTableColumn<>("Email Address", true, Comparator.comparing(Supplier::getEmailAddress));
         MFXTableColumn<Supplier> supplierFaxColumn = new MFXTableColumn<>("Fax", true, Comparator.comparing(Supplier::getFax));
 
-        idColumn.setMinWidth(100);
-        companyNameColumn.setMinWidth(120);
-
+        idColumn.setMinWidth(80);
+        companyNameColumn.setMinWidth(200);
+        supplierNumberColumn.setMinWidth(160);
+        supplierEmailAddressColumn.setMinWidth(200);
+        supplierFaxColumn.setMinWidth(100);
 
         ObservableList<Supplier> suppliers;
-        suppliers = FXCollections.observableArrayList(); // TODO: <--- Put the suppliers list here
-//        ArrayList<Employee> employeeArrayList = DBapi.getAllEmployees();
-//        project.addAll(employeeArrayList);
+        suppliers = FXCollections.observableArrayList();
+        ArrayList<Supplier> supplierArrayList = DBapi.getAllSuppliers();
+        suppliers.addAll(supplierArrayList);
 
         idColumn.setRowCellFactory(supplier -> new MFXTableRowCell<>(Supplier::getSupplierId));
         companyNameColumn.setRowCellFactory(supplier -> new MFXTableRowCell<>(Supplier::getCompanyName));

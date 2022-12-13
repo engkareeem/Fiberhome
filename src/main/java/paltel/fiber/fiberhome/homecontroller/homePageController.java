@@ -1067,10 +1067,9 @@ public class homePageController implements Initializable {
 
         ArrayList<Product> offeringProducts = getAllProductsThatSupplierCanSupply(supplier.getSupplierId());
         for (Product offeringProduct : offeringProducts) {
-            //add
-        }
 
-        // todo ROBLOX
+            addOffersProductsRow(offeringProduct.getProductId(), offeringProduct.getProductName(), offeringProduct.getCost() + "$");
+        }
 
         supplierInfoPane.setVisible(true);
         Functions.infoInAnimation(currentPane,supplierInfoPane);

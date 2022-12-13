@@ -8,6 +8,7 @@ module paltel.fiber.fiberhome.testing {
     requires com.oracle.database.jdbc;
     requires org.kordamp.ikonli.javafx;
     requires eu.hansolo.medusa;
+    requires jasperreports;
 
 
     opens paltel.fiber.fiberhome to javafx.fxml;

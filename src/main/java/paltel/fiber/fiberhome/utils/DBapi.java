@@ -1019,6 +1019,23 @@ public class DBapi {
     }
 
     // Control Panel Suppliers
+
+    public static ArrayList<Supplier> getAllSuppliers(){
+        ArrayList<Supplier> suppliers = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select * from SUPPLIER order by SUPPLIER_ID");
+            while (res.next()){
+                suppliers.add(getSupplierFromRow(res));
+            }
+            for (Supplier supplier : suppliers) {
+                assignSupplierContacts(supplier);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return suppliers;
+    }
     public static Integer getTotalSuppliersCount(){
         try {
             Statement statement = connection.createStatement();
@@ -1074,13 +1091,31 @@ public class DBapi {
         return null;
     }
 
+    public static Integer getProductPriceFromSupplier(String sid, String pid){
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select PRODUCT_COST from CAN_SUPPLY where PRODUCT_ID = " + pid + " and SUPPLIER_ID = " + sid);
+            if(res.next()){
+                return res.getInt("PRODUCT_COST");
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     public static ArrayList<Product> getAllProductsThatSupplierCanSupply(String sid){
         ArrayList<Product> products = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
-            ResultSet res = statement.executeQuery("select * from PRODUCT where PRODUCT.PRODUCT_ID in (select distinct CAN_SUPPLY.SUPPLIER_ID from CAN_SUPPLY) order by PRODUCT.PRODUCT_ID");
+            ResultSet res = statement.executeQuery("select * from PRODUCT where PRODUCT.PRODUCT_ID in (select CAN_SUPPLY.PRODUCT_ID from CAN_SUPPLY where SUPPLIER_ID = " + sid + ") order by PRODUCT.PRODUCT_ID");
             while (res.next()){
                 products.add(getProductFromRow(res));
+            }
+
+            for (Product product : products) {
+                int productCost = getProductPriceFromSupplier(sid, product.getProductId());
+                product.setCost(productCost);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -1092,7 +1127,7 @@ public class DBapi {
         try {
             Statement statement = connection.createStatement();
             String sid = supplier.getSupplierId();
-            ResultSet res = statement.executeQuery("select * from CONTACT where SUPPLIER_ID = " + supplier);
+            ResultSet res = statement.executeQuery("select * from CONTACT where SUPPLIER_ID = " + supplier.getSupplierId());
             if(res.next()){
                 Contact contact = new Contact();
                 contact.setSupplierId(supplier.getSupplierId());
@@ -1109,6 +1144,7 @@ public class DBapi {
                 if(contact.getHasphone().equals('1')) {
                     contact.setPhoneNumber(res.getString("phone_number"));
                 }
+                supplier.setContact(contact);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

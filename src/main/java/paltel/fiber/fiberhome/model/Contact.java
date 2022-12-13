@@ -27,6 +27,7 @@ public class Contact {
     }
 
     public String getContactId() {
+
         return contactId;
     }
 
@@ -35,6 +36,7 @@ public class Contact {
     }
 
     public String getPhoneNumber() {
+        if(hasphone.equals('0')) return "none";
         return phoneNumber;
     }
 
@@ -43,6 +45,7 @@ public class Contact {
     }
 
     public String getEmailAddress() {
+        if(hasemail.equals('0')) return "none";
         return emailAddress;
     }
 
@@ -51,6 +54,7 @@ public class Contact {
     }
 
     public String getFax() {
+        if(hasfax.equals('0')) return "none";
         return fax;
     }
 
