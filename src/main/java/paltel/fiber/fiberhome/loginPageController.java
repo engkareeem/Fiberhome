@@ -81,7 +81,9 @@ public class loginPageController implements Initializable {
         Functions.optimizeImageView(backgroundImageView);
         stage = Navigator.primaryStage;
         Functions.move(stage,titleBar);
-
+        Platform.runLater(() -> {
+            stage.centerOnScreen();
+        });
 
         playOpenAnimation();
 
@@ -109,7 +111,6 @@ public class loginPageController implements Initializable {
         employeeNumberInputValidatorLabel.setOpacity(1);
         passwordInputValidatorLabel.setOpacity(1);
         loadingSpinner.setOpacity(1);
-
         openingAnimation.setOnFinished((actionEvent) -> {
             new ZoomIn(titleBar).play();
             new FadeInDown(welcomeBackLabel).play();
@@ -155,8 +156,8 @@ public class loginPageController implements Initializable {
             Statement statement = Main.dbConnection.createStatement();
             String eid = employeeNumberInput.getText();
             String password = passwordInput.getText();
-            if(eid.isEmpty()) eid = "0004";
-            if(password.isEmpty()) password = "murad12345";
+//            if(eid.isEmpty()) eid = "0002";
+//            if(password.isEmpty()) password = "123456789";
             ResultSet res = statement.executeQuery("select * from employee_account where eid = " + eid);
 
             if(res.next()){

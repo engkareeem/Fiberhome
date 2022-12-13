@@ -184,12 +184,11 @@ public class enhancedScrollPane {
                 }
             });
         } else if(type == ListType.CURRENT_PROJECTS_LIST || type == ListType.LAST_PROJECTS_LIST) {
-
-            hBox.setOnMouseClicked(mouseEvent -> {
-
-                displayProjectInfo(column1,nodes[0],nodes[1]);
-
-            });
+            if(homePageController.user.getJobPos() == JobPos.DEP_MANAGER || homePageController.user.getRole().equals("Admin")) {
+                hBox.setOnMouseClicked(mouseEvent -> {
+                    displayProjectInfo(column1,nodes[0],nodes[1]);
+                });
+            }
         } else if(type == ListType.PENDING_LIST) {
             hBox.getStyleClass().remove("list-row");
             hBox.getStyleClass().add("list-row-ex");

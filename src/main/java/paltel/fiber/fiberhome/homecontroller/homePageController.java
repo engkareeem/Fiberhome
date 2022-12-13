@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Side;
+import javafx.scene.Cursor;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -248,7 +249,7 @@ public class homePageController implements Initializable {
     boolean contractorInfoOnEdit = false;
     boolean supplierInfoOnEdit = false;
 
-    User user;
+    public static User user;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -456,11 +457,11 @@ public class homePageController implements Initializable {
             employeeDisplay(false,true);
             projectManagerProjectInfoPane.setVisible(false);
         } else if(user.getJobPos() == Functions.JobPos.TECHNICIAN) {
-            currentPane = employeesPane;
+            currentPane = employeeInfoPane;
             employeeDisplay(false,true);
         } else if(user.getJobPos() == Functions.JobPos.ACCOUNTANT) {
             accountantPane.setVisible(false);
-            currentPane = employeesPane;
+            currentPane = employeeInfoPane;
             employeeDisplay(false,true);
         }
         switchNavButton(navButton1);
@@ -473,18 +474,14 @@ public class homePageController implements Initializable {
             controlPanelPane.setVisible(false);
             projectsPane.setVisible(false);
             currentPane = employeesPane;
-
-            // test
         } else if(user.getJobPos() == Functions.JobPos.PROJ_MONITOR) {
             employeeInfoClose(false,true);
             projectManagerProjectInfoInitialize();
             currentPane = projectManagerProjectInfoPane;
-        } else if(user.getJobPos() == Functions.JobPos.TECHNICIAN) {
-            employeeInfoClose(false,true);
         } else if(user.getJobPos() == Functions.JobPos.ACCOUNTANT) {
             employeeInfoClose(false,true);
             accountantPageInitialize();
-            currentPane = projectsPane;
+            currentPane = accountantPane;
         }
         switchNavButton(navButton2);
     }
@@ -606,7 +603,18 @@ public class homePageController implements Initializable {
         return calendar;
     }
 
-
+    @FXML
+    public void tablePrintProjectsClicked() {
+        Functions.showReportViewer("projects_report");
+    }
+    @FXML
+    public void tablePrintEmployeesClicked() {
+        Functions.showReportViewer("employees_report");
+    }
+    @FXML
+    public void tableWarehousePrintClicked() {
+        Functions.showReportViewer("warehouse_report");
+    }
     @FXML
     public void tableAddEmployeeClicked() {
         Functions.showAddEmployeePopup();

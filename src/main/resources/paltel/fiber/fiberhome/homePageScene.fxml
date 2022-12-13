@@ -36,17 +36,17 @@
             <MFXPaginatedTableView fx:id="employeesTable" layoutX="15.0" layoutY="404.0" maxWidth="870.0" prefHeight="250.0" prefWidth="870.0" />
             <Label fx:id="employeeDisplayLabel" layoutX="119.0" layoutY="626.0" onMouseClicked="#employeeDisplayClicked" textFill="#00a0d7">
                <graphic>
-                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfmz-people-search-24" iconSize="18" text="" />
+                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfmz-people-search-24" iconSize="18" styleClass="table-icon-button" text="" />
                </graphic>
             </Label>
             <Label layoutX="155.0" layoutY="626.0" onMouseClicked="#tableAddEmployeeClicked">
                <graphic>
-                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-add-circle-24" iconSize="20" />
+                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-add-circle-24" iconSize="20" styleClass="table-icon-button" />
                </graphic>
             </Label>
             <Label layoutX="191.0" layoutY="626.0" onMouseClicked="#tableRemoveEmployeeClicked">
                <graphic>
-                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-dismiss-circle-24" iconSize="20" />
+                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-dismiss-circle-24" iconSize="20" styleClass="table-icon-button" />
                </graphic>
             </Label>
             <Label layoutX="375.0" styleClass="headerText" text="Employees" />
@@ -141,6 +141,11 @@
                   </MFXScrollPane>
                </children>
             </Pane>
+            <Label layoutX="227.0" layoutY="626.0" onMouseClicked="#tablePrintEmployeesClicked">
+               <graphic>
+                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfmz-print-24" iconSize="20" styleClass="table-icon-button" />
+               </graphic>
+            </Label>
          </children>
       </Pane>
       <Pane fx:id="projectsPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" visible="false">
@@ -245,17 +250,22 @@
             </Pane>
             <Label fx:id="projectDisplayLabel" layoutX="119.0" layoutY="626.0" onMouseClicked="#tableDisplayProjectClicked" textFill="#00a0d7">
                <graphic>
-                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-clipboard-search-24" iconSize="20" />
+                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-clipboard-search-24" iconSize="20" styleClass="table-icon-button" />
                </graphic>
             </Label>
             <Label fx:id="newProjectLabel" layoutX="155.0" layoutY="626.0" onMouseClicked="#tableAddProjectClicked">
                <graphic>
-                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-add-circle-24" iconSize="20" text="" />
+                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-add-circle-24" iconSize="20" styleClass="table-icon-button" text="" />
                </graphic>
             </Label>
             <Label layoutX="191.0" layoutY="626.0" onMouseClicked="#tableRemoveProjectClicked">
                <graphic>
-                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-dismiss-circle-24" iconSize="20" />
+                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-dismiss-circle-24" iconSize="20" styleClass="table-icon-button" />
+               </graphic>
+            </Label>
+            <Label layoutX="227.0" layoutY="626.0" onMouseClicked="#tablePrintProjectsClicked">
+               <graphic>
+                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfmz-print-24" iconSize="20" styleClass="table-icon-button" />
                </graphic>
             </Label>
          </children>
@@ -369,12 +379,12 @@
                               </Label>
                               <Label layoutX="153.0" layoutY="524.0" onMouseClicked="#tableRemoveUserClicked">
                                  <graphic>
-                                    <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-dismiss-circle-24" iconSize="20" />
+                                    <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-dismiss-circle-24" iconSize="20" styleClass="table-icon-button" />
                                  </graphic>
                               </Label>
                               <Label layoutX="113.0" layoutY="524.0" onMouseClicked="#tableDisplayUserClicked">
                                  <graphic>
-                                    <FontIcon iconColor="#00a0d7" iconLiteral="fltfmz-people-search-24" iconSize="20" />
+                                    <FontIcon iconColor="#00a0d7" iconLiteral="fltfmz-people-search-24" iconSize="20" styleClass="table-icon-button" />
                                  </graphic>
                               </Label>
                            </children>
@@ -451,12 +461,12 @@
                               </Pane>
                               <Label layoutX="153.0" layoutY="524.0">
                                  <graphic>
-                                    <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-add-circle-24" iconSize="20" />
+                                    <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-add-circle-24" iconSize="20" styleClass="table-icon-button" />
                                  </graphic>
                               </Label>
                               <Label layoutX="113.0" layoutY="524.0" onMouseClicked="#tableDisplaySupplierClicked">
                                  <graphic>
-                                    <FontIcon iconColor="#00a0d7" iconLiteral="fltfmz-people-search-24" iconSize="20" />
+                                    <FontIcon iconColor="#00a0d7" iconLiteral="fltfmz-people-search-24" iconSize="20" styleClass="table-icon-button" />
                                  </graphic>
                               </Label>
                            </children></AnchorPane>
@@ -565,17 +575,22 @@
                               </Pane>
                               <Label layoutX="113.0" layoutY="524.0" onMouseClicked="#tableDisplayWarehouseClicked">
                                  <graphic>
-                                    <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-globe-search-24" iconSize="20" />
+                                    <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-globe-search-24" iconSize="20" styleClass="table-icon-button" />
                                  </graphic>
                               </Label>
                               <Label layoutX="153.0" layoutY="524.0">
                                  <graphic>
-                                    <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-add-circle-24" iconSize="20" />
+                                    <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-add-circle-24" iconSize="20" styleClass="table-icon-button" />
                                  </graphic>
                               </Label>
                               <Label layoutX="193.0" layoutY="524.0" onMouseClicked="#tableViewWarehouseProjectsClicked">
                                  <graphic>
-                                    <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-clipboard-search-24" iconSize="20" />
+                                    <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-clipboard-search-24" iconSize="20" styleClass="table-icon-button" />
+                                 </graphic>
+                              </Label>
+                              <Label layoutX="233.0" layoutY="524.0" onMouseClicked="#tableWarehousePrintClicked">
+                                 <graphic>
+                                    <FontIcon iconColor="#00a0d7" iconLiteral="fltfmz-print-24" iconSize="20" styleClass="table-icon-button" />
                                  </graphic>
                               </Label>
                            </children></AnchorPane>

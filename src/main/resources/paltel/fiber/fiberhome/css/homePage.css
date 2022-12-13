@@ -10,6 +10,15 @@
     -fx-background-radius: 15 30 30 15;
 }
 
+.table-icon-button {
+    -fx-icon-color: #00a0d7;
+}
+.table-icon-button:hover {
+    -fx-icon-color: rgba(0, 160, 215, 0.8);
+}
+.table-icon-button:pressed {
+    -fx-icon-color: rgba(0, 160, 215, 0.7);
+}
 .accept-icon-button{
     -fx-icon-color: #5cb85c;
 }
