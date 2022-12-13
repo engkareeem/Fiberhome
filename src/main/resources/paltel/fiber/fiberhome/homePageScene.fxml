@@ -588,6 +588,7 @@
             </TabPane>
          </children>
       </Pane>
+      <Pane layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" visible="false" />
       <Pane fx:id="employeeInfoPane" layoutX="200.0" layoutY="26.0" prefHeight="660.0" prefWidth="900.0" stylesheets="@css/displayPage.css" visible="false">
          <children>
             <Pane fx:id="profileCard" layoutX="76.0" layoutY="39.0" prefHeight="582.0" prefWidth="297.0" styleClass="card-pane">
@@ -1325,8 +1326,11 @@
                      <children>
                         <Label fx:id="userNickNameLabel" layoutX="56.0" layoutY="8.0" styleClass="primaryText" text="Kareem M. Yaqoup" />
                         <Label fx:id="userRoleLabel" layoutX="57.0" layoutY="29.0" styleClass="secondaryText" text="Admin" />
-                        <FontIcon iconColor="#00a0d7" iconLiteral="fltfmz-person-28" iconSize="50" layoutY="50.0" />
-                        <ImageView fitHeight="150.0" fitWidth="200.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" />
+                        <FontIcon iconColor="#00a0d7" iconLiteral="fltfmz-person-28" iconSize="50" layoutY="50.0" visible="false" />
+                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@assets/paltel_icon.png" />
+                           </image></ImageView>
                      </children>
                   </Pane>
                   <Pane fx:id="radiusPane00" layoutX="174.0" layoutY="70.0" prefHeight="40.0" prefWidth="26.0" styleClass="pseudo-radius-activated" visible="false" />

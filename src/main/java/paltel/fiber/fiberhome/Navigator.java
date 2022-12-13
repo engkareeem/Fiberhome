@@ -59,8 +59,10 @@ public class Navigator {
             popupStage.setScene(newScene);
             popupStage.show();
             popupStage.centerOnScreen();
+            popupStage.setOnCloseRequest(e -> {
+                primaryStage.getScene().lookup("#disablePane").setVisible(false);
+            });
             primaryStage.getScene().lookup("#disablePane").setVisible(true);
-
         } catch (Exception exception) {
             exception.printStackTrace();
         }

@@ -3,6 +3,7 @@ package paltel.fiber.fiberhome;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import oracle.jdbc.OracleDriver;
@@ -29,6 +30,7 @@ public class Main extends Application {
 
         Navigator.setupStages();
 
+        _stage.getIcons().add(new Image(String.valueOf(Main.class.getResource("assets/paltel_icon.png"))));
         _stage.setTitle("FiberHome");
         _stage.setScene(scene);
         _stage.show();
