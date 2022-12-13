@@ -145,7 +145,6 @@ public class loginPageController implements Initializable {
 
 
 
-/*                                   Testing Area :3                                */
 
     void login(){
         try {

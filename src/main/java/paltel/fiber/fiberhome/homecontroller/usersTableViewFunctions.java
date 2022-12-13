@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.Comparator;
 
 public class usersTableViewFunctions {
-    private static MFXTableView<User> usersTable;
+    public static MFXTableView<User> usersTable;
     public static void initializeTableView(MFXTableView<User> tableview) {
         usersTable =tableview;
 

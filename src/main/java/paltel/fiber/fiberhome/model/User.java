@@ -67,6 +67,7 @@ public class User {
 
     public String getFormattedLastLogin(){
         SimpleDateFormat lastLoginFormat = new SimpleDateFormat("dd/MM/yyyy - hh:mm aa");
+        if (lastLogin == null) return "Never";
         return lastLoginFormat.format(lastLogin);
     }
 

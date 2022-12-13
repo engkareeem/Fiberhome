@@ -29,6 +29,7 @@ import paltel.fiber.fiberhome.Functions;
 import paltel.fiber.fiberhome.Navigator;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -260,10 +261,6 @@ public class homePageController implements Initializable {
             playOpenAnimation();
         });
         Functions.move(stage,titleBar);
-//        Functions.optimizeImageView(backgroundImageView);
-
-
-
         Functions.optimizeImageView(backgroundImageView);
 
 
@@ -313,41 +310,74 @@ public class homePageController implements Initializable {
         });
     }
 
+
+    private void setUpCheapestSupplierTable(){
+        enhancedScrollPane.resetRows(controlPanelCheapestProductScrollPaneVbox);
+        ArrayList<Product> products = getAllProductsThatHasSuppliers();
+        products.forEach(product -> {
+            Supplier supplier = getCheapestProductSupplier(product.getProductId());
+            if(supplier != null) {
+                addCheapestProductsRow(product.getProductId(), product.getProductName(), supplier.getCompanyName());
+            }
+        });
+    }
+
+
     private void setUpEmployeeStatisticsBlocks(){
         new Thread(() -> {
             Platform.runLater(() -> totalEmployeesCountLabel.setText(getEmployeesCount().toString()));
+            Thread.interrupted();
+
         }).start();
         new Thread(() -> {
             Platform.runLater(() -> totalUsersCountLabel.setText(getUsersCount().toString()));
+            Thread.interrupted();
+
         }).start();
         new Thread(() -> {
             Platform.runLater(() -> totalContractorCountLabel.setText(getContractorCount().toString()));
+            Thread.interrupted();
+
         }).start();
         new Thread(() -> {
             Platform.runLater(() -> totalWorkingEmployeesCountLabel.setText(getWorkingEmployeesCount().toString()));
+            Thread.interrupted();
+
         }).start();
     }
 
     private void setUpControlPanelUsersBlocks(){
         new Thread(() -> {
             Platform.runLater(() -> controlPanelTotalActiveUsers.setText(getActiveUsersCount().toString()));
+            Thread.interrupted();
+
         }).start();
         new Thread(() -> {
             Platform.runLater(() -> controlPanelTotalAdminAccounts.setText(getAdminUsersCount().toString()));
+            Thread.interrupted();
+
         }).start();
         new Thread(() -> {
             Platform.runLater(() -> controlPanelTotalEmployeeAccounts.setText(getEmployeeUsersCount().toString()));
+            Thread.interrupted();
+
         }).start();
         new Thread(() -> {
             Platform.runLater(() -> controlPanelTotalPendingAccounts.setText(getPendingUsersCount().toString()));
+            Thread.interrupted();
+
         }).start();
     }
     private void setUpControlPanelSuppliersBlocks(){
         new Thread(() -> {
             Platform.runLater(() -> controlPanelTotalSuppliers.setText(getTotalSuppliersCount().toString()));
+            Thread.interrupted();
+
         }).start();
         new Thread(() -> {
             Platform.runLater(() -> controlPanelTotalProducts.setText(getTotalProductsCount().toString()));
+            Thread.interrupted();
+
         }).start();
 
     }
@@ -355,30 +385,45 @@ public class homePageController implements Initializable {
     private void setUpControlPanelWarehousesBlocks(){
         new Thread(() -> {
             Platform.runLater(() -> controlPanelTotalWarehousesNumber.setText(getTotalWarehousesCount().toString()));
+            Thread.interrupted();
+
         }).start();
         new Thread(() -> {
             Platform.runLater(() -> controlPanelTotalStoredParts.setText(getTotalProductsStoredInWarehouses().toString()));
+            Thread.interrupted();
         }).start();
         new Thread(() -> {
             Platform.runLater(() -> controlPanelTotalFreeSpace.setText(getTotalFreeSpaceInWarehouses().toString()));
+            Thread.interrupted();
+
         }).start();
         new Thread(() -> {
             Platform.runLater(() -> controlPanelTotalUsedMaterials.setText(getTotalUsedPartsInWarehouses().toString()));
+            Thread.interrupted();
+
         }).start();
     }
 
     private void setUpProjectsStatisticsBlocks(){
         new Thread(() -> {
             Platform.runLater(() -> totalProjectsCountLabel.setText(getProjectsCount().toString()));
+            Thread.interrupted();
+
         }).start();
         new Thread(() -> {
             Platform.runLater(() -> totalWarehouseCountLabel.setText(getWarehousesCount().toString()));
+            Thread.interrupted();
+
         }).start();
         new Thread(() -> {
             Platform.runLater(() -> totalRunningProjectsCountLabel.setText(getRunningProjectsCount().toString()));
+            Thread.interrupted();
+
         }).start();
         new Thread(() -> {
             Platform.runLater(() -> totalFinishedProjectsCountLabel.setText(getFinishedProjectsCount().toString()));
+            Thread.interrupted();
+
         }).start();
     }
     private void playOpenAnimation(){
@@ -457,7 +502,18 @@ public class homePageController implements Initializable {
         AnimationFX closeAnimation = new ZoomOut(ap);
         closeAnimation.setOnFinished((event) -> {
             Navigator.pushNamedReplacement("loginPageScene");
-            Main.connectToDatabase();
+            new Thread(() -> {
+                try {
+                    connection.endRequest();
+                    Main.connectToDatabase();
+
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+                Thread.interrupted();
+
+            }).start();
+
         });
         closeAnimation.play();
 
@@ -512,6 +568,7 @@ public class homePageController implements Initializable {
 
 
             }
+            Thread.interrupted();
 
         }).start();
     }
@@ -553,6 +610,7 @@ public class homePageController implements Initializable {
             if(Functions.confirmFlag) {
                 Platform.runLater(this::removeEmployeeFromCurrentProject);
             }
+            Thread.interrupted();
 
         }).start();
     }
@@ -595,6 +653,8 @@ public class homePageController implements Initializable {
                     employeeInfoLastLogin.setText(lastLoginFormat.format(user.getLastLogin()));
                 }
             });
+            Thread.interrupted();
+
 
         }).start();
 
@@ -703,6 +763,7 @@ public class homePageController implements Initializable {
 
 
             }
+            Thread.interrupted();
 
         }).start();
     }
@@ -730,6 +791,8 @@ public class homePageController implements Initializable {
                             else userInfoEmpName.setText(user.getNickName());
                         }
                     });
+                    Thread.interrupted();
+
                 }
         ).start();
         currentPane.setVisible(false);
@@ -838,6 +901,7 @@ public class homePageController implements Initializable {
                 projectsTableViewFunctions.initializeTableView(projectsTable);
                 setUpProjectsStatisticsBlocks();
             }
+            Thread.interrupted();
 
         }).start();
     }
@@ -869,6 +933,8 @@ public class homePageController implements Initializable {
                 projectInfoContType.setText(contractor.getContractorType());
                 projectInfoContAge.setText(getAge(contractor.getBirthdate(), new Date()) + " yo");
             }
+            Thread.interrupted();
+
         })).start();
         projectInfoCity.setText(project.getCity());
         projectInfoStreet.setText(project.getStreet() == null  ? "" : project.getStreet());
@@ -927,6 +993,7 @@ public class homePageController implements Initializable {
                     setUpControlPanelUsersBlocks();
                 });
             }
+            Thread.interrupted();
 
         }).start();
     }
@@ -937,6 +1004,7 @@ public class homePageController implements Initializable {
         Employee employee = DBapi.getEmployeeInfo(user.getEid());
         userInfoNickName.setText(user.getNickName());
         userInfoEmpId.setText(user.getEid());
+        userInfoRole.setText(user.getRole());
         userInfoEmpName.setText(employee.getFname() + " " + employee.getMname() + " " + employee.getLname());
 
 
@@ -972,10 +1040,23 @@ public class homePageController implements Initializable {
 
                 })).start();
             }
+            Thread.interrupted();
+
         }).start();
     }
     @FXML
     public void tableDisplaySupplierClicked() {
+        if(suppliersTableViewFunctions.getSelectedRow() == null) return;
+        Supplier supplier = suppliersTableViewFunctions.getSelectedRow();
+        supplierInfoCompanyName.setText(supplier.getCompanyName());
+        supplierInfoSupplierId.setText(supplier.getSupplierId());
+
+        ArrayList<Product> offeringProducts = getAllProductsThatSupplierCanSupply(supplier.getSupplierId());
+        for (Product offeringProduct : offeringProducts) {
+            //add
+        }
+
+        // todo ROBLOX
         controlPanelPane.setVisible(false);
         disableNavBar.setVisible(true);
         supplierInfoPane.setVisible(true);
@@ -1009,18 +1090,70 @@ public class homePageController implements Initializable {
 
                 })).start();
             }
+            Thread.interrupted();
 
         }).start();
     }
     @FXML
     public void tableViewWarehouseProjectsClicked() {
-        // view warehouse projects
+        // todo : warehouse table view Projects Table
+        if(warehousesTableViewFunctions.getSelectedRow() == null) {
+            enhancedScrollPane.resetRows(controlPanelWarehouseProjectsScrollPaneVbox);
+            return;
+        };
+        enhancedScrollPane.resetRows(controlPanelWarehouseProjectsScrollPaneVbox);
+        Warehouse warehouse = warehousesTableViewFunctions.getSelectedRow();
+        for (Project project : getAllProjectsImportingFromAWarehouse(warehouse.getWarehouseId())) {
+            Integer numberOfReservedProducts = DBapi.getProductsCountThatProjectUsesFromAWarehouse(warehouse.getWarehouseId(), project.getProjectId());
+            Contractor contractor = getContractorInfo(project.getContractorId());
+            addWarehouseProjectsRow(project.getProjectId(), project.getCity() + " " + project.getProjType(), contractor.getFname() + " " + contractor.getLname(), numberOfReservedProducts.toString());
+        }
     }
     @FXML
     public void tableDisplayWarehouseClicked() {
+        if(warehousesTableViewFunctions.getSelectedRow() == null) return;
         controlPanelPane.setVisible(false);
         disableNavBar.setVisible(true);
         warehouseInfoPane.setVisible(true);
+        Warehouse warehouse = warehousesTableViewFunctions.getSelectedRow();
+        if(warehouse != null){
+            warehouseInfoWid.setText(warehouse.getWarehouseId());
+            warehouseInfoWLocation.setText(warehouse.getCity());
+            warehouseInfoWCapacityCount.setText(warehouse.getCapacity().toString());
+
+
+            Double warehousePercentage = DBapi.getWarehousePercentage(warehouse.getWarehouseId());
+            warehouseInfoWCapacity.setValue(warehousePercentage);
+
+
+            ArrayList<Product> availableProducts = DBapi.getAvailableProductsInWarehouse(warehouse.getWarehouseId());
+            Integer usedSpace = DBapi.getCapacityForAWarehouse(warehouse.getWarehouseId());
+
+            int availableProductsCount = 0;
+            for(Product product : availableProducts){
+                availableProductsCount += product.getAvailable_count();
+            }
+            int availablePercentage = (int) (((float) availableProductsCount / warehouse.getCapacity()) * 100);
+            int reservedPercentage =  Math.round(((float) (usedSpace - availableProductsCount)  / warehouse.getCapacity()) * 100);
+            int freeSpacePercentage = Math.round(((float) (warehouse.getCapacity() - usedSpace)  / warehouse.getCapacity()) * 100);
+            availablePercentage = availablePercentage + (100 - (reservedPercentage + freeSpacePercentage + availablePercentage));
+
+            ObservableList<PieChart.Data> pieChartData =
+                    FXCollections.observableArrayList(
+                            new PieChart.Data("Available %" + availablePercentage, availableProductsCount),
+                            new PieChart.Data("Reserved %" + reservedPercentage , usedSpace - availableProductsCount),
+                            new PieChart.Data("Free Space %" +  freeSpacePercentage, warehouse.getCapacity() - usedSpace ));
+            warehouseInfoWStorage.setData(pieChartData);
+            warehouseInfoWStorage.setLegendSide(Side.LEFT);
+            warehouseInfoWStorage.setLabelsVisible(false);
+            warehousesTableViewFunctions.initializeTableView(controlPanelWarehousesTableView);
+            availableProducts.forEach(product -> {
+                addWarehouseRow( product.getProductId(), product.getProductName(), String.valueOf(product.getAvailable_count()));
+
+            });
+        }
+
+
     }
 
     /*                  Project Info                */
@@ -1093,6 +1226,8 @@ public class homePageController implements Initializable {
                     setupWarehouseTable();
                     setUpProjectsStatisticsBlocks();
                 });
+                Thread.interrupted();
+
             }).start();
         }else if(button.getText().equals("Employees")){
             new Thread(() -> {
@@ -1101,6 +1236,8 @@ public class homePageController implements Initializable {
                     employeesTableViewFunctions.initializeTableView(employeesTable);
                     setupContractorsTable();
                     setUpEmployeeStatisticsBlocks();
+                    Thread.interrupted();
+
                 });
             }).start();
         }else if(button.getText().equals("Control Panel")){
@@ -1110,6 +1247,7 @@ public class homePageController implements Initializable {
             usersTableViewFunctions.initializeTableView(controlPanelUsersTableView);
 
             setUpControlPanelSuppliersBlocks();
+            setUpCheapestSupplierTable();
             suppliersTableViewFunctions.initializeTableView(controlPanelSuppliersTableView);
 
             setUpControlPanelWarehousesBlocks();
@@ -1236,6 +1374,8 @@ public class homePageController implements Initializable {
                 new Thread(() -> Platform.runLater(() -> {
                     updateEmployee(currentEmployeeProfilePage.getEid(), fNameTextField.getText(), mNameTextField.getText(), lNameTextField.getText(), jobPositionComboBox.getValue(), districtTextField.getText());
                     employeesTableViewFunctions.initializeTableView(employeesTable);
+                    Thread.interrupted();
+
                 })).start();
 
                 employeeInfoEmpName.setText(fNameTextField.getText() + " " + mNameTextField.getText() + " " + lNameTextField.getText());
@@ -1366,6 +1506,8 @@ public class homePageController implements Initializable {
                 new Thread(() -> Platform.runLater(() -> {
                     updateContractor(enhancedScrollPane.currentContractorProfilePage.getContractorId(), fNameTextField.getText(), mNameTextField.getText(), lNameTextField.getText(), contractorTypeComboBox.getValue());
                     setupContractorsTable();
+                    Thread.interrupted();
+
                 })).start();
 
 
@@ -1409,6 +1551,10 @@ public class homePageController implements Initializable {
 
 
 
+    private void addOfferingProduct(){
+        //enhancedScrollPane.addRow();
+        // todo addRow
+    }
 
     private void addContRow(String column1,String column2,String column3) {
         enhancedScrollPane.addRow(contractorListScrollPaneVbox,column1,column2,column3, 35, 150 ,85, Functions.ListType.CONT_LIST,currentPane,homeNavBarVBox,contractorInfoPane,projectInfoPane);

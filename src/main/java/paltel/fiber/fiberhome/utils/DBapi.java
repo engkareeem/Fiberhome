@@ -161,13 +161,15 @@ public class DBapi {
         }
     }
 
-    public static void addProduct(String pid, String productName, String description, String measurementUnit){
+    public static String addProduct( String productName, String description, String measurementUnit){
+        String pid = getNewProjectId();
         try {
             Statement statement = connection.createStatement();
             statement.executeUpdate("insert into PRODUCT(PRODUCT_ID, PRODUCT_NAME, DESCRIPTION, MES_UNIT)  values('" + pid + "','" + productName + "','"  +  description + "','"  + measurementUnit + "')");
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return pid;
     }
 
     public static void updateProduct(String pid, String productName, String description, String measurementUnit){
@@ -190,13 +192,15 @@ public class DBapi {
         }
     }
 
-    public static void addSupplier(String sid, String companyName){
+    public static String addSupplier(String companyName){
+        String sid = getNewSupplierId();
         try {
             Statement statement = connection.createStatement();
             statement.executeUpdate("insert into SUPPLIER(SUPPLIER_ID, COMPANY_NAME)  values('" + sid + "','" + companyName + "')");
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return sid;
     }
 
     public static void updateSupplier(String sid, String companyName){
@@ -217,13 +221,15 @@ public class DBapi {
         }
     }
 
-    public static void addWarehouse(String wid, String city, Integer capacity){
+    public static String addWarehouse(String city, Integer capacity){
+        String wid = getNewWarehouseId();
         try {
             Statement statement = connection.createStatement();
             statement.executeUpdate("insert into WAREHOUSE(WAREHOUSE_ID, CITY, CAPACITY)  values('" + wid + "','" + city  + "','" + capacity + "')");
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return wid;
     }
 
     public static void updateWarehouse(String wid, String city, String capacity){
@@ -441,7 +447,7 @@ public class DBapi {
             try {
 
                 Statement statement = connection.createStatement();
-                ResultSet res =  statement.executeQuery("SELECT * from EMPLOYEE_ACCOUNT order by EID");
+                ResultSet res =  statement.executeQuery("SELECT * from EMPLOYEE_ACCOUNT where ROLE != 'Pending' order by EID");
                 while (res.next()){
                     users.add(getUserFromRow(res));
                 }
@@ -834,6 +840,27 @@ public class DBapi {
         return warehouses;
     }
 
+    public static ArrayList<Warehouse> getAllWarehousesWithProjectsCount(){
+        ArrayList<Warehouse> warehouses = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select * from WAREHOUSE ORDER BY WAREHOUSE_ID");
+            while (res.next()){
+                warehouses.add(getWarehouseFromRow(res));
+            }
+            res.close();
+            for (Warehouse warehouse : warehouses) {
+                res = statement.executeQuery("select count(distinct PROJECT_ID) as numOfProjects from USES where WAREHOUSE_ID = " + warehouse.getWarehouseId());
+                if(res.next()){
+                    warehouse.setProjectCount(res.getInt("numOfProjects"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return warehouses;
+    }
+
     public static ArrayList<Product> getProjectProducts(String pid){
         ArrayList<Product> products = new ArrayList<>();
         try {
@@ -1020,6 +1047,76 @@ public class DBapi {
         return 0;
     }
 
+    public static ArrayList<Product> getAllProductsThatHasSuppliers(){
+        ArrayList<Product> products = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select * from PRODUCT where PRODUCT.PRODUCT_ID in (select distinct CAN_SUPPLY.PRODUCT_ID from CAN_SUPPLY) order by PRODUCT.PRODUCT_ID");
+            while (res.next()){
+                products.add(getProductFromRow(res));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return products;
+    }
+
+    public static Supplier getCheapestProductSupplier(String pid){
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select * from SUPPLIER where SUPPLIER_ID in (SELECT CAN_SUPPLY.SUPPLIER_ID from  CAN_SUPPLY where PRODUCT_ID = " + pid + " order by PRODUCT_COST desc fetch first row only ) ");
+            if(res.next()){
+                return getSupplierFromRow(res);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static ArrayList<Product> getAllProductsThatSupplierCanSupply(String sid){
+        ArrayList<Product> products = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select * from PRODUCT where PRODUCT.PRODUCT_ID in (select distinct CAN_SUPPLY.SUPPLIER_ID from CAN_SUPPLY) order by PRODUCT.PRODUCT_ID");
+            while (res.next()){
+                products.add(getProductFromRow(res));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return products;
+    }
+
+    public static void assignSupplierContacts(Supplier supplier){
+        try {
+            Statement statement = connection.createStatement();
+            String sid = supplier.getSupplierId();
+            ResultSet res = statement.executeQuery("select * from CONTACT where SUPPLIER_ID = " + supplier);
+            if(res.next()){
+                Contact contact = new Contact();
+                contact.setSupplierId(supplier.getSupplierId());
+                contact.setHasfax(res.getString("hasfax").charAt(0));
+                contact.setHasemail(res.getString("hasemail").charAt(0));
+                contact.setHasphone(res.getString("hasphone").charAt(0));
+
+                if(contact.getHasfax().equals('1')) {
+                    contact.setFax(res.getString("fax"));
+                }
+                if(contact.getHasemail().equals('1')) {
+                    contact.setEmailAddress(res.getString("email_address"));
+                }
+                if(contact.getHasphone().equals('1')) {
+                    contact.setPhoneNumber(res.getString("phone_number"));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
 
 
 
@@ -1081,6 +1178,35 @@ public class DBapi {
         return 0;
     }
 
+    public static ArrayList<Project> getAllProjectsImportingFromAWarehouse(String wid) {
+        ArrayList<Project> projects = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select * from PROJECT where PROJECT_ID in (select distinct USES.PROJECT_ID from USES where WAREHOUSE_ID = '" + wid + "') order by PROJECT_ID");
+            while (res.next()){
+                projects.add(getProjectFromRow(res));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return projects;
+    }
+
+    public static Integer getProductsCountThatProjectUsesFromAWarehouse(String wid, String pid){
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select sum(QUANTITY) as numOfProducts from  USES where WAREHOUSE_ID = " + wid + " and PROJECT_ID = " + pid);
+            if (res.next()){
+                return res.getInt("numOfProducts");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 
     // Utils
 
@@ -1129,6 +1255,53 @@ public class DBapi {
         return "0000";
     }
 
+    public static String getNewSupplierId() {
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select SUPPLIER_ID  from SUPPLIER order by SUPPLIER_ID desc fetch first 1 row only");
+            if(res.next()){
+                String lastSupId = res.getString("supplier_id");
+                int lastSupIdNum = Integer.parseInt(lastSupId);
+
+                return String.format("%04d", lastSupIdNum+1);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return "0000";
+    }
+
+    public static String getNewWarehouseId() {
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select WAREHOUSE_ID  from WAREHOUSE order by WAREHOUSE_ID desc fetch first 1 row only");
+            if(res.next()){
+                String lastWarehouseId = res.getString("warehouse_id");
+                int lastWarehouseIdNum = Integer.parseInt(lastWarehouseId);
+
+                return String.format("%02d", lastWarehouseIdNum+1);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return "00";
+    }
+
+    public static String getNewProductId() {
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select PRODUCT_ID  from PRODUCT order by PRODUCT_ID desc fetch first 1 row only");
+            if(res.next()){
+                String lastProductId = res.getString("product_id");
+                int lastProductIdNum = Integer.parseInt(lastProductId);
+
+                return String.format("%010d", lastProductIdNum+1);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return "0000000000";
+    }
     public static void updateLastLoginTime(String eid){
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd H:mm:ss").format(Calendar.getInstance().getTime());
         new Thread(()->{
@@ -1141,6 +1314,8 @@ public class DBapi {
             }
         }).start();
     }
+
+
 
 
 

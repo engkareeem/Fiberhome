@@ -199,6 +199,7 @@ public class enhancedScrollPane {
             acceptLabel.setOnMouseClicked(mouseEvent -> {
                 DBapi.acceptEmployeeAccount(column1);
                 enhancedScrollPane.resetRows((VBox) hBox.getParent());
+                usersTableViewFunctions.initializeTableView(usersTableViewFunctions.usersTable);
                 ArrayList<Employee> pendingUsers = getAllPendingAccounts();
                 pendingUsers.forEach(employeeInstance -> {
                     User userInstance = getUserInfo(employeeInstance.getEid());

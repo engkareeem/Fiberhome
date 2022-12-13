@@ -20,6 +20,8 @@ public class Project {
     private String contractorId;
     private String projType;
 
+
+
     public Project() {
         projectId = city = street = contractorId = projectId = "";
     }

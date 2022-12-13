@@ -38,6 +38,7 @@ public class suppliersTableViewFunctions {
         idColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(Supplier::getSupplierId));
         companyNameColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(Supplier::getCompanyName));
 
+        tableview.getTableColumns().clear();
         tableview.getTableColumns().addAll(idColumn, companyNameColumn);
         tableview.getFilters().addAll(
                 new StringFilter<>("SID", Supplier::getSupplierId),

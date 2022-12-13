@@ -8,6 +8,7 @@ import io.github.palexdev.materialfx.selection.base.IMultipleSelectionModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import paltel.fiber.fiberhome.model.Warehouse;
+import paltel.fiber.fiberhome.utils.DBapi;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,7 +26,7 @@ public class warehousesTableViewFunctions {
         MFXTableColumn<Warehouse> idColumn = new MFXTableColumn<>("WID", true, Comparator.comparing(Warehouse::getWarehouseId));
         MFXTableColumn<Warehouse> locationColumn = new MFXTableColumn<>("Location", true, Comparator.comparing(Warehouse::getCity));
         MFXTableColumn<Warehouse> capacityColumn = new MFXTableColumn<>("Capacity", true, Comparator.comparing(Warehouse::getCapacity));
-        MFXTableColumn<Warehouse> projectsCountColumn = new MFXTableColumn<>("Projects Imports from", true, Comparator.comparing(Warehouse::getProjectsCount));
+        MFXTableColumn<Warehouse> projectsCountColumn = new MFXTableColumn<>("Projects Imports from", true, Comparator.comparing(Warehouse::getProjectCount));
 
         idColumn.setMinWidth(100);
         locationColumn.setMinWidth(120);
@@ -37,22 +38,23 @@ public class warehousesTableViewFunctions {
         ObservableList<Warehouse> warehouses;
 
         warehouses = FXCollections.observableArrayList(
-                new Warehouse("01","Bidya",69,new ArrayList<>())
+
         );
-//        ArrayList<Employee> employeeArrayList = DBapi.getAllEmployees();
-//        project.addAll(employeeArrayList);
+        ArrayList<Warehouse> warehouseArrayList= DBapi.getAllWarehousesWithProjectsCount();
+        warehouses.addAll(warehouseArrayList);
 
         idColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(Warehouse::getWarehouseId));
         locationColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(Warehouse::getCity));
         capacityColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(Warehouse::getCapacity));
-        projectsCountColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(Warehouse::getProjectsCount));
+        projectsCountColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(Warehouse::getProjectCount));
 
+        tableview.getTableColumns().clear();
         tableview.getTableColumns().addAll(idColumn, locationColumn, capacityColumn, projectsCountColumn);
         tableview.getFilters().addAll(
                 new StringFilter<>("WID", Warehouse::getWarehouseId),
                 new StringFilter<>("City", Warehouse::getCity),
                 new IntegerFilter<>("Type", Warehouse::getCapacity),
-                new IntegerFilter<>("Projects Count", Warehouse::getProjectsCount)
+                new IntegerFilter<>("Projects Count", Warehouse::getProjectCount)
         );
         tableview.setItems(warehouses);
     }
