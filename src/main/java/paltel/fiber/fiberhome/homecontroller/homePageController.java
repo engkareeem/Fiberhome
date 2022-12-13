@@ -445,7 +445,7 @@ public class homePageController implements Initializable {
             controlPanelPane.setVisible(true);
             projectsPane.setVisible(false);
             currentPane = controlPanelPane;
-        } else if(user.getJobPos() == Functions.JobPos.PROJ_MANAGER) {
+        } else if(user.getJobPos() == Functions.JobPos.PROJ_MONITOR) {
             currentPane = employeeInfoPane;
             employeeDisplay(false,true);
             projectManagerProjectInfoPane.setVisible(false);
@@ -468,7 +468,7 @@ public class homePageController implements Initializable {
             currentPane = employeesPane;
 
             // test
-        } else if(user.getJobPos() == Functions.JobPos.PROJ_MANAGER) {
+        } else if(user.getJobPos() == Functions.JobPos.PROJ_MONITOR) {
             employeeInfoClose(false,true);
             projectManagerProjectInfoPane.setVisible(true);
             currentPane = projectManagerProjectInfoPane;
@@ -639,7 +639,7 @@ public class homePageController implements Initializable {
     }
     public void employeeDisplay(boolean refresh,boolean primary) {
         Employee employee = null;
-        if(user.getJobPos() == Functions.JobPos.PROJ_MANAGER || user.getJobPos() == Functions.JobPos.TECHNICIAN || user.getJobPos() == Functions.JobPos.ACCOUNTANT) {
+        if(user.getJobPos() == Functions.JobPos.PROJ_MONITOR || user.getJobPos() == Functions.JobPos.TECHNICIAN || user.getJobPos() == Functions.JobPos.ACCOUNTANT) {
             employee = getEmployeeInfo(user.getEid());
         } else {
             employee = employeesTableViewFunctions.getSelectedRow();
@@ -672,7 +672,7 @@ public class homePageController implements Initializable {
             Project project = getCurrentProject(employee.getEid());
             if (project == null) {
                 currentProjectCard1.setVisible(false);
-                if(user.getJobPos() == Functions.JobPos.PROJ_MANAGER || user.getJobPos() == Functions.JobPos.TECHNICIAN || user.getJobPos() == Functions.JobPos.ACCOUNTANT) {
+                if(user.getJobPos() == Functions.JobPos.PROJ_MONITOR || user.getJobPos() == Functions.JobPos.TECHNICIAN || user.getJobPos() == Functions.JobPos.ACCOUNTANT) {
                     projManYouDontWork.setVisible(true);
                 }else {
                     employeeInfoAssignToProjectButton.setVisible(true);
@@ -719,7 +719,7 @@ public class homePageController implements Initializable {
         employeeInfoEmpAge.setText(getAge(employee.getBirthdate(), new Date()) + " yo");
         employeeInfoEmpDistrict.setText(employee.getDistrict());
 
-        if(user.getJobPos() == Functions.JobPos.PROJ_MANAGER || user.getJobPos() == Functions.JobPos.TECHNICIAN || user.getJobPos() == Functions.JobPos.ACCOUNTANT) {
+        if(user.getJobPos() == Functions.JobPos.PROJ_MONITOR || user.getJobPos() == Functions.JobPos.TECHNICIAN || user.getJobPos() == Functions.JobPos.ACCOUNTANT) {
             employeeInfoCloseLabel.setVisible(false);
             employeeInfoRemoveFromProject.setVisible(false);
             employeeInfoAssignButton.setVisible(false);
@@ -1617,7 +1617,7 @@ public class homePageController implements Initializable {
             navButton2FontIcon.setIconLiteral("fltfmz-person-accounts-24");
             navButton3FontIcon.setIconLiteral("fltfmz-wrench-16");
             navButton1Clicked();
-        } else if(user.getJobPos() == Functions.JobPos.PROJ_MANAGER) {
+        } else if(user.getJobPos() == Functions.JobPos.PROJ_MONITOR) {
             navButton1.setText("My Profile");
             navButton2.setText("Project");
             navButton1.setVisible(true);

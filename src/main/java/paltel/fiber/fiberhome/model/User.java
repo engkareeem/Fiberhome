@@ -50,7 +50,7 @@ public class User {
         String pos = Objects.requireNonNull(DBapi.getEmployeeInfo(eid)).getJobPos();
         return switch (pos) {
             case "Department Manager" -> Functions.JobPos.DEP_MANAGER;
-            case "Project Manager" -> Functions.JobPos.PROJ_MANAGER;
+            case "Project Monitor" -> Functions.JobPos.PROJ_MONITOR;
             case "Technician" -> Functions.JobPos.TECHNICIAN;
             case "Accountant" -> Functions.JobPos.ACCOUNTANT;
             default -> Functions.JobPos.OTHER;

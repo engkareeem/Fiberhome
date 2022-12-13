@@ -360,7 +360,7 @@ public class enhancedScrollPane {
         ((Label)employeeInfoPage.lookup("#employeeInfoEmpAge")).setText(getAge(employee.getBirthdate(), new Date()) + " yo");
         ((Label)employeeInfoPage.lookup("#employeeInfoEmpDistrict")).setText(employee.getDistrict());
 
-        if(user.getJobPos() == Functions.JobPos.PROJ_MANAGER) {
+        if(user.getJobPos() == Functions.JobPos.PROJ_MONITOR) {
             employeeInfoPage.lookup("#employeeInfoRemoveFromProject").setVisible(false);
             employeeInfoPage.lookup("#employeeInfoAssignButton").setVisible(false);
             employeeInfoPage.lookup("#employeeInfoEditButton").setVisible(false);
