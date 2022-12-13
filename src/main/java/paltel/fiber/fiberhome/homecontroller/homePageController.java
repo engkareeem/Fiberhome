@@ -848,8 +848,12 @@ public class homePageController implements Initializable {
         setUpProjectsStatisticsBlocks();
     }
 
+
     @FXML
     public void tableDisplayProjectClicked() {
+        tableDisplayProject(false);
+    }
+    public void tableDisplayProject(boolean refresh) {
         if(projectsTableViewFunctions.getSelectedRow() == null) return;
         Project project = getProjectInfo(projectsTableViewFunctions.getSelectedRow().getProjectId()); //projectsTableViewFunctions.getSelectedRow();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -887,9 +891,11 @@ public class homePageController implements Initializable {
 
 
 
-        projectsPane.setVisible(false);
         disableNavBar.setVisible(true);
         projectInfoPane.setVisible(true);
+        if(!refresh) {
+            Functions.infoInAnimation(projectsPane,projectInfoPane);
+        }
 
     }
 
@@ -1023,12 +1029,14 @@ public class homePageController implements Initializable {
 
     }
     @FXML
-    public void projectInfoClose() {
-        projectInfoPane.setVisible(false);
+    public void projectInfoCloseClicked() {
+        projectInfoClose(false);
+    }
+    public void projectInfoClose(boolean refresh) {
         if(prevCurrentPane != null) {
-            prevCurrentPane.setVisible(true);
+            Functions.infoOutAnimation(prevCurrentPane,projectInfoPane);
         } else {
-            projectsPane.setVisible(true);
+            Functions.infoOutAnimation(currentPane,projectInfoPane);
             disableNavBar.setVisible(false);
         }
     }

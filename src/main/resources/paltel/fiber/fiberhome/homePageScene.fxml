@@ -1098,9 +1098,9 @@
                   </MFXScrollPane>
                </children>
             </Pane>
-            <Label layoutX="20.0" layoutY="14.0" onMouseClicked="#projectInfoClose" prefHeight="18.0" prefWidth="32.0">
+            <Label layoutX="854.0" layoutY="14.0" onMouseClicked="#projectInfoCloseClicked" prefHeight="18.0" prefWidth="32.0">
                <graphic>
-                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-arrow-left-24" iconSize="30" />
+                  <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-arrow-right-24" iconSize="30" />
                </graphic>
             </Label>
          </children>
