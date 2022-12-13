@@ -25,22 +25,26 @@ public class suppliersTableViewFunctions {
         MFXTableColumn<Supplier> idColumn = new MFXTableColumn<>("SID", true, Comparator.comparing(Supplier::getSupplierId));
         MFXTableColumn<Supplier> companyNameColumn = new MFXTableColumn<>("Company name", true, Comparator.comparing(Supplier::getCompanyName));
         MFXTableColumn<Supplier> supplierNumberColumn = new MFXTableColumn<>("Phone Number", true, Comparator.comparing(Supplier::getPhoneNumber));
-        MFXTableColumn<Supplier> supplierEmailAddress = new MFXTableColumn<>("Email Address", true, Comparator.comparing(Supplier::getEmailAddress));
-        MFXTableColumn<Supplier> supplierFax = new MFXTableColumn<>("Fax", true, Comparator.comparing(Supplier::getFax));
+        MFXTableColumn<Supplier> supplierEmailAddressColumn = new MFXTableColumn<>("Email Address", true, Comparator.comparing(Supplier::getEmailAddress));
+        MFXTableColumn<Supplier> supplierFaxColumn = new MFXTableColumn<>("Fax", true, Comparator.comparing(Supplier::getFax));
 
         idColumn.setMinWidth(100);
         companyNameColumn.setMinWidth(120);
+
 
         ObservableList<Supplier> suppliers;
         suppliers = FXCollections.observableArrayList(); // TODO: <--- Put the suppliers list here
 //        ArrayList<Employee> employeeArrayList = DBapi.getAllEmployees();
 //        project.addAll(employeeArrayList);
 
-        idColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(Supplier::getSupplierId));
-        companyNameColumn.setRowCellFactory(employee -> new MFXTableRowCell<>(Supplier::getCompanyName));
+        idColumn.setRowCellFactory(supplier -> new MFXTableRowCell<>(Supplier::getSupplierId));
+        companyNameColumn.setRowCellFactory(supplier -> new MFXTableRowCell<>(Supplier::getCompanyName));
+        supplierNumberColumn.setRowCellFactory(supplier -> new MFXTableRowCell<>(Supplier::getPhoneNumber));
+        supplierEmailAddressColumn.setRowCellFactory(supplier -> new MFXTableRowCell<>(Supplier::getEmailAddress));
+        supplierFaxColumn.setRowCellFactory(supplier -> new MFXTableRowCell<>(Supplier::getFax));
 
         tableview.getTableColumns().clear();
-//        tableview.getTableColumns().addAll(idColumn, companyNameColumn,supplierNumberColumn,supplierEmailAddress,supplierFax);
+        tableview.getTableColumns().addAll(idColumn, companyNameColumn,supplierNumberColumn,supplierEmailAddressColumn,supplierFaxColumn);
         tableview.getFilters().addAll(
                 new StringFilter<>("SID", Supplier::getSupplierId),
                 new StringFilter<>("Company Name", Supplier::getCompanyName),
