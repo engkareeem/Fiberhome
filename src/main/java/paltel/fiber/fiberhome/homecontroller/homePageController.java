@@ -65,7 +65,8 @@ public class homePageController implements Initializable {
     @FXML
     Pane employeeInfoPane;
 
-    Pane currentPane,prevCurrentPane = null;
+    Pane currentPane;
+    public static Pane prevCurrentPane = null;
 
     private boolean usedMinimize = false;
 
@@ -465,7 +466,8 @@ public class homePageController implements Initializable {
             controlPanelPane.setVisible(false);
             projectsPane.setVisible(false);
             currentPane = employeesPane;
-            prevCurrentPane = contractorInfoPane;
+
+            // test
         } else if(user.getJobPos() == Functions.JobPos.PROJ_MANAGER) {
             employeeInfoClose(false,true);
             projectManagerProjectInfoPane.setVisible(true);
@@ -732,6 +734,8 @@ public class homePageController implements Initializable {
         if(!refresh && !primary) {
             Functions.infoInAnimation(employeesPane,employeeInfoPane);
         }
+
+        prevCurrentPane = employeeInfoPane;
     }
 
     /*               Contractor info          */
@@ -1576,7 +1580,7 @@ public class homePageController implements Initializable {
         enhancedScrollPane.addRow(warehouseListScrollPaneVbox,column1,column2,column3,40, 150 ,75, Functions.ListType.WAREHOUSE_LIST,projectsPane,homeNavBarVBox,warehouseInfoPane);
     }
     private void addProjRow(String column1,String column2, String column3) {
-        enhancedScrollPane.addRow(lastProjectsScrollPaneVbox,column1,column2,column3, 32, 205, 98, Functions.ListType.LAST_PROJECTS_LIST);
+        enhancedScrollPane.addRow(lastProjectsScrollPaneVbox,column1,column2,column3, 32, 205, 98, Functions.ListType.LAST_PROJECTS_LIST,employeeInfoPane,projectInfoPane);
 
     }
     private void addCurrentProjectsRow(String column1,String column2, String column3) { // there is edit here

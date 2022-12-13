@@ -90,6 +90,7 @@ public class enhancedScrollPane {
         if(type == ListType.CONT_LIST) {
             hBox.setOnMouseClicked(mouseEvent -> {
                 nodes[2].setVisible(true);
+                homePageController.prevCurrentPane = (Pane) nodes[2];
                 Functions.infoInAnimation(nodes[0],nodes[2]);
 //                nodes[0].setVisible(false); // current page pane
                 Navigator.getStage().getScene().lookup("#disableNavBar").setVisible(true); // nav bar pane
@@ -182,7 +183,7 @@ public class enhancedScrollPane {
                     });
                 }
             });
-        } else if(type == ListType.CURRENT_PROJECTS_LIST) {
+        } else if(type == ListType.CURRENT_PROJECTS_LIST || type == ListType.LAST_PROJECTS_LIST) {
 
             hBox.setOnMouseClicked(mouseEvent -> {
 
