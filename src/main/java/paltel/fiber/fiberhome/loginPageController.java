@@ -1,11 +1,8 @@
 package paltel.fiber.fiberhome;
 
 import animatefx.animation.*;
-import  java.sql.*;
-
 import io.github.palexdev.materialfx.controls.MFXProgressSpinner;
 import javafx.application.Platform;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -19,6 +16,9 @@ import javafx.stage.Stage;
 import paltel.fiber.fiberhome.utils.Animator;
 
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 
 public class loginPageController implements Initializable {
@@ -147,6 +147,7 @@ public class loginPageController implements Initializable {
 
 
     void login(){
+
         try {
             String loginText = loginButton.getText();
             loadingSpinner.setVisible(true);

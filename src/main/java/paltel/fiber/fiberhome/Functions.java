@@ -13,7 +13,13 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.swing.JRViewer;
 
+import javax.swing.*;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -67,6 +73,29 @@ public class Functions {
         public DialogType getType() {
             return dialogType;
         }
+    }
+
+    public static void showReportViewer(String reportName){
+        try {
+            InputStream inputStream = Main.class.getResourceAsStream("reports/" + reportName + ".jrxml");
+
+            JasperDesign jasperDesign= JRXmlLoader.load(inputStream);
+            JasperReport jasperReport= JasperCompileManager.compileReport(jasperDesign);
+            JasperPrint jasperPrint= JasperFillManager.fillReport(jasperReport, null, Main.dbConnection);
+            JRViewer viewer = new JRViewer(jasperPrint);
+            viewer.setZoomRatio(0.5F);
+            JFrame frame = new JFrame("");
+            frame.setSize(1200, 750);
+            frame.getContentPane().add(viewer);
+            frame.setIconImage(null);
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+            viewer.requestFocus();
+
+        }catch (JRException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     public static void infoInAnimation(Node currentPane,Node infoPane) {

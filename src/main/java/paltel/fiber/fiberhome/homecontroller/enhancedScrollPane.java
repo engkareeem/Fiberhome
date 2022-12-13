@@ -248,7 +248,7 @@ public class enhancedScrollPane {
 
     }
     private static void addCurrentProjectsRow(String column1,String column2, String column3,VBox currentProjectsScrollPaneVbox,Node contractorInfoPane,Node projectInfoPane) { // there is edit here
-        addRow(currentProjectsScrollPaneVbox,column1,column2,column3,32,190,90, Functions.ListType.CURRENT_PROJECTS_LIST,contractorInfoPane,projectInfoPane);
+        addRow(currentProjectsScrollPaneVbox,column1,column2,column3,32, 133, 167, Functions.ListType.CURRENT_PROJECTS_LIST,contractorInfoPane,projectInfoPane);
     }
     public static void resetRows(VBox vbox) {
         vbox.getChildren().clear();
