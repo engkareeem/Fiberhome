@@ -21,6 +21,8 @@ import net.sf.jasperreports.swing.JRViewer;
 import javax.swing.*;
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static paltel.fiber.fiberhome.Functions.DialogType.*;
@@ -82,6 +84,31 @@ public class Functions {
             JasperDesign jasperDesign= JRXmlLoader.load(inputStream);
             JasperReport jasperReport= JasperCompileManager.compileReport(jasperDesign);
             JasperPrint jasperPrint= JasperFillManager.fillReport(jasperReport, null, Main.dbConnection);
+            JRViewer viewer = new JRViewer(jasperPrint);
+            viewer.setZoomRatio(0.5F);
+            JFrame frame = new JFrame("");
+            frame.setSize(1200, 750);
+            frame.getContentPane().add(viewer);
+            frame.setIconImage(null);
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+            viewer.requestFocus();
+
+        }catch (JRException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public static void showReportViewerForAWarehouse(String wid){
+        try {
+            InputStream inputStream = Main.class.getResourceAsStream("reports/warehouse_report.jrxml");
+            Map<String, Object> map = new HashMap<>();
+            map.put("WID", wid);
+            map.put("WID1", wid);
+            JasperDesign jasperDesign= JRXmlLoader.load(inputStream);
+            JasperReport jasperReport= JasperCompileManager.compileReport(jasperDesign);
+            JasperPrint jasperPrint= JasperFillManager.fillReport(jasperReport, map, Main.dbConnection);
             JRViewer viewer = new JRViewer(jasperPrint);
             viewer.setZoomRatio(0.5F);
             JFrame frame = new JFrame("");

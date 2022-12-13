@@ -147,7 +147,7 @@ public class loginPageController implements Initializable {
 
 
     void login(){
-
+       // Functions.showReportViewerForAWarehouse("01");
         try {
             String loginText = loginButton.getText();
             loadingSpinner.setVisible(true);
@@ -155,8 +155,8 @@ public class loginPageController implements Initializable {
             Statement statement = Main.dbConnection.createStatement();
             String eid = employeeNumberInput.getText();
             String password = passwordInput.getText();
-            if(eid.isEmpty()) eid = "0002";
-            if(password.isEmpty()) password = "admin123";
+            if(eid.isEmpty()) eid = "0004";
+            if(password.isEmpty()) password = "murad12345";
             ResultSet res = statement.executeQuery("select * from employee_account where eid = " + eid);
 
             if(res.next()){

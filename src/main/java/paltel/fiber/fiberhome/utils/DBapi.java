@@ -51,20 +51,7 @@ public class DBapi {
         return "0";
     }
 
-    public static ArrayList<Employee> getAllEmployeesWorkingOnAProject(String pid) {
-        ArrayList<Employee> employees = new ArrayList<>();
-        try {
 
-            Statement statement = connection.createStatement();
-            ResultSet res = statement.executeQuery("SELECT * from Employee where EMPLOYEE_ID in (select WORKS_AT.EMPLOYEE_ID from  WORKS_AT where WORKS_AT.PROJECT_ID = " + pid + ") order by EMPLOYEE_ID");
-            while (res.next()) {
-                employees.add(getEmployeeFromRow(res));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return employees;
-    }
 
     // Employees Page
     private static Employee getEmployeeFromRow(ResultSet res) throws SQLException {
@@ -481,6 +468,21 @@ public class DBapi {
 
             Statement statement = connection.createStatement();
             ResultSet res = statement.executeQuery("SELECT * from Employee order by EMPLOYEE_ID");
+            while (res.next()) {
+                employees.add(getEmployeeFromRow(res));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return employees;
+    }
+
+    public static ArrayList<Employee> getAllEmployeesWorkingOnAProject(String pid) {
+        ArrayList<Employee> employees = new ArrayList<>();
+        try {
+
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("SELECT * from Employee where EMPLOYEE_ID in (select WORKS_AT.EMPLOYEE_ID from  WORKS_AT where WORKS_AT.PROJECT_ID = " + pid + ") order by EMPLOYEE_ID");
             while (res.next()) {
                 employees.add(getEmployeeFromRow(res));
             }
@@ -1308,6 +1310,7 @@ public class DBapi {
         return projects;
     }
 
+
     public static String getNewEmployeeId() {
         try {
             Statement statement = connection.createStatement();
@@ -1398,6 +1401,7 @@ public class DBapi {
             }
         }).start();
     }
+
 
 
 
