@@ -162,15 +162,22 @@ public class loginPageController implements Initializable {
 
             if(res.next()){
                if(res.getString("password").equals(password)){
-                   ZoomOut switchAnimation = new ZoomOut(ap);
-                   String finalEid = eid;
-                   switchAnimation.setOnFinished(event -> {
-                       Navigator.pushNamedReplacementWithArgs("homePageScene", "eid", finalEid);
-                   });
-                   switchAnimation.play();
-                   System.out.println("logged in as " + res.getString("role"));
-                   loadingSpinner.setVisible(false);
-                   loginButton.setText(loginText);
+                   if(res.getString("Role").equals("Pending")) {
+                       Functions.showDialog("The account doesn't approved yet, please wait the approving", null,"Cancel",Functions.Errors.ERROR);
+                       loadingSpinner.setVisible(false);
+                       loginButton.setText("Login now");
+                   } else {
+                       ZoomOut switchAnimation = new ZoomOut(ap);
+                       String finalEid = eid;
+                       switchAnimation.setOnFinished(event -> {
+                           Navigator.pushNamedReplacementWithArgs("homePageScene", "eid", finalEid);
+                       });
+                       switchAnimation.play();
+                       System.out.println("logged in as " + res.getString("role"));
+                       loadingSpinner.setVisible(false);
+                       loginButton.setText(loginText);
+                   }
+
                }else{
                    Functions.displayValidatingError(passwordInput,passwordInputValidatorLabel,"Wrong Password Entered");
                    loadingSpinner.setVisible(false);
