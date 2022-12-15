@@ -121,11 +121,10 @@ public class enhancedScrollPane {
                             contractorInfoContAge.setText(getAge(contractor.getBirthdate(), new Date()) + " yo");
                             contractorInfoContType.setText(contractor.getContractorType());
                             ArrayList<Project> currentProjects = DBapi.getCurrentContractorProjects(contractor.getContractorId());
-                           currentProjects.forEach(project -> {
-                               resetRows(contractorCurrentProjectsVbox);
-                               addCurrentProjectsRow(project.getProjectId(),project.getProjType(),project.getCity() + " " +  project.getStreet(),contractorCurrentProjectsVbox,nodes[2],nodes[3]);
-
-                           });
+                            resetRows(contractorCurrentProjectsVbox);
+                            currentProjects.forEach(project -> {
+                                addCurrentProjectsRow(project.getProjectId(),project.getProjType(),project.getCity() + " " +  project.getStreet(),contractorCurrentProjectsVbox,nodes[2],nodes[3]);
+                            });
                         }
                     })).start();
             });

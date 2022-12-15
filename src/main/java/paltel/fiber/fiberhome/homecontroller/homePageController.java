@@ -548,7 +548,7 @@ public class homePageController implements Initializable {
         ArrayList<Warehouse> warehouses = getAllWarehouses();
         enhancedScrollPane.resetRows(departmentWarehousesScrollPaneVbox);
         warehouses.forEach(warehouse -> {
-            enhancedScrollPane.addRow(departmentWarehousesScrollPaneVbox,warehouse.getWarehouseId(),warehouse.getCity(),String.valueOf(warehouse.getCapacity()),"0",40,150,75,90,null);
+            enhancedScrollPane.addRow(departmentWarehousesScrollPaneVbox,warehouse.getWarehouseId(),warehouse.getCity(),String.valueOf(warehouse.getCapacity()),getWarehouseTotalBudget(warehouse.getWarehouseId())+"$",40,150,75,90,null);
         });
     }
     public void projectManagerProjectInfoInitialize() {
@@ -1232,10 +1232,11 @@ public class homePageController implements Initializable {
             warehouseInfoWStorage.setData(pieChartData);
             warehouseInfoWStorage.setLegendSide(Side.LEFT);
             warehouseInfoWStorage.setLabelsVisible(false);
-            warehousesTableViewFunctions.initializeTableView(controlPanelWarehousesTableView);
-            availableProducts.forEach(product -> {
-                addWarehouseRow( product.getProductId(), product.getProductName(), String.valueOf(product.getAvailable_count()));
 
+//            warehousesTableViewFunctions.initializeTableView(controlPanelWarehousesTableView);
+            enhancedScrollPane.resetRows(warehouseInfoPartsScrollPaneVbox);
+            availableProducts.forEach(product -> {
+                enhancedScrollPane.addRow(warehouseInfoPartsScrollPaneVbox, product.getProductId(), product.getProductName(), String.valueOf(product.getAvailable_count()), 86, 143, 103, null);
             });
             warehouseInfoPane.setVisible(true);
             Functions.infoInAnimation(controlPanelPane,warehouseInfoPane);
@@ -1669,7 +1670,7 @@ public class homePageController implements Initializable {
         enhancedScrollPane.addRow(controlPanelCheapestProductScrollPaneVbox,column1,column2,column3,82,140,181, null);
     }
     private void addWarehouseProjectsRow(String column1,String column2,String column3,String column4) { // there is edit here
-        enhancedScrollPane.addRow(controlPanelWarehouseProjectsScrollPaneVbox,column1,column2,column3,column4,37,115,146,94,null);
+        enhancedScrollPane.addRow(controlPanelWarehouseProjectsScrollPaneVbox,column1,column2,column3,column4,37,154,146,61,null);
     }
     private void addProjManagerProjectEmployeesRow(String column1,String column2,String column3) {
         enhancedScrollPane.addRow(ProjManProjectEmployeesScrollPaneVbox,column1,column2,column3,54,166,114, Functions.ListType.PROJ_MANAGER_PROJ_EMPLOYEES,projectManagerProjectInfoPane,homeNavBarVBox,employeeInfoPane);
@@ -1678,7 +1679,7 @@ public class homePageController implements Initializable {
         enhancedScrollPane.addRow(ProjManPartsUsedScrollPaneVbox,column1, column2, column3,86,143, 103, null);
     }
     private void addOffersProductsRow(String column1,String column2,String column3) {
-        enhancedScrollPane.addRow(offersProductsScrollPaneVbox,column1,column2,column3,32,190,90,null);
+        enhancedScrollPane.addRow(offersProductsScrollPaneVbox,column1,column2,column3,93,164,76,null);
     }
 
 

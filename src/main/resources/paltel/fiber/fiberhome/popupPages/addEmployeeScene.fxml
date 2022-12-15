@@ -21,7 +21,7 @@
                </font>
             </Label>
             <TextField fx:id="firstNameTf" layoutX="48.0" layoutY="84.0" prefHeight="27.0" prefWidth="80.0" styleClass="informationTextFields" />
-            <Label layoutX="35.0" layoutY="148.0" text="ID Number" textFill="#cfcfcf">
+            <Label layoutX="35.0" layoutY="148.0" text="SSN" textFill="#cfcfcf">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -51,7 +51,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="genderLabel" layoutX="336.0" layoutY="83.0" onMouseClicked="#genderClicked" prefHeight="30.0" prefWidth="30.0" styleClass="maleLabel" />
+            <Label fx:id="genderLabel" layoutX="321.0" layoutY="75.0" onMouseClicked="#genderClicked" prefHeight="30.0" prefWidth="30.0" styleClass="maleLabel" />
             <Label layoutX="223.0" layoutY="210.0" text="Job Position" textFill="#cfcfcf">
                <font>
                   <Font name="System Bold" size="14.0" />

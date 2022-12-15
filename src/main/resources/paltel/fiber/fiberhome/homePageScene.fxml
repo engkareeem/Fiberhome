@@ -545,17 +545,17 @@
                                                 <Font name="System Bold" size="14.0" />
                                              </font>
                                           </Label>
-                                          <Label prefHeight="26.0" prefWidth="115.0" text="Project Name" textFill="#cfcfcf">
+                                          <Label prefHeight="26.0" prefWidth="154.0" text="Project Name" textFill="#cfcfcf">
                                              <font>
                                                 <Font name="System Bold" size="14.0" />
                                              </font>
                                           </Label>
-                                          <Label prefHeight="26.0" prefWidth="146.0" text="Contractor" textFill="#cfcfcf">
+                                          <Label prefHeight="26.0" prefWidth="130.0" text="Contractor" textFill="#cfcfcf">
                                              <font>
                                                 <Font name="System Bold" size="14.0" />
                                              </font>
                                           </Label>
-                                          <Label prefHeight="26.0" prefWidth="94.0" text="Reserves" textFill="#cfcfcf">
+                                          <Label prefHeight="26.0" prefWidth="61.0" text="Reserves" textFill="#cfcfcf">
                                              <font>
                                                 <Font name="System Bold" size="14.0" />
                                              </font>
@@ -1431,17 +1431,17 @@
                <children>
                   <HBox alignment="CENTER_LEFT" layoutX="2.0" layoutY="6.0" prefHeight="40.0" prefWidth="396.0" spacing="20.0">
                      <children>
-                        <Label prefHeight="26.0" prefWidth="32.0" text="PID" textFill="#cfcfcf">
+                        <Label prefHeight="26.0" prefWidth="93.0" text="PID" textFill="#cfcfcf">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font>
                         </Label>
-                        <Label prefHeight="26.0" prefWidth="190.0" text="Product name" textFill="#cfcfcf">
+                        <Label prefHeight="26.0" prefWidth="164.0" text="Product name" textFill="#cfcfcf">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font>
                         </Label>
-                        <Label prefHeight="26.0" prefWidth="90.0" text="Price" textFill="#cfcfcf">
+                        <Label prefHeight="26.0" prefWidth="76.0" text="Price" textFill="#cfcfcf">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font>
@@ -1519,8 +1519,6 @@
             </Pane>
             <Pane prefHeight="45.0" prefWidth="200.0">
                <children>
-                  <Pane fx:id="radiusPane30" layoutX="174.0" layoutY="-1.0" prefHeight="47.0" prefWidth="26.0" styleClass="pseudo-radius-activated" visible="false" />
-                  <Pane fx:id="radiusPane31" layoutX="160.0" layoutY="-1.0" prefHeight="47.0" prefWidth="40.0" styleClass="lower-radius-activated" />
                   <Button fx:id="navButton3" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#navButton3Clicked" prefHeight="45.0" prefWidth="200.0" styleClass="nav-button" text="Projects" visible="false">
                      <graphic>
                         <FontIcon fx:id="navButton3FontIcon" iconColor="#a6a6a6" iconLiteral="fltfmz-wrench-16" iconSize="20" wrappingWidth="35.0" />
@@ -1529,6 +1527,8 @@
                         <Insets left="20.0" />
                      </padding>
                   </Button>
+                  <Pane fx:id="radiusPane30" layoutX="174.0" layoutY="-1.0" prefHeight="47.0" prefWidth="26.0" styleClass="pseudo-radius-activated" visible="false" />
+                  <Pane fx:id="radiusPane31" layoutX="160.0" layoutY="-1.0" prefHeight="47.0" prefWidth="40.0" visible="false" />
                </children>
             </Pane>
             <Pane prefHeight="45.0" prefWidth="200.0">

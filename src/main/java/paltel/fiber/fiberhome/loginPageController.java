@@ -201,9 +201,6 @@ public class loginPageController implements Initializable {
             isValid = false;
             Functions.displayValidatingError(passwordInput,passwordInputValidatorLabel,"Password must be between 6 and 10 Characters");
         }
-
-        isValid = true;
-
         if(isValid){ // log In
             loginButton.setDisable(true);
             login();

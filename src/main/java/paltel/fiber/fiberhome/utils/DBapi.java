@@ -34,6 +34,21 @@ public class DBapi {
         if(totalBudget >= 10000) return totalBudget / 1000 + "k";
         else return String.valueOf(totalBudget);
     }
+    public static Integer getWarehouseTotalBudget(String wid){
+        int totalBudget = 0;
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select * from STORES where WAREHOUSE_ID = " + wid);
+
+            while (res.next()){
+
+                totalBudget += getProductPriceFromSupplier(res.getString("supplier_id"), res.getString("product_id"));
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return totalBudget;
+    }
 
     public static String getTotalProjectsBudget(){
         try {
