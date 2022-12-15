@@ -459,11 +459,6 @@
                                     </MFXScrollPane>
                                  </children>
                               </Pane>
-                              <Label layoutX="153.0" layoutY="524.0">
-                                 <graphic>
-                                    <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-add-circle-24" iconSize="20" styleClass="table-icon-button" />
-                                 </graphic>
-                              </Label>
                               <Label layoutX="113.0" layoutY="524.0" onMouseClicked="#tableDisplaySupplierClicked">
                                  <graphic>
                                     <FontIcon iconColor="#00a0d7" iconLiteral="fltfmz-people-search-24" iconSize="20" styleClass="table-icon-button" />
@@ -578,17 +573,12 @@
                                     <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-globe-search-24" iconSize="20" styleClass="table-icon-button" />
                                  </graphic>
                               </Label>
-                              <Label layoutX="153.0" layoutY="524.0">
-                                 <graphic>
-                                    <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-add-circle-24" iconSize="20" styleClass="table-icon-button" />
-                                 </graphic>
-                              </Label>
-                              <Label layoutX="193.0" layoutY="524.0" onMouseClicked="#tableViewWarehouseProjectsClicked">
+                              <Label layoutX="153.0" layoutY="524.0" onMouseClicked="#tableViewWarehouseProjectsClicked">
                                  <graphic>
                                     <FontIcon iconColor="#00a0d7" iconLiteral="fltfal-clipboard-search-24" iconSize="20" styleClass="table-icon-button" />
                                  </graphic>
                               </Label>
-                              <Label layoutX="233.0" layoutY="524.0" onMouseClicked="#tableWarehousePrintClicked">
+                              <Label layoutX="193.0" layoutY="524.0" onMouseClicked="#tableWarehousePrintClicked">
                                  <graphic>
                                     <FontIcon iconColor="#00a0d7" iconLiteral="fltfmz-print-24" iconSize="20" styleClass="table-icon-button" />
                                  </graphic>
