@@ -178,7 +178,12 @@ public class DBapi {
     public static void deleteEmployee(String eid){
         try {
             Statement statement = connection.createStatement();
+            connection.setAutoCommit(false);
+            statement.executeUpdate("delete from WORKS_AT where EMPLOYEE_ID = " + eid);
+            statement.executeUpdate("delete from EMPLOYEE_ACCOUNT where EID = " + eid);
             statement.executeUpdate("delete from Employee where EMPLOYEE_ID = " + eid);
+            connection.commit();
+            connection.setAutoCommit(true);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -330,10 +335,9 @@ public class DBapi {
         try {
             Statement statement = connection.createStatement();
             connection.setAutoCommit(false); // transaction
-            statement.executeUpdate("delete from PROJECT where PROJECT_ID = " + pid);
             statement.executeUpdate("delete from WORKS_AT where PROJECT_ID = " + pid);
             statement.executeUpdate("delete from USES where PROJECT_ID = " + pid);
-
+            statement.executeUpdate("delete from PROJECT where PROJECT_ID = " + pid);
             connection.commit();
             connection.setAutoCommit(true);
         } catch (SQLException e) {
@@ -1418,6 +1422,21 @@ public class DBapi {
     }
 
 
+    public static Integer getWarehouseTotalBudget(String wid){
+        int totalBudget = 0;
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select * from STORES where WAREHOUSE_ID = " + wid);
+
+            while (res.next()){
+
+                totalBudget += getProductPriceFromSupplier(res.getString("supplier_id"), res.getString("product_id"));
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return totalBudget;
+    }
 
 
 

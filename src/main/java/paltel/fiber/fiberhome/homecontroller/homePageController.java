@@ -1513,9 +1513,11 @@ public class homePageController implements Initializable {
             if (userInfoChangePassword.isVisible()) {
 
                 updateEmployeeAccount(userInfoEmpId.getText(), nicknameTextField.getText());
-            } else {
+            } else{
                 TextField passwordTextField = (TextField) userInfoPane.lookup("#editTextFielduserInfoChangePassword");
-                updateEmployeeAccount(userInfoEmpId.getText(), nicknameTextField.getText(), passwordTextField.getText());
+                if(passwordTextField.getText() != null && !passwordTextField.getText().isEmpty()) {
+                    updateEmployeeAccount(userInfoEmpId.getText(), nicknameTextField.getText(), passwordTextField.getText());
+                }
             }
             userInfoNickName.setText(nicknameTextField.getText());
         }

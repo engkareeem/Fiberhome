@@ -94,6 +94,7 @@ public class Functions {
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
             viewer.requestFocus();
+            frame.requestFocus();
 
         }catch (JRException e) {
             throw new RuntimeException(e);
