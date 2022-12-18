@@ -200,12 +200,13 @@ public class enhancedScrollPane {
             acceptLabel.setGraphic(acceptIcon);
             acceptLabel.setOnMouseClicked(mouseEvent -> {
                 DBapi.acceptEmployeeAccount(column1);
-                enhancedScrollPane.resetRows((VBox) hBox.getParent());
+                VBox _vbox = (VBox) hBox.getParent();
+                enhancedScrollPane.resetRows(_vbox);
                 usersTableViewFunctions.initializeTableView(usersTableViewFunctions.usersTable);
                 ArrayList<Employee> pendingUsers = getAllPendingAccounts();
                 pendingUsers.forEach(employeeInstance -> {
                     User userInstance = getUserInfo(employeeInstance.getEid());
-                    enhancedScrollPane.addRow((VBox) hBox.getParent(),employeeInstance.getEid(), employeeInstance.getFname() + " " + employeeInstance.getMname() + " " + employeeInstance.getLname() ,userInstance.getNickName() ,37,138,131, Functions.ListType.PENDING_LIST);
+                    enhancedScrollPane.addRow(_vbox,employeeInstance.getEid(), employeeInstance.getFname() + " " + employeeInstance.getMname() + " " + employeeInstance.getLname() ,userInstance.getNickName() ,37,138,131, Functions.ListType.PENDING_LIST);
                 });
 
             });
