@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="FiberHomeDB" uuid="2934f1d9-4742-4dc9-8624-5ed50c0e31ad">
+    <data-source source="LOCAL" name="FiberHomeDB" uuid="f4b4aa02-bc98-44f9-b48a-fc9fdd3b5128">
       <driver-ref>oracle.19</driver-ref>
       <synchronize>true</synchronize>
       <auto-commit>false</auto-commit>
