@@ -197,7 +197,8 @@ public class addProjectController implements Initializable {
         amountTextField.setText("0");
 
         amountTextField.textProperty().addListener((obs, oldText, newText) -> {
-            if(!Functions.isNum(newText) && !newText.equals("")) amountTextField.setText(oldText);
+            if(!Functions.isNum(newText)) amountTextField.setText(oldText);
+            else if(!Functions.isNum(newText) && !newText.equals("")) amountTextField.setText(oldText);
             else {
                 if(oldText.equals("0")) {
                     if(!newText.equals("0")) amountTextField.setText(newText.replace("0",""));
@@ -205,9 +206,9 @@ public class addProjectController implements Initializable {
                 if(newText.equals("")) {
                     amountTextField.setText("0");
 
-                     totalBudget -= Integer.parseInt(priceLabel.getText()) * Integer.parseInt(oldText);
+                     totalBudget -= Long.parseLong(priceLabel.getText()) * Long.parseLong(oldText);
                 } else if(!oldText.equals("")) {
-                     totalBudget += (Integer.parseInt(priceLabel.getText()) * Integer.parseInt(newText)) - (Integer.parseInt(priceLabel.getText()) * Integer.parseInt(oldText));
+                     totalBudget += (Long.parseLong(priceLabel.getText()) * Long.parseLong(newText)) - (Long.parseLong(priceLabel.getText()) * Long.parseLong(oldText));
                 }
                 totalBudgetLabel.setText(totalBudget + "$");
             }
