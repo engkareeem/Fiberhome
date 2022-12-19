@@ -1140,6 +1140,7 @@ public class homePageController implements Initializable {
         supplierInfoCompanyName.setText(supplier.getCompanyName());
         supplierInfoSupplierId.setText(supplier.getSupplierId());
 
+        enhancedScrollPane.resetRows(offersProductsScrollPaneVbox);
         ArrayList<Product> offeringProducts = getAllProductsThatSupplierCanSupply(supplier.getSupplierId());
         for (Product offeringProduct : offeringProducts) {
 
