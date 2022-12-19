@@ -639,10 +639,12 @@ public class homePageController implements Initializable {
             }
 
             if(Functions.confirmFlag) {
-
+                Platform.runLater(() -> {
                     deleteEmployee(selectedEmployee.getEid());
                     employeesTableViewFunctions.initializeTableView(employeesTable);
                     setUpEmployeeStatisticsBlocks();
+                });
+
 
 
             }
